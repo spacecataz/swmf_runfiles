@@ -1,0 +1,20 @@
+#Spidr data output file in ASCII format created at 2015-05-14 14:29
+#GMT time is used
+#
+#
+#--------------------------------------------------
+#>
+#Element: flux
+#Description: Solar radio flux
+#Measure units: W/m^2/Hz
+#Origin: 
+#
+#
+#Sampling: 1 day
+#Missing value: 1.0E33
+#>
+#yyyy-MM-dd HH:mm value qualifier description
+1989-03-13 00:00 253.0   ""   ""
+1989-03-14 00:00 263.8   ""   ""
+1989-03-15 00:00 255.8   ""   ""
+1989-03-16 00:00 261.6   ""   ""

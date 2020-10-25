@@ -1,0 +1,281 @@
+
+#ECHO
+T
+
+#INCLUDE
+RESTART.in
+
+#DESCRIPTION
+"In the pipes" simulation for 1-way coupled pwom
+
+#TIMEACCURATE
+T			DoTimeAccurate
+
+#SAVERESTART                                                     
+T                       DoSaveRestart
+-1                      DnSaveRestart
+1800.0                  DtSaveRestart
+
+CHECKSTOP
+T			DoCheckStop
+-1			DnCheckStop
+20.0			DtCheckStop
+
+CPUTIMEMAX
+360000.0
+
+#COMPONENT
+IM			NameComp
+T			UseComp
+
+#COMPONENT
+PW
+T
+
+#COUPLEORDER
+5			nCouple
+IE GM			NameSourceTarget
+IE IM			NameSourceTarget
+IE PW			NameSourceTarget
+GM IE			NameSourceTarget
+GM IM			NameSourceTarget
+
+#COUPLE2
+GM			NameComp1
+IE			NameComp2
+-1                      DnCouple
+5.0                     DtCouple
+
+#COUPLE1
+GM			NameComp1
+IM			NameComp2
+-1                      DnCouple
+10.0                    DtCouple
+
+#COUPLE1
+IE			NameComp1
+IM			NameComp2
+-1                      DnCouple
+10.0                    DtCouple
+
+#COUPLE1
+IE                      NameComp1
+PW                      NameComp2
+-1                      DnCouple
+10.0                    DtCouple
+
+#COUPLETIME
+GM			NameComp
+F			DoCoupleOnTime
+
+#IDEALAXES
+
+#BEGIN_COMP GM ---------------------------------------------------------------
+
+#INCLUDE
+GM/restartIN/restart.H
+
+#NONCONSERVATIVE
+T                       UseNonConservative
+
+#CONSERVATIVECRITERIA
+1			nConservCrit
+parabola		TypeConservCrit_I
+ 5.0			xParabolaConserv
+15.0			yParabolaConserv
+
+#IMCOUPLING
+20.0                    TauCoupleIm
+T                       DoImSatTrace
+T                       DoCoupleImPressure
+T                       DoCoupleImDensity
+0.01			DensityCoupleFloor
+F                       DoFixPolarRegion
+
+#INNERBOUNDARY
+ionosphere
+
+#SAVELOGNAME
+F                       IsLogName_n
+T                       IsLogName_e
+
+#SAVEPLOTNAME
+F                       IsPlotName_n
+F                       IsPlotName_t
+T                       IsPlotName_e
+
+#PLOTFILENAME
+date			TimeUnitMax
+
+#SAVELOGFILE
+T			DoSaveLogfile
+VAR step date		StringLogfile
+-1			DnSaveLogfile
+5.0			DtSaveLogfile
+dt rho mx my mz p bx by bz pmin pmax dst dstdivb dstflx
+3.0 3.5 5.0		StringRFlux
+
+#SAVEPLOT
+2                       nPlotFiles
+y=0 MHD idl             StringPlot
+-1                      DnSavePlot
+60.			DtSavePlot
+-1
+z=0 MHD idl             StringPlot
+-1                      DnSavePlot
+60.			DtSavePlot
+-1
+
+#SCHEME
+2			nORDER
+Rusanov			TypeFlux
+mc3                     TypeLimiter
+1.2			BetaLimiter
+
+#BORIS
+T
+0.02
+
+#TIMESTEPPING
+2			nSTAGE
+0.85			cfl
+
+#IMPLICIT
+F			UsePointImplicit
+F			UsePartImplicit
+F			UseFullImplicit
+100.0			ImplCFL
+
+#OUTERBOUNDARY
+outflow                 TypeBC_I(east_)
+vary                    TypeBC_I(west_)
+float                   TypeBC_I(south_)
+float                   TypeBC_I(north_)
+float                   TypeBC_I(bot_)
+float                   TypeBC_I(top_)
+
+#UPSTREAM_INPUT_FILE
+T                       UseUpstreamInputFile
+IMF.dat                 UpstreamFileName
+0.0                     Satellite_Y_Pos
+0.0                     Satellite_Z_Pos
+
+#INCLUDE
+test_sats/test_sats.include
+
+#END_COMP GM -----------------------------------------------------------------
+
+#BEGIN_COMP PW ---------------------------------------------------------------
+
+#SCHEME
+Rusanov
+0.01                   DtVertical
+F                       IsFullyImplicit
+F                       IsPointImplicit
+F                       IsPointImplicitAll
+
+#LIMITER
+1.4
+
+SCHEME
+Godunov                 TypeSolver
+0.005e0                   DtVertical
+F                       IsFullyImplicit
+F                       IsPointImplicit
+F                       IsPointImplicitAll
+
+#ROTATION
+F
+
+#FIELDLINE
+216                     nTotalLine
+
+#SAVEPLOT
+600.                    DtSavePlot
+-1                      DnSavePlot
+T                       DoSavePlot
+
+#MOTION
+T                       DoMoveLine
+
+#AURORA
+F                       UseAurora
+
+#JOULEHEATING
+F                       UseJouleHeating
+
+#RESTART
+T                       IsRestart
+
+#NGDC_INDICES
+ap_index.dat             NameNgdcFil
+f107.dat
+
+#FAC
+T                       UseJr
+
+#END_COMP PW -----------------------------------------------------------------
+
+#BEGIN_COMP IM ---------------------------------------------------------------
+
+! Number density fractions for H+ and O+. Has to add up to 1.0
+#COMPOSITION
+FIXED                    NameCompModel
+0.8                      FractionH
+0.2                      FractionO
+
+! Decay for RCM particle densities
+#DECAY
+T 			UseDecay
+36000. 			DecayTimescale in seconds
+
+#END_COMP IM -----------------------------------------------------------------
+
+#BEGIN_COMP IE ---------------------------------------------------------------
+
+#IONOSPHERE
+5                       TypeConductanceModel
+F                       UseFullCurrent
+F                       UseFakeRegion2
+200.0                   F107Flux
+1.0                     StarLightPedConductance
+0.25                    PolarCapPedConductance
+
+#BOUNDARY
+10.0			LatBoundary
+
+#AURORALOVAL
+T			UseOval (rest of parameters read if true)
+T			UseOvalShift
+F			UseSubOvalConductance
+T			UseAdvancedOval
+F			DoFitCircle (read if UseAdvancedOval is true)
+
+#SAVEPLOT
+1                       nPlotFile
+aur idl                 StringPlot
+-1                      DnSavePlot
+60.0                    DtSavePlot
+
+#DEBUG
+0
+0
+
+#END_COMP IE -----------------------------------------------------------------
+
+Stop before storm onset (new way):
+#ENDTIME            
+2000                    year
+02                      month
+10                      day
+00                      hour
+00                      minute
+00                      second
+0.0                     FracSecond
+
+Stop before storm onset (old way):
+STOP
+-1                      MaxIter
+36000			MaxTime
+
+#END

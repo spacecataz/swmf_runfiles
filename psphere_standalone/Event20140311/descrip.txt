@@ -1,0 +1,7 @@
+These params are for a PSIE configuration using Weimer2k5 for an observed
+event.  F10.7 selected to be representative of the observed ranges during
+the 4 day event (162.5 to 137).  HPI was NOT tuned to the event output, so
+watch out for that.
+
+Input values based on simulations for CIR long-lived plume events.
+

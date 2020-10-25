@@ -1,0 +1,64 @@
+#NONCONSERVATIVE
+T                       UseNonConservative
+
+#CONSERVATIVECRITERIA
+1			nConservCrit
+parabola		TypeConservCrit_I
+ 5.0			xParabolaConserv
+15.0			yParabolaConserv
+
+One way RAM-SCB only.
+IM
+300.0                    TauImP
+F			DoImSatTrace 
+
+#INNERBOUNDARY
+polarwind
+
+#SAVELOGFILE
+T			DoSaveLogfile
+VAR			StringLogfile
+-1			DnSaveLogfile
+5.0			DtSaveLogfile
+dt rho mx my mz p bx by bz pmin pmax dst dstdivb dstflx
+3.0 3.5 5.0		StringRFlux
+
+#SAVEPLOT
+3                       nPlotFiles
+y=0 MHD idl             StringPlot
+-1                      DnSavePlot
+300.			DtSavePlot
+-1
+z=0 MHD idl             StringPlot
+-1                      DnSavePlot
+300.			DtSavePlot
+-1
+3d MHD idl	        StringPlot
+-1              	DnSavePlot
+1800.                   DtSavePlot
+-1
+
+
+#SCHEME
+2			nORDER
+Rusanov			TypeFlux
+mc3                     TypeLimiter
+1.2			BetaLimiter
+
+#BORIS
+T
+0.02
+
+#TIMESTEPPING
+2			nSTAGE
+0.85			cfl
+
+FIXEDTIMESTEP
+T			UseDtFixed
+5.0	 		DtFixedDim [sec] (read if UseDtFixed is true)
+
+#IMPLICIT
+F			UsePointImplicit
+F			UsePartImplicit
+F			UseFullImplicit
+100.0			ImplCFL

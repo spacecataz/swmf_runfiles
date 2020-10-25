@@ -1,0 +1,19 @@
+#Fake f10.7 data created on 10-6-7 using spidr format.
+#GMT time is used
+#
+#
+#--------------------------------------------------
+#>
+#Element: flux
+#Table: KPAP
+#Description: Solar radio flux
+#Measure units: W/m^2/Hz
+#Origin: 
+#
+#
+#Sampling: 1 day
+#Missing value: 1.0E33
+#>
+#yyyy-MM-dd HH:mm value qualifier description
+2000-09-21 00:00 200.0   ""   ""
+2000-09-24 00:00 200.0   ""   ""

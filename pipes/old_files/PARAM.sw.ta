@@ -1,0 +1,68 @@
+
+#TIMEACCURATE
+T			DoTimeAccurate
+
+#SAVERESTART                                                     
+T                       DoSaveRestart
+-1                      DnSaveRestart
+1800.0                  DtSaveRestart
+
+CHECKSTOP
+T			DoCheckStop
+-1			DnCheckStop
+20.0			DtCheckStop
+
+CPUTIMEMAX
+360000.0
+
+#COMPONENT
+IM			NameComp
+T			UseComp
+
+#COMPONENT
+PW
+T
+
+#COUPLEORDER
+6			nCouple
+IE GM			NameSourceTarget
+IE IM			NameSourceTarget
+IE PW			NameSourceTarget
+GM IE			NameSourceTarget
+GM IM			NameSourceTarget
+PW GM			NameSourceTarget
+
+#COUPLE2
+GM			NameComp1
+IE			NameComp2
+-1                      DnCouple
+5.0                     DtCouple
+
+#COUPLE1
+GM			NameComp1
+IM			NameComp2
+-1                      DnCouple
+300.0                    DtCouple
+
+#COUPLE1
+IE			NameComp1
+IM			NameComp2
+-1                      DnCouple
+60.0                    DtCouple
+
+#COUPLE1
+IE                      NameComp1
+PW                      NameComp2
+-1                      DnCouple
+10.0                    DtCouple
+
+#COUPLE1
+PW                      NameComp1
+GM                      NameComp1
+-1                      DnCouple
+10.0                    DtCouple
+
+#COUPLETIME
+GM			NameComp
+F			DoCoupleOnTime
+

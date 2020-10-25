@@ -1,0 +1,160 @@
+#ECHO
+T
+
+#INCLUDE
+RESTART.in
+
+#DESCRIPTION
+Time accurate portion of simulation.
+
+#TIMEACCURATE
+T			DoTimeAccurate
+
+#SAVERESTART                                                     
+T                       DoSaveRestart
+-1                      DnSaveRestart
+1800.0                  DtSaveRestart
+
+#COUPLE2
+GM			NameComp1
+IE			NameComp2
+-1                      DnCouple
+5.0                     DtCouple
+
+#COUPLE1
+IE			NameComp1
+PS			NameComp2
+-1                      DnCouple
+5.0                    	DtCouple
+
+#BEGIN_COMP GM ---------------------------------------------------------------
+
+#INCLUDE
+GM/restartIN/restart.H
+
+#NONCONSERVATIVE
+T                       UseNonConservative
+
+#CONSERVATIVECRITERIA
+1			nConservCrit
+parabola		TypeConservCrit_I
+ 5.0			xParabolaConserv
+15.0			yParabolaConserv
+
+#SAVELOGFILE
+T			DoSaveLogfile
+VAR step date		StringLogfile
+-1			DnSaveLogfile
+5.0			DtSaveLogfile
+dt rho mx my mz p bx by bz pmin pmax dst cpcpn
+3.0 3.5 5.0		StringRFlux
+
+#SAVEPLOT
+3                       nPlotFiles
+y=0 MHD idl             StringPlot
+-1                      DnSavePlot
+60.			DtSavePlot
+-1
+z=0 MHD idl             StringPlot
+-1                      DnSavePlot
+60.			DtSavePlot
+-1
+3d MHD idl		StringPlot
+-1                      DnSavePlot
+900.			DtSavePlot
+-1
+
+#SCHEME
+2			nORDER
+Rusanov			TypeFlux
+mc3                     TypeLimiter
+1.2			BetaLimiter
+
+#BORIS
+T
+0.02
+
+#TIMESTEPPING
+2			nSTAGE
+0.85			cfl
+
+#OUTERBOUNDARY
+outflow			TypeBC_I(east_)
+vary			TypeBC_I(west_)
+float			TypeBC_I(south_)
+float			TypeBC_I(north_)
+float			TypeBC_I(bot_)
+float			TypeBC_I(top_)
+
+#INNERBOUNDARY
+ionosphere
+
+#INCLUDE
+test_sats/test_sats.include
+
+#UPSTREAM_INPUT_FILE
+T                       UseUpstreamInputFile
+imf_mf_bzturn.dat       UpstreamFileName
+0.0                     Satellite_Y_Pos
+0.0                     Satellite_Z_Pos
+
+#END_COMP GM -----------------------------------------------------------------
+
+#BEGIN_COMP IE ---------------------------------------------------------------
+
+#IONOSPHERE
+5                       TypeConductanceModel
+F                       UseFullCurrent
+F			UseFakeRegion2
+150.0                   F107Flux
+1.0                     StarLightPedConductance
+0.25                    PolarCapPedConductance
+
+#SAVEPLOT
+1			nPlotFile
+aur idl                 StringPlot
+-1                      DnSavePlot
+300.0			DtSavePlot
+
+#SPS
+T
+
+#DEBUG
+0
+0
+
+#END_COMP IE -----------------------------------------------------------------
+
+#BEGIN_COMP PS ----------------------------------------
+
+#FILLING
+3.0			EmptyPeriodClosed
+1.0			EmptyPeriodOpen
+1.5     		FillDays
+2.0E12  		FluxMax
+
+#TIMING
+5.0                     DtStep
+345600.0                MAX
+
+#OUTPUT
+F                       WriteStatic
+T                       WriteDynamic
+60.0                     OutputInterval
+SHORT                   OutputType
+DIPOLE                  MagneticType
+
+#MLTSLICE
+4			nMltSlice
+60.0			DtMltSlice
+
+#LOG
+T                       WriteLogFile
+
+#END_COMP PS   ----------------------------------------
+
+#STOP
+-1			MaxIter
+57600.0			TimeMax
+
+#END

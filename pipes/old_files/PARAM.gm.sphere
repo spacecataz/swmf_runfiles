@@ -1,0 +1,103 @@
+|  Total number of blocks used =  2472
+|  Total number of cells =  1265664
+|  Total number of true cells =  1230980
+|  Smallest cell dx:    3.8203124999999998E-02   Largest cell dx:    0.1528125000000000
+
+#GRIDGEOMETRY
+spherical
+
+#GRID
+2			nRootBlock_D(x_)
+2			nRootBlock_D(y_)
+2			nRootBlock_D(z_)
+-224.			x1
+ 32.			x2
+-128.			y1
+ 128.			y2
+-128.			z1
+ 128.			z2
+
+#LIMITGENCOORD1
+0.91
+5.8
+
+#GRIDLEVEL
+1
+initial                 NameArea
+
+#GRIDLEVEL
+2
+sphere0
+20.0
+
+#GRIDLEVEL
+3
+box
+ -80.0
+ -30.0
+ -20.0
+  20.0
+  30.0
+  20.0
+
+#GRIDLEVEL
+3
+box_gen
+2.5             rmin
+0.0             LonMin
+-90.0           LatMin
+15.0            rmax
+360.0           LonMax
+90.0            LatMax  
+
+
+#FIXAXIS
+F                       UsePoleDiffusion
+T                       DoFixAxis
+5.                   rFixAxis
+1.5                      r2FixAxis
+
+#MAGNETOSPHERE
+T                       body1
+2.5                     Rbody
+3.0                     Rcurrents
+28.0                   Magneto_rho_dim (/ccm) density for fixed BC for rho_BLK
+25000.0                 Magneto_T_dim (K) temperature for fixed BC for P_BLK
+
+#NONCONSERVATIVE
+T                       UseNonConservative
+
+#CONSERVATIVECRITERIA
+1                       nConservCrit
+parabola                TypeConservCrit_I
+ 5.0                    xParabolaConserv
+15.0                    yParabolaConserv
+
+#TVDRESCHANGE
+T
+
+#TIMESTEPPING
+1                       nStage
+0.80                    CflExlp
+
+#OUTERBOUNDARY
+outflow                 TypeBC_I(east_)
+vary                    TypeBC_I(west_)
+float                   TypeBC_I(south_)
+float                   TypeBC_I(north_)
+float                   TypeBC_I(bot_)
+float                   TypeBC_I(top_)
+
+#INNERBOUNDARY
+ionosphere
+
+#SCHEME
+1                       nOrder
+Rusanov                 TypeFlux
+
+#SAVEPLOTSAMR
+F                       DoSavePlotsAmr to save plots before each AMR
+
+#AMR
+100                     DnRefine
+F                       DoAutomaticRefinement

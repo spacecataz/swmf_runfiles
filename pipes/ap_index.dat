@@ -1,0 +1,23 @@
+#Spidr data output file in ASCII format created at 2009-09-16 19:31
+#GMT time is used
+#
+#
+#--------------------------------------------------
+#>
+#Element: ap
+#Table: KPAP
+#Description: Ap index
+#Measure units: nT
+#Origin: 
+#
+#
+#Sampling: 3 hours
+#Missing value: 1.0E33
+#>
+#yyyy-MM-dd HH:mm value qualifier description
+2000-09-21 00:00 25.0   ""   ""
+2000-09-22 11:59 25.0   ""   ""
+2000-09-22 12:00 200.0   ""   ""
+2000-09-22 17:59 200.0   ""   ""
+2000-09-22 18:00 25.0   ""   ""
+2000-09-23 23:59 25.0   ""   ""

@@ -1,0 +1,262 @@
+#ECHO
+T			DoEcho
+
+#TEST
+create_auroral_oval
+
+#INCLUDE
+RESTART.in
+
+#DESCRIPTION
+Extreme event/SSI run restart.
+
+#TIMEACCURATE
+T			DoTimeAccurate
+
+#PROGRESS
+1			DnProgressShort
+100			DnProgressLong
+
+#SAVERESTART
+T                       DoSaveRestart
+-1                      DnSaveRestart
+900.0                    DtSaveRestart
+
+#CHECKSTOP
+T			DoCheckStop
+-1			DnCheckStop
+60.0			DtCheckStop
+
+#CPUTIMEMAX
+28000.0                 CpuTimeMax [CHANGE TO MATCH QUE LIMIT]
+
+#COUPLEORDER
+5			nCouple
+IE GM			NameSourceTarget
+IE IM			NameSourceTarget
+GM IE			NameSourceTarget
+GM IM			NameSourceTarget
+IM GM			NameSourceTarget
+
+#COUPLE2
+GM			NameComp1
+IE			NameComp2
+-1                      DnCouple
+1.0                     DtCouple
+
+#COUPLE2
+IM			NameComp1
+GM			NameComp2
+-1                      DnCouple
+1.0                     DtCouple
+
+#COUPLE1
+IE			NameComp1
+IM			NameComp2
+-1                      DnCouple
+1.0                     DtCouple
+
+#COUPLETIME
+GM			NameComp
+T			DoCoupleOnTime
+
+#BEGIN_COMP GM ---------------------------------------------------------------
+
+#INCLUDE
+GM/restartIN/restart.H
+
+#OUTERBOUNDARY
+outflow			TypeBc1
+vary			TypeBc2
+float			TypeBc3
+float			TypeBc4
+float			TypeBc5
+float			TypeBc6
+
+#REGION
+region1			NameRegion
+box 			StringShape
+-64.0 			xMinBox
+-32.0			yMinBox
+-32.0			zMinBox
+ 32.0 			xMaxBox
+ 32.0			yMaxBox
+ 32.0			zMaxBox
+
+#DOAMR
+T			DoAmr (the rest is only read if true)
+-1 			DnAmr
+5.0			DtAmr
+T			IsStrictAmr
+
+#AMRCRITERIARESOLUTION
+1			nCriteria
+J2 region1		TypeCriteria
+1e-6			CoarsenLimit
+1e-4			RefineLimit
+0.125			MaxResolution
+
+#INNERBOUNDARY
+ionosphere		TypeBcInner
+
+! Set the inner boundary density as Rho0Cpcp + RhoPerCpcp*CPCP[keV]
+#CPCPBOUNDARY
+T                       UseCpcpBc  (rest is read if true)
+28.0                    Rho0Cpcp   [amu/cc]
+0.1                     RhoPerCpcp [amu/cc / keV]
+
+#SOLARWINDFILE
+T				UseSolarWindFile
+imf_extreme_southBz.dat         NameSolarWindFile
+
+#INCLUDE
+test_sats/test_sats.include
+
+#MAGNETOMETER
+magin_GEM.dat		NameMagInputFile
+single			TypeFileOut
+-1			DnOutput
+1.0			DtOutput
+
+#GEOMAGINDICES
+180			nSizeKpWindow [min]
+60.0			DtOutput      [sec]
+
+#MAGNETOMETERGRID
+real8			TypeFileMagGrid
+GEO			TypeCoordMagGrid
+72			nLonMagGrid
+33			nLatMagGrid
+0.			LonMinMagGrid
+360.			LonMaxMagGrid
+-80.			LatMinMagGrid
+80.			LatMaxMagGrid
+-1			DnSaveMagGrid
+1.0			DtSaveMagGrid
+
+#NONCONSERVATIVE
+T                       UseNonConservative
+
+#CONSERVATIVECRITERIA
+1                       nConservCrit
+parabola                TypeConservCrit_I
+ 5.0                    xParabolaConserv
+15.0                    yParabolaConserv
+
+! Setting 1
+#IMCOUPLING
+20.0                    TauCoupleIm
+T                       DoImSatTrace
+T                       DoCoupleImPressure
+T                       DoCoupleImDensity
+0.01			DensityCoupleFloor
+F                       DoFixPolarRegion
+
+! Pressures below pMinDim are replaced with pMinDim.
+MINIMUMPRESSURE
+1e-5			pMinDim [nPa]
+
+#SAVELOGNAME
+F                       IsLogName_n
+T                       IsLogName_e
+
+#SAVEPLOTNAME
+F                       IsPlotName_n
+F                       IsPlotName_t
+T                       IsPlotName_e
+
+#SAVELOGFILE
+T			DoSaveLogfile
+VAR step date		StringLogfile
+-1			DnSaveLogfile
+5.0			DtSaveLogfile
+dt rho mx my mz p bx by bz pmin pmax dst cpcpn
+3.0			StringRFlux
+
+#SAVEPLOT
+3                       nPlotFiles
+y=0 MHD idl             StringPlot
+-1                      DnSavePlot
+10.			DtSavePlot
+-1.0			DxSavePlot
+z=0 MHD idl             StringPlot
+-1                      DnSavePlot
+10.			DtSavePlot
+-1.0			DxSavePlot
+z=0 ray idl             StringPlot
+-1                      DnSavePlot
+10.                     DtSavePlot
+-1.0                    DxSavePlot
+
+#SCHEME
+2			nORDER
+Sokolov			TypeFlux
+mc3	                TypeLimiter
+1.2			BetaLimiter
+
+#BORIS
+T			UseBorisCorrection
+0.05			BorisClightFactor
+
+#TIMESTEPPING
+2			nStage
+0.65			CflExpl
+
+#END_COMP GM -----------------------------------------------------------------
+
+#BEGIN_COMP IM ---------------------------------------------------------------
+
+#RESTART
+T			DoRestart
+
+! Number density fractions for H+ and O+. Has to add up to 1.0
+#COMPOSITION
+FIXED			 NameCompModel
+0.9                      FractionH
+0.1                      FractionO
+
+! Decay for RCM particle densities
+#DECAY
+T 			UseDecay
+36000. 			DecayTimescale in seconds
+
+#END_COMP IM -----------------------------------------------------------------
+
+#BEGIN_COMP IE ---------------------------------------------------------------
+
+#AURORALOVAL
+T             UseOval (rest of parameters read if true)
+T             UseOvalShift
+F             UseSubOvalConductance
+T             UseAdvancedOval
+F	      DoFitCircle
+
+#IONOSPHERE
+5                       TypeConductanceModel
+F                       UseFullCurrent
+F			UseFakeRegion2
+255.0                   F107Flux
+1.0                     StarLightPedConductance
+0.25                    PolarCapPedConductance
+
+#BOUNDARY
+10.0                    LatBoundary
+
+#SAVEPLOT
+1			nPlotFile
+aur idl                 StringPlot
+-1                      DnSavePlot
+10.0			DtSavePlot
+
+#END_COMP IE -----------------------------------------------------------------
+
+#ENDTIME            
+2015			year
+03              	month
+21              	day
+08			hour
+00             		minute
+00              	second
+0.0			FracSecond
+
+#END ############################################################

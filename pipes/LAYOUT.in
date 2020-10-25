@@ -1,0 +1,11 @@
+Layout for 4-component run.
+Let's try splitting out IM+IE and PW+GM.
+
+Name First Last Stride
+======================
+#COMPONENTMAP
+IE       0    1    1   ! IE runs on 1 or 2 PE-s
+IM       0    0    1   ! IM on 1 PE.
+PW       1  216    1   ! PW on all PE-s.
+GM       1 9999    1   ! GM runs on all PE-s
+#END
