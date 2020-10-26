@@ -185,7 +185,7 @@ test_sats/test_sats.include
 
 #UPSTREAM_INPUT_FILE
 T                       UseUpstreamInputFile
-imf_mf_bzturn_by.dat       UpstreamFileName
+imf_mf_katus_smooth120.dat       UpstreamFileName
 0.0                     Satellite_Y_Pos
 0.0                     Satellite_Z_Pos
 
@@ -264,8 +264,13 @@ T
 
 #END_COMP IE -----------------------------------------------------------------
 
-#STOP
--1			MaxIter
-57600.0			TimeMax
+#ENDTIME
+2000		year
+01		month
+02		day
+12		hour
+00		minute
+00		second
+0.0 		FracSecond
 
 #END
