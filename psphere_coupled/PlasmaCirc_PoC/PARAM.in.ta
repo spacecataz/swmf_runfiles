@@ -44,7 +44,7 @@ dt rho mx my mz p bx by bz pmin pmax dst cpcpn
 3.0 3.5 5.0		StringRFlux
 
 #SAVEPLOT
-5                       nPlotFiles
+10                      nPlotFiles
 y=0 MHD idl             StringPlot
 -1                      DnSavePlot
 60.			DtSavePlot
@@ -65,6 +65,66 @@ z=0 ray idl             StringPlot
 -1                      DnSavePlot
 60.                     DtSavePlot
 -1.0                    DxSavePlot
+shl MHD idl 		StringPlot
+-1  			DnSavePlot
+300. 			DtSavePlot
+SMG 			TypeCoordPlot
+6.0 			rMin
+6.0 			rMax
+0. 			LonMin
+360. 			LonMax
+2. 			dLon ! only read if LonMin /= LonMax
+-90. 			LatMin
+90. 			LatMax
+2. 			dLat ! only read if LatMin /= LatMax
+shl MHD idl 		StringPlot
+-1  			DnSavePlot
+300. 			DtSavePlot
+SMG 			TypeCoordPlot
+6.6 			rMin
+6.6 			rMax
+0. 			LonMin
+360. 			LonMax
+2. 			dLon ! only read if LonMin /= LonMax
+-90. 			LatMin
+90. 			LatMax
+2. 			dLat ! only read if LatMin /= LatMax
+shl MHD idl 		StringPlot
+-1  			DnSavePlot
+300. 			DtSavePlot
+SMG 			TypeCoordPlot
+7.0 			rMin
+7.0 			rMax
+0. 			LonMin
+360. 			LonMax
+2. 			dLon ! only read if LonMin /= LonMax
+-90. 			LatMin
+90. 			LatMax
+2. 			dLat ! only read if LatMin /= LatMax
+shl MHD idl 		StringPlot
+-1  			DnSavePlot
+300. 			DtSavePlot
+SMG 			TypeCoordPlot
+8.0 			rMin
+8.0 			rMax
+0. 			LonMin
+360. 			LonMax
+2. 			dLon ! only read if LonMin /= LonMax
+-90. 			LatMin
+90. 			LatMax
+2. 			dLat ! only read if LatMin /= LatMax
+shl MHD idl 		StringPlot
+-1  			DnSavePlot
+300. 			DtSavePlot
+SMG 			TypeCoordPlot
+10.0 			rMin
+10.0 			rMax
+0. 			LonMin
+360. 			LonMax
+2. 			dLon ! only read if LonMin /= LonMax
+-90. 			LatMin
+90. 			LatMax
+2. 			dLat ! only read if LatMin /= LatMax
 
 #SCHEME
 2			nORDER
@@ -83,9 +143,9 @@ T
 Fast, phsyics-based cutoff u_counter
 #COLLISION 
 -1.0                    CollisionCoefDim 
-6.0e2                   TauCutOffDim [s]
--1.0                    uCutOffDim [km/s] read if TauCutOffDim positive 
-4                       nPowerCutOff read if TauCutOffDim positive 
+6.0e1                   TauCutOffDim [s]
+30.0                    uCutOffDim [km/s] read if TauCutOffDim positive 
+2                       nPowerCutOff read if TauCutOffDim positive 
 
 #OUTERBOUNDARY
 outflow			TypeBC_I(east_)
@@ -103,7 +163,7 @@ test_sats/test_sats.include
 
 #UPSTREAM_INPUT_FILE
 T                       UseUpstreamInputFile
-imf_mf_bzturn.dat       UpstreamFileName
+imf_mf_bzturn_by.dat    UpstreamFileName
 0.0                     Satellite_Y_Pos
 0.0                     Satellite_Z_Pos
 
@@ -111,7 +171,7 @@ imf_mf_bzturn.dat       UpstreamFileName
 28.0            PolarNDim [amu/cc] for fluid 1
 25000.0         PolarTDim [K]      for fluid 1
 0.0             PolarUDim [km/s]   for fluid 1
-0.001           PolarNDim [amu/cc] for fluid 2
+0.1             PolarNDim [amu/cc] for fluid 2
 25000.0         PolarTDim [K]      for fluid 2
 0.0             PolarUDim [km/s]   for fluid 2
 15.             PolarLatitude [deg]
