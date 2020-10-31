@@ -53,7 +53,7 @@ imf_mf_katus_smooth120.dat    UpstreamFileName
 5                       TypeConductanceModel
 F                       UseFullCurrent
 F			            UseFakeRegion2
-150.0                   F107Flux
+200.0                   F107Flux
 1.0                     StarLightPedConductance
 0.25                    PolarCapPedConductance
 
