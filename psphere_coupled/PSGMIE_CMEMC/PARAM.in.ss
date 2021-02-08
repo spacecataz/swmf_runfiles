@@ -41,7 +41,7 @@ PARAM.gm.1st.hires
 
 #UPSTREAM_INPUT_FILE
 T                             UseUpstreamInputFile
-imf_mf_katus_smooth120.dat    UpstreamFileName
+imf_katus_smooth120.dat       UpstreamFileName
 0.0                           Satellite_Y_Pos
 0.0                           Satellite_Z_Pos
 
