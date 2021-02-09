@@ -77,7 +77,7 @@ z=0 MHD idl             StringPlot
 -1
 3d MHD idl		StringPlot
 -1                      DnSavePlot
-900.			DtSavePlot
+300.			DtSavePlot
 -1
 y=0 ray idl             StringPlot
 -1                      DnSavePlot
