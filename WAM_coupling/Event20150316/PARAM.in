@@ -10,7 +10,7 @@ F			DoTimeAccurate
 #STARTTIME            
 2015			year
 03              	month
-16              	day
+15              	day
 20			hour
 00             		minute
 00              	second
@@ -356,7 +356,7 @@ max idl                 StringPlot
 #ENDTIME            
 2015			year
 03              	month
-19              	day
+20              	day
 00			hour
 00             		minute
 00              	second

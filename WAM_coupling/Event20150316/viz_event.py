@@ -13,8 +13,8 @@ from spacepy.plot   import style, applySmartTimeTicks
 style()
 
 # Set start and stop times for the simulation:
-start = dt.datetime(2015,3,16,20,0,0)
-stop  = dt.datetime(2015,3,19, 0,0,0)
+start = dt.datetime(2015,3,15, 0,0,0)
+stop  = dt.datetime(2015,3,20, 0,0,0)
 
 # Collect relevant data:
 if 'dst' not in globals():
