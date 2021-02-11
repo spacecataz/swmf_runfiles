@@ -11,7 +11,7 @@ F			DoTimeAccurate
 2015			year
 03              	month
 15              	day
-20			hour
+00			hour
 00             		minute
 00              	second
 0.0			FracSecond
