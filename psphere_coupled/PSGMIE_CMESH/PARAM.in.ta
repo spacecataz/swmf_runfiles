@@ -268,7 +268,7 @@ T
 2000		year
 01		month
 02		day
-00		hour
+12		hour
 00		minute
 00		second
 0.0 		FracSecond
