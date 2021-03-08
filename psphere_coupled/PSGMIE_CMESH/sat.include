@@ -1,4 +1,5 @@
 #SATELLITE
+154		nSats
 MHD RAY date time        StringSatellite
 -1        DnOutput
 15.0        DtOutput
