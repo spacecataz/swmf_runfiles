@@ -31,5 +31,17 @@ make SWMF PIDL
 #GM-IM/CIMI Simulations
 
 Use the MHD equation file: `ModEquationRecircPe.f90`
+Place this file into `GM/BATSRUS/srcEquation`.
+This will configure BATS-R-US to use two fluids: Hp and HpPs.
+The first fluid a combined solar/polar ion outflow fluid representing
+a "typical" MHD simulation.  The second fluid is for recirculating
+plasmasphere material.
 
-Place this file into `GM/BATSRUS/srcEquation`
+##SWMF Configuration:
+```
+Config.pl -install=BATSRUS,CIMI2,Ridley_serial
+Config.pl -v=GM/BATSRUS,IE/Ridley_serial,IM/CIMI2
+cp [Path to this repository]/swmf_runfiles/psphere_coupled/ModEquationRecircPe.f90 [Path to SWMF install directory]/GM/BATSRUS/srcEquation/
+Config.pl -o=GM:e=RecircPe
+make SWMF PIDL
+```
