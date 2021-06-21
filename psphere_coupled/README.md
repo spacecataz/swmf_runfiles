@@ -27,3 +27,9 @@ Config.pl -v=GM/BATSRUS,IE/Ridley_serial,PS/DGCPM
 Config.pl -o=GM:e=MultiSwIono
 make SWMF PIDL
 ```
+
+#GM-IM/CIMI Simulations
+
+Use the MHD equation file: `ModEquationRecircPe.f90`
+
+Place this file into `GM/BATSRUS/srcEquation`
