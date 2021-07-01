@@ -95,10 +95,10 @@ module ModVarIndexes
        'HpMx   ', & ! RhoUx_
        'HpMy   ', & ! RhoUy_
        'HpMz   ', & ! RhoUz_
-       'Bx   ', & ! Bx_
-       'By   ', & ! By_
-       'Bz   ', & ! Bz_
-       'Pe   ', & ! Pe_
+       'Bx     ', & ! Bx_
+       'By     ', & ! By_
+       'Bz     ', & ! Bz_
+       'Pe     ', & ! Pe_
        'HpP    ', & ! p_
        'HpPsRho', & ! HpPsRho_
        'HpPsMx ', & ! HpPsRhoUx_
@@ -106,7 +106,7 @@ module ModVarIndexes
        'HpPsMz ', & ! HpPsRhoUz_
        'HpPsP  ', & ! HpPsP_
        'HpE    ', & ! Energy_
-       'HpPsE  '] & ! HpPsEnergy_
+       'HpPsE' ]    ! HpPsEnergy_
 
   ! There are no extra scalars
   integer, parameter :: ScalarFirst_ = 2, ScalarLast_ = 1
