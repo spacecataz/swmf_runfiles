@@ -190,10 +190,10 @@ T			UseBorisCorrection
 #RESTART
 T			DoRestart
 
-! Use the Young et al. formula to set composition dynamically:
 #COMPOSITION
-YOUNG			 NameCompModel
-115.0			 F107
+FIXED			 NameCompModel
+0.9			 FractionH
+0.1			 FractionO
 
 ! Decay for RCM particle densities
 #DECAY
@@ -211,6 +211,9 @@ F                       UseFakeRegion2
 115.0                   F107Flux
 1.0                     StarLightPedConductance
 0.25                    PolarCapPedConductance
+
+#BOUNDARY
+5.0                     LatBoundary
 
 #SAVEPLOT
 1			nPlotFile
