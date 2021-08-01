@@ -19,6 +19,11 @@ T			DoTimeAccurate
 1			DnProgressShort
 100			DnProgressLong
 
+#CHECKTIMESTEP
+F                        DoCheckTimeStep
+-1
+-1
+
 #SAVERESTART
 T                       DoSaveRestart
 -1                      DnSaveRestart
