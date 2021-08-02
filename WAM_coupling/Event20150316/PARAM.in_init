@@ -151,7 +151,7 @@ T			DoSaveLo5Dgfile
 VAR step date		StringLogfile
 -1			DnSaveLogfile
 5.0			DtSaveLogfile
-dt rho mx my mz p bx by bz pmin pmax dst dstflx
+dt rho mx my mz p bx by bz pmin pmax dst cpcpn
 3.0			StringRFlux
 
 #DOAMR
@@ -163,6 +163,12 @@ T			IsStrictAmr
 ! Satellite trajectories
 INCLUDE
 SATELLITES.in
+
+#MAGPERTURBINTEGRAL
+T                       UseSurfaceIntegral
+T                       UseFastFacIntegral
+MAG                     TypeCoordIndex
+MAG                     TypeCoordFacGrid
 
 #MAGNETOMETER
 magin_GEM.dat		NameMagInputFile
@@ -211,7 +217,7 @@ F                       DoFitCircle (read if UseAdvancedOval is true)
 #END_COMP IE -----------------------------------------------------------------
 
 #STOP
-700                     MaxIter
+1000                    MaxIter
 -1.			TimeMax
 
 #RUN	######################################################################
@@ -228,13 +234,13 @@ mc3                     TypeLimiter
 1.2			BetaLimiter
 
 #TIMESTEPPING
-2			nStage
+1			nStage
 0.60			CflExlp
 
 #END_COMP GM -----------------------------------------------------------------
 
 #STOP
-1500                    MaxIter
+2000                    MaxIter
 -1.			TimeMax
 
 #RUN	######################################################################
@@ -338,6 +344,18 @@ z=0 ray idl             StringPlot
 T			UseBorisCorrection
 0.01			BorisClightFactor
 
+#REGION
+borisregion             NameArea
+sphere tapered          NameShape
+-4.0			xPosition
+0.0			yPosition
+0.0			zPosition
+14.0			Radius
+2.0			Taper
+
+#BORISREGION
+borisregion			NameBorisRegion
+
 #TIMESTEPPING
 1			nStage
 0.85			CflExpl
@@ -348,8 +366,8 @@ T			UseBorisCorrection
 
 #COMPOSITION
 FIXED			 NameCompModel
-0.9			 FractionH
-0.1			 FractionO
+0.8			 FractionH
+0.2			 FractionO
 
 ! Decay for RCM particle densities
 #DECAY
