@@ -16,6 +16,11 @@ F			DoTimeAccurate
 00              	second
 0.0			FracSecond
 
+#CHECKTIMESTEP
+F			 DoCheckTimeStep
+-1
+-1
+
 ! Allow empty processor for IM
 #STRICT
 F			UseStrict
@@ -192,6 +197,13 @@ F			UseFakeRegion2
 115.0                   F107Flux
 1.0                     StarLightPedConductance
 0.25                    PolarCapPedConductance
+
+#AURORALOVAL 
+T                       UseOval (rest of parameters read if true) 
+T                       UseOvalShift 
+F                       UseSubOvalConductance 
+T                       UseAdvancedOval 
+F                       DoFitCircle (read if UseAdvancedOval is true)
 
 #BOUNDARY
 5.0                     LatBoundary
