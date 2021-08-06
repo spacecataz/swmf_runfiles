@@ -59,6 +59,9 @@ T			DoCoupleOnTime
 #INCLUDE
 GM/restartIN/restart.H
 
+#GRIDBLOCKALL
+100000
+
 #OUTERBOUNDARY
 outflow			TypeBc1
 vary			TypeBc2
@@ -240,7 +243,7 @@ aur idl                 StringPlot
 #ENDTIME            
 2015			year
 03              	month
-20              	day
+21              	day
 04			hour
 00             		minute
 00              	second

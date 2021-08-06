@@ -27,9 +27,9 @@ F                        DoCheckTimeStep
 #SAVERESTART
 T                       DoSaveRestart
 -1                      DnSaveRestart
-900.0                    DtSaveRestart
+900.0                   DtSaveRestart
 
-#COUPLEORDER
+#
 5			nCouple
 IE GM			NameSourceTarget
 IE IM			NameSourceTarget
@@ -64,6 +64,9 @@ T			DoCoupleOnTime
 #INCLUDE
 GM/restartIN/restart.H
 
+#GRIDBLOCKALL
+100000 
+
 #OUTERBOUNDARY
 outflow			TypeBc1
 vary			TypeBc2
@@ -85,14 +88,15 @@ box 			StringShape
 #DOAMR
 T			DoAmr (the rest is only read if true)
 -1 			DnAmr
-1.0			DtAmr
+5.0			DtAmr
 T			IsStrictAmr
 
 #AMRCRITERIARESOLUTION
 1			nCriteria
 J2 region1		TypeCriteria
-5e-6			CoarsenLimit
-5e-3			RefineLimit
+5e-7			CoarsenLimit
+5e-5y
+			RefineLimit
 0.125			MaxResolution
 
 #INNERBOUNDARY
@@ -289,7 +293,7 @@ aur idl                 StringPlot
 #ENDTIME            
 2015			year
 03              	month
-20              	day
+21              	day
 04			hour
 00             		minute
 00              	second
