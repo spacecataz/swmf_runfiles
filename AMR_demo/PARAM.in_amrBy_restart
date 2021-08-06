@@ -29,7 +29,7 @@ T                       DoSaveRestart
 -1                      DnSaveRestart
 900.0                   DtSaveRestart
 
-#
+#COUPLEORDER
 5			nCouple
 IE GM			NameSourceTarget
 IE IM			NameSourceTarget
@@ -65,7 +65,7 @@ T			DoCoupleOnTime
 GM/restartIN/restart.H
 
 #GRIDBLOCKALL
-100000 
+100000 			MaxBlock (for the whole simulation)
 
 #OUTERBOUNDARY
 outflow			TypeBc1
@@ -95,8 +95,7 @@ T			IsStrictAmr
 1			nCriteria
 J2 region1		TypeCriteria
 5e-7			CoarsenLimit
-5e-5y
-			RefineLimit
+1e-5			RefineLimit
 0.125			MaxResolution
 
 #INNERBOUNDARY
@@ -170,16 +169,16 @@ dt rho mx my mz p bx by bz pmin pmax dst cpcpn
 3.0			StringRFlux
 
 #SAVEPLOT
-8                       nPlotFiles
+7                       nPlotFiles
 x=0 MHD idl             StringPlot
 -1                      DnSavePlot
 1.			DtSavePlot
 -1.0			DxSavePlot
-y=0 MHD idl             StringPlot
+y=0 FUL idl             StringPlot
 -1                      DnSavePlot
 1.			DtSavePlot
 -1.0			DxSavePlot
-z=0 MHD idl             StringPlot
+z=0 FUL idl             StringPlot
 -1                      DnSavePlot
 1.			DtSavePlot
 -1.0			DxSavePlot
@@ -187,16 +186,6 @@ z=0 ray idl             StringPlot
 -1                      DnSavePlot
 1.                      DtSavePlot
 -1.0                    DxSavePlot
-cut MHD idl		StringPlot
--1   			DnSavePlot
-1. 			DtSavePlot
--10. 			Coord1MinCut
--10. 			Coord1MaxCut
--128. 			Coord2MinCut
-128. 			Coord2MaxCut
--128. 			Coord3MinCut
-128. 			Coord3MaxCut
--1. 			DxSavePlot 
 cut MHD idl		StringPlot
 -1   			DnSavePlot
 1. 			DtSavePlot
