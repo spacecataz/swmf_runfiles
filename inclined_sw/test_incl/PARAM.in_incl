@@ -34,6 +34,9 @@ IE			NameComp2
 
 #BEGIN_COMP GM ---------------------------------------------------------------
 
+#GRIDBLOCKALL
+100000
+
 #GRID
 1			nRootBlock_D(x_)
 1			nRootBlock_D(y_)
@@ -146,16 +149,6 @@ T			DoAmr
 100			DnAmr
 -1.0			DtAmr
 T			IsStrictAmr
-
-! Satellite trajectories
-#INCLUDE
-SATELLITES.in
-
-#MAGNETOMETER
-magin_GEM.dat			NameMagInputFile
-single			TypeFileOut
--1			DnOutput
-1 min			DtOutput
 
 #GEOMAGINDICES
 180			nSizeKpWindow [min]
