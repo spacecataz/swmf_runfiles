@@ -19,9 +19,14 @@ F			DoTimeAccurate
 #IDEALAXES
 
 ! No PS until time accurate.
-#COMPONENT
+COMPONENT
 PS                      NameComp
 F                       UseComp
+
+!Shouldn't the above command refrence IM not PS?
+#COMPONENT
+IM			NameComp
+F			UseComp
 
 #COUPLE2
 GM			NameComp1

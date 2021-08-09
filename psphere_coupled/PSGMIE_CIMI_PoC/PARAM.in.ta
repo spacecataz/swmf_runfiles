@@ -236,7 +236,8 @@ float			TypeBC_I(top_)
 #INNERBOUNDARY
 polarwind
 
-#INCLUDE
+!Turning off as I don't have test sats to include
+INCLUDE
 test_sats/test_sats.include
 
 #UPSTREAM_INPUT_FILE
@@ -278,7 +279,7 @@ DIPOLE                  MagneticType
 #MLTSLICE
 4			nMltSlice
 5.0     		DtMltSlice
-
+3
 #LOG
 T                       WriteLogFile
 
