@@ -106,7 +106,7 @@ module ModVarIndexes
        'HpPsMz ', & ! HpPsRhoUz_
        'HpPsP  ', & ! HpPsP_
        'HpE    ', & ! Energy_
-       'HpPsE' ]    ! HpPsEnergy_
+       'HpPsE  ' ]    ! HpPsEnergy_
 
   ! There are no extra scalars
   integer, parameter :: ScalarFirst_ = 2, ScalarLast_ = 1

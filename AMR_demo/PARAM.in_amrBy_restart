@@ -3,11 +3,6 @@ IM  0  0  1   ! IM runs on 1 PE
 IE  0  1  1   ! IE runs on up to 2 PE-s
 GM  2 -1  1   ! GM runs on rest of PE-s
 
-#CHECKTIMESTEP
-F			DoCheckTimeStep
--1			DnCheckTimeStep 
--1.0 			TimeStepMin [s] 
-
 #ECHO
 T			DoEcho
 
@@ -24,10 +19,15 @@ T			DoTimeAccurate
 1			DnProgressShort
 100			DnProgressLong
 
+#CHECKTIMESTEP
+F                        DoCheckTimeStep
+-1
+-1
+
 #SAVERESTART
 T                       DoSaveRestart
 -1                      DnSaveRestart
-900.0                    DtSaveRestart
+900.0                   DtSaveRestart
 
 #COUPLEORDER
 5			nCouple
@@ -65,7 +65,7 @@ T			DoCoupleOnTime
 GM/restartIN/restart.H
 
 #GRIDBLOCKALL
-100000			MaxBlock (for the whole simulation)
+100000 			MaxBlock (for the whole simulation)
 
 #OUTERBOUNDARY
 outflow			TypeBc1
@@ -109,7 +109,7 @@ T                       UseCpcpBc  (rest is read if true)
 
 #SOLARWINDFILE
 T			UseSolarWindFile
-imf_simple.dat          NameSolarWindFile
+imf_by.dat          NameSolarWindFile
 
 #MAGPERTURBINTEGRAL
 T                       UseSurfaceIntegral
@@ -169,19 +169,53 @@ dt rho mx my mz p bx by bz pmin pmax dst cpcpn
 3.0			StringRFlux
 
 #SAVEPLOT
-3                       nPlotFiles
-y=0 MHD idl             StringPlot
+7                       nPlotFiles
+x=0 MHD idl             StringPlot
 -1                      DnSavePlot
 1.			DtSavePlot
 -1.0			DxSavePlot
-z=0 MHD idl             StringPlot
+y=0 FUL idl             StringPlot
+-1                      DnSavePlot
+1.			DtSavePlot
+-1.0			DxSavePlot
+z=0 FUL idl             StringPlot
 -1                      DnSavePlot
 1.			DtSavePlot
 -1.0			DxSavePlot
 z=0 ray idl             StringPlot
 -1                      DnSavePlot
-1.                     DtSavePlot
+1.                      DtSavePlot
 -1.0                    DxSavePlot
+cut MHD idl		StringPlot
+-1   			DnSavePlot
+1. 			DtSavePlot
+-15. 			Coord1MinCut
+-15. 			Coord1MaxCut
+-128. 			Coord2MinCut
+128. 			Coord2MaxCut
+-128. 			Coord3MinCut
+128. 			Coord3MaxCut
+-1. 			DxSavePlot
+cut MHD idl		StringPlot
+-1   			DnSavePlot
+1. 			DtSavePlot
+-20. 			Coord1MinCut
+-20. 			Coord1MaxCut
+-128. 			Coord2MinCut
+128. 			Coord2MaxCut
+-128. 			Coord3MinCut
+128. 			Coord3MaxCut
+-1. 			DxSavePlot
+cut MHD idl		StringPlot
+-1   			DnSavePlot
+1. 			DtSavePlot
+-25. 			Coord1MinCut
+-25. 			Coord1MaxCut
+-128. 			Coord2MinCut
+128. 			Coord2MaxCut
+-128. 			Coord3MinCut
+128. 			Coord3MaxCut
+-1. 			DxSavePlot
 
 #SCHEME
 2			nORDER
