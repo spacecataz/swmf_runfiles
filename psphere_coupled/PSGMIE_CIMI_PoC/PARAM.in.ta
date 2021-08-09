@@ -54,6 +54,20 @@ F			DoCoupleOnTime
 #INCLUDE
 GM/restartIN/restart.H
 
+#MULTIION
+1e-10                   LowDensityRatio
+1e-10                   LowPressureRatio
+T                       DoRestrictMultiIon
+3.0                     MachNumberMultiIon (read if DoRestrictMultiIon)
+30.0                    ParabolaWidthMultiIon (read if DoRestrictMultiIon)
+
+#PLASMA
+1.0                     MassFluid Hp
+1.0                     MassFluid HpPs
+1.0                     AverageIonCharge Hp
+1.0                     AverageIonCharge HpPs
+0.0                     ElectronTemperatureRatio
+
 #COLLISION
 -100.			CollisionCoefDim
 1.0e3			TauCutOffDim [s]
