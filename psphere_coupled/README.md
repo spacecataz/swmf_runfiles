@@ -42,6 +42,6 @@ plasmasphere material.
 Config.pl -install=BATSRUS,CIMI2,Ridley_serial
 Config.pl -v=GM/BATSRUS,IE/Ridley_serial,IM/CIMI2
 cp [Path to this repository]/swmf_runfiles/psphere_coupled/ModEquationRecircPe.f90 [Path to SWMF install directory]/GM/BATSRUS/srcEquation/
-Config.pl -o=GM:e=RecircPe
+Config.pl -o=GM:e=RecircPe,IM:EarthReHpsH,GridExpanded
 make SWMF PIDL
 ```

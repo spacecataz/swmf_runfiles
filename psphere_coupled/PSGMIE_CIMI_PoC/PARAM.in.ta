@@ -10,7 +10,7 @@ Time accurate portion of simulation.
 #TIMEACCURATE
 T			DoTimeAccurate
 
-#SAVERESTART                                                     
+#SAVERESTART
 T                       DoSaveRestart
 -1                      DnSaveRestart
 1800.0                  DtSaveRestart
@@ -54,6 +54,12 @@ F			DoCoupleOnTime
 #INCLUDE
 GM/restartIN/restart.H
 
+#COLLISION
+-100.			CollisionCoefDim
+1.0e3			TauCutOffDim [s]
+100.0			uCutOffDim [km/s] read if TauCutOffDim positive
+2			nPowerCutOff read if TauCutOffDim positive
+
 #NONCONSERVATIVE
 T                       UseNonConservative
 
@@ -69,7 +75,7 @@ parabola		TypeConservCrit_I
 T			DoImSatTrace
 T			DoCoupleImPressure
 T			DoCoupleImDensity
-0.01			DensityCoupleFloor
+0.0001			DensityCoupleFloor
 F			DoFixPolarRegion
 ! end of setting 1
 
@@ -199,11 +205,11 @@ T
 0.85			cfl
 
 Fast, phsyics-based cutoff u_counter
-#COLLISION 
--1.0                    CollisionCoefDim 
+#COLLISION
+-1.0                    CollisionCoefDim
 6.0e1                   TauCutOffDim [s]
-30.0                    uCutOffDim [km/s] read if TauCutOffDim positive 
-2                       nPowerCutOff read if TauCutOffDim positive 
+30.0                    uCutOffDim [km/s] read if TauCutOffDim positive
+2                       nPowerCutOff read if TauCutOffDim positive
 
 #OUTERBOUNDARY
 outflow			TypeBC_I(east_)
