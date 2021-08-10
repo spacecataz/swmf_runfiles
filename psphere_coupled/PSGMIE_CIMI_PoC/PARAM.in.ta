@@ -255,6 +255,9 @@ imf_mf_bzturn_by.dat       UpstreamFileName
 0.0             PolarUDim [km/s]   for fluid 2
 15.             PolarLatitude [deg]
 
+#SATELLITE
+sat.include
+
 #END_COMP GM -----------------------------------------------------------------
 
 #BEGIN_COMP PS ---------------------------------------------------------------
