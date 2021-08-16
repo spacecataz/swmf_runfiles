@@ -4,11 +4,13 @@ To get a plume, coupling between PS and GM is used.
 
 SWMF Configuration:
 Config.pl -install=BATSRUS,Ridley_serial,CIMI2
-Config.pl -v=GM/BATSRUS,IE/Ridley_serial,IM/CIMI2
-Config.pl -o=GM:e=RecircPe 
+Config.pl -v=Empty,GM/BATSRUS,IE/Ridley_serial,IM/CIMI2
+Config.pl -o=GM:e=RecircPe,IM:EarthReHpsH,GridExpanded
 (Make sure [Path to SWMF install directory]/GM/BATSRUS/srcEquation/ModEquationRecircPe.f90 exists!)
 
-Don't forget your test satellites!
+This run uses virtual satallites which mimic THEMIS and CLUSTER, 150 of each in a string of 
+pearls formation, such that 15 minutes after a satellite passes through a point another 
+passes through the same point.
 
 Slight differences between this and the "defacto plume" run:
 Again, #MAGNETOSPHERE and #POLARBOUNDARY params are used to control the
