@@ -257,37 +257,17 @@ imf_mf_bzturn_by.dat       UpstreamFileName
 
 #END_COMP GM -----------------------------------------------------------------
 
-#BEGIN_COMP PS ---------------------------------------------------------------
+#BEGIN_COMP IM ---------------------------------------------------------------
 
-#FILLING
-3.0			EmptyPeriodClosed
-1.0     		EmptyPeriodOpen
-1.5     		FillDays
-2.0E12  		FluxMax
+! Decay for RCM particle densities
+#RESTART
+T			DoRestart
 
-#TIMING
-5.0                     DtStep
-345600.0                MAX
+#DECAY
+T 			UseDecay
+10 hour			DecayTimescale
 
-#OUTPUT
-F                       WriteStatic
-T                       WriteDynamic
-5.0                     OutputInterval
-SHORT                   OutputType
-DIPOLE                  MagneticType
-
-#MLTSLICE
-4			nMltSlice
-5.0     		DtMltSlice
-3
-#LOG
-T                       WriteLogFile
-
-#GMCOUPLING
-2			iGmFluidCouple
-2.0			TempPlasma (eV)
-
-#END_COMP PS   ---------------------------------------------------------------
+#END_COMP IM -----------------------------------------------------------------
 
 #BEGIN_COMP IE ---------------------------------------------------------------
 
