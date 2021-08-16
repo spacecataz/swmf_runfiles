@@ -236,9 +236,8 @@ float			TypeBC_I(top_)
 #INNERBOUNDARY
 polarwind
 
-!Turning off as I don't have test sats to include
-INCLUDE
-test_sats/test_sats.include
+#INCLUDE
+sat.include
 
 #UPSTREAM_INPUT_FILE
 T                       UseUpstreamInputFile
@@ -254,9 +253,6 @@ imf_mf_bzturn_by.dat       UpstreamFileName
 25000.0         PolarTDim [K]      for fluid 2
 0.0             PolarUDim [km/s]   for fluid 2
 15.             PolarLatitude [deg]
-
-#SATELLITE
-sat.include
 
 #END_COMP GM -----------------------------------------------------------------
 
