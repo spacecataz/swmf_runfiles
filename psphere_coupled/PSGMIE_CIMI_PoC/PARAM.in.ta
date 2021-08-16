@@ -236,9 +236,8 @@ float			TypeBC_I(top_)
 #INNERBOUNDARY
 polarwind
 
-!Turning off as I don't have test sats to include
-INCLUDE
-test_sats/test_sats.include
+#INCLUDE
+sat.include
 
 #UPSTREAM_INPUT_FILE
 T                       UseUpstreamInputFile

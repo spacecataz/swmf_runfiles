@@ -18,12 +18,7 @@ F			DoTimeAccurate
 
 #IDEALAXES
 
-! No PS until time accurate.
-COMPONENT
-PS                      NameComp
-F                       UseComp
-
-!Shouldn't the above command refrence IM not PS?
+! No IM until time accurate.
 #COMPONENT
 IM			NameComp
 F			UseComp
