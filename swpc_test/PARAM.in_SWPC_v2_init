@@ -18,9 +18,9 @@ Param/SWPC/PARAM.in_SWPC_v2_init: Example file to start a run for the SWPC Versi
 F			IsTimeAccurate
 
 #STARTTIME
-2014			iYear
+2010			iYear
 04			iMonth
-10			iDay
+05			iDay
 00			iHour
 00			iMinute
 00			iSecond
@@ -487,11 +487,11 @@ F			UsePlasmaSphere
 #END_COMP RB -----------------------------------------------------------------
 
 #ENDTIME
-2014			iYear
+2010			iYear
 04			iMonth
-10			iDay
+06			iDay
 00			iHour
-02			iMinute
+00			iMinute
 00			iSecond
 0.0			FracSecond
 
