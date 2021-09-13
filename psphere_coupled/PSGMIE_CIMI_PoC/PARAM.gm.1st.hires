@@ -112,27 +112,28 @@ F			DoSavePlotsAmr to save plots before each AMR
 
 #AMR
 100			DnRefine
-F			DoAutomaticRefinement 
+F			DoAutomaticRefinement
 
 Standard MF setup.
-#MULTIION 
-0.001                   LowDensityRatio
+#MULTIION
+1e-10                   LowDensityRatio
 1e-10                   LowPressureRatio
-F                       DoRestrictMultiIon 
-
-Fast, phsyics-based cutoff u_counter
-#COLLISION 
--1.0                    CollisionCoefDim 
-6.0e2                   TauCutOffDim [s]
--1                      uCutOffDim [km/s] read if TauCutOffDim positive 
-4                       nPowerCutOff read if TauCutOffDim positive 
+T                       DoRestrictMultiIon
+3.0                     MachNumberMultiIon (read if DoRestrictMultiIon)
+30.0                    ParabolaWidthMultiIon (read if DoRestrictMultiIon)
 
 #PLASMA
-1.0             FluidMass [amu]
-1.0             IonCharge [e]
-1.0             FluidMass [amu]
-1.0             IonCharge [e]
-0.2             ElectronTemperatureRatio
+1.0                     MassFluid Hp
+1.0                     MassFluid HpPs
+1.0                     AverageIonCharge Hp
+1.0                     AverageIonCharge HpPs
+0.0                     ElectronTemperatureRatio
+
+#COLLISION
+-100.			CollisionCoefDim
+5.0e2			TauCutOffDim [s]
+30.0			uCutOffDim [km/s] read if TauCutOffDim positive
+2			    nPowerCutOff read if TauCutOffDim positive
 
 #MAGNETOSPHERE
 T                       body1
