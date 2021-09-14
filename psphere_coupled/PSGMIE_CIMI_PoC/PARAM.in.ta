@@ -2,7 +2,7 @@
 T
 
 #INCLUDE
-RESTART.in
+./RESTART.in
 
 #DESCRIPTION
 Time accurate portion of simulation.
@@ -17,10 +17,10 @@ T                       DoSaveRestart
 
 #COMPONENT
 IM			NameComp
-T			UseComp
+T			  UseComp
 
 #COUPLEORDER
-5			nCouple
+5			    nCouple
 IE GM			NameSourceTarget
 IE IM			NameSourceTarget
 GM IE			NameSourceTarget
@@ -37,13 +37,13 @@ IE			NameComp2
 IM			NameComp1
 GM			NameComp2
 -1			DnCouple
-10.0			DtCouple
+10.0		DtCouple
 
 #COUPLE1
 IE			NameComp1
 IM			NameComp2
 -1			DnCouple
-10.0			DtCouple
+10.0		DtCouple
 
 #COUPLETIME
 GM			NameComp
@@ -52,7 +52,7 @@ F			DoCoupleOnTime
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #INCLUDE
-GM/restartIN/restart.H
+./RESTART/GM/restart.H
 
 #MULTIION
 1e-10                   LowDensityRatio
@@ -70,40 +70,40 @@ T                       DoRestrictMultiIon
 
 #COLLISION
 -100.			CollisionCoefDim
-1.0e3			TauCutOffDim [s]
-100.0			uCutOffDim [km/s] read if TauCutOffDim positive
-2			nPowerCutOff read if TauCutOffDim positive
+5.0e2			TauCutOffDim [s]
+30.0			uCutOffDim [km/s] read if TauCutOffDim positive
+2			    nPowerCutOff read if TauCutOffDim positive
 
 #NONCONSERVATIVE
 T                       UseNonConservative
 
 #CONSERVATIVECRITERIA
-1			nConservCrit
+1			      nConservCrit
 parabola		TypeConservCrit_I
- 5.0			xParabolaConserv
-15.0			yParabolaConserv
+ 5.0			  xParabolaConserv
+15.0			  yParabolaConserv
 
 ! Setting 1
 #IMCOUPLING
 20.0			TauCoupleIm
-T			DoImSatTrace
-T			DoCoupleImPressure
-T			DoCoupleImDensity
-0.0001			DensityCoupleFloor
-F			DoFixPolarRegion
+T			    DoImSatTrace
+T			    DoCoupleImPressure
+T			    DoCoupleImDensity
+0.0001		DensityCoupleFloor
+F			    DoFixPolarRegion
 ! end of setting 1
 
 ! Setting 2
 IMCOUPLING
 20.0			TauCoupleIm
-T			DoImSatTrace
-T			DoCoupleImPressure
-T			DoCoupleImDensity
+T			    DoImSatTrace
+T			    DoCoupleImPressure
+T			    DoCoupleImDensity
 0.01			DensityCoupleFloor
-T			DoFixPolarRegion
-5.0			rFixPolarRegion
+T			    DoFixPolarRegion
+5.0			  rFixPolarRegion
 56.0			PolarNDim [amu/cc]
-50000.0			PolarTDim [K]
+50000.0		PolarTDim [K]
 
 IMCOUPLINGSMOOTH
 10.0			dLatSmoothIm [deg]
@@ -111,29 +111,31 @@ IMCOUPLINGSMOOTH
 
 ! Pressures below pMinDim are replaced with pMinDim.
 #MINIMUMPRESSURE
-1e-5			pMinDim [nPa]
+1e-5			HpPspMinDim [nPa]
+1e-5			HppMinDim   [nPa]
+.002			PeMinDim
 
 #SAVELOGFILE
-T			DoSaveLogfile
+T			          DoSaveLogfile
 VAR step date		StringLogfile
--1			DnSaveLogfile
-5.0			DtSaveLogfile
+-1			        DnSaveLogfile
+5.0			        DtSaveLogfile
 dt rho mx my mz p bx by bz pmin pmax dst cpcpn
-3.0 3.5 5.0		StringRFlux
+3.0 3.5 5.0		  StringRFlux
 
 #SAVEPLOT
 10                      nPlotFiles
 y=0 MHD idl             StringPlot
 -1                      DnSavePlot
-60.			DtSavePlot
+60.			                DtSavePlot
 -1
 z=0 MHD idl             StringPlot
 -1                      DnSavePlot
-60.			DtSavePlot
+60.               			DtSavePlot
 -1
-3d MHD idl		StringPlot
+3d MHD idl		          StringPlot
 -1                      DnSavePlot
-900.			DtSavePlot
+900.			              DtSavePlot
 -1
 y=0 ray idl             StringPlot
 -1                      DnSavePlot
@@ -143,66 +145,66 @@ z=0 ray idl             StringPlot
 -1                      DnSavePlot
 60.                     DtSavePlot
 -1.0                    DxSavePlot
-shl MHD idl 		StringPlot
--1  			DnSavePlot
-300. 			DtSavePlot
-SMG 			TypeCoordPlot
-6.0 			rMin
-6.0 			rMax
-0. 			LonMin
-360. 			LonMax
-2. 			dLon ! only read if LonMin /= LonMax
--90. 			LatMin
-90. 			LatMax
-2. 			dLat ! only read if LatMin /= LatMax
-shl MHD idl 		StringPlot
--1  			DnSavePlot
-300. 			DtSavePlot
-SMG 			TypeCoordPlot
-6.6 			rMin
-6.6 			rMax
-0. 			LonMin
-360. 			LonMax
-2. 			dLon ! only read if LonMin /= LonMax
--90. 			LatMin
-90. 			LatMax
-2. 			dLat ! only read if LatMin /= LatMax
-shl MHD idl 		StringPlot
--1  			DnSavePlot
-300. 			DtSavePlot
-SMG 			TypeCoordPlot
-7.0 			rMin
-7.0 			rMax
-0. 			LonMin
-360. 			LonMax
-2. 			dLon ! only read if LonMin /= LonMax
--90. 			LatMin
-90. 			LatMax
-2. 			dLat ! only read if LatMin /= LatMax
-shl MHD idl 		StringPlot
--1  			DnSavePlot
-300. 			DtSavePlot
-SMG 			TypeCoordPlot
-8.0 			rMin
-8.0 			rMax
-0. 			LonMin
-360. 			LonMax
-2. 			dLon ! only read if LonMin /= LonMax
--90. 			LatMin
-90. 			LatMax
-2. 			dLat ! only read if LatMin /= LatMax
-shl MHD idl 		StringPlot
--1  			DnSavePlot
-300. 			DtSavePlot
-SMG 			TypeCoordPlot
-10.0 			rMin
-10.0 			rMax
-0. 			LonMin
-360. 			LonMax
-2. 			dLon ! only read if LonMin /= LonMax
--90. 			LatMin
-90. 			LatMax
-2. 			dLat ! only read if LatMin /= LatMax
+shl MHD idl 		        StringPlot
+-1  			              DnSavePlot
+300.               			DtSavePlot
+SMG               			TypeCoordPlot
+6.0 	               		rMin
+6.0               			rMax
+0. 			                LonMin
+360. 		               	LonMax
+2. 	                		dLon ! only read if LonMin /= LonMax
+-90. 	              		LatMin
+90. 	               		LatMax
+2.                 			dLat ! only read if LatMin /= LatMax
+shl MHD idl          		StringPlot
+-1  	               		DnSavePlot
+300. 	               		DtSavePlot
+SMG               			TypeCoordPlot
+6.6               			rMin
+6.6               			rMax
+0. 	              	   	LonMin
+360.               			LonMax
+2. 	              	   	dLon ! only read if LonMin /= LonMax
+-90.               			LatMin
+90.               			LatMax
+2. 	              		  dLat ! only read if LatMin /= LatMax
+shl MHD idl 		        StringPlot
+-1                			DnSavePlot
+300.               			DtSavePlot
+SMG               			TypeCoordPlot
+7.0               			rMin
+7.0               			rMax
+0. 	              		  LonMin
+360.               			LonMax
+2. 	              		  dLon ! only read if LonMin /= LonMax
+-90.               			LatMin
+90.               			LatMax
+2. 	              		  dLat ! only read if LatMin /= LatMax
+shl MHD idl             StringPlot
+-1                			DnSavePlot
+300.               			DtSavePlot
+SMG               			TypeCoordPlot
+8.0               			rMin
+8.0               			rMax
+0. 	              		  LonMin
+360.               			LonMax
+2. 	              		  dLon ! only read if LonMin /= LonMax
+-90.               			LatMin
+90.               			LatMax
+2. 	              		  dLat ! only read if LatMin /= LatMax
+shl MHD idl             StringPlot
+-1                			DnSavePlot
+300.               			DtSavePlot
+SMG               			TypeCoordPlot
+10.0               			rMin
+10.0              			rMax
+0. 	              		  LonMin
+360.               			LonMax
+2. 	              		  dLon ! only read if LonMin /= LonMax
+-90.               			LatMin
+90.               			LatMax
+2. 	              		  dLat ! only read if LatMin /= LatMax
 
 #SCHEME
 2			nORDER
@@ -219,7 +221,7 @@ T
 0.85			cfl
 
 Fast, phsyics-based cutoff u_counter
-#COLLISION
+COLLISION
 -1.0                    CollisionCoefDim
 6.0e1                   TauCutOffDim [s]
 30.0                    uCutOffDim [km/s] read if TauCutOffDim positive
@@ -237,11 +239,11 @@ float			TypeBC_I(top_)
 polarwind
 
 #INCLUDE
-sat.include
+./sat.include
 
 #UPSTREAM_INPUT_FILE
 T                       UseUpstreamInputFile
-imf_mf_bzturn_by.dat       UpstreamFileName
+./imf_mf_bzturn_by.dat       UpstreamFileName
 0.0                     Satellite_Y_Pos
 0.0                     Satellite_Z_Pos
 
@@ -258,13 +260,34 @@ imf_mf_bzturn_by.dat       UpstreamFileName
 
 #BEGIN_COMP IM ---------------------------------------------------------------
 
-! Decay for RCM particle densities
-#RESTART
-T			DoRestart
+INCLUDE
+IM/restartIN/restart.H
 
+#TYPEBOUNDARY
+ellipse TypeBoundary
+
+!Decay for RCM particle densitys
 #DECAY
 T 			UseDecay
 10 hour			DecayTimescale
+
+#SAVEPLOT
+4			nCIMIFileType
+fls all			StringPlot
+300 			DtOutput
+F			DoSaveSeparateFiles
+psd all
+300
+T
+vl  all
+300
+F
+vp  all
+300
+F
+
+#SAVELOG
+10.0			DtLogOut
 
 #END_COMP IM -----------------------------------------------------------------
 
