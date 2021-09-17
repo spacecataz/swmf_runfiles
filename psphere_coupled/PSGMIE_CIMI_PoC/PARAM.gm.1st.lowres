@@ -69,7 +69,13 @@ Rusanov			TypeFlux
 #SAVEPLOTSAMR
 F			DoSavePlotsAmr to save plots before each AMR
 
-#AMR
+#DOAMR
+F      DoAmr (The rest is read only if true)
+100    DnAMR
+-1     DtAmr
+F      IsStrictAmr
+
+AMR
 100			DnRefine
 F			DoAutomaticRefinement
 
