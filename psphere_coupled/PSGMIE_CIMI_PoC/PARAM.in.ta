@@ -2,7 +2,7 @@
 T
 
 #INCLUDE
-./RESTART.in
+RESTART.in
 
 #DESCRIPTION
 Time accurate portion of simulation.
@@ -52,7 +52,7 @@ F			DoCoupleOnTime
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #INCLUDE
-./RESTART/GM/restart.H
+RESTART_n005000/GM/restart.H
 
 #MULTIION
 1e-10                   LowDensityRatio
@@ -259,9 +259,6 @@ T                       UseUpstreamInputFile
 #END_COMP GM -----------------------------------------------------------------
 
 #BEGIN_COMP IM ---------------------------------------------------------------
-
-INCLUDE
-IM/restartIN/restart.H
 
 #TYPEBOUNDARY
 ellipse TypeBoundary
