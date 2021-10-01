@@ -2,7 +2,7 @@
 T
 
 #INCLUDE
-./RESTART.in
+RESTART.in
 
 #DESCRIPTION
 Time accurate portion of simulation.
@@ -52,7 +52,10 @@ F			DoCoupleOnTime
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #INCLUDE
-./RESTART/GM/restart.H
+RESTART_n005000/GM/restart.H
+
+#VERBOSE
+1
 
 #MULTIION
 1e-10                   LowDensityRatio
@@ -124,6 +127,16 @@ dt rho mx my mz p bx by bz pmin pmax dst cpcpn
 3.0 3.5 5.0		  StringRFlux
 
 #SAVEPLOT
+1               nPlotFiles
+idl y=0 VAR     StringPlot
+-1              DnSavePlot
+60              DtSavePlot
+-1              DxSavePlot
+x z rho ux uy uz bx by bz pe p hppsrho hppsmx hppsmz hppsp jx jy jz
+xSI tSI g rbody
+
+
+SAVEPLOT
 10                      nPlotFiles
 y=0 MHD idl             StringPlot
 -1                      DnSavePlot
@@ -260,9 +273,6 @@ T                       UseUpstreamInputFile
 
 #BEGIN_COMP IM ---------------------------------------------------------------
 
-INCLUDE
-IM/restartIN/restart.H
-
 #TYPEBOUNDARY
 ellipse TypeBoundary
 
@@ -312,7 +322,7 @@ F			DoFitCircle (read if UseAdvancedOval is true)
 1			nPlotFile
 aur idl                 StringPlot
 -1                      DnSavePlot
-300.0			DtSavePlot
+300.0			DtSavePlotj
 
 #SPS
 T
@@ -328,3 +338,5 @@ T
 57600.0			TimeMax
 
 #END
+2 Fluids Hp (no prefix) HpPs electrons
+1 1 .001 1 1 1

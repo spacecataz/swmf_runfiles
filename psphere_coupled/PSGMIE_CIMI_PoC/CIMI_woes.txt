@@ -1,0 +1,244 @@
+#File ends are .f90 unless stated otherwise.
+Debugging:
+NameVar is:
+ psrho
+ GM BATSRUS stopping at iteration=           0  simulation time=   0.0000000000000000
+ ERROR: aborting execution on processor           0  with message:
+ERROR: You are trying to call the empty user routine user_set_plot_var(NameVar=psrho     ). Please implement the routine in src/ModUser.f90
+
+This appears to be an issue related to the User Module. This wasn't selected for
+the run, so the default UserModEmpty.f90 is being used.
+
+1.) Run grep on user_set_plot_var:
+
+/GM/BATSRUS/srcUser/ModUserWaves.f90:       IMPLEMENTED8 => user_set_plot_var,               &
+./GM/BATSRUS/srcUser/ModUserWaves.f90:  subroutine user_set_plot_var(iBlock,NameVar,IsDimensional,&
+./GM/BATSRUS/srcUser/ModUserWaves.f90:    character(len=*), parameter:: NameSub = 'user_set_plot_var'
+./GM/BATSRUS/srcUser/ModUserWaves.f90:  end subroutine user_set_plot_var
+./GM/BATSRUS/srcUser/ModUserAwsom.f90:       IMPLEMENTED5 => user_set_plot_var,               &
+./GM/BATSRUS/srcUser/ModUserAwsom.f90:  subroutine user_set_plot_var(iBlock, NameVar, IsDimensional, &
+./GM/BATSRUS/srcUser/ModUserAwsom.f90:    character(len=*), parameter:: NameSub = 'user_set_plot_var'
+./GM/BATSRUS/srcUser/ModUserAwsom.f90:  end subroutine user_set_plot_var
+./GM/BATSRUS/src/ModUserEmpty.f90:  subroutine user_set_plot_var(iBlock, NameVar, IsDimensional, &
+./GM/BATSRUS/src/ModUserEmpty.f90:    character(len=*), parameter:: NameSub = 'user_set_plot_var'
+./GM/BATSRUS/src/ModUserEmpty.f90:  end subroutine user_set_plot_var
+./GM/BATSRUS/src/user_interface.f90:subroutine user_set_plot_var(iBlock, NameVar, IsDimensional, &
+./GM/BATSRUS/src/user_interface.f90:  use ModUser, ONLY: user_sub => user_set_plot_var
+./GM/BATSRUS/src/user_interface.f90:end subroutine user_set_plot_var
+./GM/BATSRUS/src/ModUserInterface.f90:     subroutine user_set_plot_var(iBlock, NameVar, IsDimensional, &
+./GM/BATSRUS/src/ModUserInterface.f90:     end subroutine user_set_plot_var
+./GM/BATSRUS/src/ModWritePlotLos.f90:      use ModUserInterface ! user_set_plot_var
+./GM/BATSRUS/src/ModWritePlotLos.f90:                  call user_set_plot_var(iBlock, NameVar, &
+./GM/BATSRUS/src/ModWritePlot.f90:    use ModUserInterface ! user_set_plot_var
+./GM/BATSRUS/src/ModWritePlot.f90:             call user_set_plot_var(iBlock, &
+./GM/BATSRUS/src/ModUser.f90.safe:       IMPLEMENTED8 => user_set_plot_var,               &
+./GM/BATSRUS/src/ModUser.f90.safe:  subroutine user_set_plot_var(iBlock,NameVar,IsDimensional,&
+./GM/BATSRUS/src/ModUser.f90.safe:    character(len=*), parameter:: NameSub = 'user_set_plot_var'
+./GM/BATSRUS/src/ModUser.f90.safe:  end subroutine user_set_plot_var
+./GM/BATSRUS/src/user_module.h:  public :: user_set_plot_var
+
+user_set_plot_var is defined in:
+  ModUserWaves
+  ModUserAwsom
+  ModUserEmpty
+  user_interface.h
+  ModUserInterface
+some of these are rather complex functions, others are quite simple.
+
+user_set_plot_var is called / referenced in:
+  ModUser
+  ModUserDefault
+  user_module.h
+  ModWritePlotLos
+  ModWritePlot
+
+I know that the problem only presents itself when #SAVEPLOT in the GM COMP
+command of the PARAM file is turned on.
+
+From these files the only one which contains the main body of the error message
+text is ModUserEmpty.f90, that narrows down the search! Specifically the error
+message being printed is from the subroutine stop_user(NameSub)
+called at line 236 of ModUserEmpty.f90 in the subroutine user_set_plot_var().
+
+ModUserEmpty.f90:
+What triggers this call? It seems that in the definition of the function, the
+call to stop_user (which will kill mpi) always occurs! There is no condition:
+
+    ! function pre-amble precedes.
+    write(*,*) "NameVar is:"
+    write(*,*) NameVar
+
+    PlotVar_G = 0.0
+    PlotVarBody = 0.0
+    UsePlotVarBody = .false.
+    IsFound = .false.
+
+    call stop_user(NameSub//'(NameVar='//NameVar//')') !See always called!
+
+    end subroutine user_set_plot_var
+
+Why is the subroutine coded this way? Need to find upstream to check,
+has something already gone wrong?
+
+
+          [Aside: I commented out the call to stop_user and ran it on my local
+          machine. The simulation reached the meat and potatoes of doing numerical
+          calculation. It remains to be seen if the output is useful /reasonable.
+          There was an additional warning in the sim now:
+          IM WARNING: f2d < 0 in drift at n,i,j,k,m =   1  28   1   8  24
+          IM WARNING: Retrying step with upwind scheme
+          Printed to screen a few thousand times with permutations of j, k. It
+          apparently worked, the simulation progressing forward in time. Again it
+          remains to be seen if the calculations being done are useful.
+          On Pleiades with the same adjustment made, Simulation crashed due to
+          divide by zero not far into numerical calculation, but it did reach
+          numerical calculation.]
+
+  Searching through the grep it seems that the only time user_set_plot_var is called
+is by ModWritePlot and ModWritePlotLos. However, they both use a version of
+user_set_plot_var from ModUserInterface, which defines the subroutine internally
+with out reference to ModUserEmpty.
+  The error referenced implementing the function in ModUser.f90, which is fairly
+empty. However, there is a fairly long ModUser.f90.safe which .... makes SWMF
+crash even faster with a statement to user to use the right user module. Do all
+files have to be in safe mode? (For record I copied the contents of ModUser.f90.safe
+into ModUser.f90, after backing up the original file.)
+  The error occurs with the version of uspv in ModUserEmpty.
+    What depends on the definition of user_set_plot_var in ModUserEmpty.f90?
+      user_set_plot_var is created to be a public function by user_module.h, so
+      after the function is originally defined, anything that includes user_module
+       would depend on the one in ModUserEmpty, until some other file, alters it.
+    What calls / depends on that version?
+      user_interface.h
+      ModUser
+      ModUserDefault
+      user_module.h
+
+By adding in write statements to the body of the subroutine user_set_plot_var in
+ModUserEmpty, I know that it is this version of the function being used when the
+crash occurs. But what calls it?
+
+
+
+ModUser (ModUserDefault):
+boring!
+
+user_module.h:
+sets a whole bunch of functions as public, including user_set_plot_var
+
+ModUserWaves:
+Seems to import user_set_plot_var from ModUserEmpty
+
+use ModUserEmpty,                                     &
+       IMPLEMENTED1 => user_read_inputs,                &
+       IMPLEMENTED2 => user_init_session,               &
+       IMPLEMENTED3 => user_set_ics,                    &
+       IMPLEMENTED4 => user_get_log_var,                &
+       IMPLEMENTED5 => user_set_plot_var,
+
+during the Modules preamble, it also references user_module.h which sets
+user_set_plot_var to a public function with
+  public :: user_set_plot_var
+However ModUserWaves then completely defines user_set_plot_var itself without
+reference to the version in ModUserEmpty. I guess this modifies the public function.
+
+ModUserAwsom:
+Although defining user_set_plot_var in itself, it references the version of the
+command in ModUserEmpty by including ModUser, which itself relies on ModUserEmpty.
+If the function is already defined, it should already be a public function. This
+might be a fail safe to make sure the version in ModUserEmpty is indeed public
+before altering it.
+
+user_interface.h:
+sets user_set_plot_var to public. ModUser[safe], ModUserDefault, ModUserWaves, and
+ModUserAwsom, are the modules which use this definition.
+
+ModUserInterface:
+Defines user_set_plot_var without reference to the version in ModUserEmpty,
+user_module, or user_interface. Completely independent creation of the function.
+
+The version of the subroutine in every place else it is defined, contains this
+line,
+    character(len=*), parameter:: NameSub = 'user_set_plot_var'
+somewhere in the body. Except for the definition in ModUserInterface. Neat!
+
+ModWritePlotLos:
+gets user_set_plot_var from ModUserInterface
+
+ModWritePlot:
+gets user_set_plot_var from ModUserInterface
+
+Added VERBOSE command to PARAM.in.ta, set to 10 gives this output:
+      set_plotvar is starting for iProc, iBlock=           0           1
+       NameVar is:
+       psrho
+       GM BATSRUS stopping at iteration=           0  simulation time=   0.0000000000000000
+       ERROR: aborting execution on processor           0  with message:
+      ERROR: You are trying to call the empty user routine user_set_plot_var(NameVar=psrho     ). Please implement the routine in src/ModUser.f90
+grep -r set_plotvar returns
+      ./GM/BATSRUS/src/ModWritePlotLos.f90:      ! if(DoTiming)call timing_start('los_set_plotvar')
+      ./GM/BATSRUS/src/ModWritePlot.f90:          call set_plotvar(iBlock, iFile - plot_, nPlotVar, plotvarnames, PlotVar,&
+      ./GM/BATSRUS/src/ModWritePlot.f90:          call set_plotvar(iBlock, iFile-plot_, nPlotVar, plotvarnames, PlotVar,&
+      ./GM/BATSRUS/src/ModWritePlot.f90:  subroutine set_plotvar(iBlock, iPlotFile, nPlotvar, plotvarnames, Plotvar,&
+      ./GM/BATSRUS/src/ModWritePlot.f90:    character(len=*), parameter:: NameSub = 'set_plotvar'
+      ./GM/BATSRUS/src/ModWritePlot.f90:                     'Warning in set_plotvar: unknown plotvarname=',&
+      ./GM/BATSRUS/src/ModWritePlot.f90:  end subroutine set_plotvar
+      ./GM/BATSRUS/src/ModWritePlot.f90:       ! Note that all variables not set to 0 in set_plotvar should be
+      ./GM/BATSRUS/src/ModPhysics.f90:       ! Note that all variables not set to 0 in set_plotvar should be
+      ./GM/BATSRUS/PARAM.XML:are listed in subroutine set_plotvar_los in write_plot_los.f90.
+      ./GM/BATSRUS/PARAM.XML:are listed in subroutine set_plotvar in write_plot_common.f90.
+      ./doc/Tex/SWPC.XML:are listed in subroutine set_plotvar_los in write_plot_los.f90.
+      ./doc/Tex/SWPC.XML:are listed in subroutine set_plotvar in write_plot_common.f90.
+
+As seen the function is only defined once, and called twice; all occurences in ModWritePlot.
+
+
+Divide by zero on Pleiades:
+Behavior on Pleiades and home machine is different. If you comment out the
+call user_stop statement in ModUserEmpty user_set_plot_var, on Pleiades the run
+crashes due to a divide by zero error, while on Christian-Ubuntu-Proper a warning
+about f2d being less then zero prints (a lot). Checking cimi code, f2d is a type
+of drift, but I can't figure out what kind yet.
+
+Clean install:
+Steady State portion on home machine at 300 steps produces this error
+GM: ----------------- AMR START at nStep=         300
+ do_amr: Number of tries, MaxTry=         101         100
+ do_amr: iBlockAvailable_P=         401
+ jProc, count(Unused_BP)=           0           0
+ ERROR: aborting execution on processor           0  with message:
+ERROR: do_amr: could not fit blocks
+--------------------------------------------------------------------------
+
+PARAM.in.ss uses the old style #AMR command (keep for backwards compatability)
+rather then the new #DOAMR and #AMRLIMIT (also obsolete but more control then
+#AMR)commands. We are running out of blocks, attempted fix swap
+      #AMR
+      100			DnRefine
+      F			DoAutomaticRefinement
+
+      #DOAMR
+      F      DoAmr (The rest is read only if true)
+      100    DnAMR
+      -1     DtAmr
+      F      IsStrictAmr (If False, will preform AMR up to maximum number of blocks. \
+             If True, will crash if not enough blocks!)
+
+This resolved the problem on my home machine!
+
+In subroutine cimi_set_boundary_mhd of ModCimiBoundary.f90 (line 150 atm)
+get following runtime error:
+Resetting timing counters after setup.
+IE:iono_solver: F10.7=    150.00
+IE:iono_solver: Northern Cross Polar Cap Potential=   4.96268     kV
+IE:iono_solver: Southern Cross Polar Cap Potential=   3.02154     kV
+At line 150 of file ModCimiBoundary.f90
+Fortran runtime error: Index '0' of dimension 3 of array 'statebmin_iiv' below lower bound of 1
+
+array isn't being created properly. 
+
+ModSetPlotVar_set_plotvar
+ModMultiFluid_extract_fluid_name
+
+
+MOdMultiFluid_extract_fluid_name
