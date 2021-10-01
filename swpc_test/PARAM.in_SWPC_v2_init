@@ -3,13 +3,13 @@ COMPONENTMAP		For production run
 GM  0 -3 -1  -1		CompMap 0:nProc-3 multithreaded
 IE -2 -1  1  		CompMap last 2 PE-s
 IM -2 -2  1		CompMap nProc-2 PE
-RB -1 -1  1		CompMap nProc-1 PE
+
 
 #COMPONENTMAP		For nightly test
 GM  0 -1 -1 -1		CompMap 0:nProc-1 multithreaded
 IE -2 -1  1  		CompMap last 2 PE-s
 IM -2 -2  1		CompMap nProc-2 PE
-RB -1 -1  1		CompMap nProc-1 PE
+
 
 #DESCRIPTION
 Param/SWPC/PARAM.in_SWPC_v2_init: Example file to start a run for the SWPC Version 2 code selection		StringDescription
@@ -30,7 +30,7 @@ F			IsTimeAccurate
 IM			NameComp
 F			UseComp
 
-#COMPONENT
+COMPONENT
 RB			NameComp
 F			UseComp
 
@@ -301,9 +301,9 @@ CPUTIMEMAX
 IM			NameComp
 T			UseComp
 
-#COMPONENT
+COMPONENT
 RB			NameComp
-T			UseComp
+F			UseComp
 
 ! Allow GM/IM and IE run in parallel. #COMPONENTMAP has to be properly set!
 #COUPLEORDER
@@ -334,13 +334,13 @@ IM			NameTarget
 -1			DnCouple
 10.0			DtCouple
 
-#COUPLE1
+COUPLE1
 GM			NameSource
 RB			NameTarget
 -1			DnCouple
 10.0			DtCouple
 
-#COUPLE1
+COUPLE1
 IE			NameSource
 RB			NameTarget
 -1			DnCouple
@@ -458,33 +458,6 @@ aur idl			StringPlot
 1 min			DtSavePlot
 
 #END_COMP IE -----------------------------------------------------------------
-
-#BEGIN_COMP RB ---------------------------------------------------------------
-
-#SPECIES
-e			NameSpecies
-
-#SAVEPLOT
-1 min			DtSavePlot
-T			UseSeparatePlotFiles
-
-#TIMESTEP
-5.0			Dt
-
-#STARTUPTIME
-0.0			tStartup
-
-#BMODEL
-MHD			NameModel
-F			UseFixedB
-
-#IEMODEL
-1			iConvect
-
-#PLASMASPHERE
-F			UsePlasmaSphere
-
-#END_COMP RB -----------------------------------------------------------------
 
 #ENDTIME
 2010			iYear
