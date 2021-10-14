@@ -4,6 +4,11 @@ events in one spot.
 
 Input Value Description
 -----------------------
+Information about **IMF.dat**
+These values were provided by James Weygand at UCLA for the CUSIA project.
+They fill many of the gaps that exist in the CDAWeb-obtained values.
+
+Information about **IMF_gaps.dat**
 IMF values were obtained via ACE MFI from CDAWeb.
 Solar wind plasma parameters were obtained from ACE SWEPAM via CDAWeb.
 Values were propagated via Aaron Ridley's IDL cdf_to_mhd routine.

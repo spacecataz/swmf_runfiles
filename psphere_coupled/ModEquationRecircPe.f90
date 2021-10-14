@@ -91,21 +91,21 @@ module ModVarIndexes
 
   ! The names of the variables used in i/o
   character(len=7) :: NameVar_V(nVar+nFluid) = [ &
-       'Rho    ', & ! Rho_
-       'Mx     ', & ! RhoUx_
-       'My     ', & ! RhoUy_
-       'Mz     ', & ! RhoUz_
+       'HpRho  ', & ! Rho_
+       'HpMx   ', & ! RhoUx_
+       'HpMy   ', & ! RhoUy_
+       'HpMz   ', & ! RhoUz_
        'Bx     ', & ! Bx_
        'By     ', & ! By_
        'Bz     ', & ! Bz_
        'Pe     ', & ! Pe_
-       'p      ', & ! p_
+       'HpP    ', & ! p_
        'HpPsRho', & ! HpPsRho_
        'HpPsMx ', & ! HpPsRhoUx_
        'HpPsMy ', & ! HpPsRhoUy_
        'HpPsMz ', & ! HpPsRhoUz_
        'HpPsP  ', & ! HpPsP_
-       'E      ', & ! Energy_
+       'HpE    ', & ! Energy_
        'HpPsE  ' ]    ! HpPsEnergy_
 
   ! There are no extra scalars
