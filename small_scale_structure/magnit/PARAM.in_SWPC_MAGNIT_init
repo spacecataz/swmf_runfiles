@@ -284,7 +284,7 @@ T			IsTimeAccurate
 #SAVERESTART
 T			DoSaveRestart
 -1			DnSaveRestart
-1 min			DtSaveRestart
+60 min			DtSaveRestart
 
 #RESTARTOUTDIR
 SWMF_RESTART.YYYYMMDD_HHMMSS		NameRestartOutDir
