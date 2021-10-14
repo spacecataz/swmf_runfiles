@@ -10,9 +10,9 @@ Param/SWPC/PARAM.in_order5_init: Example file to start a run for the SWPC code s
 F			IsTimeAccurate
 
 #STARTTIME            
-2014			year
+2010			year
 04              	month
-10              	day
+05              	day
 00			hour
 00             		minute
 00              	second
@@ -31,6 +31,11 @@ GM			NameComp1
 IE			NameComp2
 10			DnCouple
 -1.0			DtCouple
+
+#CHECKTIMESTEP 
+F			DoCheckTimeStep
+10  			DnCheckTimeStep (2 or more) 
+-1.0 			TimeStepMin [s]
 
 #BEGIN_COMP GM ---------------------------------------------------------------
 
@@ -202,7 +207,7 @@ min idl			StringPlot
 #END_COMP IE -----------------------------------------------------------------
 
 #STOP
-700			MaxIter
+2000			MaxIter
 -1.			TimeMax
 
 #RUN	######################################################################
@@ -225,7 +230,7 @@ mc3			TypeLimiter
 #END_COMP GM -----------------------------------------------------------------
 
 #STOP
-1500			MaxIter
+5000			MaxIter
 -1.			TimeMax
 
 #RUN	######################################################################
@@ -240,7 +245,7 @@ T			IsTimeAccurate
 #SAVERESTART
 T			DoSaveRestart
 -1			DnSaveRestart
-1 min			DtSaveRestart
+60 min			DtSaveRestart
 
 #RESTARTOUTDIR
 SWMF_RESTART.YYYYMMDD_HHMMSS            NameRestartOutDir
@@ -394,11 +399,11 @@ STOP
 86400.0			TimeMax
 
 #ENDTIME            
-2014			year
+2010			year
 04              	month
-10              	day
+06              	day
 00			hour
-02             		minute
+00             		minute
 00              	second
 0.0			FracSecond
 
