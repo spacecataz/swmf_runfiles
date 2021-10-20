@@ -10,6 +10,12 @@ Time accurate portion of simulation.
 #TIMEACCURATE
 T			DoTimeAccurate
 
+#NSTEP
+    5000                     nStep
+
+#TIMESIMULATION
+ 0.00000000E+00              tSimulation
+
 #SAVERESTART
 T                       DoSaveRestart
 -1                      DnSaveRestart
@@ -126,7 +132,7 @@ VAR step date		StringLogfile
 dt rho mx my mz p bx by bz pmin pmax dst cpcpn
 3.0 3.5 5.0		  StringRFlux
 
-#SAVEPLOT
+SAVEPLOT
 1               nPlotFiles
 idl y=0 VAR     StringPlot
 -1              DnSavePlot
@@ -136,7 +142,7 @@ x z rho ux uy uz bx by bz pe p hppsrho hppsmx hppsmz hppsp jx jy jz
 xSI tSI g rbody
 
 
-SAVEPLOT
+#SAVEPLOT
 10                      nPlotFiles
 y=0 MHD idl             StringPlot
 -1                      DnSavePlot
