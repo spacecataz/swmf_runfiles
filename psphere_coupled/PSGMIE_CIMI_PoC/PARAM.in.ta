@@ -58,10 +58,10 @@ F			DoCoupleOnTime
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #INCLUDE
-RESTART_n000500/GM/restart.H
+RESTART_n005000/GM/restart.H
 
 #VERBOSE
-10
+1
 
 #MULTIION
 1e-10                   LowDensityRatio
@@ -133,39 +133,95 @@ dt rho mx my mz p bx by bz pmin pmax dst cpcpn
 3.0 3.5 5.0		  StringRFlux
 
 #SAVEPLOT
-6             nPlotFiles
+10             nPlotFiles
 idl y=0 VAR     StringPlot
 -1              DnSavePlot
-1.5              DtSavePlot
+60.              DtSavePlot
 -1              DxSavePlot
 x z rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmz hppsp jx jy jz
 g rbody
 idl z=0 VAR     StringPlot
 -1              DnSavePlot
-1.5              DtSavePlot
+60.             DtSavePlot
 -1              DxSavePlot
 x z rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmz hppsp jx jy jz
 g rbody
 y=0 ray idl             StringPlot
 -1                      DnSavePlot
-1.5                     DtSavePlot
+60.                     DtSavePlot
 -1.0                    DxSavePlot
 z=0 ray idl             StringPlot
 -1                      DnSavePlot
-1.5                     DtSavePlot
+60.                     DtSavePlot
 -1.0                    DxSavePlot
 3d VAR idl		          StringPlot
 -1                      DnSavePlot
-1.5			              DtSavePlot
+900.			              DtSavePlot
 -1
 x y z rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmy hppsmz hppsp jx jy jz
 g rbody
 shl VAR idl		          StringPlot
 -1  			              DnSavePlot
-1.5               			DtSavePlot
+300.               			DtSavePlot
 SMG               			TypeCoordPlot
 6.0 	               		rMin
 6.0               			rMax
+0. 			                LonMin
+360. 		               	LonMax
+2. 	                		dLon ! only read if LonMin /= LonMax
+-90. 	              		LatMin
+90. 	               		LatMax
+2.                 			dLat ! only read if LatMin /= LatMax
+r rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmy hppsmz hppsp jx jy jz
+g rbody
+shl VAR idl		          StringPlot
+-1  			              DnSavePlot
+300.               			DtSavePlot
+SMG               			TypeCoordPlot
+6.6 	               		rMin
+6.6               			rMax
+0. 			                LonMin
+360. 		               	LonMax
+2. 	                		dLon ! only read if LonMin /= LonMax
+-90. 	              		LatMin
+90. 	               		LatMax
+2.                 			dLat ! only read if LatMin /= LatMax
+r rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmy hppsmz hppsp jx jy jz
+g rbody
+shl VAR idl		          StringPlot
+-1  			              DnSavePlot
+300.               			DtSavePlot
+SMG               			TypeCoordPlot
+7.0 	               		rMin
+7.0               			rMax
+0. 			                LonMin
+360. 		               	LonMax
+2. 	                		dLon ! only read if LonMin /= LonMax
+-90. 	              		LatMin
+90. 	               		LatMax
+2.                 			dLat ! only read if LatMin /= LatMax
+r rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmy hppsmz hppsp jx jy jz
+g rbody
+shl VAR idl		          StringPlot
+-1  			              DnSavePlot
+300.              			DtSavePlot
+SMG               			TypeCoordPlot
+8.0 	               		rMin
+8.0               			rMax
+0. 			                LonMin
+360. 		               	LonMax
+2. 	                		dLon ! only read if LonMin /= LonMax
+-90. 	              		LatMin
+90. 	               		LatMax
+2.                 			dLat ! only read if LatMin /= LatMax
+r rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmy hppsmz hppsp jx jy jz
+g rbody
+shl VAR idl		          StringPlot
+-1  			              DnSavePlot
+300.              			DtSavePlot
+SMG               			TypeCoordPlot
+10.0 	               		rMin
+10.0               			rMax
 0. 			                LonMin
 360. 		               	LonMax
 2. 	                		dLon ! only read if LonMin /= LonMax

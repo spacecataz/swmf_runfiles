@@ -226,6 +226,14 @@ rather then the new #DOAMR and #AMRLIMIT (also obsolete but more control then
 
 This resolved the problem on my home machine!
 
+Issue with user_set_plot_var resolved by explicitly listing variable, rather then
+relying on script to parse variables (script failing to properly strip Hpps from
+variables, removing only the Hp part.)
+
+
+
+
+
 In subroutine cimi_set_boundary_mhd of ModCimiBoundary.f90 (line 150 atm)
 get following runtime error:
 Resetting timing counters after setup.
@@ -235,10 +243,65 @@ IE:iono_solver: Southern Cross Polar Cap Potential=   3.02154     kV
 At line 150 of file ModCimiBoundary.f90
 Fortran runtime error: Index '0' of dimension 3 of array 'statebmin_iiv' below lower bound of 1
 
-array isn't being created properly. 
+The runtime error is in the subroutine cimi_set_boundary_mhd in ModCimiBoundary.f90, in the Multi Fluid part of the subroutine. The array is created to be alocatable in ModGmCIMI.f90, and is called into ModCimiBoundary.f90. The first time the array is referenced in the code (which is the instance causing the crash) is,
+
+      Den_IC(iSpecies,iLat,iLon) = &
+                   StateBmin_IIV(jLat,iLon,iBufferRho_I(iSpecies))&
+                   / (cProtonMass*amu_I(iSpecies))
+
+iBufferRho_I is also an array created in ModGmCIMI.f90, defined as
+
+      integer, dimension(nspec-1) :: iBufferRho_I
+
+The array is being called as part of a calculation to fill in the Density array, which is part of setting boundary index to be consistant with boundaryIM, according to in Module comments.
+By placing write statements in the routine I saw that the initial state of the iBufferRho_I was [0,9]. This was constant in between runs of SWMF.exe. values such as iSpecies, nspec, iLat, and iLon, all had reasonable values. As such I put in a check for the first index, to set it to 1 if it is below 1. The section of code now reads,
+
+    if (iBufferRho_I(iSpecies) < 1) then
+        iBufferRho_I(iSpecies) = 1
+    endif
+   Den_IC(iSpecies,iLat,iLon) = &
+           StateBmin_IIV(jLat,iLon,iBufferRho_I(iSpecies))&
+           / (cProtonMass*amu_I(iSpecies))
+
+After implementing that change, a similar problem occurred while doing the equivalent operation for the array Temp_IC,  with iBufferP_I having the problematic zero in its first index. So I implemented a similar check there as well.
+
+    if (iBufferP_I(iSpecies) < 1) then
+        iBufferP_I(iSpecies) = 1
+    endif
+    Temp_IC(iSpecies,iLat,iLon) = &
+             StateBmin_IIV(jLat,iLon,iBufferP_I(iSpecies))  &
+             /(Den_IC(iSpecies,iLat,iLon)) &
+             * cJouleToEv
+
+
+
+
+In cimi.f90_initial_f2, In calculation
+             f21=Den_IC(n,i,j)/(2.*pi*xmass*Temppar_IC(n,i,j)*1.6e-19)**0.5 &
+                  /(2.*pi*xmass*Tempperp_IC(n,i,j)*1.6e-19)
+Program received signal SIGFPE: Floating-point exception - erroneous arithmetic operation.
+
+problem caused by negative value in Temppar_IC, causing failure of square root operation.
+(Specifically Temppar_IC(3, 66, 12))
+        Aside: Den_IC(n,i,j), Temppar_IC(n,i,j), Tempperp_IC(n,i,j) are all negative for
+        this combination of n,i,j, despite having not been for over 10k other entries,
+        clearly the problem is with more then just Temppar_IC
+
+Temppar_IC depends on Den_IC in ModCimiBoundary through
+
+        if(UseMultiPparGm) then
+           Temppar_IC(iSpecies,iLat,iLon) = &
+                StateBmin_IIV(jLat,iLon,iBufferPpar_I(iSpecies)) &
+                / (Den_IC(iSpecies,iLat,iLon)) &
+                * cJouleToEv
+
+It is clear that the error in Den_IC is causing the problem in Temppar_IC
+
+
+
+
+
+
 
 ModSetPlotVar_set_plotvar
 ModMultiFluid_extract_fluid_name
-
-
-MOdMultiFluid_extract_fluid_name
