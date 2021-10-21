@@ -37,19 +37,19 @@ IM GM			NameSourceTarget
 GM			NameComp1
 IE			NameComp2
 -1			DnCouple
-5.0			DtCouple
+1.0			DtCouple
 
 #COUPLE2
 IM			NameComp1
 GM			NameComp2
 -1			DnCouple
-10.0		DtCouple
+1.0		DtCouple
 
 #COUPLE1
 IE			NameComp1
 IM			NameComp2
 -1			DnCouple
-10.0		DtCouple
+1.0		DtCouple
 
 #COUPLETIME
 GM			NameComp
@@ -58,10 +58,10 @@ F			DoCoupleOnTime
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #INCLUDE
-RESTART_n005000/GM/restart.H
+RESTART_n000500/GM/restart.H
 
 #VERBOSE
-1
+10
 
 #MULTIION
 1e-10                   LowDensityRatio
@@ -132,17 +132,51 @@ VAR step date		StringLogfile
 dt rho mx my mz p bx by bz pmin pmax dst cpcpn
 3.0 3.5 5.0		  StringRFlux
 
-SAVEPLOT
-1               nPlotFiles
+#SAVEPLOT
+6             nPlotFiles
 idl y=0 VAR     StringPlot
 -1              DnSavePlot
-60              DtSavePlot
+1.5              DtSavePlot
 -1              DxSavePlot
-x z rho ux uy uz bx by bz pe p hppsrho hppsmx hppsmz hppsp jx jy jz
-xSI tSI g rbody
+x z rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmz hppsp jx jy jz
+g rbody
+idl z=0 VAR     StringPlot
+-1              DnSavePlot
+1.5              DtSavePlot
+-1              DxSavePlot
+x z rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmz hppsp jx jy jz
+g rbody
+y=0 ray idl             StringPlot
+-1                      DnSavePlot
+1.5                     DtSavePlot
+-1.0                    DxSavePlot
+z=0 ray idl             StringPlot
+-1                      DnSavePlot
+1.5                     DtSavePlot
+-1.0                    DxSavePlot
+3d VAR idl		          StringPlot
+-1                      DnSavePlot
+1.5			              DtSavePlot
+-1
+x y z rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmy hppsmz hppsp jx jy jz
+g rbody
+shl VAR idl		          StringPlot
+-1  			              DnSavePlot
+1.5               			DtSavePlot
+SMG               			TypeCoordPlot
+6.0 	               		rMin
+6.0               			rMax
+0. 			                LonMin
+360. 		               	LonMax
+2. 	                		dLon ! only read if LonMin /= LonMax
+-90. 	              		LatMin
+90. 	               		LatMax
+2.                 			dLat ! only read if LatMin /= LatMax
+r rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmy hppsmz hppsp jx jy jz
+g rbody
 
 
-#SAVEPLOT
+SAVEPLOT
 10                      nPlotFiles
 y=0 MHD idl             StringPlot
 -1                      DnSavePlot
@@ -340,6 +374,10 @@ T
 #END_COMP IE -----------------------------------------------------------------
 
 #STOP
+-1			MaxIter
+1.5			TimeMax
+
+STOP
 -1			MaxIter
 57600.0			TimeMax
 
