@@ -11,10 +11,10 @@ Time accurate portion of simulation.
 T			DoTimeAccurate
 
 #NSTEP
-    5000                     nStep
+5000                     nStep
 
 #TIMESIMULATION
- 0.00000000E+00              tSimulation
+0.00000000E+00              tSimulation
 
 #SAVERESTART
 T                       DoSaveRestart
@@ -37,19 +37,19 @@ IM GM			NameSourceTarget
 GM			NameComp1
 IE			NameComp2
 -1			DnCouple
-1.0			DtCouple
+5.0			DtCouple
 
 #COUPLE2
 IM			NameComp1
 GM			NameComp2
 -1			DnCouple
-1.0		DtCouple
+10.0		DtCouple
 
 #COUPLE1
 IE			NameComp1
 IM			NameComp2
 -1			DnCouple
-1.0		DtCouple
+10.0		DtCouple
 
 #COUPLETIME
 GM			NameComp
@@ -89,7 +89,7 @@ T                       UseNonConservative
 #CONSERVATIVECRITERIA
 1			      nConservCrit
 parabola		TypeConservCrit_I
- 5.0			  xParabolaConserv
+5.0			  xParabolaConserv
 15.0			  yParabolaConserv
 
 ! Setting 1
@@ -231,90 +231,6 @@ SMG               			TypeCoordPlot
 r rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmy hppsmz hppsp jx jy jz
 g rbody
 
-
-SAVEPLOT
-10                      nPlotFiles
-y=0 MHD idl             StringPlot
--1                      DnSavePlot
-60.			                DtSavePlot
--1
-z=0 MHD idl             StringPlot
--1                      DnSavePlot
-60.               			DtSavePlot
--1
-3d MHD idl		          StringPlot
--1                      DnSavePlot
-900.			              DtSavePlot
--1
-y=0 ray idl             StringPlot
--1                      DnSavePlot
-60.                     DtSavePlot
--1.0                    DxSavePlot
-z=0 ray idl             StringPlot
--1                      DnSavePlot
-60.                     DtSavePlot
--1.0                    DxSavePlot
-shl MHD idl 		        StringPlot
--1  			              DnSavePlot
-300.               			DtSavePlot
-SMG               			TypeCoordPlot
-6.0 	               		rMin
-6.0               			rMax
-0. 			                LonMin
-360. 		               	LonMax
-2. 	                		dLon ! only read if LonMin /= LonMax
--90. 	              		LatMin
-90. 	               		LatMax
-2.                 			dLat ! only read if LatMin /= LatMax
-shl MHD idl          		StringPlot
--1  	               		DnSavePlot
-300. 	               		DtSavePlot
-SMG               			TypeCoordPlot
-6.6               			rMin
-6.6               			rMax
-0. 	              	   	LonMin
-360.               			LonMax
-2. 	              	   	dLon ! only read if LonMin /= LonMax
--90.               			LatMin
-90.               			LatMax
-2. 	              		  dLat ! only read if LatMin /= LatMax
-shl MHD idl 		        StringPlot
--1                			DnSavePlot
-300.               			DtSavePlot
-SMG               			TypeCoordPlot
-7.0               			rMin
-7.0               			rMax
-0. 	              		  LonMin
-360.               			LonMax
-2. 	              		  dLon ! only read if LonMin /= LonMax
--90.               			LatMin
-90.               			LatMax
-2. 	              		  dLat ! only read if LatMin /= LatMax
-shl MHD idl             StringPlot
--1                			DnSavePlot
-300.               			DtSavePlot
-SMG               			TypeCoordPlot
-8.0               			rMin
-8.0               			rMax
-0. 	              		  LonMin
-360.               			LonMax
-2. 	              		  dLon ! only read if LonMin /= LonMax
--90.               			LatMin
-90.               			LatMax
-2. 	              		  dLat ! only read if LatMin /= LatMax
-shl MHD idl             StringPlot
--1                			DnSavePlot
-300.               			DtSavePlot
-SMG               			TypeCoordPlot
-10.0               			rMin
-10.0              			rMax
-0. 	              		  LonMin
-360.               			LonMax
-2. 	              		  dLon ! only read if LonMin /= LonMax
--90.               			LatMin
-90.               			LatMax
-2. 	              		  dLat ! only read if LatMin /= LatMax
-
 #SCHEME
 2			nORDER
 Rusanov			TypeFlux
@@ -431,12 +347,6 @@ T
 
 #STOP
 -1			MaxIter
-1.5			TimeMax
-
-STOP
--1			MaxIter
 57600.0			TimeMax
 
 #END
-2 Fluids Hp (no prefix) HpPs electrons
-1 1 .001 1 1 1

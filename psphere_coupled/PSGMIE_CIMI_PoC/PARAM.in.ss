@@ -37,7 +37,7 @@ T
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #INCLUDE
-PARAM.gm.1st.lowres
+PARAM.gm.1st.hires
 
 #UPSTREAM_INPUT_FILE
 T                       UseUpstreamInputFile
