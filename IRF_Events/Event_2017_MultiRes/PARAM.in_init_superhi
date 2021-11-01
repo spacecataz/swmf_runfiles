@@ -114,6 +114,15 @@ box			NameArea
  24.0			yMaxBox
  24.0			zMaxBox
 
+#NONCONSERVATIVE
+T                       UseNonConservative
+
+#CONSERVATIVECRITERIA
+1			nConservCrit
+parabola		TypeConservCrit_I
+ 5.0			xParabolaConserv
+15.0			yParabolaConserv
+
 #BODY
 T                       UseBody
 2.5                     rBody     (in planet radius)
@@ -303,15 +312,6 @@ GM			NameComp
 F			DoCoupleOnTime
 
 #BEGIN_COMP GM ---------------------------------------------------------------
-
-#NONCONSERVATIVE
-T                       UseNonConservative
-
-#CONSERVATIVECRITERIA
-1			nConservCrit
-parabola		TypeConservCrit_I
- 5.0			xParabolaConserv
-15.0			yParabolaConserv
 
 ! Setting 1
 #IMCOUPLING
