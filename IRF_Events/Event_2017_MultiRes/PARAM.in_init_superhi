@@ -199,10 +199,10 @@ single			TypeFileOut
 real8			TypeFileMagGrid
 GEO			TypeCoordMagGrid
 360			nLonMagGrid
-86			nLatMagGrid
+171			nLatMagGrid
 0.			LonMinMagGrid
 360.			LonMaxMagGrid
-0.			LatMinMagGrid
+-85.			LatMinMagGrid
 85.			LatMaxMagGrid
 -1			DnSaveMagGrid
 10.0			DtSaveMagGrid
