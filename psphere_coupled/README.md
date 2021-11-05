@@ -45,7 +45,16 @@ cp [Path to this repository]/swmf_runfiles/psphere_coupled/ModEquationRecircPe.f
 Config.pl -o=GM:e=RecircPe,IM:EarthReHpsH,GridExpanded
 make SWMF PIDL
 ```
-## Remake SWMF Macro
+## Remake SWMF Macro - QUDA
+```
+make clean
+./Config.pl -uninstall
+./Config.pl -install
+./Config.pl -v=GM/BATSRUS,IE/Ridley_serial,IM/CIMI2
+./Config.pl -o=GM:e=RecircPe,IM:EarthReHpsH,GridExpanded
+make SWMF PIDL
+```
+## Remake SWMF Macro - Full
 ```
 make clean
 ./Config.pl -uninstall
