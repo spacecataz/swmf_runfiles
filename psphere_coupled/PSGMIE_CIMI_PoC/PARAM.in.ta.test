@@ -10,12 +10,6 @@ Time accurate portion of simulation.
 #TIMEACCURATE
 T			DoTimeAccurate
 
-#NSTEP
-5000                     nStep
-
-#TIMESIMULATION
-0.00000000E+00              tSimulation
-
 #SAVERESTART
 T                       DoSaveRestart
 -1                      DnSaveRestart
@@ -58,10 +52,8 @@ F			DoCoupleOnTime
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #INCLUDE
-RESTART_n000500/GM/restart.H
+GM/restartIN/restart.H
 
-#VERBOSE
-1
 
 #MULTIION
 1e-10                   LowDensityRatio
@@ -102,22 +94,6 @@ T			    DoCoupleImDensity
 F			    DoFixPolarRegion
 ! end of setting 1
 
-! Setting 2
-IMCOUPLING
-20.0			TauCoupleIm
-T			    DoImSatTrace
-T			    DoCoupleImPressure
-T			    DoCoupleImDensity
-0.01			DensityCoupleFloor
-T			    DoFixPolarRegion
-5.0			  rFixPolarRegion
-56.0			PolarNDim [amu/cc]
-50000.0		PolarTDim [K]
-
-IMCOUPLINGSMOOTH
-10.0			dLatSmoothIm [deg]
-! end of setting 2
-
 ! Pressures below pMinDim are replaced with pMinDim.
 #MINIMUMPRESSURE
 1e-5			HpPspMinDim [nPa]
@@ -136,23 +112,23 @@ dt rho mx my mz p bx by bz pmin pmax dst cpcpn
 10             nPlotFiles
 idl y=0 VAR     StringPlot
 -1              DnSavePlot
-60.              DtSavePlot
+10.              DtSavePlot
 -1              DxSavePlot
 x z rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmz hppsp jx jy jz
 g rbody
 idl z=0 VAR     StringPlot
 -1              DnSavePlot
-60.             DtSavePlot
+10.             DtSavePlot
 -1              DxSavePlot
 x z rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmz hppsp jx jy jz
 g rbody
 y=0 ray idl             StringPlot
 -1                      DnSavePlot
-60.                     DtSavePlot
+10.                     DtSavePlot
 -1.0                    DxSavePlot
 z=0 ray idl             StringPlot
 -1                      DnSavePlot
-60.                     DtSavePlot
+10.                     DtSavePlot
 -1.0                    DxSavePlot
 3d VAR idl		          StringPlot
 -1                      DnSavePlot
@@ -245,13 +221,6 @@ T
 2			nSTAGE
 0.85			cfl
 
-Fast, phsyics-based cutoff u_counter
-COLLISION
--1.0                    CollisionCoefDim
-6.0e1                   TauCutOffDim [s]
-30.0                    uCutOffDim [km/s] read if TauCutOffDim positive
-2                       nPowerCutOff read if TauCutOffDim positive
-
 #OUTERBOUNDARY
 outflow			TypeBC_I(east_)
 vary			TypeBC_I(west_)
@@ -263,7 +232,7 @@ float			TypeBC_I(top_)
 #INNERBOUNDARY
 polarwind
 
-#INCLUDE
+INCLUDE
 ./sat.include
 
 #UPSTREAM_INPUT_FILE
@@ -293,8 +262,8 @@ ellipse TypeBoundary
 T 			UseDecay
 10 hour			DecayTimescale
 
-#SAVEPLOT
-4			nCIMIFileType
+SAVEPLOT
+5			nCIMIFileType
 fls all			StringPlot
 300 			DtOutput
 F			DoSaveSeparateFiles
@@ -307,6 +276,12 @@ F
 vp  all
 300
 F
+
+#SAVEPLOT
+1
+2d both
+10
+T
 
 #SAVELOG
 10.0			DtLogOut
@@ -347,7 +322,7 @@ T
 
 #STOP
 -1			MaxIter
-1.0			TimeMax
+20.0			TimeMax
 
 STOP
 -1			MaxIter

@@ -37,7 +37,7 @@ T
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #INCLUDE
-PARAM.gm.1st.hires
+PARAM.gm.1st.lowres
 
 #UPSTREAM_INPUT_FILE
 T                       UseUpstreamInputFile
@@ -101,7 +101,7 @@ T
 #END_COMP GM -----------------------------------------------------------------
 
 #STOP
-500                    MaxIter
+1000                    MaxIter
 -1.			TimeMax
 
 #END
