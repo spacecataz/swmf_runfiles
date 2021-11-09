@@ -13,7 +13,7 @@ T			DoTimeAccurate
 #SAVERESTART
 T                       DoSaveRestart
 -1                      DnSaveRestart
-1800.0                  DtSaveRestart
+600.0                  DtSaveRestart
 
 #COMPONENT
 IM			NameComp
@@ -109,7 +109,7 @@ dt rho mx my mz p bx by bz pmin pmax dst cpcpn
 3.0 3.5 5.0		  StringRFlux
 
 #SAVEPLOT
-10             nPlotFiles
+5             nPlotFiles
 idl y=0 VAR     StringPlot
 -1              DnSavePlot
 10.              DtSavePlot
@@ -130,74 +130,12 @@ z=0 ray idl             StringPlot
 -1                      DnSavePlot
 10.                     DtSavePlot
 -1.0                    DxSavePlot
-3d VAR idl		          StringPlot
--1                      DnSavePlot
-900.			              DtSavePlot
--1
-x y z rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmy hppsmz hppsp jx jy jz
-g rbody
 shl VAR idl		          StringPlot
 -1  			              DnSavePlot
 300.               			DtSavePlot
 SMG               			TypeCoordPlot
 6.0 	               		rMin
 6.0               			rMax
-0. 			                LonMin
-360. 		               	LonMax
-2. 	                		dLon ! only read if LonMin /= LonMax
--90. 	              		LatMin
-90. 	               		LatMax
-2.                 			dLat ! only read if LatMin /= LatMax
-r rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmy hppsmz hppsp jx jy jz
-g rbody
-shl VAR idl		          StringPlot
--1  			              DnSavePlot
-300.               			DtSavePlot
-SMG               			TypeCoordPlot
-6.6 	               		rMin
-6.6               			rMax
-0. 			                LonMin
-360. 		               	LonMax
-2. 	                		dLon ! only read if LonMin /= LonMax
--90. 	              		LatMin
-90. 	               		LatMax
-2.                 			dLat ! only read if LatMin /= LatMax
-r rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmy hppsmz hppsp jx jy jz
-g rbody
-shl VAR idl		          StringPlot
--1  			              DnSavePlot
-300.               			DtSavePlot
-SMG               			TypeCoordPlot
-7.0 	               		rMin
-7.0               			rMax
-0. 			                LonMin
-360. 		               	LonMax
-2. 	                		dLon ! only read if LonMin /= LonMax
--90. 	              		LatMin
-90. 	               		LatMax
-2.                 			dLat ! only read if LatMin /= LatMax
-r rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmy hppsmz hppsp jx jy jz
-g rbody
-shl VAR idl		          StringPlot
--1  			              DnSavePlot
-300.              			DtSavePlot
-SMG               			TypeCoordPlot
-8.0 	               		rMin
-8.0               			rMax
-0. 			                LonMin
-360. 		               	LonMax
-2. 	                		dLon ! only read if LonMin /= LonMax
--90. 	              		LatMin
-90. 	               		LatMax
-2.                 			dLat ! only read if LatMin /= LatMax
-r rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmy hppsmz hppsp jx jy jz
-g rbody
-shl VAR idl		          StringPlot
--1  			              DnSavePlot
-300.              			DtSavePlot
-SMG               			TypeCoordPlot
-10.0 	               		rMin
-10.0               			rMax
 0. 			                LonMin
 360. 		               	LonMax
 2. 	                		dLon ! only read if LonMin /= LonMax
@@ -237,7 +175,7 @@ INCLUDE
 
 #UPSTREAM_INPUT_FILE
 T                       UseUpstreamInputFile
-./imf_mf_bzturn_by.dat       UpstreamFileName
+imf_mf_bzturn_by_test.dat       UpstreamFileName
 0.0                     Satellite_Y_Pos
 0.0                     Satellite_Z_Pos
 
@@ -280,8 +218,8 @@ F
 #SAVEPLOT
 1
 2d both
-10
-T
+60
+F
 
 #SAVELOG
 10.0			DtLogOut
@@ -322,10 +260,10 @@ T
 
 #STOP
 -1			MaxIter
-20.0			TimeMax
+8100.0			TimeMax
 
 STOP
 -1			MaxIter
-57600.0			TimeMax
+960.0			TimeMax
 
 #END
