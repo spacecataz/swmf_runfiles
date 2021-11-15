@@ -64,6 +64,9 @@ F			UseSubOvalConductance
 T			UseAdvancedOval
 F			DoFitCircle (read if UseAdvancedOval is true)
 
+SAVELOGFILE
+T         DoSaveIELogFile
+
 #SPS
 T
 

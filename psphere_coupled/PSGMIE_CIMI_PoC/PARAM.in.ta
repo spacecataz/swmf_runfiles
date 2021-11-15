@@ -363,6 +363,9 @@ aur idl                 StringPlot
 -1                      DnSavePlot
 300.0			DtSavePlotj
 
+#SAVELOGFILE
+T         DoSaveIELogFile
+
 #SPS
 T
 

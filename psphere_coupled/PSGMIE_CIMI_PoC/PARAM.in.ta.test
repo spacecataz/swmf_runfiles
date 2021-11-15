@@ -96,8 +96,8 @@ F			    DoFixPolarRegion
 
 ! Pressures below pMinDim are replaced with pMinDim.
 #MINIMUMPRESSURE
-1e-5			HpPspMinDim [nPa]
-1e-5			HppMinDim   [nPa]
+1e-5			HppMinDim [nPa]
+1e-5			HpPspMinDim   [nPa]
 .002			PeMinDim
 
 #SAVELOGFILE
@@ -269,6 +269,9 @@ F			DoFitCircle (read if UseAdvancedOval is true)
 aur idl                 StringPlot
 -1                      DnSavePlot
 300.0			DtSavePlotj
+
+#SAVELOGFILE
+T         DoSaveIELogFile
 
 #SPS
 T

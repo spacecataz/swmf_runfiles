@@ -9,7 +9,7 @@ IM   0 11  1             IM runs on first 12 PE-s
 #DESCRIPTION
 High resolution idealized IMF BY simulation configuration.
 
-#TIMEACCURATE
+#TIMEACCURATEa
 F			DoTimeAccurate
 
 #STARTTIME
@@ -101,11 +101,20 @@ box			StringShape
 22.0			yMaxBox
 10.0			zMaxBox
 
- #GRIDRESOLUTION
- 1/8			Resolution
- shell0			StringShape
- 2.5			RadiusInner
- 3.5			Radius
+#GRIDRESOLUTION
+1/8			Resolution
+shell0			StringShape
+2.5			RadiusInner
+3.5			Radius
+
+#NONCONSERVATIVE
+T                       UseNonConservative
+
+#CONSERVATIVECRITERIA
+1			nConservCrit
+parabola		TypeConservCrit_I
+5.0			xParabolaConserv
+15.0			yParabolaConserv
 
 #BODY
 T                       UseBody
@@ -167,7 +176,7 @@ dt rho mx my mz p bx by bz pmin pmax dst dst_sm cpcpn
 T			DoAmr
 100			DnAmr
 -1.0			DtAmr
-T			IsStrictAmr
+F			IsStrictAmr
 
 #MAGPERTURBINTEGRAL
 T                       UseSurfaceIntegral
@@ -304,6 +313,10 @@ T			UseCMEEFitting (rest of parameters read if true)
 #END_COMP IE -----------------------------------------------------------------
 
 #STOP
+500
+-1
+
+STOP
 1000                    MaxIter
 -1.			TimeMax
 
@@ -327,6 +340,10 @@ mc3                     TypeLimiter
 #END_COMP GM -----------------------------------------------------------------
 
 #STOP
+500
+-1
+
+STOP
 2000                    MaxIter
 -1.			TimeMax
 
@@ -389,16 +406,7 @@ F			DoCoupleOnTime
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #VERBOSE
-10
-
-#NONCONSERVATIVE
-T                       UseNonConservative
-
-#CONSERVATIVECRITERIA
-1			nConservCrit
-parabola		TypeConservCrit_I
- 5.0			xParabolaConserv
-15.0			yParabolaConserv
+1
 
 #IMCOUPLING
 20.0                    TauCoupleIm
@@ -423,7 +431,7 @@ z=0 MHD idl
 60.
 -1.0
 3d MHD idl
--1 
+-1
 1800.
 -1
 
