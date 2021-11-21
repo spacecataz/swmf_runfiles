@@ -2,8 +2,8 @@ This is the layout for running GM and IE in serial mode.
 
 Name First Last Stride
 ======================
-#COMPONENTMAP
-IE       0    1    1   ! IE runs on 1 or 2 PE-s
-IM       0    0    1   ! PS runs on 1 PE-s
-GM       0 9999    1   ! GM runs on all PE-s
+#COMPONENTMAP			For 128+ cores like production run
+GM   0 -1 -1  -1         GM runs on all nProc, multithreaded
+IE   0  1  1             IE runs on first 2 PE-s
+IM   0 11  1             IM runs on first 12 PE-s
 #END
