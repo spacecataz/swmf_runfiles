@@ -9,6 +9,17 @@
 -128.			z1
  128.			z2
 
+#GRID
+1			nRootBlock1
+1			nRootBlock2
+1			nRootBlock3
+-224.			xMin
+32.			xMax
+-128.			yMin
+128.			yMax
+-128.			zMin
+128.			zMax
+
 ! Maximum resolution initially
 #GRIDRESOLUTION
 1.0			Resolution
@@ -82,7 +93,7 @@ T                       UseNonConservative
 #CONSERVATIVECRITERIA
 1			nConservCrit
 parabola		TypeConservCrit_I
- 5.0			xParabolaConserv
+5.0			xParabolaConserv
 15.0			yParabolaConserv
 
 #TVDRESCHANGE
@@ -101,17 +112,35 @@ float			TypeBC_I(bot_)
 float			TypeBC_I(top_)
 
 #INNERBOUNDARY
+ionosphere
+
+! Set the inner boundary density as Rho0Cpcp + RhoPerCpcp*CPCP[keV]
+#CPCPBOUNDARY
+T                       UseCpcpBc  (rest is read if true)
+28.0                    Rho0Cpcp   [amu/cc]
+0.1                     RhoPerCpcp [amu/cc / keV]
+
+#INNERBOUNDARY
 polarwind
+
+#POLARBOUNDARY
+28.0            PolarNDim [amu/cc] for fluid 1
+25000.0         PolarTDim [K]      for fluid 1
+0.0             PolarUDim [km/s]   for fluid 1
+0.01            PolarNDim [amu/cc] for fluid 2
+25000.0         PolarTDim [K]      for fluid 2
+0.0             PolarUDim [km/s]   for fluid 2
+15.            PolarLatitude [deg]
 
 #SCHEME
 1			nOrder
-Rusanov			TypeFlux
+Sokolov			TypeFlux
 
 #SAVEPLOTSAMR
 F			DoSavePlotsAmr to save plots before each AMR
 
 #DOAMR
-F      DoAmr (The rest is read only if true)
+T      DoAmr (The rest is read only if true)
 100    DnAMR
 -1     DtAmr
 F      IsStrictAmr
@@ -149,12 +178,3 @@ T                       body1
 25000.0                 Magneto_T_dim (K) temperature for fixed BC for P_BLK
 10.0                    Magneto_rho_dim (/ccm) density for fixed BC for rho_BLK
 25000.0                 Magneto_T_dim (K) temperature for fixed BC for P_BLK
-
-#POLARBOUNDARY
-28.0            PolarNDim [amu/cc] for fluid 1
-25000.0         PolarTDim [K]      for fluid 1
-0.0             PolarUDim [km/s]   for fluid 1
-0.01            PolarNDim [amu/cc] for fluid 2
-25000.0         PolarTDim [K]      for fluid 2
-0.0             PolarUDim [km/s]   for fluid 2
-15.            PolarLatitude [deg]

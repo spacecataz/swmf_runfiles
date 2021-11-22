@@ -285,31 +285,58 @@ T                       UseUpstreamInputFile
 
 #BEGIN_COMP IM ---------------------------------------------------------------
 
-#TYPEBOUNDARY
-ellipse TypeBoundary
+#INITIALF2
+F       IsEmptyInitial
+T       IsGMInitial
+F       IsDataInitial
+F       IsRBSPData
 
-!Decay for RCM particle densitys
 #DECAY
 T 			UseDecay
 10 hour			DecayTimescale
 
+!Decay for RCM particle densitys
+#STRONGDIFFUSION
+F       UseStrongDiff
+
+#BMODEL
+MHD     NameModel
+
+#IEMODEL
+F       UseWeimer (macthing whats in cusia_simulations, can't find doc on this command shuld it refrence Ridley_Serial?)
+
+#TYPEBOUNDARY
+ellipse TypeBoundary
+
+#PLASMASHEET
+F			UseYoungEtAl
+
+#PRERUNFIELD
+T			DoWritePrerunField
+
 #SAVEPLOT
-4			nCIMIFileType
+5			nCIMIFileType
 fls all			StringPlot
-300 			DtOutput
-F			DoSaveSeparateFiles
-psd all
-300
-T
-vl  all
-300
-F
-vp  all
-300
-F
+300 			  DtOutput
+F			      DoSaveSeparateFiles
+psd all			StringPlot
+300 			  DtOutput
+TF			    DoSaveSeparateFiles
+vl  all			StringPlot
+300 			  DtOutput
+F			      DoSaveSeparateFiles
+vp  all			StringPlot
+300 			  DtOutput
+F			      DoSaveSeparateFiles
+2d both	    StringPlot
+60.	    		DtOutput
 
 #SAVELOG
 10.0			DtLogOut
+
+#IMTIMESTEP
+10.0			IMDeltaT [s]
+10.0			IMDeltaTMax [s]
 
 #END_COMP IM -----------------------------------------------------------------
 
@@ -335,6 +362,9 @@ F			DoFitCircle (read if UseAdvancedOval is true)
 aur idl                 StringPlot
 -1                      DnSavePlot
 300.0			DtSavePlotj
+
+#SAVELOGFILE
+T         DoSaveIELogFile
 
 #SPS
 T
