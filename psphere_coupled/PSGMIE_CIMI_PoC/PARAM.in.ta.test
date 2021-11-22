@@ -20,12 +20,13 @@ IM			NameComp
 T			  UseComp
 
 #COUPLEORDER
-5			    nCouple
+4			    nCouple
 IE GM			NameSourceTarget
 IE IM			NameSourceTarget
 GM IE			NameSourceTarget
 GM IM			NameSourceTarget
-IM GM			NameSourceTarget
+
+IM GM		  NameSourceTarget
 
 #COUPLE2
 GM			NameComp1
@@ -33,9 +34,9 @@ IE			NameComp2
 -1			DnCouple
 5.0			DtCouple
 
-#COUPLE2
-IM			NameComp1
-GM			NameComp2
+#COUPLE1
+GM			NameComp1
+IM			NameComp2
 -1			DnCouple
 10.0		DtCouple
 
