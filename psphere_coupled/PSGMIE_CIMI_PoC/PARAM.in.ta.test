@@ -88,7 +88,7 @@ parabola		TypeConservCrit_I
 ! Setting 1
 #IMCOUPLING
 20.0			TauCoupleIm
-T			    DoImSatTrace
+F			    DoImSatTrace
 T			    DoCoupleImPressure
 T			    DoCoupleImDensity
 0.01		DensityCoupleFloor
@@ -113,23 +113,23 @@ dt rho mx my mz p bx by bz pmin pmax dst cpcpn
 5             nPlotFiles
 idl y=0 VAR     StringPlot
 -1              DnSavePlot
-10.              DtSavePlot
+60.              DtSavePlot
 -1              DxSavePlot
 x z rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmz hppsp jx jy jz
 g rbody
 idl z=0 VAR     StringPlot
 -1              DnSavePlot
-10.             DtSavePlot
+60.             DtSavePlot
 -1              DxSavePlot
 x z rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmz hppsp jx jy jz
 g rbody
 y=0 ray idl             StringPlot
 -1                      DnSavePlot
-10.                     DtSavePlot
+60.                     DtSavePlot
 -1.0                    DxSavePlot
 z=0 ray idl             StringPlot
 -1                      DnSavePlot
-10.                     DtSavePlot
+60.                     DtSavePlot
 -1.0                    DxSavePlot
 shl VAR idl		          StringPlot
 -1  			              DnSavePlot
@@ -156,8 +156,20 @@ mc3                     TypeLimiter
 T
 0.01
 
+#REGION
+borisregion             NameArea
+sphere tapered          NameShape
+-4.0			xPosition
+0.0			yPosition
+0.0			zPosition
+14.0			Radius
+2.0			Taper
+
+#BORISREGION
+borisregion			NameBorisRegion
+
 #TIMESTEPPING
-2			nSTAGE
+1			nSTAGE
 0.85			cfl
 
 #OUTERBOUNDARY
@@ -168,18 +180,18 @@ float			TypeBC_I(north_)
 float			TypeBC_I(bot_)
 float			TypeBC_I(top_)
 
-INNERBOUNDARY
+#INNERBOUNDARY
 ionosphere
 
-CPCPBOUNDARY
+#CPCPBOUNDARY
 T                       UseCpcpBc  (rest is read if true)
 28.0                    Rho0Cpcp   [amu/cc]
 0.1                     RhoPerCpcp [amu/cc / keV]
 
-#INNERBOUNDARY
+INNERBOUNDARY
 polarwind
 
-#POLARBOUNDARY
+POLARBOUNDARY
 28.0            PolarNDim [amu/cc] for fluid 1
 25000.0         PolarTDim [K]      for fluid 1
 0.0             PolarUDim [km/s]   for fluid 1
@@ -251,7 +263,7 @@ F			      DoSaveSeparateFiles
 60.	    		DtOutput
 
 #SAVELOG
-10.0			DtLogOut
+60.0			DtLogOut
 
 #IMTIMESTEP
 10.0			IMDeltaT [s]
