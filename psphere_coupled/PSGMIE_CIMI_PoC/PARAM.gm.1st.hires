@@ -81,10 +81,12 @@ parabola		TypeConservCrit_I
 T                       UseBody
 2.5                     rBody     (in planet radius)
 3.0                     rCurrents (in planet radius)
-28.0                    BodyNDim  (/cc)
+28.0
+25000.0
+10.0                    BodyNDim  (/cc)
 25000.0                 BodyTDim  (K)
 
-TVDRESCHANGE
+#TVDRESCHANGE
 T
 
 #TIMESTEPPING
@@ -105,7 +107,9 @@ ionosphere
 ! Set the inner boundary density as Rho0Cpcp + RhoPerCpcp*CPCP[keV]
 #CPCPBOUNDARY
 T                       UseCpcpBc  (rest is read if true)
-28.0                    Rho0Cpcp   [amu/cc]
+28.0
+0.1
+0.1                    Rho0Cpcp   [amu/cc]
 0.1                     RhoPerCpcp [amu/cc / keV]
 
 INNERBOUNDARY
@@ -122,7 +126,7 @@ POLARBOUNDARY
 
 #SCHEME
 1			nOrder
-Sokolov			TypeFlux
+Rusanov			TypeFlux
 
 #SAVEPLOTSAMR
 F			DoSavePlotsAmr to save plots before each AMR
