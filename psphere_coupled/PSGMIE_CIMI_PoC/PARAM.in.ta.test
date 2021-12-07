@@ -15,18 +15,22 @@ T                       DoSaveRestart
 -1                      DnSaveRestart
 600.0                  DtSaveRestart
 
+#CHECKTIMESTEP
+F                        DoCheckTimeStep
+-1
+-1
+
 #COMPONENT
 IM			NameComp
 T			  UseComp
 
 #COUPLEORDER
-4			    nCouple
+5			    nCouple
 IE GM			NameSourceTarget
 IE IM			NameSourceTarget
 GM IE			NameSourceTarget
 GM IM			NameSourceTarget
-
-IM GM		  NameSourceTarget
+IM GM		        NameSourceTarget
 
 #COUPLE2
 GM			NameComp1
@@ -34,7 +38,7 @@ IE			NameComp2
 -1			DnCouple
 5.0			DtCouple
 
-#COUPLE1
+#COUPLE2
 GM			NameComp1
 IM			NameComp2
 -1			DnCouple
@@ -115,13 +119,13 @@ idl y=0 VAR     StringPlot
 -1              DnSavePlot
 60.              DtSavePlot
 -1              DxSavePlot
-x z rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmz hppsp jx jy jz
+rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmz hppsp jx jy jz
 g rbody
 idl z=0 VAR     StringPlot
 -1              DnSavePlot
 60.             DtSavePlot
 -1              DxSavePlot
-x z rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmz hppsp jx jy jz
+rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmz hppsp jx jy jz
 g rbody
 y=0 ray idl             StringPlot
 -1                      DnSavePlot
@@ -143,7 +147,7 @@ SMG               			TypeCoordPlot
 -90. 	              		LatMin
 90. 	               		LatMax
 2.                 			dLat ! only read if LatMin /= LatMax
-r rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmy hppsmz hppsp jx jy jz
+rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmy hppsmz hppsp jx jy jz
 g rbody
 
 #SCHEME
@@ -187,6 +191,8 @@ ionosphere
 T                       UseCpcpBc  (rest is read if true)
 28.0                    Rho0Cpcp   [amu/cc]
 0.1                     RhoPerCpcp [amu/cc / keV]
+0.1
+0.1
 
 INNERBOUNDARY
 polarwind
@@ -263,7 +269,7 @@ F			      DoSaveSeparateFiles
 60.	    		DtOutput
 
 #SAVELOG
-60.0			DtLogOut
+10.0			DtLogOut
 
 #IMTIMESTEP
 10.0			IMDeltaT [s]

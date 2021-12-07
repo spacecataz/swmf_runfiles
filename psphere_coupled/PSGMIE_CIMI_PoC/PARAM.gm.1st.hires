@@ -74,17 +74,19 @@ T                       UseNonConservative
 #CONSERVATIVECRITERIA
 1			nConservCrit
 parabola		TypeConservCrit_I
-5.0			xParabolaConserv
+.0			xParabolaConserv
 15.0			yParabolaConserv
 
-#BODY
+BODY
 T                       UseBody
 2.5                     rBody     (in planet radius)
 3.0                     rCurrents (in planet radius)
-28.0                    BodyNDim  (/cc)
+28.0
+25000.0
+10.0                    BodyNDim  (/cc)
 25000.0                 BodyTDim  (K)
 
-TVDRESCHANGE
+#TVDRESCHANGE
 T
 
 #TIMESTEPPING
@@ -99,19 +101,21 @@ float			TypeBC_I(north_)
 float			TypeBC_I(bot_)
 float			TypeBC_I(top_)
 
-#INNERBOUNDARY
+INNERBOUNDARY
 ionosphere
 
 ! Set the inner boundary density as Rho0Cpcp + RhoPerCpcp*CPCP[keV]
-#CPCPBOUNDARY
+CPCPBOUNDARY
 T                       UseCpcpBc  (rest is read if true)
-28.0                    Rho0Cpcp   [amu/cc]
+28.0
+0.1
+0.1                    Rho0Cpcp   [amu/cc]
 0.1                     RhoPerCpcp [amu/cc / keV]
 
-INNERBOUNDARY
+#INNERBOUNDARY
 polarwind
 
-POLARBOUNDARY
+#POLARBOUNDARY
 28.0            PolarNDim [amu/cc] for fluid 1
 25000.0         PolarTDim [K]      for fluid 1
 0.0             PolarUDim [km/s]   for fluid 1
@@ -122,7 +126,7 @@ POLARBOUNDARY
 
 #SCHEME
 1			nOrder
-Sokolov			TypeFlux
+Rusanov			TypeFlux
 
 #SAVEPLOTSAMR
 F			DoSavePlotsAmr to save plots before each AMR
@@ -139,10 +143,6 @@ F      IsStrictAmr
 #GEOMAGINDICES
 180			nSizeKpWindow [min]
 60.0			DtOutput      [sec]
-
-AMR
-100			DnRefine
-F			DoAutomaticRefinement
 
 Standard MF setup.
 #MULTIION

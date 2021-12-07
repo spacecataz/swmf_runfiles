@@ -31,7 +31,7 @@ IE			NameComp2
 
 #SAVERESTART
 T
-5000
+1000
 -1
 
 #BEGIN_COMP GM ---------------------------------------------------------------
@@ -57,6 +57,10 @@ F			UseFakeRegion2
 1.0                     StarLightPedConductance
 0.25                    PolarCapPedConductance
 
+#CONDUCTANCEFILES
+cmee_hal_coeffs.dat	NameHalFile
+cmee_ped_coeffs.dat 	NamePedFile
+
 #AURORALOVAL
 T			UseOval (rest of parameters read if true)
 T			UseOvalShift
@@ -64,16 +68,22 @@ F			UseSubOvalConductance
 T			UseAdvancedOval
 F			DoFitCircle (read if UseAdvancedOval is true)
 
-SAVELOGFILE
-T         DoSaveIELogFile
+#USECMEE
+T			UseCMEEFitting (rest of parameters read if true)
+45 			LatNoConductanceSI (default)
+7.5 			FactorHallCMEE (default)
+5 			FactorPedCMEE (default)
 
-#SPS
+
+#BOUNDARY
+10.0			LatBoundary
+
+SPS
 T
 
 #DEBUG
 0
 0
-
 #END_COMP IE -----------------------------------------------------------------
 
 #STOP
@@ -94,7 +104,7 @@ mc3                     TypeLimiter
 1.2
 
 #TIMESTEPPING
-2			nStage
+1			nStage
 0.60			CflExlp
 
 #BORIS
