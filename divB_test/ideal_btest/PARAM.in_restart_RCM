@@ -2,8 +2,9 @@
 T			DoEcho
 
 #COMPONENTMAP			For 128+ cores like production run
-GM  0 -26 -1 -1			GM runs on 0 to nProc-26 PE-s
-IE  -1 -1  1			IE runs on the last PE
+GM  0 -3 -1  -1         GM runs on 0:nProc-3 multithreaded
+IE -2 -1  1             IE runs on last 2 PE-s
+IM -2 -2  1             IM runs on nProc-2 PE
 
 #INCLUDE
 RESTART.in
@@ -27,15 +28,30 @@ T                       DoSaveRestart
 SWMF_RESTART.YYYYMMDD_HHMMSS            NameRestartOutDir
 
 #COUPLEORDER
-2			nCouple
+5			nCouple
 IE GM			NameSourceTarget
+IE IM			NameSourceTarget
 GM IE			NameSourceTarget
+GM IM			NameSourceTarget
+IM GM			NameSourceTarget
 
 #COUPLE2
 GM			NameComp1
 IE			NameComp2
 -1                      DnCouple
 5.0                     DtCouple
+
+#COUPLE2
+IM			NameComp1
+GM			NameComp2
+-1                      DnCouple
+10.0                    DtCouple
+
+#COUPLE1
+IE			NameComp1
+IM			NameComp2
+-1                      DnCouple
+10.0                    DtCouple
 
 #COUPLETIME
 GM			NameComp
@@ -77,6 +93,7 @@ MAG                     TypeCoordFacGrid
 180			nSizeKpWindow [min]
 60.0			DtOutput      [sec]
 
+Global virtual magnetometer coverage
 #MAGNETOMETERGRID
 real8			TypeFileMagGrid
 GEO			TypeCoordMagGrid
@@ -97,6 +114,14 @@ T                       UseNonConservative
 parabola                TypeConservCrit_I
  5.0                    xParabolaConserv
 15.0                    yParabolaConserv
+
+#IMCOUPLING
+20.0                    TauCoupleIm
+T                       DoImSatTrace
+T                       DoCoupleImPressure
+T                       DoCoupleImDensity
+0.01			DensityCoupleFloor
+F                       DoFixPolarRegion
 
 ! Pressures below pMinDim are replaced with pMinDim.
 #MINIMUMPRESSURE
@@ -169,6 +194,24 @@ borisregion			NameBorisRegion
 
 #END_COMP GM -----------------------------------------------------------------
 
+#BEGIN_COMP IM ---------------------------------------------------------------
+
+#RESTART
+T			DoRestart
+
+! Number density fractions for H+ and O+. Has to add up to 1.0
+#COMPOSITION
+FIXED			NameCompModel
+0.8			FractionH
+0.2			FractionO
+
+! Decay for RCM particle densities
+#DECAY
+T 			UseDecay
+10 hour			DecayTimescale
+
+#END_COMP IM -----------------------------------------------------------------
+
 #BEGIN_COMP IE ---------------------------------------------------------------
 
 #RESTART
@@ -194,7 +237,7 @@ F 			DoFitCircle (read if UseAdvancedOval is true)
 
 #SAVEPLOT
 1			nPlotFile
-max idl                 StringPlot
+aur idl                 StringPlot
 -1                      DnSavePlot
 60.0			DtSavePlot
 

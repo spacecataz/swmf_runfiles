@@ -296,7 +296,7 @@ IM			NameComp2
 
 #COUPLETIME
 GM			NameComp
-F			DoCoupleOnTime
+T			DoCoupleOnTime
 
 #BEGIN_COMP GM ---------------------------------------------------------------
 
