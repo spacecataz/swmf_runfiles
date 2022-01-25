@@ -23,3 +23,8 @@ stop = dt.datetime(2000,1,1,21,0,0)
 imf_default = pd.smooth_imf(imf, window=61)
 imf_5x, scale = pd.scale_imf(imf_default, start, stop, 120, 720)
 
+imf_default.attrs['file'] = 'imf_SH.dat'
+imf_5x.attrs['file'] = 'imf_SH_5x.dat'
+
+imf_default.write()
+imf_5x.write()

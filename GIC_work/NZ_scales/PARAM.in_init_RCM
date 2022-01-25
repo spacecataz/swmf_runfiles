@@ -7,7 +7,7 @@ IE -2 -1  1             IE runs on last 2 PE-s
 IM -2 -2  1             IM runs on nProc-2 PE
 
 #DESCRIPTION
-High resolution idealized IMF BY simulation configuration.
+High resolution idealized storm event for the New Zealand Solar Tsunami project
 
 #TIMEACCURATE
 F			DoTimeAccurate
@@ -15,9 +15,9 @@ F			DoTimeAccurate
 #IDEALAXES
 
 #STARTTIME            
-2010			year
-03              	month
-20              	day
+2000			year
+01              	month
+01              	day
 00			hour
 00             		minute
 00              	second
@@ -135,8 +135,8 @@ T                       UseCpcpBc  (rest is read if true)
 0.1                     RhoPerCpcp [amu/cc / keV]
 
 #SOLARWINDFILE
-T				UseSolarWindFile
-IMF_noBY.dat			NameSolarWindFile
+T			UseSolarWindFile
+imf_SH.dat		NameSolarWindFile
 
 #SCHEME
 1			nOrder
@@ -182,13 +182,19 @@ MAG                     TypeCoordFacGrid
 real8			TypeFileMagGrid
 GEO			TypeCoordMagGrid
 72			nLonMagGrid
-34			nLatMagGrid
+80			nLatMagGrid
 0.			LonMinMagGrid
 360.			LonMaxMagGrid
--85.			LatMinMagGrid
-85.			LatMaxMagGrid
+-70.			LatMinMagGrid
+-30.			LatMaxMagGrid
 -1			DnSaveMagGrid
 60.0			DtSaveMagGrid
+
+#MAGNETOMETER
+mags_all.dat            NameMagInputFile
+single                  TypeFileOut
+-1                      DnOutput
+1 min                   DtOutput
 
 #END_COMP GM -----------------------------------------------------------------
 
@@ -198,13 +204,9 @@ GEO			TypeCoordMagGrid
 5                       TypeConductanceModel
 F                       UseFullCurrent
 F			UseFakeRegion2
-150.0                   F107Flux
+200.0                   F107Flux
 1.0                     StarLightPedConductance
 0.25                    PolarCapPedConductance
-
-#CONDUCTANCEFILES 
-cmee_hal_coeffs.dat	NameHalFile 
-cmee_ped_coeffs.dat 	NamePedFile
 
 #AURORALOVAL 
 T			UseOval (rest of parameters read if true) 
@@ -213,15 +215,8 @@ F 			UseSubOvalConductance
 T 			UseAdvancedOval 
 F 			DoFitCircle (read if UseAdvancedOval is true)
 
-#USECMEE 
-T			UseCMEEFitting (rest of parameters read if true) 
-45 			LatNoConductanceSI (default) 
-7.5 			FactorHallCMEE (default) 
-5 			FactorPedCMEE (default)
-
-
 #BOUNDARY
-10.0			LatBoundary
+5.0			LatBoundary
 
 #END_COMP IE -----------------------------------------------------------------
 
@@ -391,17 +386,17 @@ T 			UseDecay
 
 #SAVEPLOT
 1			nPlotFile
-aur idl                 StringPlot
+max idl                 StringPlot
 -1                      DnSavePlot
 60.0			DtSavePlot
 
 #END_COMP IE -----------------------------------------------------------------
 
 #ENDTIME            
-2010			year
-03              	month
-20              	day
-12			hour
+2000			year
+01              	month
+02              	day
+00			hour
 00             		minute
 00              	second
 0.0			FracSecond
