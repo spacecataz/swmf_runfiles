@@ -7,11 +7,12 @@ A set of helper functions for handling the SEA upstream driver files:
 - *intensify_storm* can be used to change the magnitude of the IMF drivers.
 
 '''
-from copy import deepcopy
+from copy import copy
 import datetime as dt
 
 import numpy as np
 
+from spacepy.datamodel import dmarray
 from spacepy.pybats import ImfInput
 
 def smooth_imf(imffile, varlist=['ux'], do_write=False, window=31):
@@ -29,15 +30,19 @@ def smooth_imf(imffile, varlist=['ux'], do_write=False, window=31):
     from scipy.signal import medfilt
 
     # If ImfInput is an existing object, just use it.  Else, open the data.
-    imf = deepcopy(imffile) if type(imffile) is ImfInput else ImfInput(imffile)
+    imf = copy(imffile) if type(imffile) is ImfInput else ImfInput(imffile)
 
     for v in varlist:
       imf[v] = medfilt(imf[v], window)
 
+    # Overwrite imf['v']:
+    if 'v' in imf:
+        imf['v'] = dmarray(np.abs(imf['ux']), {'units':'km/s','label':'$km/s$'})
+      
     outname = imf.attrs['file'].split('.')
     imf.attrs['file'] = imf.attrs['file'][:-4] + f'_smoothed{window}' \
         + imf.attrs['file'][-4:]
-    imf.write()
+    if do_write: imf.write()
 
     return imf
 
@@ -117,7 +122,7 @@ def scale_imf(imffile, epoch_rise, epoch_fall, lamb_rise, lamb_fall,
     from matplotlib.dates import date2num
 
     # If ImfInput is an existing object, just use it.  Else, open the data.
-    imf = deepcopy(imffile) if type(imffile) is ImfInput else ImfInput(imffile)
+    imf = copy(imffile) if type(imffile) is ImfInput else ImfInput(imffile)
 
     # Convert the datetimes to floating points:
     epoch_rise = date2num(epoch_rise)
@@ -144,7 +149,8 @@ def scale_imf(imffile, epoch_rise, epoch_fall, lamb_rise, lamb_fall,
             imf[v] *= scale
 
     # Overwrite imf['v']:
-    if 'v' in imf: imf['v'] = np.abs(imf['ux'])
+    if 'v' in imf:
+        imf['v'] = dmarray(np.abs(imf['ux']), {'units':'km/s','label':'$km/s$'})
 
     # Save file if requested:
     if outfile:
