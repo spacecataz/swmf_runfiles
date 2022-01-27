@@ -25,3 +25,7 @@ to do the first. F10.7 values are educated guesses.
 |CME/Sheath x5      | imf_SH_5x.dat| 300.0 |
 
 ## Code setup and compilation
+Config.pl -install=
+Config.pl -v=GM/BATSRUS,IE/Ridley_serial,IM/RCM2
+Config.pl -o=IE:g=181,361
+make
