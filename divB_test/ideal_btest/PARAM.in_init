@@ -163,6 +163,15 @@ T			DoAmr
 -1.0			DtAmr
 T			IsStrictAmr
 
+#NONCONSERVATIVE
+T                       UseNonConservative
+
+#CONSERVATIVECRITERIA
+1			nConservCrit
+parabola		TypeConservCrit_I
+ 5.0			xParabolaConserv
+15.0			yParabolaConserv
+
 #MAGPERTURBINTEGRAL
 T                       UseSurfaceIntegral
 T                       UseFastFacIntegral
@@ -274,15 +283,6 @@ GM			NameComp
 T			DoCoupleOnTime
 
 #BEGIN_COMP GM ---------------------------------------------------------------
-
-#NONCONSERVATIVE
-T                       UseNonConservative
-
-#CONSERVATIVECRITERIA
-1			nConservCrit
-parabola		TypeConservCrit_I
- 5.0			xParabolaConserv
-15.0			yParabolaConserv
 
 ! Pressures below pMinDim are replaced with pMinDim.
 #MINIMUMPRESSURE
