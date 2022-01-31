@@ -1,0 +1,25 @@
+#RESTARTOUTFILE
+block
+
+#SAVERESTART                                                     
+T                       DoSaveRestart
+1000                      DnSaveRestart
+-1                  DtSaveRestart
+
+#AMR
+-1			DnRefine
+
+#SCHEME
+2			nORDER
+Rusanov			TypeFlux
+mc3                     TypeLimiter
+1.2
+
+#TIMESTEPPING
+2			nStage
+0.60			CflExlp
+
+#BORIS
+T
+0.02
+
