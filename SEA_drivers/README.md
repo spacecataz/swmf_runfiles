@@ -50,6 +50,17 @@ Suggested parameters are given below; users are encouraged to experiment.
 | SH-CME     | 2000-01-01T08:15:00 | 2 hours   | 2000-01-01T21:00:00 | 12 hours |
 | CIR	     | | | | |
 
+An example usage is given below:
+
+```
+import datetime as dt
+from process_drivers import scale_imf
+
+start = dt.datetime(2000,1,1,8,15,0)
+stop = dt.datetime(2000,1,1,21,0,0)
+
+imf, scale = scale_imf('./imf_SH_mean.dat', start, stop, 120, 720)
+```
 
 # Python Code
 Several scripts are provided to help handle these files:

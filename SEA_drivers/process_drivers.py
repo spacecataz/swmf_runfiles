@@ -7,36 +7,44 @@ A set of helper functions for handling the SEA upstream driver files:
 - *intensify_storm* can be used to change the magnitude of the IMF drivers.
 
 '''
-
+from copy import copy
 import datetime as dt
 
 import numpy as np
 
+from spacepy.datamodel import dmarray
 from spacepy.pybats import ImfInput
 
-def smooth_imf(imffile, varlist=['ux'], window=31):
+def smooth_imf(imffile, varlist=['ux'], do_write=False, window=31):
     '''
-    Given a path to an IMF input file, *imffile*, smooth all variables listed 
-    under *varlist* using Scipy's median filter function with a 31 minute 
-    window (can be changed using kwarg *window*).
+    Given a path to an IMF input file or an IMF object, *imffile*,
+    smooth all variables listed under *varlist* using Scipy's median filter
+    function with a 31 minute window (can be changed using kwarg *window*).
 
-    The resulting data will be saved to a new file with `smooth{window}` 
-    appended to file name.
+    The resulting data will be saved to a new file with `smooth{window}`
+    appended to file name if the kwarg *do_write* is set to `True`.
 
     The default action is to only smooth radial velocity.
     '''
 
     from scipy.signal import medfilt
 
-    imf = ImfInput(imffile)
+    # If ImfInput is an existing object, just use it.  Else, open the data.
+    imf = copy(imffile) if type(imffile) is ImfInput else ImfInput(imffile)
 
     for v in varlist:
-        imf[v] = medfilt(imf[v], window)
+      imf[v] = medfilt(imf[v], window)
 
+    # Overwrite imf['v']:
+    if 'v' in imf:
+        imf['v'] = dmarray(np.abs(imf['ux']), {'units':'km/s','label':'$km/s$'})
+      
     outname = imf.attrs['file'].split('.')
     imf.attrs['file'] = imf.attrs['file'][:-4] + f'_smoothed{window}' \
         + imf.attrs['file'][-4:]
-    imf.write()
+    if do_write: imf.write()
+
+    return imf
 
 def generate_scaling(x, amp, x_rise, x_fall, lamb_rise, lamb_fall):
     '''
@@ -47,7 +55,7 @@ def generate_scaling(x, amp, x_rise, x_fall, lamb_rise, lamb_fall):
     Parameters
     ----------
     x : :class:`np.ndarray`
-       A 1-dimensional array representing the independent variable against 
+       A 1-dimensional array representing the independent variable against
        which the scaling function will be applied.
     amp : :class:`float`
        The normalized amplitude for the peak.
@@ -70,7 +78,7 @@ def generate_scaling(x, amp, x_rise, x_fall, lamb_rise, lamb_fall):
         amp*np.tanh(2*np.pi/lamb_fall*(x-(x_fall+lamb_fall/2))) + 1#(amp+1)/2
 
     return y
-    
+
 def scale_imf(imffile, epoch_rise, epoch_fall, lamb_rise, lamb_fall,
               amp=5, outfile=None, ufactor=5):
     '''
@@ -80,8 +88,8 @@ def scale_imf(imffile, epoch_rise, epoch_fall, lamb_rise, lamb_fall,
 
     Parameters
     ----------
-    imffile : :class:`str`
-       The name of the IMF file to alter.
+    imffile : :class:`str` or :class:`~spacepy.pybats.ImfInput`
+       The IMF data or name of the IMF file to alter.
     epoch_rise : :class:`datetime.datetime`
        The time at which scaling increases from 1 towards the peak.
     epoch_fall : :class:`datetime.datetime`
@@ -98,7 +106,7 @@ def scale_imf(imffile, epoch_rise, epoch_fall, lamb_rise, lamb_fall,
     outfile : :class:`str`, default None
        If provided, the path/name to save the altered IMF data.
     ufactor : :class:`int`, default 5
-       Velocity (ux, etc.) falls off more slowly than other values.  
+       Velocity (ux, etc.) falls off more slowly than other values.
        *lamb_fall* is multiplied by *ufactor* when the scaling is applied
        to velocity components.
 
@@ -112,9 +120,9 @@ def scale_imf(imffile, epoch_rise, epoch_fall, lamb_rise, lamb_fall,
     '''
 
     from matplotlib.dates import date2num
-    
-    # Start by opening the IMF file:
-    imf = ImfInput(imffile)
+
+    # If ImfInput is an existing object, just use it.  Else, open the data.
+    imf = copy(imffile) if type(imffile) is ImfInput else ImfInput(imffile)
 
     # Convert the datetimes to floating points:
     epoch_rise = date2num(epoch_rise)
@@ -132,7 +140,7 @@ def scale_imf(imffile, epoch_rise, epoch_fall, lamb_rise, lamb_fall,
     # Scale velocity separately- it decays much slower.
     scale_u = generate_scaling(time, amp, epoch_rise, epoch_fall,
                                lamb_rise, lamb_fall*ufactor)
-    
+
     # Apply to all variables:
     for v in imf.attrs['var']:
         if v[0] == 'u':
@@ -141,11 +149,12 @@ def scale_imf(imffile, epoch_rise, epoch_fall, lamb_rise, lamb_fall,
             imf[v] *= scale
 
     # Overwrite imf['v']:
-    if 'v' in imf: imf['v'] = np.abs(imf['ux'])
-        
+    if 'v' in imf:
+        imf['v'] = dmarray(np.abs(imf['ux']), {'units':'km/s','label':'$km/s$'})
+
     # Save file if requested:
     if outfile:
         imf.attrs['file'] = outfile
         imf.write()
-        
+
     return imf, scale

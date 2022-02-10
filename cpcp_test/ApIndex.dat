@@ -1,0 +1,26 @@
+#Fake Ap data created on 2010-6-7 using the Spidr format.
+#GMT time is used
+#
+#
+#--------------------------------------------------
+#>
+#Element: ap
+#Table: KPAP
+#Description: Ap index
+#Measure units: nT
+#Origin: 
+#
+#
+#Sampling: 3 hours
+#Missing value: 1.0E33
+#>
+#yyyy-MM-dd HH:mm value qualifier description
+2000-01-01 00:00 100.0   ""   ""
+2000-01-01 03:00 100.0   ""   ""
+2000-01-01 06:00 100.0   ""   ""
+2000-01-01 09:00 100.0   ""   ""
+2000-01-01 12:00 100.0   ""   ""
+2000-01-01 15:00 100.0   ""   ""
+2000-01-01 18:00 100.0   ""   ""
+2000-01-01 21:00 100.0   ""   ""
+2000-01-02 00:00 100.0   ""   ""
