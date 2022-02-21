@@ -95,6 +95,14 @@ box
  22.0
  10.0			zMaxBox
 
+#NONCONSERVATIVE
+T                       UseNonConservative
+
+#CONSERVATIVECRITERIA
+1			nConservCrit
+parabola		TypeConservCrit_I
+ 5.0			xParabolaConserv
+15.0			yParabolaConserv
 
 #GRIDRESOLUTION
 1/8			Resolution
@@ -302,15 +310,6 @@ GM			NameComp
 F			DoCoupleOnTime
 
 #BEGIN_COMP GM ---------------------------------------------------------------
-
-#NONCONSERVATIVE
-T                       UseNonConservative
-
-#CONSERVATIVECRITERIA
-1			nConservCrit
-parabola		TypeConservCrit_I
- 5.0			xParabolaConserv
-15.0			yParabolaConserv
 
 ! Setting 1
 #IMCOUPLING
