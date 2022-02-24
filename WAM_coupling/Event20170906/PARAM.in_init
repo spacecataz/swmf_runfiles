@@ -7,16 +7,16 @@ IE -2 -1  1             IE runs on last 2 PE-s
 IM -2 -2  1             IM runs on nProc-2 PE
 
 #DESCRIPTION
-St. Patrick's Day Storm event for WAM-IPE input generation
+Sept. 2017 event for WAM-IPE input generation
 
 #TIMEACCURATE
 F			DoTimeAccurate
 
 #STARTTIME            
-2015			year
-03              	month
-15              	day
-00			hour
+2017			year
+09              	month
+06              	day
+18			hour
 00             		minute
 00              	second
 0.0			FracSecond
@@ -95,6 +95,12 @@ box
  22.0
  10.0			zMaxBox
 
+#GRIDRESOLUTION
+1/8			Resolution
+shell0			NameArea
+2.5			r1Shell
+3.5			r2Shell
+
 #NONCONSERVATIVE
 T                       UseNonConservative
 
@@ -103,12 +109,6 @@ T                       UseNonConservative
 parabola		TypeConservCrit_I
  5.0			xParabolaConserv
 15.0			yParabolaConserv
-
-#GRIDRESOLUTION
-1/8			Resolution
-shell0			NameArea
-2.5			r1Shell
-3.5			r2Shell
 
 #BODY
 T                       UseBody
@@ -132,8 +132,9 @@ float			TypeBc6
 #INNERBOUNDARY
 ionosphere		TypeBcInner
 
+! DISABLING CPCPBOUNDARY FOR NOW.
 ! Set the inner boundary density as Rho0Cpcp + RhoPerCpcp*CPCP[keV]
-#CPCPBOUNDARY
+CPCPBOUNDARY
 T                       UseCpcpBc  (rest is read if true)
 28.0                    Rho0Cpcp   [amu/cc]
 0.1                     RhoPerCpcp [amu/cc / keV]
@@ -173,10 +174,6 @@ T			DoAmr
 -1.0			DtAmr
 T			IsStrictAmr
 
-! Satellite trajectories
-INCLUDE
-SATELLITES.in
-
 #MAGPERTURBINTEGRAL
 T                       UseSurfaceIntegral
 T                       UseFastFacIntegral
@@ -213,7 +210,7 @@ MAG			TypeCoordMagGrid
 5                       TypeConductanceModel
 F                       UseFullCurrent
 F			UseFakeRegion2
-115.0                   F107Flux
+-1.0                    F107Flux
 1.0                     StarLightPedConductance
 0.25                    PolarCapPedConductance
 
@@ -391,9 +388,9 @@ max idl                 StringPlot
 #END_COMP IE -----------------------------------------------------------------
 
 #ENDTIME            
-2015			year
-03              	month
-20              	day
+2017			year
+09              	month
+09              	day
 00			hour
 00             		minute
 00              	second
