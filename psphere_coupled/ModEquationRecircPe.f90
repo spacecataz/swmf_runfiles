@@ -46,7 +46,7 @@ module ModVarIndexes
        By_      =  6, &
        Bz_      =  7, &
        Pe_      =  8, &
-       p_       =  9, &
+       P_       =  9, &
        HpPsRho_   = 10, &
        HpPsRhoUx_ = 11, &
        HpPsRhoUy_ = 12, &
@@ -64,7 +64,7 @@ module ModVarIndexes
        iRhoUx_I(nFluid) = [RhoUx_, HpPsRhoUx_], &
        iRhoUy_I(nFluid) = [RhoUy_, HpPsRhoUy_], &
        iRhoUz_I(nFluid) = [RhoUz_, HpPsRhoUz_], &
-       iP_I(nFluid)     = [p_,     HpPsP_]
+       iP_I(nFluid)     = [P_,     HpPsP_]
 
   integer, parameter :: iPparIon_I(IonFirst_:IonLast_) = [1,2]
 
@@ -91,21 +91,21 @@ module ModVarIndexes
 
   ! The names of the variables used in i/o
   character(len=7) :: NameVar_V(nVar+nFluid) = [ &
-       'Rho    ', & ! Rho_
-       'Mx     ', & ! RhoUx_
-       'My     ', & ! RhoUy_
-       'Mz     ', & ! RhoUz_
+       'HpRho  ', & ! Rho_
+       'HpMx   ', & ! RhoUx_
+       'HpMy   ', & ! RhoUy_
+       'HPMz   ', & ! RhoUz_
        'Bx     ', & ! Bx_
        'By     ', & ! By_
        'Bz     ', & ! Bz_
        'Pe     ', & ! Pe_
-       'P      ', & ! p_
+       'HpP    ', & ! p_
        'HpPsRho', & ! HpPsRho_
        'HpPsMx ', & ! HpPsRhoUx_
        'HpPsMy ', & ! HpPsRhoUy_
        'HpPsMz ', & ! HpPsRhoUz_
        'HpPsP  ', & ! HpPsP_
-       'E      ', & ! Energy_
+       'HpE    ', & ! Energy_
        'HpPsE  ' ]    ! HpPsEnergy_
 
   ! There are no extra scalars

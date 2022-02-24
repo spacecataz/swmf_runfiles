@@ -31,7 +31,7 @@ IE			NameComp2
 
 #SAVERESTART
 T
-500
+250
 -1
 
 #BEGIN_COMP GM ---------------------------------------------------------------
@@ -84,7 +84,6 @@ T
 #DEBUG
 0
 0
-
 #END_COMP IE -----------------------------------------------------------------
 
 #STOP
@@ -99,7 +98,7 @@ T
 -1			DnRefine
 
 #SCHEME
-2			nORDER
+1			nORDER
 Rusanov			TypeFlux
 mc3                     TypeLimiter
 1.2
