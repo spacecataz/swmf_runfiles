@@ -16,6 +16,10 @@ Significant gaps exist in SWEPAM density.  These values were suplemented
 via OMNI database values.  The OMNI propagation matches very well with
 the Ridley ballistic method.
 
+Information about **IMF_extended.dat**
+This extended file is intended for quiet time pre-storm simulation.
+All values were obtained via OMNIweb.
+
 F10.7 value (115 SFU) was obtained from this website:
 http://www.spaceweather.gc.ca/solarflux/sx-5-flux-en.php?year=2015
 
