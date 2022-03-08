@@ -337,7 +337,7 @@ z=0 ray idl             StringPlot
 -1.0                    DxSavePlot
 3d MHD idl              StringPlot
 -1                      DnSavePlot
-1800.                   DtSavePlot
+900.                    DtSavePlot
 -1			DxSavePlot
 
 #BORIS
@@ -381,7 +381,7 @@ T 			UseDecay
 
 #SAVEPLOT
 1			nPlotFile
-aur idl                 StringPlot
+max idl                 StringPlot
 -1                      DnSavePlot
 60.0			DtSavePlot
 

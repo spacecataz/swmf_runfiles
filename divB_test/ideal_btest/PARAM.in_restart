@@ -2,7 +2,7 @@
 T			DoEcho
 
 #COMPONENTMAP			For 128+ cores like production run
-GM  0 -26 -1 -1			GM runs on 0 to nProc-26 PE-s
+GM  0 -1 -1 -1			GM runs on 0 to nProc-26 PE-s
 IE  -1 -1  1			IE runs on the last PE
 
 #INCLUDE
@@ -138,7 +138,7 @@ z=0 ray idl             StringPlot
 -1.0                    DxSavePlot
 3d MHD idl              StringPlot
 -1                      DnSavePlot
-1800.                   DtSavePlot
+900.                    DtSavePlot
 -1			DxSavePlot
 
 #SCHEME
