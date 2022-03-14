@@ -163,7 +163,7 @@ z=0 ray idl             StringPlot
 -1.0                    DxSavePlot
 3d MHD idl              StringPlot
 -1                      DnSavePlot
-1800.                   DtSavePlot
+900.                    DtSavePlot
 -1			DxSavePlot
 
 #SCHEME
