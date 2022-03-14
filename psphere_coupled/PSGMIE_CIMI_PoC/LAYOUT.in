@@ -1,9 +1,11 @@
-This is the layout for running GM and IE in serial mode.
+This Layout Runs CIMI serially on processor 0, Ridley_serial on nodes 1 and 2,
+with BATS running on the remaning nodes. 
 
 Name First Last Stride
 ======================
 #COMPONENTMAP			For 128+ cores like production run
-GM   0 -1 -1  -1         GM runs on all nProc, multithreaded
-IE   0  1  1             IE runs on first 2 PE-s
-IM   0 11  1             IM runs on first 12 PE-s
+IE	0	1	1
+GM	2	-1	-1	-1	             
+IM	0	0	1
+
 #END

@@ -146,7 +146,7 @@ F      IsStrictAmr
 
 Standard MF setup.
 #MULTIION
-1e-10                   LowDensityRatio
+.001                    LowDensityRatio
 1e-10                   LowPressureRatio
 T                       DoRestrictMultiIon
 3.0                     MachNumberMultiIon (read if DoRestrictMultiIon)
@@ -157,7 +157,7 @@ T                       DoRestrictMultiIon
 1.0                     MassFluid HpPs
 1.0                     AverageIonCharge Hp
 1.0                     AverageIonCharge HpPs
-0.0                     ElectronTemperatureRatio
+0.2                     ElectronTemperatureRatio
 
 #COLLISION
 -100.			CollisionCoefDim

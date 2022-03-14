@@ -36,19 +36,19 @@ IM GM		        NameSourceTarget
 GM			NameComp1
 IE			NameComp2
 -1			DnCouple
-1.0			DtCouple
+5.0			DtCouple
 
 #COUPLE2
 GM			NameComp1
 IM			NameComp2
 -1			DnCouple
-1.0		DtCouple
+10.0		DtCouple
 
 #COUPLE1
 IE			NameComp1
 IM			NameComp2
 -1			DnCouple
-1.0		DtCouple
+10.0		DtCouple
 
 #COUPLETIME
 GM			NameComp
@@ -59,9 +59,11 @@ F			DoCoupleOnTime
 #INCLUDE
 GM/restartIN/restart.H
 
+VERBOSE
+100
 
 #MULTIION
-1e-10                   LowDensityRatio
+.001                   LowDensityRatio
 1e-10                   LowPressureRatio
 T                       DoRestrictMultiIon
 3.0                     MachNumberMultiIon (read if DoRestrictMultiIon)
@@ -72,7 +74,7 @@ T                       DoRestrictMultiIon
 1.0                     MassFluid HpPs
 1.0                     AverageIonCharge Hp
 1.0                     AverageIonCharge HpPs
-0.0                     ElectronTemperatureRatio
+0.2                     ElectronTemperatureRatio
 
 #COLLISION
 -100.			CollisionCoefDim
@@ -117,13 +119,13 @@ dt rho mx my mz p bx by bz pmin pmax dst cpcpn
 2               nPlotFiles
 idl y=0 VAR     StringPlot
 -1              DnSavePlot
-1.             DtSavePlot
+60.             DtSavePlot
 -1              DxSavePlot
 rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmz hppsp jx jy jz
 g rbody
 idl z=0 VAR     StringPlot
 -1              DnSavePlot
-1.             DtSavePlot
+60.             DtSavePlot
 -1              DxSavePlot
 rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmz hppsp jx jy jz
 g rbody
@@ -282,6 +284,6 @@ T
 
 #STOP
 -1
-1.5
+7200.0
 
 #END

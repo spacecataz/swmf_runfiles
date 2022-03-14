@@ -31,7 +31,7 @@ IE			NameComp2
 
 #SAVERESTART
 T
-250
+1000
 -1
 
 #BEGIN_COMP GM ---------------------------------------------------------------
@@ -87,7 +87,7 @@ T
 #END_COMP IE -----------------------------------------------------------------
 
 #STOP
-100                     MaxIter
+1000                     MaxIter
 -1.			TimeMax
 
 #RUN	######################################################################
@@ -98,7 +98,7 @@ T
 -1			DnRefine
 
 #SCHEME
-1			nORDER
+2			nORDER
 Rusanov			TypeFlux
 mc3                     TypeLimiter
 1.2
@@ -114,7 +114,7 @@ T
 #END_COMP GM -----------------------------------------------------------------
 
 #STOP
-500                    MaxIter
+5000                    MaxIter
 -1.			TimeMax
 
 #END
