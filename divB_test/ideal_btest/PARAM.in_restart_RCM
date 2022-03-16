@@ -237,7 +237,7 @@ F 			DoFitCircle (read if UseAdvancedOval is true)
 
 #SAVEPLOT
 1			nPlotFile
-aur idl                 StringPlot
+max idl                 StringPlot
 -1                      DnSavePlot
 60.0			DtSavePlot
 
