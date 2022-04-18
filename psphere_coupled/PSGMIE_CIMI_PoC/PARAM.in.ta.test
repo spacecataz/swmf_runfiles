@@ -13,7 +13,7 @@ T			DoTimeAccurate
 #SAVERESTART
 T                       DoSaveRestart
 -1                      DnSaveRestart
-600.0                  DtSaveRestart
+60.0                  DtSaveRestart
 
 #CHECKTIMESTEP
 F                        DoCheckTimeStep
@@ -30,7 +30,7 @@ IE GM			NameSourceTarget
 IE IM			NameSourceTarget
 GM IE			NameSourceTarget
 GM IM			NameSourceTarget
-IM GM		        NameSourceTarget
+IM GM		    NameSourceTarget
 
 #COUPLE2
 GM			NameComp1
@@ -57,7 +57,7 @@ F			DoCoupleOnTime
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #INCLUDE
-GM/restartIN/restart.H
+RESTART_t0001.3333h/GM/restart.H
 
 VERBOSE
 100
@@ -116,13 +116,7 @@ dt rho mx my mz p bx by bz pmin pmax dst cpcpn
 3.0 3.5 5.0		  StringRFlux
 
 #SAVEPLOT
-2               nPlotFiles
-idl y=0 VAR     StringPlot
--1              DnSavePlot
-60.             DtSavePlot
--1              DxSavePlot
-rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmz hppsp jx jy jz
-g rbody
+1               nPlotFiles
 idl z=0 VAR     StringPlot
 -1              DnSavePlot
 60.             DtSavePlot
@@ -189,6 +183,13 @@ imf_mf_bzturn_by_test.dat       UpstreamFileName
 
 #BEGIN_COMP IM ---------------------------------------------------------------
 
+#INCLUDE
+IM/restartIN/restart.H
+
+#COREPLASMASPHERE
+T   UseCorePlasmaSphereModel
+.0001  MinPlasDensity
+
 #INITIALF2
 F       IsEmptyInitial
 T       IsGMInitial
@@ -222,6 +223,11 @@ T			DoWritePrerunField
 T			DoWritePrerunField
 
 #SAVEPLOT
+1
+2d both	    StringPlot
+60.	    		DtOutput
+
+SAVEPLOT
 5			nCIMIFileType
 fls all			StringPlot
 300 			  DtOutput
@@ -285,5 +291,4 @@ T
 #STOP
 -1
 7200.0
-
 #END
