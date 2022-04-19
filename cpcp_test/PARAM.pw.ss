@@ -47,11 +47,12 @@ T
 F		IsCentrifugal
 
 #SCHEME
-Godunov                 TypeSolver
-0.005                     DtVertical
-F                       IsFullyImplicit
-F                       IsPointImplicit
-F                       IsPointImplicitAll
+Godunov         TypeSolver
+Godunov         TypeFlux
+0.005           DtVertical
+F               IsFullyImplicit
+F               IsPointImplicit
+F               IsPointImplicitAll
 
 #MOTION
 F		DoMove

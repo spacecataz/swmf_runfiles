@@ -59,7 +59,8 @@ T                       IsVariableDt
 
 #SCHEME
 Godunov                 TypeSolver
-0.01e0                   DtVertical
+Godunov                 TypeSolver
+0.01e0                  DtVertical
 F                       IsFullyImplicit
 F                       IsPointImplicit
 F                       IsPointImplicitAll

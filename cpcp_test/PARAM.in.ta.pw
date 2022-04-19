@@ -59,6 +59,7 @@ T                       IsVariableDt
 
 #SCHEME
 Godunov                 TypeSolver
+Godunov                 TypeFlux
 0.005                     DtVertical
 F                       IsFullyImplicit
 F                       IsPointImplicit
