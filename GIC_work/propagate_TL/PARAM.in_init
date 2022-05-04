@@ -1,0 +1,177 @@
+#ECHO
+T			DoEcho
+
+#DESCRIPTION
+Propagate solar wind conditions downstream and allow them to evolve.
+
+#TIMEACCURATE
+F			DoTimeAccurate
+
+#IDEALAXES
+
+#STARTTIME            
+2015			year
+03              	month
+21              	day
+04			hour
+30             		minute
+00              	second
+0.0			FracSecond
+
+#BEGIN_COMP GM ---------------------------------------------------------------
+
+#GRID
+1			nRootBlock_D(x_)
+1			nRootBlock_D(y_)
+1			nRootBlock_D(z_)
+-224.			xMin
+ 32.			xMax
+-16.			yMin
+ 16.			yMax
+-16.			zMin
+ 16.			zMax
+
+! Maximum resolution initially
+#GRIDRESOLUTION
+1.0			Resolution
+initial			NameArea
+
+! Minimum resolution in the computational domain
+#GRIDRESOLUTION
+8.0			Resolution
+all			NameArea
+
+#GRIDRESOLUTION
+1/2			Resolution
+box			NameArea
+-224.0			xMinBox
+  16.0			yMinBox
+  16.0			zMinBox
+  32.0			xMaxBox
+  48.0			yMaxBox
+  48.0			zMaxBox
+
+#TIMESTEPPING
+1			nStage
+0.80			CflExlp
+
+#OUTERBOUNDARY
+outflow			TypeBc1
+vary			TypeBc2
+float			TypeBc3
+float			TypeBc4
+float			TypeBc5
+float			TypeBc6
+
+#SOLARWINDFILE
+T				UseSolarWindFile
+imf_extreme.dat			NameSolarWindFile
+
+#SCHEME
+1			nOrder
+Sokolov			TypeFlux
+
+#NONCONSERVATIVE
+T                       UseNonConservative
+
+#SAVELOGNAME
+F                       IsLogName_n
+T                       IsLogName_e
+
+#SAVEPLOTNAME
+F                       IsPlotName_n
+F                       IsPlotName_t
+T                       IsPlotName_e
+
+#SAVELOGFILE
+T			DoSaveLo5Dgfile
+VAR step date		StringLogfile
+-1			DnSaveLogfile
+5.0			DtSaveLogfile
+dt rho mx my mz p bx by bz pmin pmax
+3.0			StringRFlux
+
+! Satellite trajectories
+#INCLUDE
+test_sats/test_sats.include
+
+#END_COMP GM -----------------------------------------------------------------
+
+#STOP
+700                     MaxIter
+-1.			TimeMax
+
+#RUN	######################################################################
+
+#BEGIN_COMP GM ---------------------------------------------------------------
+
+#DOAMR
+F			DoAmr
+
+#SCHEME
+2			nORDER
+Sokolov			TypeFlux
+mc3                     TypeLimiter
+1.2			BetaLimiter
+
+#TIMESTEPPING
+2			nStage
+0.60			CflExlp
+
+#END_COMP GM -----------------------------------------------------------------
+
+#STOP
+1500                    MaxIter
+-1.			TimeMax
+
+#RUN	######################################################################
+
+#TIMEACCURATE
+T			DoTimeAccurate
+
+#PROGRESS
+1			DnProgressShort
+100			DnProgressLong
+
+#SAVERESTART
+T                       DoSaveRestart
+-1                      DnSaveRestart
+900.0                    DtSaveRestart
+
+#BEGIN_COMP GM ---------------------------------------------------------------
+
+! Pressures below pMinDim are replaced with pMinDim.
+#MINIMUMPRESSURE
+1e-5			pMinDim [nPa]
+
+#SAVEPLOT
+2                       nPlotFiles
+y=0 MHD idl             StringPlot
+-1                      DnSavePlot
+10.			DtSavePlot
+-1.0			DxSavePlot
+z=0 MHD idl             StringPlot
+-1                      DnSavePlot
+10.			DtSavePlot
+-1.0			DxSavePlot
+
+#BORIS
+T			UseBorisCorrection
+0.02			BorisClightFactor
+
+#TIMESTEPPING
+1			nStage
+0.60			CflExpl
+
+#END_COMP GM -----------------------------------------------------------------
+
+#ENDTIME            
+2015			year
+03              	month
+21              	day
+07			hour
+00             		minute
+00              	second
+0.0			FracSecond
+
+#END ############################################################
