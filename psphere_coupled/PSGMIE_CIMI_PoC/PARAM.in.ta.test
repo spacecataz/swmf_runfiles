@@ -13,7 +13,7 @@ T			DoTimeAccurate
 #SAVERESTART
 T                       DoSaveRestart
 -1                      DnSaveRestart
-60.0                  DtSaveRestart
+600.0                  DtSaveRestart
 
 #CHECKTIMESTEP
 F                        DoCheckTimeStep
@@ -57,10 +57,7 @@ F			DoCoupleOnTime
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #INCLUDE
-RESTART_t0001.3333h/GM/restart.H
-
-VERBOSE
-100
+RESTART_n001000/GM/restart.H
 
 #MULTIION
 .001                   LowDensityRatio
@@ -116,12 +113,147 @@ dt rho mx my mz p bx by bz pmin pmax dst cpcpn
 3.0 3.5 5.0		  StringRFlux
 
 #SAVEPLOT
-1               nPlotFiles
+1
+idl z=0 MHD
+-1
+1.
+-1
+rho ux uy uz bx by bz pe p hppsrho hppsux hppsuy hppsuz hppsp hprho hpux hpuy hpuz hpp jx jy jz
+g rbody
+
+SAVEPLOT
+12               nPlotFiles
 idl z=0 VAR     StringPlot
 -1              DnSavePlot
 60.             DtSavePlot
 -1              DxSavePlot
-rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmz hppsp jx jy jz
+rho ux uy uz bx by bz pe p hprho hpux hpuy hpuz hpp hppsrho hppsux hppsuy hppsuz hppsp jx jy jz
+g rbody
+idl y=0 VAR     StringPlot
+-1              DnSavePlot
+60.             DtSavePlot
+-1              DxSavePlot
+rho ux uy uz bx by bz pe p hprho hpux hpuy hpuz hpp hppsrho hppsux hppsuy hppsuz hppsp jx jy jz
+g rbody
+y=0 ray idl             StringPlot
+-1                      DnSavePlot
+60.                     DtSavePlot
+-1.0                    DxSavePlot
+z=0 ray idl             StringPlot
+-1                      DnSavePlot
+60.                     DtSavePlot
+-1.0                    DxSavePlot
+shl VAR idl		StringPlot
+-1			DnSavePlot
+300.			DtSavePlot
+SMG			TypeCoordPlot
+6.0			rMin
+6.0			rMax
+0. 			LonMin
+360. 			LonMax
+2. 			dLon ! only read if LonMin /= LonMax
+-90. 			LatMin
+90. 			LatMax
+2.                 	dLat ! only read if LatMin /= LatMax
+rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmy hppsmz hppsp jx jy jz
+g rbody
+shl VAR idl             StringPlot
+-1                      DnSavePlot
+300.                    DtSavePlot
+SMG                     TypeCoordPlot
+6.6                     rMin
+6.6                     rMax
+0.                      LonMin
+360.                    LonMax
+2.                      dLon ! only read if LonMin /= LonMax
+-90.                    LatMin
+90.                     LatMax
+2.                      dLat ! only read if LatMin /= LatMax
+rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmy hppsmz hppsp jx jy jz
+g rbody
+shl VAR idl             StringPlot
+-1                      DnSavePlot
+300.                    DtSavePlot
+SMG                     TypeCoordPlot
+8.0                     rMin
+8.0                     rMax
+0.                      LonMin
+360.                    LonMax
+2.                      dLon ! only read if LonMin /= LonMax
+-90.                    LatMin
+90.                     LatMax
+2.                      dLat ! only read if LatMin /= LatMax
+r rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmy hppsmz hppsp jx jy jz
+g rbody
+shl VAR idl             StringPlot
+-1                      DnSavePlot
+300.                    DtSavePlot
+SMG                     TypeCoordPlot
+10.0                    rMin
+10.0                    rMax
+0.                      LonMin
+360.                    LonMax
+2.                      dLon ! only read if LonMin /= LonMax
+-90.                    LatMin
+90.                     LatMax
+2.                      dLat ! only read if LatMin /= LatMax
+rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmy hppsmz hppsp jx jy jz
+g rbody
+shl VAR idl
+-1
+300.
+SMG
+15.0
+15.0
+0.
+360.
+2.
+-90.
+90.
+2.
+rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmy hppsmz hppsp jx jy jz
+g rbody
+shl VAR idl
+-1
+300.
+SMG
+17.0
+17.0
+0.
+360.
+2.
+-90.
+90.
+2.
+rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmy hppsmz hppsp jx jy jz
+g rbody
+shl VAR idl
+-1
+300.
+SMG
+19.0
+19.0
+0.
+360.
+2.
+-90.
+90.
+2.
+rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmy hppsmz hppsp jx jy jz
+g rbody
+shl VAR idl
+-1
+300.
+SMG
+21.0
+21.0
+0.
+360.
+2.
+-90.
+90.
+2.
+rho ux uy uz bx by bz pe p hprho hpmx hpmy hpmz hpp hppsrho hppsmx hppsmy hppsmz hppsp jx jy jz
 g rbody
 
 #SCHEME
@@ -183,8 +315,8 @@ imf_mf_bzturn_by_test.dat       UpstreamFileName
 
 #BEGIN_COMP IM ---------------------------------------------------------------
 
-#INCLUDE
-IM/restartIN/restart.H
+INCLUDE
+RESTART_t0001.1667h/IM/restart.H
 
 #COREPLASMASPHERE
 T   UseCorePlasmaSphereModel
@@ -222,12 +354,12 @@ T			DoWritePrerunField
 #PRERUNFIELD
 T			DoWritePrerunField
 
-#SAVEPLOT
+SAVEPLOT
 1
 2d both	    StringPlot
 60.	    		DtOutput
 
-SAVEPLOT
+#SAVEPLOT
 5			nCIMIFileType
 fls all			StringPlot
 300 			  DtOutput
@@ -290,5 +422,6 @@ T
 
 #STOP
 -1
-7200.0
+1.1
+
 #END
