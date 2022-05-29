@@ -46,25 +46,25 @@ module ModVarIndexes
        By_      =  6, &
        Bz_      =  7, &
        Pe_      =  8, &
-       P_       =  9, &
-       HpPsRho_   = 10, &
-       HpPsRhoUx_ = 11, &
-       HpPsRhoUy_ = 12, &
-       HpPsRhoUz_ = 13, &
-       HpPsP_     = 14, &
+       p_       =  9, &
+       HpRho_   = 10, &
+       HpRhoUx_ = 11, &
+       HpRhoUy_ = 12, &
+       HpRhoUz_ = 13, &
+       HpP_     = 14, &
        Energy_  = nVar+1, &
-       HpPsEnergy_= nVar+2
+       HpEnergy_= nVar+2
 
   ! This allows to calculate RhoUx_ as RhoU_+x_ and so on.
   integer, parameter :: U_ = Ux_ - 1, RhoU_ = RhoUx_-1, B_ = Bx_-1
 
   ! These arrays are useful for multifluid
   integer, parameter :: &
-       iRho_I(nFluid)   = [Rho_,   HpPsRho_],   &
-       iRhoUx_I(nFluid) = [RhoUx_, HpPsRhoUx_], &
-       iRhoUy_I(nFluid) = [RhoUy_, HpPsRhoUy_], &
-       iRhoUz_I(nFluid) = [RhoUz_, HpPsRhoUz_], &
-       iP_I(nFluid)     = [P_,     HpPsP_]
+       iRho_I(nFluid)   = [Rho_,   HpRho_],   &
+       iRhoUx_I(nFluid) = [RhoUx_, HpRhoUx_], &
+       iRhoUy_I(nFluid) = [RhoUy_, HpRhoUy_], &
+       iRhoUz_I(nFluid) = [RhoUz_, HpRhoUz_], &
+       iP_I(nFluid)     = [p_,     HpP_]
 
   integer, parameter :: iPparIon_I(IonFirst_:IonLast_) = [1,2]
 
@@ -91,22 +91,22 @@ module ModVarIndexes
 
   ! The names of the variables used in i/o
   character(len=7) :: NameVar_V(nVar+nFluid) = [ &
-       'HpRho  ', & ! Rho_
-       'HpMx   ', & ! RhoUx_
-       'HpMy   ', & ! RhoUy_
-       'HPMz   ', & ! RhoUz_
+       'HpPsRho', & ! Rho_
+       'HpPsMx ', & ! RhoUx_
+       'HpPsMy ', & ! RhoUy_
+       'HpPsMz ', & ! RhoUz_
        'Bx     ', & ! Bx_
        'By     ', & ! By_
        'Bz     ', & ! Bz_
        'Pe     ', & ! Pe_
-       'HpP    ', & ! p_
-       'HpPsRho', & ! HpPsRho_
-       'HpPsMx ', & ! HpPsRhoUx_
-       'HpPsMy ', & ! HpPsRhoUy_
-       'HpPsMz ', & ! HpPsRhoUz_
-       'HpPsP  ', & ! HpPsP_
-       'HpE    ', & ! Energy_
-       'HpPsE  ' ]    ! HpPsEnergy_
+       'HpPsP  ', & ! p_
+       'HpRho  ', & ! HpPsRho_
+       'HpMx   ', & ! HpPsRhoUx_
+       'HpMy   ', & ! HpPsRhoUy_
+       'HpMz   ', & ! HpPsRhoUz_
+       'HpP    ', & ! HpPsP_
+       'HpPsE  ', & ! Energy_
+       'HpE    ' ]    ! HpPsEnergy_
 
   ! There are no extra scalars
   integer, parameter :: ScalarFirst_ = 2, ScalarLast_ = 1
