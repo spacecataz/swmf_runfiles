@@ -1,13 +1,13 @@
 #ECHO
 T			DoEcho
 
-#COMPONENTMAP			For 128+ cores like production run
+#COMPONENTMAP		For 128+ cores like production run
 GM  0 -3 -1  -1         GM runs on 0:nProc-3 multithreaded
 IE -2 -1  1             IE runs on last 2 PE-s
 IM -2 -2  1             IM runs on nProc-2 PE
 
 #DESCRIPTION
-High resolution idealized IMF BY simulation configuration.
+High resolution idealized runs for ad-hoc GITM coupling.
 
 #TIMEACCURATE
 F			DoTimeAccurate
@@ -15,10 +15,10 @@ F			DoTimeAccurate
 #IDEALAXES
 
 #STARTTIME            
-2010			year
+2015			year
 03              	month
-20              	day
-00			hour
+19              	day
+23			hour
 00             		minute
 00              	second
 0.0			FracSecond
@@ -136,7 +136,7 @@ T                       UseCpcpBc  (rest is read if true)
 
 #SOLARWINDFILE
 T				UseSolarWindFile
-IMF_noBY.dat			NameSolarWindFile
+imf_run00.dat			NameSolarWindFile
 
 #SCHEME
 1			nOrder
@@ -188,16 +188,16 @@ MAG                     TypeCoordFacGrid
 60.0			DtOutput      [sec]
 
 #MAGNETOMETERGRID
-real8			TypeFileMagGrid
-GEO			TypeCoordMagGrid
-72			nLonMagGrid
-34			nLatMagGrid
-0.			LonMinMagGrid
-360.			LonMaxMagGrid
--85.			LatMinMagGrid
-85.			LatMaxMagGrid
--1			DnSaveMagGrid
-60.0			DtSaveMagGrid
+real8                   TypeFileMagGrid
+GEO                     TypeCoordMagGrid
+360                     nLonMagGrid
+171                     nLatMagGrid
+0.                      LonMinMagGrid
+360.                    LonMaxMagGrid
+-85.                    LatMinMagGrid
+85.                     LatMaxMagGrid
+-1                      DnSaveMagGrid
+10.0                    DtSaveMagGrid
 
 #END_COMP GM -----------------------------------------------------------------
 
@@ -211,23 +211,12 @@ F			UseFakeRegion2
 1.0                     StarLightPedConductance
 0.25                    PolarCapPedConductance
 
-#CONDUCTANCEFILES 
-cmee_hal_coeffs.dat	NameHalFile 
-cmee_ped_coeffs.dat 	NamePedFile
-
 #AURORALOVAL 
 T			UseOval (rest of parameters read if true) 
 T 			UseOvalShift 
 F 			UseSubOvalConductance 
 T 			UseAdvancedOval 
 F 			DoFitCircle (read if UseAdvancedOval is true)
-
-#USECMEE 
-T			UseCMEEFitting (rest of parameters read if true) 
-45 			LatNoConductanceSI (default) 
-7.5 			FactorHallCMEE (default) 
-5 			FactorPedCMEE (default)
-
 
 #BOUNDARY
 10.0			LatBoundary
@@ -273,7 +262,7 @@ T			DoTimeAccurate
 #SAVERESTART
 T                       DoSaveRestart
 -1                      DnSaveRestart
-7200.0                    DtSaveRestart
+7200.0                  DtSaveRestart
 
 #RESTARTOUTDIR
 SWMF_RESTART.YYYYMMDD_HHMMSS            NameRestartOutDir
@@ -347,7 +336,7 @@ z=0 ray idl             StringPlot
 -1.0                    DxSavePlot
 3d MHD idl              StringPlot
 -1                      DnSavePlot
-1800.                   DtSavePlot
+900.                    DtSavePlot
 -1			DxSavePlot
 
 #BORIS
@@ -391,7 +380,7 @@ T 			UseDecay
 
 #SAVEPLOT
 1			nPlotFile
-aur idl                 StringPlot
+max idl                 StringPlot
 -1                      DnSavePlot
 60.0			DtSavePlot
 
@@ -401,7 +390,7 @@ aur idl                 StringPlot
 2010			year
 03              	month
 20              	day
-12			hour
+05			hour
 00             		minute
 00              	second
 0.0			FracSecond
