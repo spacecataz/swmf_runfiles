@@ -15,3 +15,15 @@ Some magnetometers have repeat entries:
 M87 is the same as B21.
 M89 is the same as B22.
 M85/86 is the same as B20/19.
+
+**test_sats**
+test_sats contains an include file and several virtual satellite input files
+for stationary stats that probe different points within the magnetosphere.
+Often useful for idealized runs, these satellites can be included in a
+simulation by copying the folder into the run directory and using this
+syntax within a `GM` section of a PARAM.in:
+
+```
+#INCLUDE
+test_sats/test_sats.include
+```
