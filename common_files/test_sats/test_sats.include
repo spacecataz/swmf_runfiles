@@ -1,0 +1,59 @@
+Use this file with this command:
+INCLUDE
+test_sats/test_sats.include
+Then add the entire test sats directory in the rundir.
+
+#SATELLITE
+13
+MHD file RAY
+-1
+5.0
+test_sats/dawn_05.dat
+MHD file RAY
+-1
+5.0
+test_sats/dusk_05.dat
+MHD file RAY
+-1
+5.0
+test_sats/noon_05.dat
+MHD file RAY
+-1
+5.0
+test_sats/noon_03.dat
+MHD file RAY
+-1
+5.0
+test_sats/midn_03.dat
+MHD file RAY
+-1
+5.0
+test_sats/midn_05.dat
+MHD file RAY
+-1
+5.0
+test_sats/midn_07.dat
+MHD file RAY
+-1
+5.0
+test_sats/midn_10.dat
+MHD file RAY
+-1
+5.0
+test_sats/midn_15.dat
+MHD file RAY
+-1
+5.0
+test_sats/midn_20.dat
+MHD file RAY
+-1
+5.0
+test_sats/midn_30.dat
+MHD file RAY
+-1
+5.0
+test_sats/midn_40.dat
+MHD file RAY
+-1
+5.0
+test_sats/midn_50.dat
