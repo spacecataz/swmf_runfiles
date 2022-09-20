@@ -1,3 +1,7 @@
+#COMPONENTMAP
+PS       0    0    1   ! PS runs on one PE
+IE       0    0  999   ! IE runs on many PEs
+
 #ECHO
 T
 
