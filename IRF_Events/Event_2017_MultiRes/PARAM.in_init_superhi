@@ -1,16 +1,16 @@
 #ECHO
 T			DoEcho
 
+#COMPONENTMAP                   For 128+ cores like production run
+GM  0 -3 -1  -1         GM runs on 0:nProc-3 multithreaded
+IE -2 -1  1             IE runs on last 2 PE-s
+IM -2 -2  1             IM runs on nProc-2 PE
+
 #DESCRIPTION
 Sept. 2017 Event: High Res
 
 #TIMEACCURATE
 F			DoTimeAccurate
-
-#COMPONENTMAP                   For 128+ cores like production run
-GM  0 -3 -1  -1         GM runs on 0:nProc-3 multithreaded
-IE -2 -1  1             IE runs on last 2 PE-s
-IM -2 -2  1             IM runs on nProc-2 PE
 
 #STARTTIME            
 2017			year
@@ -114,15 +114,6 @@ box			NameArea
  24.0			yMaxBox
  24.0			zMaxBox
 
-#NONCONSERVATIVE
-T                       UseNonConservative
-
-#CONSERVATIVECRITERIA
-1			nConservCrit
-parabola		TypeConservCrit_I
- 5.0			xParabolaConserv
-15.0			yParabolaConserv
-
 #BODY
 T                       UseBody
 2.5                     rBody     (in planet radius)
@@ -158,6 +149,15 @@ IMF.dat				NameSolarWindFile
 #SCHEME
 1			nOrder
 Sokolov			TypeFlux
+
+#NONCONSERVATIVE
+T                       UseNonConservative
+
+#CONSERVATIVECRITERIA
+1			nConservCrit
+parabola		TypeConservCrit_I
+ 5.0			xParabolaConserv
+15.0			yParabolaConserv
 
 #SAVELOGNAME
 F                       IsLogName_n
@@ -211,13 +211,6 @@ GEO			TypeCoordMagGrid
 
 #BEGIN_COMP IE ---------------------------------------------------------------
 
-#AURORALOVAL
-T             UseOval (rest of parameters read if true)
-T             UseOvalShift
-F             UseSubOvalConductance
-T             UseAdvancedOval
-F	      DoFitCircle
-
 #IONOSPHERE
 5                       TypeConductanceModel
 F                       UseFullCurrent
@@ -228,6 +221,13 @@ F			UseFakeRegion2
 
 #BOUNDARY
 10.0			LatBoundary
+
+#AURORALOVAL
+T             UseOval (rest of parameters read if true)
+T             UseOvalShift
+F             UseSubOvalConductance
+T             UseAdvancedOval
+F	      DoFitCircle
 
 #END_COMP IE -----------------------------------------------------------------
 
