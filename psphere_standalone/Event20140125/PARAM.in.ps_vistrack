@@ -1,0 +1,80 @@
+#COMPONENTMAP
+PS 0 0 1
+
+#ECHO
+T
+
+#PROGRESS
+1000		DnShowProgressShort
+50000		DnShowProgressLong
+
+#DESCRIPTION
+DGCPM simulation for devel of visual-tracking psphere model by Katus.
+
+#PLANET
+EARTH
+
+#SAVERESTART
+T               DoSaveRestart
+-1              DnSaveRestart
+43200           DtSaveRestart
+
+#TIMEACCURATE
+T		DoTimeAccurate
+
+#STARTTIME
+2014		iYear
+01		iMonth
+25		iDay
+00  	 	iHour
+00		iMinute
+0		iSecond
+0.0		FracSecond
+
+#IDEALAXES
+! align rotation and magnetic axes with z axis
+
+#ROTATION
+F               UseRotation
+
+#BEGIN_COMP PS #############################################################
+
+#TIMESTEP
+10.0		DtStep
+
+#KP
+file            NameSourceKp
+kp_event.txt	NameKpFile
+
+#OUTPUT
+T		WriteStatic
+T		WriteDynamic
+300.		OutputInterval
+VELOCITY	OutputType
+DIPOLE		MagneticType
+
+#MLTSLICE
+4	        nMltSlice
+300.0	        DtMltSlice
+
+#LOG
+T		WriteLogFile
+
+#FILLING
+3.0		EmptyPeriodClosed
+1.0		EmptyPeriodOpen
+-1.5		FillDays (Negative for no refilling)
+
+#END_COMP PS ###############################################################
+
+#ENDTIME            
+2014                    year
+02                      month
+08                      day
+00                      hour
+00                      minute
+00                      second
+0.0                     FracSecond
+
+#END
+
