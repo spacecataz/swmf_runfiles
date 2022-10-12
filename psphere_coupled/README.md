@@ -49,8 +49,11 @@ MSTEM-QUDA/Ridley_serial      a4ac0f4689a5bf0fffbc566f4c444e5030c2dac2
 mudtop/CIMI2 Branch: ReHpPs   8fa216bf8535faa8583cc53df5b28b0bc18b320e  
   
 use git checkout to checkout the apporiate branch heads for the above repositories.  
+
+
 minor modification to file: GM/BATSRUS/src/ModAMR.f90 masked_amr_criteria -> is_masked_amr_criteria
 three refrences need to be replaced.  
+a refrenece to CON_stop_simple must be removed from the preable of BATSRUS/srcBATL/BATL_geometry.f90 
   
 ## SWMF Configuration:
 ```
