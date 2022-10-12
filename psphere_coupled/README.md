@@ -53,7 +53,8 @@ use git checkout to checkout the apporiate branch heads for the above repositori
 
 minor modification to file: GM/BATSRUS/src/ModAMR.f90 masked_amr_criteria -> is_masked_amr_criteria
 three refrences need to be replaced.  
-a refrenece to CON_stop_simple must be removed from the preable of BATSRUS/srcBATL/BATL_geometry.f90 
+a refrenece to CON_stop_simple must be removed from the preable of BATSRUS/srcBATL/BATL_geometry.f90
+two calls to CON_stop_simple must be edited to refer to CON_stop instead.
   
 ## SWMF Configuration:
 ```
