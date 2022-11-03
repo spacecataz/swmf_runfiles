@@ -41,7 +41,7 @@ PARAM.gm.1st.hires
 
 #UPSTREAM_INPUT_FILE
 T                       UseUpstreamInputFile
-imf_mf_bzturn_by.dat       UpstreamFileName
+imf_cmemc_katus.dat       UpstreamFileName
 0.0                     Satellite_Y_Pos
 0.0                     Satellite_Z_Pos
 
