@@ -9,7 +9,7 @@ T
 50000		DnShowProgressLong
 
 #DESCRIPTION
-PS:DGCPM Stand-alone test.
+DGCPM simulation for devel of visual-tracking psphere model by Katus.
 
 #PLANET
 EARTH
@@ -40,7 +40,7 @@ F               UseRotation
 #BEGIN_COMP PS #############################################################
 
 #TIMESTEP
-20.0		DtStep
+10.0		DtStep
 
 #KP
 file            NameSourceKp
@@ -49,8 +49,8 @@ kp_event.txt	NameKpFile
 #OUTPUT
 T		WriteStatic
 T		WriteDynamic
-600.		OutputInterval
-SHORT		OutputType
+300.		OutputInterval
+VELOCITY	OutputType
 DIPOLE		MagneticType
 
 #MLTSLICE
@@ -59,6 +59,11 @@ DIPOLE		MagneticType
 
 #LOG
 T		WriteLogFile
+
+#FILLING
+3.0		EmptyPeriodClosed
+1.0		EmptyPeriodOpen
+-1.5		FillDays (Negative for no refilling)
 
 #END_COMP PS ###############################################################
 

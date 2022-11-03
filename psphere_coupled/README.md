@@ -37,6 +37,25 @@ The first fluid a combined solar/polar ion outflow fluid representing
 a "typical" MHD simulation.  The second fluid is for recirculating
 plasmasphere material.
 
+## Install Legacy Configuration
+After Noverber 8, 2021 updates were made to the SWMF which made it neccesary to use a legacy version to continue devleoping the GM-IM coupling.
+The following repositories must be cloned explicitly  
+Repository                    Branch Head  
+MSTEM-QUDA/SWMF               b46608d44daa197a91a2661daf045f18bbbbbf61  
+MSTEM-QUDA/util               9595434666951ec26493db2c45245ca1fc79ea02  
+MSTEM-QUDA/share              02c4cab7df3ba2a5fa4515ef0d05e466ac1fa815  
+MSTEM-QUDA/BATSRUS            d34938b7dc9e135aefa11bde35ad3bf4f8b2c4f7  
+MSTEM-QUDA/Ridley_serial      a4ac0f4689a5bf0fffbc566f4c444e5030c2dac2  
+mudtop/CIMI2 Branch: ReHpPs   8fa216bf8535faa8583cc53df5b28b0bc18b320e  
+  
+use git checkout to checkout the apporiate branch heads for the above repositories.  
+
+
+minor modification to file: GM/BATSRUS/src/ModAMR.f90 masked_amr_criteria -> is_masked_amr_criteria
+three refrences need to be replaced.  
+a refrenece to CON_stop_simple must be removed from the preable of BATSRUS/srcBATL/BATL_geometry.f90
+two calls to CON_stop_simple must be edited to refer to CON_stop instead.
+  
 ## SWMF Configuration:
 ```
 Config.pl -install=BATSRUS,CIMI2,Ridley_serial
