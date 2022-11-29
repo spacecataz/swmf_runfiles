@@ -7,7 +7,6 @@ RESTART.in
 #DESCRIPTION
 Continue event simulation.
 
-
 #COMPONENTMAP                   For 128+ cores like production run
 GM  0 -3 -1  -1         GM runs on 0:nProc-3 multithreaded
 IE -2 -1  1             IE runs on last 2 PE-s
@@ -151,7 +150,7 @@ dt rho mx my mz p bx by bz pmin pmax dst cpcpn
 3.0			StringRFlux
 
 #SAVEPLOT
-3                       nPlotFiles
+4                       nPlotFiles
 y=0 MHD idl             StringPlot
 -1                      DnSavePlot
 60.			DtSavePlot
@@ -164,6 +163,11 @@ z=0 ray idl             StringPlot
 -1                      DnSavePlot
 60.                     DtSavePlot
 -1.0                    DxSavePlot
+lcb nul tec           	StringPlot
+-1        		DnSavePlot
+60                      DtSavePlot
+5.                      Radius
+360                     nLon
 
 #SCHEME
 2			nORDER
@@ -221,7 +225,7 @@ F			UseFakeRegion2
 
 #SAVEPLOT
 1			nPlotFile
-aur idl                 StringPlot
+max idl                 StringPlot
 -1                      DnSavePlot
 60.0			DtSavePlot
 
