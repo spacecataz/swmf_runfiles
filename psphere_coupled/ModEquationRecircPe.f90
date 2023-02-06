@@ -18,7 +18,7 @@ module ModVarIndexes
   ! electron pressure.  This allows for investigations of recirculation of
   ! plasmasphere recirculation with special coupling to CIMI.
   ! Inner boundary values must be controlled with the #MAGNETOSPHERE command.
-  ! The HpPs fluid should be set to low values at the inner boundary.
+  ! The PsHp fluid should be set to low values at the inner boundary.
   character (len=*), parameter :: NameEquation = &
        'MHD with total H+, plasmasphere H+, and electron pressure'
 
@@ -31,7 +31,7 @@ module ModVarIndexes
   real               :: MassFluid_I(1:2) = [ 1.0, 1.0]
 
   character (len=5), parameter :: NameFluid_I(nFluid)= &
-       [ 'Hp   ', 'HpPs ']
+       [ 'Hp   ', 'PsHp ']
 
   ! Named indexes for State_VGB and other variables
   ! These indexes should go subsequently, from 1 to nVar+nFluid.
@@ -47,24 +47,24 @@ module ModVarIndexes
        Bz_      =  7, &
        Pe_      =  8, &
        p_       =  9, &
-       HpRho_   = 10, &
-       HpRhoUx_ = 11, &
-       HpRhoUy_ = 12, &
-       HpRhoUz_ = 13, &
-       HpP_     = 14, &
+       PsHpRho_   = 10, &
+       PsHpRhoUx_ = 11, &
+       PsHpRhoUy_ = 12, &
+       PsHpRhoUz_ = 13, &
+       PsHpP_     = 14, &
        Energy_  = nVar+1, &
-       HpEnergy_= nVar+2
+       PsHpEnergy_= nVar+2
 
   ! This allows to calculate RhoUx_ as RhoU_+x_ and so on.
   integer, parameter :: U_ = Ux_ - 1, RhoU_ = RhoUx_-1, B_ = Bx_-1
 
   ! These arrays are useful for multifluid
   integer, parameter :: &
-       iRho_I(nFluid)   = [Rho_,   HpRho_],   &
-       iRhoUx_I(nFluid) = [RhoUx_, HpRhoUx_], &
-       iRhoUy_I(nFluid) = [RhoUy_, HpRhoUy_], &
-       iRhoUz_I(nFluid) = [RhoUz_, HpRhoUz_], &
-       iP_I(nFluid)     = [p_,     HpP_]
+       iRho_I(nFluid)   = [Rho_,   PsHpRho_],   &
+       iRhoUx_I(nFluid) = [RhoUx_, PsHpRhoUx_], &
+       iRhoUy_I(nFluid) = [RhoUy_, PsHpRhoUy_], &
+       iRhoUz_I(nFluid) = [RhoUz_, PsHpRhoUz_], &
+       iP_I(nFluid)     = [p_,     PsHpP_]
 
   integer, parameter :: iPparIon_I(IonFirst_:IonLast_) = [1,2]
 
@@ -81,32 +81,32 @@ module ModVarIndexes
        0.0, & ! Bz_
        1.0, & ! Pe_
        1.0, & ! p_
-       1.0, & ! HpPsRho_
-       0.0, & ! HpPsRhoUx_
-       0.0, & ! HpPsRhoUy_
-       0.0, & ! HpPsRhoUz_
-       1.0, & ! HpPsP_
+       1.0, & ! PsHpRho_
+       0.0, & ! PsHpRhoUx_
+       0.0, & ! PsHpRhoUy_
+       0.0, & ! PsHpRhoUz_
+       1.0, & ! PsHpP_
        1.0, & ! Energy_
-       1.0 ]  ! HpPsEnergy_
+       1.0 ]  ! PsHpEnergy_
 
   ! The names of the variables used in i/o
   character(len=7) :: NameVar_V(nVar+nFluid) = [ &
-       'HpPsRho', & ! Rho_
-       'HpPsMx ', & ! RhoUx_
-       'HpPsMy ', & ! RhoUy_
-       'HpPsMz ', & ! RhoUz_
+       'HpRho  ', & ! Rho_
+       'HpMx   ', & ! RhoUx_
+       'HpMy   ', & ! RhoUy_
+       'HpMz   ', & ! RhoUz_
        'Bx     ', & ! Bx_
        'By     ', & ! By_
        'Bz     ', & ! Bz_
        'Pe     ', & ! Pe_
-       'HpPsP  ', & ! p_
-       'HpRho  ', & ! HpPsRho_
-       'HpMx   ', & ! HpPsRhoUx_
-       'HpMy   ', & ! HpPsRhoUy_
-       'HpMz   ', & ! HpPsRhoUz_
-       'HpP    ', & ! HpPsP_
-       'HpPsE  ', & ! Energy_
-       'HpE    ' ]    ! HpPsEnergy_
+       'HpP    ', & ! p_
+       'PsHpRho', & ! PsHpRho_
+       'PsHpMx ', & ! PsHpRhoUx_
+       'PsHpMy ', & ! PsHpRhoUy_
+       'PsHpMz ', & ! PsHpRhoUz_
+       'PsHpP  ', & ! PsHpP_
+       'HpE    ', & ! Energy_
+       'PsHpE  ' ]    ! PsHpEnergy_
 
   ! There are no extra scalars
   integer, parameter :: ScalarFirst_ = 2, ScalarLast_ = 1
