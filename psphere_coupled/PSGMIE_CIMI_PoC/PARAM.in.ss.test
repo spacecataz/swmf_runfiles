@@ -37,7 +37,7 @@ T
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-16000
+100000
 
 #INCLUDE
 PARAM.gm.1st.hires
