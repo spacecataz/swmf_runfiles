@@ -59,6 +59,9 @@ F			DoCoupleOnTime
 #INCLUDE
 GM/restartIN/restart.H
 
+#GRIDBLOCKALL
+100000
+
 #OUTERBOUNDARY
 outflow			TypeBc1
 vary			TypeBc2
