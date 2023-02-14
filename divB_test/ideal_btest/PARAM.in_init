@@ -347,7 +347,7 @@ max tec                 StringPlot
 2010			year
 03              	month
 20              	day
-12			hour
+20			hour
 00             		minute
 00              	second
 0.0			FracSecond
