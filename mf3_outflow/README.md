@@ -11,7 +11,9 @@ these factors of outflow fluence and magnetospheric composition.
 
 Installation:
 
-`./Config.pl -install= -compiler=[your compiler]`
-`./Config.pl -o=GM:e=Whatevs`
+```
+./Config.pl -install= -compiler=[your compiler]
+./Config.pl -o=GM:e=Whatevs
+```
 
 ## Default Simulation
