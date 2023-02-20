@@ -144,7 +144,9 @@ ionosphere
 
 #SCHEME
 1			nOrder
-Rusanov			TypeFlux
+Sokolov			TypeFlux
+mc3			TypeLimiter
+1.2			BetaLimiter
 
 #SAVEPLOTSAMR
 F			DoSavePlotsAmr to save plots before each AMR
@@ -155,7 +157,7 @@ F			DoAutomaticRefinement
 
 #UPSTREAM_INPUT_FILE
 T                       UseUpstreamInputFile
-imf_ideal.dat           UpstreamFileName
+imf_ideal_south.dat     UpstreamFileName
 0.0                     Satellite_Y_Pos
 0.0                     Satellite_Z_Pos
 
@@ -220,12 +222,12 @@ T                       DoSaveRestart
 2000                    DnSaveRestart
 -1                  	DtSaveRestart
 
-#AMR
+AMR
 F			DnRefine
 
 #SCHEME
-2			nORDER
-Rusanov			TypeFlux
+1			nORDER
+Sokolov			TypeFlux
 mc3                     TypeLimiter
 1.2
 
@@ -314,9 +316,19 @@ z=0 MHD idl             StringPlot
 -1     			DnSavePlot
 1800			DtSavePlot
 -1			
-3d MHD tec		StringPlot
--1     			DnSavePlot
-1800			DtSavePlot
+shl MHD idl
+-1			DnSavePlot
+300.			DtSavePlot
+SMG			TypeCoordPlot
+2.6			rMin
+3.5			rMax
+0.1			dR
+0.			LonMin
+360.			LonMax
+10.			dLon
+-90.			LatMin
+90.			LatMax
+10.			dLat
 
 #END_COMP GM -----------------------------------------------------------------
 
@@ -334,7 +346,7 @@ max idl			StringPlot
 2000            year
 01              month
 01              day
-10              hour
+05              hour
 00              minute
 00              second
 0.0             FracSecond
