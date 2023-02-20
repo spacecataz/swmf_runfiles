@@ -46,16 +46,43 @@ MSTEM-QUDA/util               9595434666951ec26493db2c45245ca1fc79ea02
 MSTEM-QUDA/share              02c4cab7df3ba2a5fa4515ef0d05e466ac1fa815  
 MSTEM-QUDA/BATSRUS            d34938b7dc9e135aefa11bde35ad3bf4f8b2c4f7  
 MSTEM-QUDA/Ridley_serial      a4ac0f4689a5bf0fffbc566f4c444e5030c2dac2  
-mudtop/CIMI2 Branch: ReHpPs   8fa216bf8535faa8583cc53df5b28b0bc18b320e  
+mudtop/CIMI2 Branch: ReHpPs   
   
 use git checkout to checkout the apporiate branch heads for the above repositories.  
-
 
 minor modification to file: GM/BATSRUS/src/ModAMR.f90 masked_amr_criteria -> is_masked_amr_criteria
 three refrences need to be replaced.  
 a refrenece to CON_stop_simple must be removed from the preable of BATSRUS/srcBATL/BATL_geometry.f90
 two calls to CON_stop_simple must be edited to refer to CON_stop instead.
-  
+ 
+### Macro for install Legacy SWMF into ./SWMF/
+```
+git clone git@github.com:MSTEM-QUDA/SWMF.git
+cd SWMF/
+git clone git@github.com:MSTEM-QUDA/share.git
+git clone git@github.com:MSTEM-QUDA/util.git 
+git clone git@github.com:MSTEM-QUDA/BATSRUS.git GM/BATSRUS
+git clone git@github.com:MSTEM-QUDA/Ridley_serial.git IE/Ridley_serial
+git clone git@github.com:mudtop/CIMI2.git IM/CIMI2
+cd IM/CIMI2/
+git fetch origin ReHpPs
+git checkout ReHpPs
+cd ../../
+git checkout b46608d44daa197a91a2661daf045f18bbbbbf61
+cd util/
+git checkout 9595434666951ec26493db2c45245ca1fc79ea02
+cd ../share/
+git checkout 02c4cab7df3ba2a5fa4515ef0d05e466ac1fa815
+cd ../GM/BATSRUS/
+git checkout d34938b7dc9e135aefa11bde35ad3bf4f8b2c4f7
+cd ../../IE/Ridley_serial 
+git checkout a4ac0f4689a5bf0fffbc566f4c444e5030c2dac2
+cd ../../
+cp ../swmf_runfiles/psphere_coupled/ModEquationRecircPe.f90 GM/BATSRUS/srcEquation/
+```
+Note the user must still edit the GM/BATSRUS/scr(BATL)/ModAMR(BATL_geometry).f90 files as described above. Also note there is an assumption that 
+the swmf_runfiles folder is located in the same directory which the SWMF will be placed. 
+
 ## SWMF Configuration:
 ```
 Config.pl -install=BATSRUS,CIMI2,Ridley_serial

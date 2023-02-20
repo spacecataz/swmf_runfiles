@@ -173,8 +173,8 @@ T			DoAmr
 T			IsStrictAmr
 
 #MAGPERTURBINTEGRAL
-T                       UseSurfaceIntegral
-T                       UseFastFacIntegral
+F                       UseSurfaceIntegral
+F                       UseFastFacIntegral
 MAG                     TypeCoordIndex
 MAG                     TypeCoordFacGrid
 
@@ -290,7 +290,7 @@ T			DoCoupleOnTime
 
 #SAVEPLOT
 4                       nPlotFiles
-y=0 MHD idl             StringPlot
+y=0 FUL idl             StringPlot
 -1                      DnSavePlot
 60.			DtSavePlot
 -1.0			DxSavePlot
@@ -302,10 +302,11 @@ z=0 ray idl             StringPlot
 -1                      DnSavePlot
 60.                     DtSavePlot
 -1.0                    DxSavePlot
-3d MHD idl              StringPlot
+3d FUL idl              StringPlot
 -1                      DnSavePlot
 60.                     DtSavePlot
 -1			DxSavePlot
+
 
 #BORIS
 T			UseBorisCorrection
@@ -332,8 +333,11 @@ borisregion			NameBorisRegion
 #BEGIN_COMP IE ---------------------------------------------------------------
 
 #SAVEPLOT
-1			nPlotFile
+2			nPlotFile
 max idl                 StringPlot
+-1                      DnSavePlot
+60.0			DtSavePlot
+max tec                 StringPlot
 -1                      DnSavePlot
 60.0			DtSavePlot
 
@@ -343,7 +347,7 @@ max idl                 StringPlot
 2010			year
 03              	month
 20              	day
-12			hour
+20			hour
 00             		minute
 00              	second
 0.0			FracSecond
