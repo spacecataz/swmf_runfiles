@@ -16,13 +16,16 @@ Continue eclipse event simulation.
 T			DoTimeAccurate
 
 #PROGRESS
-1			DnProgressShort
-100			DnProgressLong
+100			DnProgressShort
+1000			DnProgressLong
+
+#MAKEDIR
+F                       DoMakeDir
 
 #SAVERESTART
 T                       DoSaveRestart
 -1                      DnSaveRestart
-7200.0                    DtSaveRestart
+3600.0                  DtSaveRestart
 
 #COUPLEORDER
 5			nCouple
