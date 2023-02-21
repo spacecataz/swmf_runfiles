@@ -157,7 +157,7 @@ F			DoAutomaticRefinement
 
 #UPSTREAM_INPUT_FILE
 T                       UseUpstreamInputFile
-imf_ideal_south.dat     UpstreamFileName
+imf_ideal.dat     UpstreamFileName
 0.0                     Satellite_Y_Pos
 0.0                     Satellite_Z_Pos
 
@@ -311,14 +311,10 @@ y=0 MHD idl             StringPlot
 z=0 MHD idl             StringPlot
 -1                      DnSavePlot
 300.			DtSavePlot
--1
-3d MHD idl		StringPlot
--1     			DnSavePlot
-1800			DtSavePlot
 -1			
 shl MHD idl
 -1			DnSavePlot
-300.			DtSavePlot
+1800.			DtSavePlot
 SMG			TypeCoordPlot
 2.6			rMin
 3.5			rMax
@@ -346,7 +342,7 @@ max idl			StringPlot
 2000            year
 01              month
 01              day
-05              hour
+10              hour
 00              minute
 00              second
 0.0             FracSecond
