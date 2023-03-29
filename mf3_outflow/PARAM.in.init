@@ -111,12 +111,19 @@ box			NameArea
  24.0			yMaxBox
  24.0			zMaxBox
 
-#BODY
+#MAGNETOSPHERE
 T                       UseBody (rest of parameters read if true)
 2.5                     rBody (user units)
 3.0                     rCurrents (only read for GM component)
-28.0                    BodyNDim (/cc) for fluid 1
+0.001                   BodyNDim (/cc) for fluid 1
 25000.0                 BodyTDim (K)   for fluid 1
+25.2			BodyNDim (/cc) for fluid 2
+25000.0			BodyTDim (K)   for fluid 2
+2.8			BodyNDim (/cc) for fluid 3
+25000.0			BodyTDim (K)   for fluid 3
+
+#TVDRESCHANGE
+T
 
 #NONCONSERVATIVE
 T                       UseNonConservative
@@ -154,6 +161,28 @@ F			DoSavePlotsAmr to save plots before each AMR
 #AMR
 100			DnRefine
 F			DoAutomaticRefinement 
+
+COLLISION
+-1.0			CollisionCoefDim
+1.0e3			TauCutOffDim [s]
+100.0			uCutOffDim [km/s] read if TauCutOffDim positive
+2			nPowerCutOff read if TauCutOffDim positive
+
+PLASMA
+1.0			FluidMass 1 [amu]
+1.0			IonCharge 1 [e]
+1.0			FluidMass 2 [amu]
+1.0			IonCharge 2 [e]
+16.0			FluidMass 3 [amu]
+1.0			IonCharge 3 [e]
+0.2			ElectronTemperatureRatio
+
+MULTIION
+0.01			LowDensityRatio
+1e-10			LowPressureRatio
+T			DoRestrictMultiIon
+3.0			MachNumberMultiIon
+30.0			ParabolaWidthMultiIon
 
 #UPSTREAM_INPUT_FILE
 T                       UseUpstreamInputFile
@@ -222,12 +251,9 @@ T                       DoSaveRestart
 2000                    DnSaveRestart
 -1                  	DtSaveRestart
 
-AMR
-F			DnRefine
-
 #SCHEME
-1			nORDER
-Sokolov			TypeFlux
+2			nORDER
+Rusanov			TypeFlux
 mc3                     TypeLimiter
 1.2
 
@@ -303,7 +329,7 @@ borisregion		NameBorisRegion
 0.85			CflExpl
 
 #SAVEPLOT
-4                       nPlotFiles
+6                       nPlotFiles
 y=0 MHD idl             StringPlot
 -1                      DnSavePlot
 300.			DtSavePlot
@@ -316,7 +342,33 @@ shl MHD idl
 -1			DnSavePlot
 1800.			DtSavePlot
 SMG			TypeCoordPlot
-2.6			rMin
+2.7			rMin
+2.7			rMax
+0.1			dR
+0.			LonMin
+360.			LonMax
+10.			dLon
+-90.			LatMin
+90.			LatMax
+10.			dLat
+shl MHD idl
+-1			DnSavePlot
+1800.			DtSavePlot
+SMG			TypeCoordPlot
+3.0			rMin
+3.0			rMax
+0.1			dR
+0.			LonMin
+360.			LonMax
+10.			dLon
+-90.			LatMin
+90.			LatMax
+10.			dLat
+shl MHD idl
+-1			DnSavePlot
+1800.			DtSavePlot
+SMG			TypeCoordPlot
+3.5			rMin
 3.5			rMax
 0.1			dR
 0.			LonMin
@@ -325,6 +377,22 @@ SMG			TypeCoordPlot
 -90.			LatMin
 90.			LatMax
 10.			dLat
+shl MHD idl
+-1			DnSavePlot
+1800.			DtSavePlot
+SMG			TypeCoordPlot
+4.0			rMin
+4.0			rMax
+0.1			dR
+0.			LonMin
+360.			LonMax
+10.			dLon
+-90.			LatMin
+90.			LatMax
+10.			dLat
+
+
+
 
 #END_COMP GM -----------------------------------------------------------------
 
