@@ -1,32 +1,32 @@
-#COMPONENTMAP		For production run
-GM  0 -3 -1  -1		CompMap 0:nProc-3 multithreaded
-IE -2 -1  1  		CompMap last 2 PE-s
+#COMPONENTMAP
+GM   0 -3 -1  -1		CompMap runs on up to 2 PE-s
+IE  -2 -1  1			CompMap runs on all PE-s
 
 #ECHO
 T
 
 #DESCRIPTION
-MF3 Outflow Sensitivity Study Setup Param
+PARAM.in for multifluid steady state	StringDescription
 
 #TIMEACCURATE
-F                       DoTimeAccurate
+F			IsTimeAccurate
 
 #IDEALAXES
 
 #STARTTIME
-2000            year
-01              month
-01              day
-00              hour
-00              minute
-00              second
-0.0             FracSecond
+2000			iYear
+01			iMonth
+01			iDay
+00			iHour
+00			iMinute
+00			iSecond
+0.0			FracSecond
 
 #COUPLE2
-GM                      NameComp1
-IE                      NameComp2
-10                      DnCouple
--1.0                    DtCouple
+GM			NameComp1
+IE			NameComp2
+10			DnCouple
+-1.0			DtCouple
 
 #BEGIN_COMP GM ---------------------------------------------------------------
 
@@ -77,8 +77,6 @@ box
  4.0                   yMaxBox
  4.0                   zMaxBox
 
-! Strong resolution just outside
-! super-hi for clean outflow.
 #GRIDRESOLUTION
 1/8
 box
@@ -89,7 +87,6 @@ box
  8.0                   yMaxBox
  8.0                   zMaxBox
 
-! Good res throughout lobes.
 #GRIDRESOLUTION
 1/4
 box
@@ -100,7 +97,6 @@ box
  16.0                   yMaxBox
  16.0                   zMaxBox
 
-! 1/2 RE buffer around inner mag.
 #GRIDRESOLUTION
 1/2			Resolution
 box			NameArea
@@ -115,12 +111,10 @@ box			NameArea
 T                       UseBody (rest of parameters read if true)
 2.5                     rBody (user units)
 3.0                     rCurrents (only read for GM component)
-0.001                   BodyNDim (/cc) for fluid 1
+0.01			
+25000.0
+27.99                   BodyNDim (/cc) for fluid 1
 25000.0                 BodyTDim (K)   for fluid 1
-25.2			BodyNDim (/cc) for fluid 2
-25000.0			BodyTDim (K)   for fluid 2
-2.8			BodyNDim (/cc) for fluid 3
-25000.0			BodyTDim (K)   for fluid 3
 
 #TVDRESCHANGE
 T
@@ -131,7 +125,7 @@ T                       UseNonConservative
 #CONSERVATIVECRITERIA
 1			nConservCrit
 parabola		TypeConservCrit_I
- 5.0			xParabolaConserv
+5.0			xParabolaConserv
 15.0			yParabolaConserv
 
 #TIMESTEPPING
@@ -147,60 +141,61 @@ float			TypeBC_I(bot_)
 float			TypeBC_I(top_)
 
 #INNERBOUNDARY
-ionosphere		
+ionosphere
 
 #SCHEME
 1			nOrder
-Sokolov			TypeFlux
-mc3			TypeLimiter
-1.2			BetaLimiter
-
-#SAVEPLOTSAMR
-F			DoSavePlotsAmr to save plots before each AMR
+Rusanov			TypeFlux
 
 #AMR
 100			DnRefine
-F			DoAutomaticRefinement 
+F			DoAutomaticRefinement
 
-COLLISION
+#COLLISION
 -1.0			CollisionCoefDim
 1.0e3			TauCutOffDim [s]
 100.0			uCutOffDim [km/s] read if TauCutOffDim positive
 2			nPowerCutOff read if TauCutOffDim positive
 
-PLASMA
-1.0			FluidMass 1 [amu]
-1.0			IonCharge 1 [e]
-1.0			FluidMass 2 [amu]
-1.0			IonCharge 2 [e]
-16.0			FluidMass 3 [amu]
-1.0			IonCharge 3 [e]
+#PLASMA
+1.0			FluidMass H+ [amu]
+1.0			FluidMass H+SW [amu]
+1.0			IonCharge H+ [e]
+1.0			IonCharge H+SW [e]
 0.2			ElectronTemperatureRatio
 
-MULTIION
+#MULTIION
 0.01			LowDensityRatio
 1e-10			LowPressureRatio
 T			DoRestrictMultiIon
-3.0			MachNumberMultiIon
-30.0			ParabolaWidthMultiIon
+3.0
+30.0
 
-#UPSTREAM_INPUT_FILE
-T                       UseUpstreamInputFile
-imf_ideal.dat     UpstreamFileName
-0.0                     Satellite_Y_Pos
-0.0                     Satellite_Z_Pos
+#PLOTFILENAME
+date			NameMaxTimeUnit
+
+SAVEPLOT
+1			nPlotFiles
+y=0 MHD idl		StringPlot
+100			DnSavePlot
+-1			DtSavePlot
+-1			DxSaveplot
+
+#SOLARWINDFILE
+T			UseUpstreamInputFile
+imf_ideal.dat		UpstreamFileName
 
 #SAVELOGFILE
-T			DoSaveLogfile
-VAR			StringLogfile
--1			DnSaveLogfile
-5.0			DtSaveLogfile
-dt rho mx my mz p bx by bz pmin pmax dst dstdivb dstflx
-3.0 3.5 5.0		StringRFlux
+T			DoSaveLogFile
+VAR step data SMG	String Log
+-1			DnSaveLogFile
+5.0			DtSaveLogFile
+date dt rho swrho hprho oprho ux uy uz p pe bx by bz rhoflx dst dstdivb dstflx cpcpn	NameLogVars
+3.0 3.5 5.0		StringLogRadii
 
 #GEOMAGINDICES
 180			nSizeKpWindow [min]
-1 min			DtOutput      [sec]
+1 min			DtOutput [sec]
 
 #MAGNETOMETERGRID
 real8			TypeFileMagGrid
@@ -219,19 +214,19 @@ GEO			TypeCoordMagGrid
 #BEGIN_COMP IE ---------------------------------------------------------------
 
 #IONOSPHERE
-5                       TypeConductanceModel
-F                       UseFullCurrent
-F                       UseFakeRegion2
-100.0                   F107Flux
-1.0                     StarLightPedConductance
-0.25                    PolarCapPedConductance
+5			iConductanceModel
+F			UseFullCurrent
+F			UseFakeRegion2
+100			F107Flux
+1.0			StarLightPedConductance
+0.25			PolarCapPedConductance
 
 #AURORALOVAL
-T			UseOval (rest of parameters read if true)
+T			UseOval
 T			UseOvalShift
 F			UseSubOvalConductance
-T			UseAdvancedOval
-F			DoFitCircle (read if UseAdvancedOval is true)
+T			UseAdvanceOval
+F			DoFitCircle
 
 #BOUNDARY
 10.0			LatBoundary
@@ -239,21 +234,21 @@ F			DoFitCircle (read if UseAdvancedOval is true)
 #END_COMP IE -----------------------------------------------------------------
 
 #STOP
-2000                    MaxIter
--1.                     TimeMax
+2000			MaxIter
+-1.			TimeMax
 
-#RUN    ######################################################################
+#RUN ##########################################################################
 
 #BEGIN_COMP GM ---------------------------------------------------------------
 
-#SAVERESTART                                                     
+#SAVERESTART
 T                       DoSaveRestart
 2000                    DnSaveRestart
--1                  	DtSaveRestart
+-1			DtSaveRestart
 
 #SCHEME
-2			nORDER
-Rusanov			TypeFlux
+1			nORDER
+Sokolov			TypeFlux
 mc3                     TypeLimiter
 1.2
 
@@ -268,17 +263,17 @@ T
 #END_COMP GM -----------------------------------------------------------------
 
 #STOP
-8000                    MaxIter
--1.                     TimeMax
+8000			MaxIter
+-1.			TimeMax
 
-#RUN ##########################################################################
+#RUN ############################################################
 
 #TIMEACCURATE
-T			IsTimeAccurate
+T			DoTimeAccurate
 
 #PROGRESS
 100			DnProgressShort
-1000			DnProgressLong
+1000			DtProgressLong
 
 #SAVERESTART                                                     
 T                       DoSaveRestart
@@ -305,7 +300,7 @@ F			DoCoupleOnTime
 #SCHEME
 2			nORDER
 Rusanov			TypeFlux
-mc3                     TypeLimiter
+mc3			TypeLimiter
 1.2			BetaLimiter
 
 #BORIS
@@ -329,70 +324,63 @@ borisregion		NameBorisRegion
 0.85			CflExpl
 
 #SAVEPLOT
-6                       nPlotFiles
-y=0 MHD idl             StringPlot
--1                      DnSavePlot
+6			nPlotFiles
+y=0 MHD idl		StringPlot
+-1			DnSavePlot
 300.			DtSavePlot
--1
-z=0 MHD idl             StringPlot
--1                      DnSavePlot
+-1			DxSavePlot
+z=0 MHD idl		StringPlot
+-1			DnSavePlot
 300.			DtSavePlot
--1			
-shl MHD idl
+-1			DxSavePlot
+shl MHD idl		StringPlot
 -1			DnSavePlot
 1800.			DtSavePlot
 SMG			TypeCoordPlot
 2.7			rMin
 2.7			rMax
-0.1			dR
 0.			LonMin
 360.			LonMax
 10.			dLon
 -90.			LatMin
 90.			LatMax
 10.			dLat
-shl MHD idl
+shl MHD idl		StringPlot
 -1			DnSavePlot
 1800.			DtSavePlot
 SMG			TypeCoordPlot
 3.0			rMin
 3.0			rMax
-0.1			dR
 0.			LonMin
 360.			LonMax
 10.			dLon
 -90.			LatMin
 90.			LatMax
 10.			dLat
-shl MHD idl
+shl MHD idl		StringPlot
 -1			DnSavePlot
 1800.			DtSavePlot
 SMG			TypeCoordPlot
 3.5			rMin
 3.5			rMax
-0.1			dR
 0.			LonMin
 360.			LonMax
 10.			dLon
 -90.			LatMin
 90.			LatMax
 10.			dLat
-shl MHD idl
+shl MHD idl		StringPlot
 -1			DnSavePlot
 1800.			DtSavePlot
 SMG			TypeCoordPlot
 4.0			rMin
 4.0			rMax
-0.1			dR
 0.			LonMin
 360.			LonMax
 10.			dLon
 -90.			LatMin
 90.			LatMax
 10.			dLat
-
-
-
 
 #END_COMP GM -----------------------------------------------------------------
 
@@ -407,12 +395,13 @@ max idl			StringPlot
 #END_COMP IE -----------------------------------------------------------------
 
 #ENDTIME
-2000            year
-01              month
-01              day
-10              hour
-00              minute
-00              second
-0.0             FracSecond
+2000			year
+01			month
+01			day
+10			hour
+00			minute
+00			second
+0.0			FracSecond
 
-#END ############################################################
+#END ################################ 
+
