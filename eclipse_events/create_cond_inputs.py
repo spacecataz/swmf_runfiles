@@ -42,6 +42,7 @@ rim_lon, rim_lat = np.meshgrid(np.arange(0, 360+dlon, dlon),
 flat_lon, flat_lat = rim_lon.flatten(), rim_lat.flatten()
 rim_ptsN = list(zip(flat_lon, flat_lat))
 rim_ptsS = list(zip(flat_lon, -flat_lat))
+rim_psi = np.pi*rim_lon/180. - np.pi/2
 
 
 def write_cond_rim(itime, hallN, hallS, pedN, pedS):
@@ -169,29 +170,119 @@ def interp_to_rim(itime, dosave=True, doplot=True):
     return rim_sighN, rim_sighS, rim_sigpN, rim_sigpS
 
 
-def plot_gitm_sigma(itime, maxz=45, latlim=45, nlevs=101, dosave=False,
+def plot_rim_sigma(itime, hallN, hallS, pedN, pedS, maxz=20, latlim=45,
+                   nlevs=50, dosave=True, polar=True):
+    '''
+    Create plot of RIM conductance.
+    '''
+    fig, axes = plt.subplots(2, 2, figsize=(8, 8),
+                             subplot_kw={'polar': polar})
+    fig.subplots_adjust(left=0.06, bottom=0.133, right=.955, top=.905,
+                        hspace=0.35, wspace=0.25)
+    x = rim_psi[0, :] if polar else rim_lon[0, :]
+    yN = 90 - rim_lat[:, 0] if polar else rim_lat[:, 0]
+
+    # Set levels and contour kwargs.
+    levs = np.linspace(0, maxz, nlevs)
+    kwargs = {'levels': levs, 'extend': 'max'}
+
+    # Northern Hemisphere:
+    loc = rim_lat[:, 0] > latlim
+    z = hallN[loc, :]
+    cont = axes[0, 0].contourf(x, yN[loc], z, **kwargs)
+    axes[0, 0].set_title(r'North $\Sigma_{Hall}$')
+
+    z = pedN[loc, :]
+    axes[0, 1].contourf(x, yN[loc], z, **kwargs)
+    axes[0, 1].set_title(r'North $\Sigma_{Ped}$')
+
+    # Southern Hemisphere:
+    loc = -rim_lat[:, 0] < -latlim
+    z = hallS[loc, :]
+    axes[1, 0].contourf(x, -rim_lat[:, 0][loc], z, **kwargs)
+    axes[1, 0].set_title(r'South $\Sigma_{Hall}$')
+
+    z = pedS[loc, :]
+    axes[1, 1].contourf(x, -rim_lat[:, 0][loc], z, **kwargs)
+    axes[1, 1].set_title(r'South $\Sigma_{Ped}$')
+
+    tnow = start_time + dt.timedelta(hours=gitm['ut'][itime])
+    fig.suptitle(f"T={tnow}")
+
+    # Add a color bar.
+    fig.colorbar(cax=fig.add_axes([0.15, .07, .7, .02]), mappable=cont,
+                 label=r'RIM Conductance ($Siemens$)',
+                 orientation='horizontal')
+
+    if dosave:
+        fig.savefig(outdir + f"rim_cond_T{tnow:%Y%m%d_%H%M%S}.png")
+
+
+def plot_gitm_sigma(itime, maxz=20, latlim=45, nlevs=50, dosave=True,
                     polar=True):
     '''
     For time iteration *itime*, plot both the Hall and Pedersen conductance
-    in geomagnetic coordinates.
+    in geographic coordinates.
     '''
 
     fig, axes = plt.subplots(2, 2, figsize=(8, 8),
                              subplot_kw={'polar': polar})
+    fig.subplots_adjust(left=0.06, bottom=0.133, right=.955, top=.905,
+                        hspace=0.35, wspace=0.25)
     x = psi if polar else gitm['glon']
+    yN = 90 - gitm['glat'] if polar else gitm['glat']
+
+    # Set levels and contour kwargs.
+    levs = np.linspace(0, maxz, nlevs)
+    kwargs = {'levels': levs, 'extend': 'max'}
 
     # Northern Hemisphere:
     loc = gitm['glat'] > latlim
     z = gitm['SigH'][itime, :, loc]
-    cont = axes[0, 0].contourf(x, gitm['glat'][loc], z, nlevs, vmax=maxz)
+    cont = axes[0, 0].contourf(x, yN[loc], z, **kwargs)
+    axes[0, 0].set_title(r'North $\Sigma_{Hall}$')
 
     z = gitm['SigP'][itime, :, loc]
-    axes[0, 1].contourf(x, gitm['glat'][loc], z, nlevs, vmax=maxz)
+    axes[0, 1].contourf(x, yN[loc], z, **kwargs)
+    axes[0, 1].set_title(r'North $\Sigma_{Ped}$')
 
     # Southern Hemisphere:
     loc = gitm['glat'] < -latlim
     z = gitm['SigH'][itime, :, loc]
-    axes[1, 0].contourf(x, gitm['glat'][loc], z, nlevs, vmax=maxz)
+    axes[1, 0].contourf(x, gitm['glat'][loc], z, **kwargs)
+    axes[1, 0].set_title(r'South $\Sigma_{Hall}$')
 
     z = gitm['SigP'][itime, :, loc]
-    axes[1, 1].contourf(x, gitm['glat'][loc], z, nlevs, vmax=maxz)
+    axes[1, 1].contourf(x, gitm['glat'][loc], z, **kwargs)
+    axes[1, 1].set_title(r'South $\Sigma_{Ped}$')
+
+    tnow = start_time + dt.timedelta(hours=gitm['ut'][itime])
+    fig.suptitle(f"T={tnow}")
+
+    # Add a color bar.
+    fig.colorbar(cax=fig.add_axes([0.15, .07, .7, .02]), mappable=cont,
+                 label=r'GITM Conductance ($Siemens$)',
+                 orientation='horizontal')
+
+    if dosave:
+        fig.savefig(outdir + f"gitm_cond_T{tnow:%Y%m%d_%H%M%S}.png")
+
+
+def create_cond():
+    '''
+    For the case given by *infile* and *outdir*, produce all plots and
+    conductance files.
+    '''
+
+    set_inter = True if plt.isinteractive() else False
+    plt.ioff()
+
+    for itime in range(gitm['ut'].shape[0]):
+        print(f"Working on iTime = {itime}")
+        hallN, hallS, pedN, pedS = interp_to_rim(itime)
+        plot_rim_sigma(itime, hallN, hallS, pedN, pedS)
+        plot_gitm_sigma(itime)
+        plt.close('all')
+
+    if set_inter:
+        plt.ion()
