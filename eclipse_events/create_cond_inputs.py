@@ -18,8 +18,8 @@ from spacepy import coordinates as crds
 from spacepy.time import Ticktock
 
 # Set input and output files/directories:
-infile = 'dec2021eclipse/combined_parms_2dall_base.npz'
-outdir = 'CondFies_Dec2021_Base/'
+infile = 'dec2021eclipse/combined_parms_2dall_euv.npz'
+outdir = 'CondFies_Dec2021_EUV/'
 if not os.path.exists(outdir):
     os.mkdir(outdir)
 
@@ -29,6 +29,14 @@ start_time = dt.datetime(2021, 12, 4, 0, 0, 0)
 # Load the data, create helper variables.
 gitm = np.load(infile)
 psi = np.pi*gitm['glon']/180. + np.pi/2  # polar angle.
+
+# Mask cond if it exists:
+if 'SolarMask' in gitm:
+    gitm_sigp = gitm['SigP'] * gitm['SolarMask']
+    gitm_sigh = gitm['SigH'] * gitm['SolarMask']
+else:
+    gitm_sigp = gitm['SigP']
+    gitm_sigh = gitm['SigH']
 
 # Extract values from GITM, wrap lat/lon to create extended grid.
 glat, glon = np.meshgrid(gitm['glat'], gitm['glon'])
@@ -91,7 +99,7 @@ def interp_to_rim(itime, dosave=True, doplot=True):
     mlon = np.zeros([nlons, nlats])
 
     # Extract conductance from file.
-    sigH, sigP = gitm['SigH'][itime, :, :], gitm['SigP'][itime, :, :]
+    sigH, sigP = gitm_sigh[itime, :, :], gitm_sigp[itime, :, :]
 
     # Create time array using TickTock
     tnow = Ticktock(nlons * [start_time +
@@ -238,21 +246,21 @@ def plot_gitm_sigma(itime, maxz=20, latlim=45, nlevs=50, dosave=True,
 
     # Northern Hemisphere:
     loc = gitm['glat'] > latlim
-    z = gitm['SigH'][itime, :, loc]
+    z = gitm_sigh[itime, :, loc]
     cont = axes[0, 0].contourf(x, yN[loc], z, **kwargs)
     axes[0, 0].set_title(r'North $\Sigma_{Hall}$')
 
-    z = gitm['SigP'][itime, :, loc]
+    z = gitm_sigp[itime, :, loc]
     axes[0, 1].contourf(x, yN[loc], z, **kwargs)
     axes[0, 1].set_title(r'North $\Sigma_{Ped}$')
 
     # Southern Hemisphere:
     loc = gitm['glat'] < -latlim
-    z = gitm['SigH'][itime, :, loc]
+    z = gitm_sigh[itime, :, loc]
     axes[1, 0].contourf(x, gitm['glat'][loc], z, **kwargs)
     axes[1, 0].set_title(r'South $\Sigma_{Hall}$')
 
-    z = gitm['SigP'][itime, :, loc]
+    z = gitm_sigp[itime, :, loc]
     axes[1, 1].contourf(x, gitm['glat'][loc], z, **kwargs)
     axes[1, 1].set_title(r'South $\Sigma_{Ped}$')
 
