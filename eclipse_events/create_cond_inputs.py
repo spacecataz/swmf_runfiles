@@ -74,9 +74,9 @@ def write_cond_rim(itime, hallN, hallS, pedN, pedS):
         outS.write('mlon\tmlat\tsigma_Hall\tsigma_Peder\n')
 
         # Write away:
-        for i, (lat, lon) in enumerate(rim_ptsN):
-            outN.write(f"{lon:07.3f} {lat:+07.3f} {hn[i]:12.8f} {pn[i]:12.8f}")
-            outS.write(f"{lon:07.3f} {lat:+07.3f} {hs[i]:12.8f} {ps[i]:12.8f}")
+        for i, (lon, lat) in enumerate(rim_ptsN):
+            outN.write(f"{lon:07.3f} {lat:07.3f} {hn[i]:12.8f} {pn[i]:12.8f}")
+            outS.write(f"{lon:07.3f} {lat:07.3f} {hs[i]:12.8f} {ps[i]:12.8f}")
             outN.write("\n")
             outS.write("\n")
 
