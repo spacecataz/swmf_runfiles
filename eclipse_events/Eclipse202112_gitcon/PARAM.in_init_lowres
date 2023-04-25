@@ -2,7 +2,7 @@
 T			DoEcho
 
 #COMPONENTMAP                   For 128+ cores like production run
-GM  0 -3 -1  -1         GM runs on 0:nProc-3 multithreaded
+GM  0 -1 -1  -1         GM runs on 0:nProc-3 multithreaded
 IE -2 -1  1             IE runs on last 2 PE-s
 IM -2 -2  1             IM runs on nProc-2 PE
 
@@ -38,7 +38,7 @@ IE			NameComp2
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-100000
+1000
 
 #GRID
 1			nRootBlock_D(x_)
