@@ -2164,7 +2164,7 @@ subroutine ionosphere_conductance(Sigma0, SigmaH, SigmaP, &
 
   ! For reading in cond files:
   real :: BufferCond_VII(2, IONO_nTheta, IONO_nPsi), tempLon, tempLat
-  character(len=2)  :: NameHemShort = 'n_'
+  character(len=1)  :: NameHemShort = 'N'
   character(len=15) :: tstamp
   !--------------------------------------------------------------------------
 
@@ -2208,10 +2208,11 @@ subroutine ionosphere_conductance(Sigma0, SigmaH, SigmaP, &
          SigmaH = 0.0
          SigmaP = 0.0
 
-         NameHemShort = 'N_'
-         if(.not. north) NameHemShort = 'S_'
+         NameHemShort = 'N'
+         if(.not. north) NameHemShort = 'S'
          ! Open file name based on hemisphere and time stamp.
-         call open_file(file='IE/cond_'//NameHemShort//tstamp//'.dat', status='old')
+         call open_file(file='IE/cond_'// NameHemShort // '_t' // tstamp &
+                        //'.dat', status='old')
 
          ! Load data into buffer:
          do iLat=1, IONO_nTheta

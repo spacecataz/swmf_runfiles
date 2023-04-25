@@ -38,7 +38,7 @@ IE			NameComp2
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-1000
+10000
 
 #GRID
 1			nRootBlock_D(x_)
