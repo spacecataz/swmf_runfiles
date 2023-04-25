@@ -28,7 +28,7 @@ start_time = dt.datetime(2021, 12, 4, 0, 0, 0)
 
 # Load the data, create helper variables.
 gitm = np.load(infile)
-psi = np.pi*gitm['glon']/180. + np.pi/2  # polar angle.
+psi = np.pi*gitm['glon']/180. + np.pi/2  # azimuthal angle.
 
 # Mask cond if it exists:
 if 'SolarMask' in gitm:
@@ -48,7 +48,10 @@ dlat, dlon = 90./(rim_nlat-1), 360./(rim_nlon-1)
 rim_lon, rim_lat = np.meshgrid(np.arange(0, 360+dlon, dlon),
                                np.arange(0, 90+dlat, dlat))
 flat_lon, flat_lat = rim_lon.flatten(), rim_lat.flatten()
-rim_ptsN = list(zip(flat_lon, flat_lat))
+
+# Create points, note that we need colat-ordering so
+# flip points in northern hemisphere..
+rim_ptsN = list(zip(flat_lon, 90 - flat_lat))
 rim_ptsS = list(zip(flat_lon, -flat_lat))
 rim_psi = np.pi*rim_lon/180. - np.pi/2
 
@@ -75,13 +78,15 @@ def write_cond_rim(itime, hallN, hallS, pedN, pedS):
 
         # Write away:
         for i, (lon, lat) in enumerate(rim_ptsN):
-            outN.write(f"{lon:07.3f} {lat:07.3f} {hn[i]:12.8f} {pn[i]:12.8f}")
-            outS.write(f"{lon:07.3f} {lat:07.3f} {hs[i]:12.8f} {ps[i]:12.8f}")
+            outN.write(f"{lon:07.3f} {lat:07.3f} "
+                       + f"{hn[i]:012.8f} {pn[i]:012.8f}")
+            outS.write(f"{lon:07.3f} {lat:07.3f} "
+                       + f"{hs[i]:012.8f} {ps[i]:012.8f}")
             outN.write("\n")
             outS.write("\n")
 
 
-def interp_to_rim(itime, dosave=True, doplot=True):
+def interp_to_rim(itime, mincond=0.5, dosave=True, doplot=True):
     '''
     Using the information about RIM's grid (in SM coords) and the GITM
     results (in geographic coords), interpolate from GITM to RIM.
@@ -114,7 +119,7 @@ def interp_to_rim(itime, dosave=True, doplot=True):
         sm_coord = gm_coord.convert('SM', 'sph')
 
         # Stash result into SM arrays:
-        mlat[:, i], mlon[:, i] = sm_coord.lati, sm_coord.long + 180
+        mlat[:, i], mlon[:, i] = sm_coord.lati, sm_coord.long # + 180
 
     # Create interpolator. Copy 3x to ensure continuity over Lon = 0/360.
     points = list(zip(mlon.flatten()-365, mlat.flatten())) + \
@@ -143,7 +148,7 @@ def interp_to_rim(itime, dosave=True, doplot=True):
               'levels': np.arange(0, 25.5, 0.5)}
 
     fig, (a1, a2) = plt.subplots(2, 1, figsize=(8, 8))
-    c1 = a1.contourf(rim_lon, rim_lat, rim_sighN, **kwargs)
+    c1 = a1.contourf(rim_lon, 90-rim_lat, rim_sighN, **kwargs)
     c2 = a1.contourf(rim_lon, -1*rim_lat, rim_sighS, **kwargs)
     c2 = a2.tricontourf(mlon.flatten(), mlat.flatten(), sigH.flatten(),
                         **kwargs)
@@ -159,7 +164,7 @@ def interp_to_rim(itime, dosave=True, doplot=True):
     fig.savefig(outdir + f'interp_H_t{t:%Y%m%d_%H%M%S}.png')
 
     fig, (a1, a2) = plt.subplots(2, 1, figsize=(8, 8))
-    c1 = a1.contourf(rim_lon, rim_lat, rim_sighN, **kwargs)
+    c1 = a1.contourf(rim_lon, 90-rim_lat, rim_sighN, **kwargs)
     c2 = a1.contourf(rim_lon, -1*rim_lat, rim_sighS, **kwargs)
     c2 = a2.tricontourf(mlon.flatten(), mlat.flatten(), sigH.flatten(),
                         **kwargs)
@@ -173,6 +178,10 @@ def interp_to_rim(itime, dosave=True, doplot=True):
     fig.suptitle(f'T={t}')
     fig.tight_layout()
     fig.savefig(outdir + f'interp_P_t{t:%Y%m%d_%H%M%S}.png')
+
+    # Set minimum values:
+    for cond in (rim_sighN, rim_sighS, rim_sigpN, rim_sigpS):
+        cond[cond < mincond] = mincond
 
     # Return conductance:
     return rim_sighN, rim_sighS, rim_sigpN, rim_sigpS
@@ -188,7 +197,7 @@ def plot_rim_sigma(itime, hallN, hallS, pedN, pedS, maxz=20, latlim=45,
     fig.subplots_adjust(left=0.06, bottom=0.133, right=.955, top=.905,
                         hspace=0.35, wspace=0.25)
     x = rim_psi[0, :] if polar else rim_lon[0, :]
-    yN = 90 - rim_lat[:, 0] if polar else rim_lat[:, 0]
+    yN = rim_lat[:, 0] if polar else rim_lat[:, 0]
 
     # Set levels and contour kwargs.
     levs = np.linspace(0, maxz, nlevs)
