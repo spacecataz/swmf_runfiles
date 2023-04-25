@@ -2129,6 +2129,10 @@ subroutine ionosphere_conductance(Sigma0, SigmaH, SigmaP, &
   use ModProcIE
   use CON_world
   use CON_comp_param
+
+  use ModIoUnit, ONLY: UnitTmp_
+  use ModUtilities, ONLY: open_file, close_file
+
   implicit none
 
   integer :: nTheta,nPsi
@@ -2147,7 +2151,7 @@ subroutine ionosphere_conductance(Sigma0, SigmaH, SigmaP, &
   real, dimension(1:IONO_NTheta) :: dTheta
   real, dimension(1:IONO_NPsi)   :: dPsi
 
-  integer :: i,j, imin_floor
+  integer :: i, j, imin_floor, iLat, iLon, iError
   real :: f107p53, f107p49
   real :: sn, cs, sn2, cs2, cs3, cs4, C
   real :: SigmaH_EUV, SigmaP_EUV, SigmaH_SCAT, SigmaP_SCAT, &
@@ -2159,6 +2163,8 @@ subroutine ionosphere_conductance(Sigma0, SigmaH, SigmaP, &
   real    :: cos_limit, meeting_value_h, meeting_value_p
 
   ! For reading in cond files:
+  real :: BufferCond_VII(2, IONO_nTheta, IONO_nPsi), tempLon, tempLat
+  character(len=2)  :: NameHemShort = 'n_'
   character(len=15) :: tstamp
   !--------------------------------------------------------------------------
 
@@ -2197,11 +2203,31 @@ subroutine ionosphere_conductance(Sigma0, SigmaH, SigmaP, &
          write(tstamp, '(i4.4, i2.2, i2.2, "_", i2.2, i2.2, a)') &
             Time_Array(1), Time_Array(2), Time_Array(3), &
             Time_Array(4), imin_floor, '00'
-         write(*,*) "IE: Reading IE file for tstamp = ", tstamp
+         write(*,*) "IE: Reading IE file for tstamp = //", tstamp, "//"
 
          SigmaH = 0.0
          SigmaP = 0.0
 
+         NameHemShort = 'N_'
+         if(.not. north) NameHemShort = 'S_'
+         ! Open file name based on hemisphere and time stamp.
+         call open_file(file='IE/cond_'//NameHemShort//tstamp//'.dat', status='old')
+
+         ! Load data into buffer:
+         do iLat=1, IONO_nTheta
+            do iLon=1, IONO_nPsi
+               read(UnitTmp_, '(f7.3, 1x, f7.3, 2(1x, f12.8))', iostat=iError) &
+                  tempLon, tempLat, BufferCond_VII(:,iLat, iLon)
+            end do
+         end do
+
+         ! Close file
+         call close_file
+
+         ! Set conductance.
+         Sigma0 = 1000.
+         SigmaH = BufferCond_VII(1, :, :)
+         SigmaP = BufferCond_VII(2, :, :)
 
      end if
 
