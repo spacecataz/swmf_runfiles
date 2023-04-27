@@ -120,7 +120,7 @@ def interp_to_rim(itime, mincond=0.5, dosave=True, doplot=True):
         sm_coord = gm_coord.convert('SM', 'sph')
 
         # Stash result into SM arrays:
-        mlat[:, i], mlon[:, i] = sm_coord.lati, sm_coord.long # + 180
+        mlat[:, i], mlon[:, i] = sm_coord.lati, sm_coord.long  # + 180
 
     # Create interpolator. Copy 3x to ensure continuity over Lon = 0/360.
     points = list(zip(mlon.flatten()-365, mlat.flatten())) + \
@@ -169,11 +169,16 @@ def interp_to_rim(itime, mincond=0.5, dosave=True, doplot=True):
     fig.savefig(outdir + f'interp_H_t{t:%Y%m%d_%H%M%S}.png')
 
     fig, (a1, a2) = plt.subplots(2, 1, figsize=(8, 8))
+    # Plot both hemispheres twice to cover same range as GITM:
     c1 = a1.contourf(rim_lon, 90-rim_lat, rim_sighN, **kwargs)
     c2 = a1.contourf(rim_lon, -1*rim_lat, rim_sighS, **kwargs)
+    c1 = a1.contourf(rim_lon - 360, 90-rim_lat, rim_sighN, **kwargs)
+    c2 = a1.contourf(rim_lon - 360, -1*rim_lat, rim_sighS, **kwargs)
+    # Now plot GITM:
     c2 = a2.tricontourf(mlon.flatten(), mlat.flatten(), sigH.flatten(),
                         **kwargs)
 
+    a1.set_xlim([-180, 180])
     a1.set_title('Interpolated Conductace: Pedersen')
     a2.set_title('Rotated GITM Conductance: Pedersen')
     for a, c in zip([a1, a2], [c1, c2]):
