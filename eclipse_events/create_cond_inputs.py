@@ -155,9 +155,12 @@ def interp_to_rim(itime, mincond=0.5, dosave=True, doplot=True):
     fig, (a1, a2) = plt.subplots(2, 1, figsize=(8, 8))
     c1 = a1.contourf(rim_lon, 90-rim_lat, rim_sighN, **kwargs)
     c2 = a1.contourf(rim_lon, -1*rim_lat, rim_sighS, **kwargs)
+    c1 = a1.contourf(rim_lon - 360, 90-rim_lat, rim_sighN, **kwargs)
+    c2 = a1.contourf(rim_lon - 360, -1*rim_lat, rim_sighS, **kwargs)
     c2 = a2.tricontourf(mlon.flatten(), mlat.flatten(), sigH.flatten(),
                         **kwargs)
 
+    a1.set_xlim([-180, 180])
     a1.set_title('Interpolated Conductace: Hall')
     a2.set_title('Rotated GITM Conductance: Hall')
     for a, c in zip([a1, a2], [c1, c2]):
@@ -170,12 +173,12 @@ def interp_to_rim(itime, mincond=0.5, dosave=True, doplot=True):
 
     fig, (a1, a2) = plt.subplots(2, 1, figsize=(8, 8))
     # Plot both hemispheres twice to cover same range as GITM:
-    c1 = a1.contourf(rim_lon, 90-rim_lat, rim_sighN, **kwargs)
-    c2 = a1.contourf(rim_lon, -1*rim_lat, rim_sighS, **kwargs)
-    c1 = a1.contourf(rim_lon - 360, 90-rim_lat, rim_sighN, **kwargs)
-    c2 = a1.contourf(rim_lon - 360, -1*rim_lat, rim_sighS, **kwargs)
+    c1 = a1.contourf(rim_lon, 90-rim_lat, rim_sigpN, **kwargs)
+    c2 = a1.contourf(rim_lon, -1*rim_lat, rim_sigpS, **kwargs)
+    c1 = a1.contourf(rim_lon - 360, 90-rim_lat, rim_sigpN, **kwargs)
+    c2 = a1.contourf(rim_lon - 360, -1*rim_lat, rim_sigpS, **kwargs)
     # Now plot GITM:
-    c2 = a2.tricontourf(mlon.flatten(), mlat.flatten(), sigH.flatten(),
+    c2 = a2.tricontourf(mlon.flatten(), mlat.flatten(), sigP.flatten(),
                         **kwargs)
 
     a1.set_xlim([-180, 180])
@@ -202,7 +205,7 @@ def plot_rim_sigma(itime, hallN, hallS, pedN, pedS, maxz=20, latlim=45,
                              subplot_kw={'polar': polar})
     fig.subplots_adjust(left=0.06, bottom=0.133, right=.955, top=.905,
                         hspace=0.35, wspace=0.25)
-    x = rim_psi[0, :] if polar else rim_lon[0, :]
+    x = rim_psi[0, :] - np.pi if polar else rim_lon[0, :]
     yN = rim_lat[:, 0] if polar else rim_lat[:, 0]
 
     # Set levels and contour kwargs.
@@ -210,7 +213,7 @@ def plot_rim_sigma(itime, hallN, hallS, pedN, pedS, maxz=20, latlim=45,
     kwargs = {'levels': levs, 'extend': 'max'}
 
     # Northern Hemisphere:
-    loc = rim_lat[:, 0] > latlim
+    loc = rim_lat[:, 0] < latlim
     z = hallN[loc, :]
     cont = axes[0, 0].contourf(x, yN[loc], z, **kwargs)
     axes[0, 0].set_title(r'North $\Sigma_{Hall}$')
