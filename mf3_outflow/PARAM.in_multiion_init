@@ -153,6 +153,23 @@ float			TypeBC_I(top_)
 #INNERBOUNDARY
 ionosphere
 
+#MULTIION
+0.0001			LowDensityRatio
+1e-10			LowPressureRatio
+F			DoRestrictMultiIon
+3.0			MachNumberMultiIon (read if DoRestrictMultiIon)
+30.0			ParabolaWidthMultiIon (read if DoRestrictMultiIon)
+
+#MULTIIONSTATE
+F			UseSingleVelocity
+F			UseSingleIonTemperature
+
+#COLLISION
+-1.0			CollisionCoefDim
+1.0e3			TauCutOffDim [s]
+100.0			uCutOffDim [km/s] read if TauCutOffDim positive
+2			nPowerCutOff read if TauCutOffDim positive
+
 #SCHEME
 1			nOrder
 Sokolov			TypeFlux
