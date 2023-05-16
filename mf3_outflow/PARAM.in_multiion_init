@@ -4,7 +4,7 @@ IE  0  1  1		CompMap runs on up to 2 PE-s
 GM  0 -1  1		CompMap runs on all PE-s
 
 #DESCRIPTION
-Param/SWPC/PARAM.in_multiion_v2_restart: Example file to restart a run for the SWPC v2 code selection		StringDescription
+PARAM.in_multiion_init based on SWPC v2 Multi-ion PARAM for full run and adjusted for 3 fluids (1 SW & 2 iono)		StringDescription
 
 #TIMEACCURATE
 F			IsTimeAccurate
@@ -51,7 +51,7 @@ F			DoCoupleOnTime
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-1000			MaxBlock
+100000			MaxBlock
 
 #GRID
 1			nRootBlock_D(x_)
@@ -126,7 +126,7 @@ box			NameArea
 T			UseBody
 2.5			rBody
 3.0			rCurrents
-10.0			BodyNDim (/cc)
+28.0			BodyNDim (/cc)
 25000.0			BodyTDim (K)
 
 #NONCONSERVATIVE
@@ -297,8 +297,6 @@ GM			NameComp
 F			DoCoupleOnTime
 
 #BEGIN_COMP GM --------------------------------------------------------
-
-
 
 #MULTIFLUIDIM
 T			DoMultiFluidIMCoupling
