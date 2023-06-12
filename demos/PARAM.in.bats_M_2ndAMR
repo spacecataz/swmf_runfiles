@@ -1,15 +1,7 @@
-Config.pl -e=Hd -u=Waves -g=4,4,1 -ng=2
+Config.pl -e=Hd -u=Waves -g=6,6,1 -ng=3
 
 #DESCRIPTION
 Param/SHOCKTUBE/PARAM.in.rotation: rotation		StringDescription
-
-#TEST
-set_initial_condition
-
-#TESTXYZ
-1.0			xTest
-1.0			yTest
-0.0			zTest
 
 #PLANET
 NONE			NamePlanet
@@ -162,4 +154,4 @@ Full rotation: t=1
 
 #STOP
 -1			MaxIteration
-1.0			tSimulationMax
+3.0			tSimulationMax
