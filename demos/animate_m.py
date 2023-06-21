@@ -12,9 +12,9 @@ import matplotlib.pyplot as plt
 from spacepy.pybats import bats
 
 
-datadir = './IO2/'
+datadir = './'  # './IO2/'
 
-mhd = bats.Bats2d(glob.glob(datadir + 'z*.outs')[-1], blocksize=4)
+mhd = bats.Bats2d(glob.glob(datadir + 'O2*.outs')[-1], blocksize=6)
 
 ckwargs = {'add_body': False, 'add_cbar': False, 'zlim': [1.0, 2.0],
            'cmap': 'cividis', 'xlim': [-20, 20], 'ylim': [-20, 20]}
@@ -71,6 +71,7 @@ for out in [out1, out2]:
 
 for i in range(mhd.attrs['nframe']):
     mhd.switch_frame(i)
+    print(f"\tWorking on frame {i} of {mhd.attrs['nframe']}")
     plot_pcol_simple(mhd, title='BATS-R-US 2nd Order + AMR', savedir=out1)
     plot_pcol_grid(mhd, title='BATS-R-US 2nd Order + AMR', savedir=out2)
     if plt.isinteractive():

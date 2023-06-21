@@ -19,8 +19,8 @@ T			UseNonConservative
 16000			MaxBlock
 
 #GRID
-16			nRootBlock1
-16			nRootBlock2
+8			nRootBlock1
+8			nRootBlock2
 1			nRootBlock3
 -20.			xMin
  20.			xMax
@@ -124,7 +124,7 @@ float			TypeBc3
 float			TypeBc4
 
 #SCHEME
-2			nOrder
+5			nOrder
 Rusanov			TypeFlux
 beta			TypeLimiter
 1.5			BetaLimiter
@@ -145,9 +145,9 @@ T			DoSaveInitial
 1			nPlotFile
 z=0 var idl_real8		StringPlot
 -1			DnSavePlot
-0.001			DtSavePlot
+0.05			DtSavePlot
 -1			DxSavePlot
-rho ux uy dx crit1		NameVar
+rho ux uy		NameVar
 g      	  		NamePar
 
 Full rotation: t=1
