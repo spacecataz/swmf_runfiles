@@ -68,8 +68,8 @@ box			NameArea
 ! Super high at inner boundary
 ! to capture outflow patterns.
 #GRIDRESOLUTION
-1/16
-box
+1/16		       Resolution
+box		       NameArea
 -4.0                   xMinBox
 -4.0                   yMinBox
 -4.0                   zMinBox
@@ -78,8 +78,8 @@ box
  4.0                   zMaxBox
 
 #GRIDRESOLUTION
-1/8
-box
+1/8		       Resolution
+box		       NameArea
 -8.0                   xMinBox
 -8.0                   yMinBox
 -8.0                   zMinBox
@@ -88,9 +88,9 @@ box
  8.0                   zMaxBox
 
 #GRIDRESOLUTION
-1/4
-box
--32.0                  xMinBox
+1/4			Resolution
+box			NameArea
+-32.0                   xMinBox
 -16.0                   yMinBox
 -16.0                   zMinBox
  12.0                   xMaxBox
@@ -111,10 +111,12 @@ box			NameArea
 T                       UseBody (rest of parameters read if true)
 2.5                     rBody (user units)
 3.0                     rCurrents (only read for GM component)
-0.01			
-25000.0
-27.99                   BodyNDim (/cc) for fluid 1
-25000.0                 BodyTDim (K)   for fluid 1
+0.01			BodyNDim (/cc) for fluid 1 (Solar Wind)
+25000.0			BodyTDim (K)   for fluid 1
+28.0                    BodyNDim (/cc) for fluid 2 (Iono H+)
+25000.0                 BodyTDim (K)   for fluid 2
+16.0                    BodyNDim (/cc) for fluid 3 (Iono O+)
+25000.0                 BodyTDim (K)   for fluid 3
 
 #TVDRESCHANGE
 T
@@ -153,33 +155,19 @@ F			DoAutomaticRefinement
 
 #COLLISION
 -1.0			CollisionCoefDim
-1.0e3			TauCutOffDim [s]
-100.0			uCutOffDim [km/s] read if TauCutOffDim positive
+6.0e1			TauCutOffDim [s]
+-2			uCutOffDim [km/s] read if TauCutOffDim positive
 2			nPowerCutOff read if TauCutOffDim positive
-
-#PLASMA
-1.0			FluidMass H+ [amu]
-1.0			FluidMass H+SW [amu]
-1.0			IonCharge H+ [e]
-1.0			IonCharge H+SW [e]
-0.2			ElectronTemperatureRatio
 
 #MULTIION
 0.01			LowDensityRatio
 1e-10			LowPressureRatio
 T			DoRestrictMultiIon
-3.0
-30.0
+3.0			MachNumberMultiIon (read if DoRestrictMultiIon)
+30.0			ParabolaWidthMultiIon (read if DoRestrictMultiIon)
 
 #PLOTFILENAME
 date			NameMaxTimeUnit
-
-SAVEPLOT
-1			nPlotFiles
-y=0 MHD idl		StringPlot
-100			DnSavePlot
--1			DtSavePlot
--1			DxSaveplot
 
 #SOLARWINDFILE
 T			UseUpstreamInputFile
@@ -234,7 +222,7 @@ F			DoFitCircle
 #END_COMP IE -----------------------------------------------------------------
 
 #STOP
-2000			MaxIter
+4000			MaxIter
 -1.			TimeMax
 
 #RUN ##########################################################################
@@ -247,14 +235,14 @@ T                       DoSaveRestart
 -1			DtSaveRestart
 
 #SCHEME
-1			nORDER
+2			nORDER
 Sokolov			TypeFlux
 mc3                     TypeLimiter
 1.2
 
 #TIMESTEPPING
-2			nStage
-0.60			CflExlp
+1			nStage
+0.80			CflExlp
 
 #BORIS
 T
@@ -322,6 +310,12 @@ borisregion		NameBorisRegion
 #TIMESTEPPING
 1			nStage
 0.85			CflExpl
+
+! Pressures below pMinDim are replaced with pMinDim.
+#MINIMUMPRESSURE
+1e-5			pMinDim [nPa] SwH+
+1e-5			pMinDim [nPa] H+
+1e-5			pMinDim [nPa] O+
 
 #SAVEPLOT
 6			nPlotFiles
