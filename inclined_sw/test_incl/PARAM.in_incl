@@ -10,7 +10,7 @@ Let's incline some solar wind stuff.
 #TIMEACCURATE
 F			IsTimeAccurate
 
-#STARTTIME            
+#STARTTIME
 2014			year
 04              	month
 10              	day
@@ -40,7 +40,7 @@ IE			NameComp2
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-1000
+10000
 
 #GRID
 1			nRootBlock_D(x_)
@@ -195,7 +195,7 @@ min idl			StringPlot
 #END_COMP IE -----------------------------------------------------------------
 
 #STOP
-100			MaxIter
+500			MaxIter
 -1.			TimeMax
 
 #RUN	######################################################################
@@ -218,7 +218,7 @@ mc3			TypeLimiter
 #END_COMP GM -----------------------------------------------------------------
 
 #STOP
-500			MaxIter
+1000			MaxIter
 -1.			TimeMax
 
 #RUN	######################################################################
@@ -395,7 +395,7 @@ STOP
 -1			MaxIter
 86400.0			TimeMax
 
-#ENDTIME            
+#ENDTIME
 2014			year
 04              	month
 10              	day
