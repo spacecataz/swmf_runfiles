@@ -10,7 +10,7 @@ Let's incline some solar wind stuff.
 #TIMEACCURATE
 F			IsTimeAccurate
 
-#STARTTIME
+#STARTTIME            
 2014			year
 04              	month
 10              	day
@@ -111,9 +111,6 @@ T			UseCpcpBc  (rest is read if true)
 T			UseSolarWindFile
 IMF.dat			NameSolarWindFile
 
-#REFRESHSOLARWINDFILE
-T			DoReadAgain
-
 #SCHEME
 1			nOrder
 Sokolov			TypeFlux
@@ -195,7 +192,7 @@ min idl			StringPlot
 #END_COMP IE -----------------------------------------------------------------
 
 #STOP
-500			MaxIter
+1000			MaxIter
 -1.			TimeMax
 
 #RUN	######################################################################
@@ -218,7 +215,7 @@ mc3			TypeLimiter
 #END_COMP GM -----------------------------------------------------------------
 
 #STOP
-1000			MaxIter
+2000			MaxIter
 -1.			TimeMax
 
 #RUN	######################################################################
@@ -333,11 +330,11 @@ IMCOUPLINGSMOOTH
 4			nPlotFiles
 y=0 MHD idl             StringPlot
 -1			DnSavePlot
-1 min			DtSavePlot
+10 sec			DtSavePlot
 -1.0			DxSavePlot
 z=0 MHD idl             StringPlot
 -1			DnSavePlot
-1 min			DtSavePlot
+10 sec			DtSavePlot
 -1.0			DxSavePlot
 shl MHD idl_ascii	StringPlot
 -1  			DnSavePlot
@@ -395,50 +392,14 @@ STOP
 -1			MaxIter
 86400.0			TimeMax
 
-#ENDTIME
+#ENDTIME            
 2014			year
 04              	month
 10              	day
 00			hour
-02             		minute
+15             		minute
 00              	second
 0.0			FracSecond
 
 #END ############################################################
 
-
-! This is here as an example, also to make documentation
-#BEGIN_COMP GM
-
-#SATELLITE
-7			nSatellite
-MHD time date			StringSatellite
--1			DnOutput
-3.			DtOutput
-Satellites/goes11.dat
-MHD time date			StringSatellite
--1			DnOutput
-3.			DtOutput
-Satellites/goes12.dat
-MHD time date			StringSatellite
--1			DnOutput
-3.  			DtOutput
-Satellites/lanl89.dat
-MHD time date			StringSatellite
--1			DnOutput
-3.  			DtOutput
-Satellites/lanl94.dat
-MHD time date			StringSatellite
--1			DnOutput
-3.  			DtOutput
-Satellites/lanl97.dat
-MHD time date			StringSatellite
--1			DnOutput
-3.  			DtOutput
-Satellites/lanl01.dat
-MHD time date			StringSatellite
--1			DnOutput
-3.  			DtOutput
-Satellites/lanl02.dat
-
-#END_COMP GM
