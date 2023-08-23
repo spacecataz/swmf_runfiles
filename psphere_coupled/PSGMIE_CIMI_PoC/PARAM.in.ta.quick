@@ -1,0 +1,437 @@
+#ECHO
+T
+
+#INCLUDE
+RESTART.in
+
+#DESCRIPTION
+Time accurate portion of simulation.
+
+#TIMEACCURATE
+T			DoTimeAccurate
+
+#SAVERESTART
+T                       DoSaveRestart
+-1                      DnSaveRestart
+300.0                  DtSaveRestart
+
+#CHECKTIMESTEP
+F                        DoCheckTimeStep
+-1
+-1
+
+#COMPONENT
+IM			NameComp
+T			  UseComp
+
+#COUPLEORDER
+5			    nCouple
+IE GM			NameSourceTarget
+IE IM			NameSourceTarget
+GM IE			NameSourceTarget
+GM IM			NameSourceTarget
+IM GM		    NameSourceTarget
+
+#COUPLE2
+GM			NameComp1
+IE			NameComp2
+-1			DnCouple
+5.0			DtCouple
+
+#COUPLE2
+GM			NameComp1
+IM			NameComp2
+-1			DnCouple
+10.0		DtCouple
+
+#COUPLE1
+IE			NameComp1
+IM			NameComp2
+-1			DnCouple
+10.0		DtCouple
+
+#COUPLETIME
+GM			NameComp
+F			DoCoupleOnTime
+
+#BEGIN_COMP GM ---------------------------------------------------------------
+
+#INCLUDE
+RESTART_n005000/GM/restart.H
+
+INCLUDE
+RESTART_t0001.1667h/GM/restart.H
+
+
+#MULTIION
+.001                   LowDensityRatio
+1e-10                   LowPressureRatio
+T                       DoRestrictMultiIon
+3.0                     MachNumberMultiIon (read if DoRestrictMultiIon)
+30.0                    ParabolaWidthMultiIon (read if DoRestrictMultiIon)
+
+#PLASMA
+1.0                     MassFluid Hp
+1.0                     MassFluid HpPs
+1.0                     AverageIonCharge Hp
+1.0                     AverageIonCharge HpPs
+0.2                     ElectronTemperatureRatio
+
+#COLLISION
+-100.			CollisionCoefDim
+5.0e2			TauCutOffDim [s]
+30.0			uCutOffDim [km/s] read if TauCutOffDim positive
+2			    nPowerCutOff read if TauCutOffDim positive
+
+#NONCONSERVATIVE
+T                       UseNonConservative
+
+#CONSERVATIVECRITERIA
+1			      nConservCrit
+parabola		TypeConservCrit_I
+5.0			  xParabolaConserv
+15.0			  yParabolaConserv
+
+! Setting 1
+#IMCOUPLING
+20.0			TauCoupleIm
+F			    DoImSatTrace
+T			    DoCoupleImPressure
+T			    DoCoupleImDensity
+0.0001		DensityCoupleFloor
+F			    DoFixPolarRegion
+! end of setting 1
+
+! Pressures below pMinDim are replaced with pMinDim.
+#MINIMUMPRESSURE
+1e-5			HppMinDim [nPa]
+1e-5			HpPspMinDim   [nPa]
+.002			PeMinDim
+
+#SAVELOGFILE
+T			          DoSaveLogfile
+VAR step date		StringLogfile
+-1			        DnSaveLogfile
+5.0			        DtSaveLogfile
+dt rho mx my mz p bx by bz pmin pmax dst cpcpn
+3.0 3.5 5.0		  StringRFlux
+
+SAVEPLOT
+1               nPlotFiles
+idl z=0 MHD     StringPlot
+-1              DnSavePlot
+10.             DtSavePlot
+-1              DxSavePlot
+
+#SAVEPLOT
+2               nPlotFiles
+idl z=0 VAR     StringPlot
+-1              DnSavePlot
+10.             DtSavePlot
+-1              DxSavePlot
+bx by bz pe hprho hpux hpuy hpuz hpp pshprho pshpux pshpuy pshpuz pshpp jx jy jz
+g rbody
+idl y=0 VAR     StringPlot
+-1              DnSavePlot
+10.             DtSavePlot
+-1              DxSavePlot
+bx by bz pe hprho hpux hpuy hpuz hpp pshprho pshpux pshpuy pshpuz pshpp jx jy jz
+g rbody
+y=0 ray idl             StringPlot
+-1                      DnSavePlot
+60.                     DtSavePlot
+-1.0                    DxSavePlot
+z=0 ray idl             StringPlot
+-1                      DnSavePlot
+60.                     DtSavePlot
+-1.0                    DxSavePlot
+idl 3d VAR
+-1
+300.
+-1
+bx by bz pe hprho hpux hpuy hpuz hpp pshprho pshpux pshpuy pshpuz pshpp jx jy jz
+g rbody
+shl VAR idl		StringPlot
+-1			DnSavePlot
+60.			DtSavePlot
+SMG			TypeCoordPlot
+6.0			rMin
+6.0			rMax
+0. 			LonMin
+360. 			LonMax
+2. 			dLon ! only read if LonMin /= LonMax
+-90. 			LatMin
+90. 			LatMax
+2.                 	dLat ! only read if LatMin /= LatMax
+bx by bz pe hprho hpux hpuy hpuz hpp pshprho pshpux pshpuy pshpuz pshpp jx jy jz
+g rbody
+shl VAR idl             StringPlot
+-1                      DnSavePlot
+60.                    DtSavePlot
+SMG                     TypeCoordPlot
+6.6                     rMin
+6.6                     rMax
+0.                      LonMin
+360.                    LonMax
+2.                      dLon ! only read if LonMin /= LonMax
+-90.                    LatMin
+90.                     LatMax
+2.                      dLat ! only read if LatMin /= LatMax
+bx by bz pe hprho hpux hpuy hpuz hpp pshprho pshpux pshpuy pshpuz pshpp jx jy jz
+g rbody
+shl VAR idl             StringPlot
+-1                      DnSavePlot
+60.                    DtSavePlot
+SMG                     TypeCoordPlot
+8.0                     rMin
+8.0                     rMax
+0.                      LonMin
+360.                    LonMax
+2.                      dLon ! only read if LonMin /= LonMax
+-90.                    LatMin
+90.                     LatMax
+2.                      dLat ! only read if LatMin /= LatMax
+bx by bz pe hprho hpux hpuy hpuz hpp pshprho pshpux pshpuy pshpuz pshpp jx jy jz
+g rbody
+shl VAR idl             StringPlot
+-1                      DnSavePlot
+60.                    DtSavePlot
+SMG                     TypeCoordPlot
+10.0                    rMin
+10.0                    rMax
+0.                      LonMin
+360.                    LonMax
+2.                      dLon ! only read if LonMin /= LonMax
+-90.                    LatMin
+90.                     LatMax
+2.                      dLat ! only read if LatMin /= LatMax
+bx by bz pe hprho hpux hpuy hpuz hpp pshprho pshpux pshpuy pshpuz pshpp jx jy jz
+g rbody
+shl VAR idl
+-1
+60.
+SMG
+15.0
+15.0
+0.
+360.
+2.
+-90.
+90.
+2.
+bx by bz pe hprho hpux hpuy hpuz hpp pshprho pshpux pshpuy pshpuz pshpp jx jy jz
+g rbody
+shl VAR idl
+-1
+60.
+SMG
+17.0
+17.0
+0.
+360.
+2.
+-90.
+90.
+2.
+bx by bz pe hprho hpux hpuy hpuz hpp pshprho pshpux pshpuy pshpuz pshpp jx jy jz
+g rbody
+shl VAR idl
+-1
+60.
+SMG
+19.0
+19.0
+0.
+360.
+2.
+-90.
+90.
+2.
+bx by bz pe hprho hpux hpuy hpuz hpp pshprho pshpux pshpuy pshpuz pshpp jx jy jz
+g rbody
+shl VAR idl
+-1
+60.
+SMG
+21.0
+21.0
+0.
+360.
+2.
+-90.
+90.
+2.
+bx by bz pe hprho hpux hpuy hpuz hpp pshprho pshpux pshpuy pshpuz pshpp jx jy jz
+g rbody
+
+#SCHEME
+2			nORDER
+Rusanov			TypeFlux
+mc3                     TypeLimiter
+1.2			BetaLimiter
+
+#BORIS
+T
+0.01
+
+#REGION
+borisregion             NameArea
+sphere tapered          NameShape
+-4.0			xPosition
+0.0			yPosition
+0.0			zPosition
+14.0			Radius
+2.0			Taper
+
+#BORISREGION
+borisregion			NameBorisRegion
+
+#TIMESTEPPING
+1			nSTAGE
+0.85			cfl
+
+#OUTERBOUNDARY
+outflow			TypeBC_I(east_)
+vary			TypeBC_I(west_)
+float			TypeBC_I(south_)
+float			TypeBC_I(north_)
+float			TypeBC_I(bot_)
+float			TypeBC_I(top_)
+
+#INNERBOUNDARY
+polarwind
+
+POLARBOUNDARY
+28.0            PolarNDim [amu/cc] for fluid 1
+25000.0         PolarTDim [K]      for fluid 1
+0.0             PolarUDim [km/s]   for fluid 1
+0.1             PolarNDim [amu/cc] for fluid 2
+25000.0         PolarTDim [K]      for fluid 2
+0.0             PolarUDim [km/s]   for fluid 2
+15.             PolarLatitude [deg]
+
+INCLUDE
+./sat.include
+
+#UPSTREAM_INPUT_FILE
+T                       UseUpstreamInputFile
+imf_mf_bzturn_by_test.dat       UpstreamFileName
+0.0                     Satellite_Y_Pos
+0.0                     Satellite_Z_Pos
+
+#END_COMP GM -----------------------------------------------------------------
+
+#BEGIN_COMP IM ---------------------------------------------------------------
+
+INCLUDE
+RESTART_t0004.0000h/IM/restart.H
+
+INCLUDE
+RESTART_t0001.1667h/IM/restart.H
+
+#COREPLASMASPHERE
+T   UseCorePlasmaSphereModel
+.0001  MinPlasDensity
+
+#INITIALF2
+F       IsEmptyInitial
+T       IsGMInitial
+F       IsDataInitial
+F       IsRBSPData
+
+#DECAY
+T 			UseDecay
+10 hour			DecayTimescale
+
+!Decay for RCM particle densitys
+#STRONGDIFFUSION
+F       UseStrongDiff
+
+#BMODEL
+MHD     NameModel
+
+#IEMODEL
+F       UseWeimer (macthing whats in cusia_simulations, can't find doc on this command shuld it refrence Ridley_Serial?)
+
+#TYPEBOUNDARY
+ellipse TypeBoundary
+
+#PLASMASHEET
+F			UseYoungEtAl
+
+#PRERUNFIELD
+T			DoWritePrerunField
+
+#PRERUNFIELD
+T			DoWritePrerunField
+
+#SAVEPLOT
+1			nCIMIFileType
+2d both			StringPlot
+10.
+fls all			StringPlot
+300 			  DtOutput
+F			      DoSaveSeparateFiles
+psd all			StringPlot
+300 			  DtOutput
+TF			    DoSaveSeparateFiles
+vp  all			StringPlot
+300 			  DtOutput
+F			      DoSaveSeparateFiles
+
+#SAVELOG
+10.0			DtLogOut
+
+#IMTIMESTEP
+10.0			IMDeltaT [s]
+10.0			IMDeltaTMax [s]
+
+#END_COMP IM -----------------------------------------------------------------
+
+#BEGIN_COMP IE ---------------------------------------------------------------
+
+INCLUDE
+RESTART_n005000/IE/restart.H
+
+INCLUDE
+RESTART_t0001.1667h/IE/restart.H
+
+
+#IONOSPHERE
+5                       TypeConductanceModel
+F                       UseFullCurrent
+F			UseFakeRegion2
+150.0                   F107Flux
+1.0                     StarLightPedConductance
+0.25                    PolarCapPedConductance
+
+#AURORALOVAL
+T			UseOval (rest of parameters read if true)
+T			UseOvalShift
+F			UseSubOvalConductance
+T			UseAdvancedOval
+F			DoFitCircle (read if UseAdvancedOval is true)
+
+#SAVEPLOT
+1			nPlotFile
+aur idl                 StringPlot
+-1                      DnSavePlot
+300.0			DtSavePlotj
+
+#SAVELOGFILE
+T         DoSaveIELogFile
+
+#SPS
+T
+
+#DEBUG
+0
+0
+
+#END_COMP IE -----------------------------------------------------------------
+
+#STOP
+-1
+60.
+
+#END
