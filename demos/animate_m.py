@@ -7,17 +7,32 @@ Let's animate the block M rotation video.
 import os
 import glob
 
+import matplotlib
 import matplotlib.pyplot as plt
 
 from spacepy.pybats import bats
 
-
 datadir = './'  # './IO2/'
 
-mhd = bats.Bats2d(glob.glob(datadir + 'O2*.outs')[-1], blocksize=6)
+mhd = bats.Bats2d(glob.glob(datadir + 'O2_AMR*.outs')[-1], blocksize=6)
 
 ckwargs = {'add_body': False, 'add_cbar': False, 'zlim': [1.0, 2.0],
            'cmap': 'cividis', 'xlim': [-20, 20], 'ylim': [-20, 20]}
+
+
+def gen_filename(iter, savedir=None):
+    '''
+    Generate filename for the to-be-made figure.
+    '''
+
+    # Check savedir: does it end in '/'? Should it be empty?
+    if savedir:
+        savedir = savedir + (savedir[-1] != '/')*'/'
+    else:
+        savedir = ''
+
+    # Create file names.
+    return savedir + f"frame_i{iter:05d}.png"
 
 
 def plot_pcol_simple(mhd, title='BATS-R-US Advection', savedir=None):
@@ -35,7 +50,7 @@ def plot_pcol_simple(mhd, title='BATS-R-US Advection', savedir=None):
     ax.set_aspect('equal')
 
     if savedir is not None:
-        fig.savefig(savedir + f"frame_i{mhd.attrs['iframe']:05d}.png")
+        fig.savefig(gen_filename(mhd.attrs['iframe'], savedir))
 
 
 def plot_pcol_grid(mhd, title='BATS-R-US Advection', savedir=None):
@@ -59,8 +74,10 @@ def plot_pcol_grid(mhd, title='BATS-R-US Advection', savedir=None):
     a1.set_aspect('equal')
 
     if savedir is not None:
-        fig.savefig(savedir + f"frame_i{mhd.attrs['iframe']:05d}.png")
+        fig.savefig(gen_filename(mhd.attrs['iframe'], savedir))
 
+
+matplotlib.use('Agg')
 
 out1 = 'mhd_frames_simple/'
 out2 = 'mhd_frames_grid/'
@@ -70,6 +87,12 @@ for out in [out1, out2]:
         os.mkdir(out)
 
 for i in range(mhd.attrs['nframe']):
+    # Skip already-created frames:
+    nowfile1 = gen_filename(i, out1)
+    nowfile2 = gen_filename(i, out2)
+    if os.path.exists(nowfile1) and os.path.exists(nowfile2):
+        continue
+
     mhd.switch_frame(i)
     print(f"\tWorking on frame {i} of {mhd.attrs['nframe']}")
     plot_pcol_simple(mhd, title='BATS-R-US 2nd Order + AMR', savedir=out1)
