@@ -10,7 +10,7 @@ For each "type" of storm (CIR, CME-SH, CME-MC), 4 files are made:
 - Hemispheric power index
 - Dst (both mean and median).
 
-Some notes: 
+Some notes:
 Raw data is assumed minute-level data.
 HPI data is littered with NaNs; these are removed.
 '''
@@ -23,7 +23,7 @@ from scipy.io import loadmat
 from spacepy.pybats import ImfInput
 
 #### Constants/parameters ####
-start = dt.datetime(2000,1,1,0,0,0) # First day/time of file.
+start = dt.datetime(2000, 1, 1, 0, 0, 0)  # First day/time of file.
 
 var = ['ux', 'rho', 'bx', 'by', 'bz', 'temp']
 fil = ['Nvx.mat', 'Nn.mat', 'NBx.mat', 'NBy.mat','NBz.mat', 'NT.mat']
@@ -33,8 +33,8 @@ imfheader = '''Data obtained via superposed epoch analysis performed by Katus et
 
 # We need this header for HPI files...
 hpiheader = '''# Prepared by the U.S. Dept. of Commerce, NOAA, Space Environment Center.
-# Please send comments and suggestions to sec@sec.noaa.gov 
-# 
+# Please send comments and suggestions to sec@sec.noaa.gov
+#
 # Source: NOAA POES (Whatever is aloft)
 # Units: gigawatts
 
@@ -46,7 +46,7 @@ hpiheader = '''# Prepared by the U.S. Dept. of Commerce, NOAA, Space Environment
 # NOAA-12(S)  10031     9.0  4    .914
 
 # Please note that if the first line of data in the file has a
-# day-of-year of 365 (or 366) and a HHMM of greater than 2300, 
+# day-of-year of 365 (or 366) and a HHMM of greater than 2300,
 # that polar pass started at the end of the previous year and
 # ended on day-of-year 001 of the current year.
 
@@ -69,7 +69,7 @@ def write_hpi(time, hpi, filename):
     hpi[0]=hpi[1] # First value is always bad.
     time = time[np.isfinite(hpi)]
     hpi = hpi[np.isfinite(hpi)]
-    
+
     with open(filename, 'w') as f:
         # Add header:
         f.write(hpiheader)
@@ -96,7 +96,7 @@ def write_dstlog(time, dstMean, dstMedian, filename):
             # Write data entry:
             f.write(f'{d1:13.5E} {d2:13.5E}\n')
 
-#### MAIN SCRIPT BEGIN ####            
+#### MAIN SCRIPT BEGIN ####
 #### Request data location ####
 print("Enter location of raw data (e.g., /users/uname/SEAdata/)")
 data_dir = input() + '/'
@@ -107,7 +107,7 @@ for prefix in ['CIR','SH','MC']:
     # Some convenience vars:
     meanpath = f'{data_dir}{prefix}/SEA_MeanData/'
     medipath = f'{data_dir}{prefix}/SEA_MedianData/'
-    
+
     # Start by obtaining the size of the arrays:
     raw = loadmat(f'{meanpath}MeanNDst.mat')
     npts = raw['Data'].size
@@ -133,7 +133,7 @@ for prefix in ['CIR','SH','MC']:
     # Add header info:
     imfMean.attrs['header'].append(imfheader)
     imfMedi.attrs['header'].append(imfheader)
-    
+
     # Add data values:
     imfMean['time'] = time
     imfMedi['time'] = time
