@@ -178,7 +178,7 @@ date			TimeUnitMax
 T			DoSaveLo5Dgfile
 VAR step date		StringLogfile
 -1			DnSaveLogfile
-5.0			DtSaveLogfile
+10.0			DtSaveLogfile
 dt rho mx my mz p bx by bz pmin pmax dst cpcpn cpcps
 3.0			StringRFlux
 
@@ -187,6 +187,12 @@ T			DoAmr
 100			DnAmr
 -1.0			DtAmr
 T			IsStrictAmr
+
+#MAGPERTURBINTEGRAL
+T                       UseSurfaceIntegral
+T                       UseFastFacIntegral
+MAG                     TypeCoordIndex
+MAG                     TypeCoordFacGrid
 
 #MAGNETOMETER
 mags.dat		NameMagInputFile
@@ -253,7 +259,7 @@ mc3                     TypeLimiter
 
 #TIMESTEPPING
 1			nStage
-0.60			CflExlp
+0.85			CflExlp
 
 #END_COMP GM -----------------------------------------------------------------
 
@@ -348,6 +354,9 @@ lcb nul tec           	StringPlot
 60                      DtSavePlot
 5.                      Radius
 360                     nLon
+
+#INCLUDE
+virtsats/sats.include
 
 #BORIS
 T			UseBorisCorrection

@@ -145,8 +145,8 @@ date			TimeUnitMax
 T			DoSaveLogfile
 VAR step date		StringLogfile
 -1			DnSaveLogfile
-1.0			DtSaveLogfile
-dt rho mx my mz p bx by bz pmin pmax dst cpcpn
+10.0			DtSaveLogfile
+dt rho mx my mz p bx by bz pmin pmax dst cpcpn cpcps
 3.0			StringRFlux
 
 #SAVEPLOT
@@ -168,6 +168,9 @@ lcb nul tec           	StringPlot
 60                      DtSavePlot
 5.                      Radius
 360                     nLon
+
+#INCLUDE
+virtsats/sats.include
 
 #SCHEME
 2			nORDER
