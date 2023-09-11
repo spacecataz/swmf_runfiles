@@ -103,8 +103,8 @@ GEO			TypeCoordMagGrid
 719			nLatMagGrid
 0.			LonMinMagGrid
 360.			LonMaxMagGrid
--89.75			LatMinMagGrid
-85.75			LatMaxMagGrid
+-89.			LatMinMagGrid
+85.			LatMaxMagGrid
 -1			DnSaveMagGrid
 10.0			DtSaveMagGrid
 
