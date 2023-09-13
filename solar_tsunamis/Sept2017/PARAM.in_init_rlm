@@ -216,6 +216,9 @@ GEO			TypeCoordMagGrid
 -1			DnSaveMagGrid
 10.0			DtSaveMagGrid
 
+#INCLUDE
+virtsats/sats.include
+
 #END_COMP GM -----------------------------------------------------------------
 
 #BEGIN_COMP IE ---------------------------------------------------------------
@@ -354,9 +357,6 @@ lcb nul tec           	StringPlot
 60                      DtSavePlot
 5.                      Radius
 360                     nLon
-
-#INCLUDE
-virtsats/sats.include
 
 #BORIS
 T			UseBorisCorrection
