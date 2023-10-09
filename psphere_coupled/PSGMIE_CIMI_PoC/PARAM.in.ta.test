@@ -59,6 +59,11 @@ F			DoCoupleOnTime
 #INCLUDE
 RESTART_n005000/GM/restart.H
 
+INCLUDE
+RESTART_t0009.0000h/GM/restart.H
+
+INCLUDE
+GM/restartIN/restart.H
 
 
 #MULTIION
@@ -114,24 +119,17 @@ VAR step date		StringLogfile
 dt rho mx my mz p bx by bz pmin pmax dst cpcpn
 3.0 3.5 5.0		  StringRFlux
 
-SAVEPLOT
-1               nPlotFiles
-idl z=0 MHD     StringPlot
--1              DnSavePlot
-10.             DtSavePlot
--1              DxSavePlot
-
 #SAVEPLOT
 13               nPlotFiles
 idl z=0 VAR     StringPlot
 -1              DnSavePlot
-10.             DtSavePlot
+60.             DtSavePlot
 -1              DxSavePlot
 bx by bz pe hprho hpux hpuy hpuz hpp pshprho pshpux pshpuy pshpuz pshpp jx jy jz
 g rbody
 idl y=0 VAR     StringPlot
 -1              DnSavePlot
-10.             DtSavePlot
+60.             DtSavePlot
 -1              DxSavePlot
 bx by bz pe hprho hpux hpuy hpuz hpp pshprho pshpux pshpuy pshpuz pshpp jx jy jz
 g rbody
@@ -297,7 +295,7 @@ float			TypeBC_I(bot_)
 float			TypeBC_I(top_)
 
 #INNERBOUNDARY
-polarwind
+ionosphere
 
 POLARBOUNDARY
 28.0            PolarNDim [amu/cc] for fluid 1
@@ -308,7 +306,7 @@ POLARBOUNDARY
 0.0             PolarUDim [km/s]   for fluid 2
 15.             PolarLatitude [deg]
 
-#INCLUDE
+INCLUDE
 ./sat.include
 
 #UPSTREAM_INPUT_FILE
@@ -322,11 +320,14 @@ imf_mf_bzturn_by_test.dat       UpstreamFileName
 #BEGIN_COMP IM ---------------------------------------------------------------
 
 INCLUDE
-RESTART_t0004.0000h/IM/restart.H
+RESTART_t0009.0000h/IM/restart.H
+
+INCLUDE
+IM/restartIN/restart.H
 
 #COREPLASMASPHERE
 T   UseCorePlasmaSphereModel
-.0001  MinPlasDensity
+.001  MinPlasDensity
 
 #INITIALF2
 F       IsEmptyInitial
@@ -360,13 +361,10 @@ T			DoWritePrerunField
 #PRERUNFIELD
 T			DoWritePrerunField
 
-SAVEPLOT
-1
-2d both	    StringPlot
-10.	    		DtOutput
-
 #SAVEPLOT
-4			nCIMIFileType
+1			nCIMIFileType
+2d both			StringPlot
+10.
 fls all			StringPlot
 300 			  DtOutput
 F			      DoSaveSeparateFiles
@@ -376,8 +374,6 @@ TF			    DoSaveSeparateFiles
 vp  all			StringPlot
 300 			  DtOutput
 F			      DoSaveSeparateFiles
-2d both	    StringPlot
-60.	    		DtOutput
 
 #SAVELOG
 10.0			DtLogOut
@@ -389,6 +385,13 @@ F			      DoSaveSeparateFiles
 #END_COMP IM -----------------------------------------------------------------
 
 #BEGIN_COMP IE ---------------------------------------------------------------
+
+INCLUDE
+RESTART_t0006.0000h/IE/restart.H
+
+#INCLUDE
+IE/restartIN/restart.H
+
 
 #IONOSPHERE
 5                       TypeConductanceModel
@@ -423,8 +426,13 @@ T
 
 #END_COMP IE -----------------------------------------------------------------
 
+
+STOP
+-1
+60.0
+
 #STOP
 -1
-1800.0
+39600.00
 
 #END
