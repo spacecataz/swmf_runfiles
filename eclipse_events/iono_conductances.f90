@@ -2227,9 +2227,9 @@ subroutine ionosphere_conductance(Sigma0, SigmaH, SigmaP, &
             do iLon=1, IONO_nPsi
                read(UnitTmp_, '(f7.3, 1x, f7.3, 2(1x, f12.8))', iostat=iError) &
                   tempLon, tempLat, tempHall, tempPed
-                  BufferCond_VII(1, iLat, iLon) = tempHall
-                  BufferCond_VII(2, iLat, iLon) = tempPed
-               write(*,*) tempLon, tempLat, BufferCond_VII(:,iLat, iLon)
+               BufferCond_VII(1, iLat, iLon) = tempHall
+               BufferCond_VII(2, iLat, iLon) = tempPed
+               !write(*,*) tempLon, tempLat, BufferCond_VII(:,iLat, iLon)
             end do
          end do
 
