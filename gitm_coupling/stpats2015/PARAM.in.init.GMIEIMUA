@@ -312,7 +312,7 @@ IE			NameComp2
 IM			NameComp1
 GM			NameComp2
 -1                      DnCouple
-5.0                    DtCouple
+10.0                    DtCouple
 
 #COUPLE1
 IE			NameComp1
