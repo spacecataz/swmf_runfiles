@@ -157,6 +157,15 @@ T			DoAmr
 -1.0			DtAmr
 T			IsStrictAmr
 
+#NONCONSERVATIVE
+T                       UseNonConservative
+
+#CONSERVATIVECRITERIA
+1			nConservCrit
+parabola		TypeConservCrit_I
+ 5.0			xParabolaConserv
+15.0			yParabolaConserv
+
 #GEOMAGINDICES
 180			nSizeKpWindow [min]
 60.0			DtOutput      [sec]
@@ -224,7 +233,7 @@ T			DoTimeAccurate
 #SAVERESTART
 T                       DoSaveRestart
 -1                      DnSaveRestart
-3600.0                    DtSaveRestart
+900.0                   DtSaveRestart
 
 #COMPONENT
 IM			NameComp
@@ -267,15 +276,6 @@ F			DoCoupleOnTime
 
 #BEGIN_COMP GM ---------------------------------------------------------------
 
-#NONCONSERVATIVE
-T                       UseNonConservative
-
-#CONSERVATIVECRITERIA
-1			nConservCrit
-parabola		TypeConservCrit_I
- 5.0			xParabolaConserv
-15.0			yParabolaConserv
-
 ! Setting 1
 #IMCOUPLING
 20.0                    TauCoupleIm
@@ -290,7 +290,7 @@ F                       DoFixPolarRegion
 1e-5			pMinDim [nPa]
 
 #SAVEPLOT
-2                       nPlotFiles
+4                       nPlotFiles
 y=0 MHD idl             StringPlot
 -1                      DnSavePlot
 60.			DtSavePlot
@@ -299,6 +299,14 @@ z=0 MHD idl             StringPlot
 -1                      DnSavePlot
 60.			DtSavePlot
 -1.0			DxSavePlot
+3d MHD idl		StringPlot
+-1			DnSavePlot
+900.			DtSavePlot
+-1			DxSavePlot
+3d MHD tec		StringPlot
+-1			DnSavePlot
+3600.			DtSavePlot
+-1			DxSavePlot
 
 #BORIS
 T			UseBorisCorrection
@@ -329,7 +337,7 @@ T 			UseDecay
 
 #SAVEPLOT
 1			nPlotFile
-aur idl                 StringPlot
+max idl                 StringPlot
 -1                      DnSavePlot
 60.0			DtSavePlot
 

@@ -131,7 +131,7 @@ GEO                     TypeCoordMagGrid
 0.                      LatMinMagGrid
 85.                     LatMaxMagGrid
 -1                      DnSaveMagGrid
-1.0                     DtSaveMagGrid
+10.0                    DtSaveMagGrid
 
 #NONCONSERVATIVE
 T                       UseNonConservative
@@ -169,19 +169,27 @@ dt rho mx my mz p bx by bz pmin pmax dst cpcpn
 3.0			StringRFlux
 
 #SAVEPLOT
-3                       nPlotFiles
+5                       nPlotFiles
 y=0 MHD idl             StringPlot
 -1                      DnSavePlot
-1.			DtSavePlot
+60.			DtSavePlot
 -1.0			DxSavePlot
 z=0 MHD idl             StringPlot
 -1                      DnSavePlot
-1.			DtSavePlot
+60.			DtSavePlot
 -1.0			DxSavePlot
 z=0 ray idl             StringPlot
 -1                      DnSavePlot
-1.                     DtSavePlot
+60.0                     DtSavePlot
 -1.0                    DxSavePlot
+3d MHD idl		StringPlot
+-1			DnSavePlot
+900.			DtSavePlot
+-1			DxSavePlot
+3d MHD tec		StringPlot
+-1			DnSavePlot
+3600.			DtSavePlot
+-1			DxSavePlot
 
 #SCHEME
 2			nORDER
@@ -239,9 +247,9 @@ F			UseFakeRegion2
 
 #SAVEPLOT
 1			nPlotFile
-aur idl                 StringPlot
+max idl                 StringPlot
 -1                      DnSavePlot
-1.0			DtSavePlot
+60.0			DtSavePlot
 
 #END_COMP IE -----------------------------------------------------------------
 

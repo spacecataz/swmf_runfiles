@@ -7,6 +7,9 @@ These solar wind input files have been obtained via a normalized timeline superp
 Three types of nominal events are included: an ideal corotating interaction region (CIR), an ideal magnetic cloud CME (MC), and an idea sheath-driven CME (SH).
 Files for both the SEA mean and median are included.
 
+It should be noted that the results produced by this module are not yet physically consistent across 
+each variable. Further work is in progress to alleviate this shortcoming.
+
 # Recommended Settings & Considerations
 
 ## F10.7 Flux

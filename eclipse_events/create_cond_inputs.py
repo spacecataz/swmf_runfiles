@@ -8,6 +8,7 @@ There are also tools to plot the input files for inspection and debugging.
 '''
 
 import os
+from shutil import copy
 import datetime as dt
 
 import numpy as np
@@ -18,8 +19,8 @@ from spacepy import coordinates as crds
 from spacepy.time import Ticktock
 
 # Set input and output files/directories:
-infile = 'dec2021eclipse/combined_parms_2dall_euv.npz'
-outdir = 'CondFies_Dec2021_EUV/'
+infile = 'dec2021eclipse/combined_parms_2dall_geo.npz'
+outdir = 'CondFiles_Dec2021_GEO/'
 if not os.path.exists(outdir):
     os.mkdir(outdir)
 
@@ -31,7 +32,7 @@ gitm = np.load(infile)
 psi = np.pi*gitm['glon']/180. + np.pi/2  # azimuthal angle.
 
 # Mask cond if it exists:
-if 'SolarMask' in gitm:
+if 'base' not in infile:
     gitm_sigp = gitm['SigP'] * gitm['SolarMask']
     gitm_sigh = gitm['SigH'] * gitm['SolarMask']
 else:
@@ -119,7 +120,7 @@ def interp_to_rim(itime, mincond=0.5, dosave=True, doplot=True):
         sm_coord = gm_coord.convert('SM', 'sph')
 
         # Stash result into SM arrays:
-        mlat[:, i], mlon[:, i] = sm_coord.lati, sm_coord.long # + 180
+        mlat[:, i], mlon[:, i] = sm_coord.lati, sm_coord.long  # + 180
 
     # Create interpolator. Copy 3x to ensure continuity over Lon = 0/360.
     points = list(zip(mlon.flatten()-365, mlat.flatten())) + \
@@ -134,6 +135,10 @@ def interp_to_rim(itime, mincond=0.5, dosave=True, doplot=True):
     rim_sighS = intsigh(rim_ptsS).reshape([91, 181])
     rim_sigpN = intsigp(rim_ptsN).reshape([91, 181])
     rim_sigpS = intsigp(rim_ptsS).reshape([91, 181])
+
+    # Set minimum values:
+    for cond in (rim_sighN, rim_sighS, rim_sigpN, rim_sigpS):
+        cond[cond < mincond] = mincond
 
     # Save to file:
     if dosave:
@@ -150,9 +155,12 @@ def interp_to_rim(itime, mincond=0.5, dosave=True, doplot=True):
     fig, (a1, a2) = plt.subplots(2, 1, figsize=(8, 8))
     c1 = a1.contourf(rim_lon, 90-rim_lat, rim_sighN, **kwargs)
     c2 = a1.contourf(rim_lon, -1*rim_lat, rim_sighS, **kwargs)
+    c1 = a1.contourf(rim_lon - 360, 90-rim_lat, rim_sighN, **kwargs)
+    c2 = a1.contourf(rim_lon - 360, -1*rim_lat, rim_sighS, **kwargs)
     c2 = a2.tricontourf(mlon.flatten(), mlat.flatten(), sigH.flatten(),
                         **kwargs)
 
+    a1.set_xlim([-180, 180])
     a1.set_title('Interpolated Conductace: Hall')
     a2.set_title('Rotated GITM Conductance: Hall')
     for a, c in zip([a1, a2], [c1, c2]):
@@ -164,11 +172,16 @@ def interp_to_rim(itime, mincond=0.5, dosave=True, doplot=True):
     fig.savefig(outdir + f'interp_H_t{t:%Y%m%d_%H%M%S}.png')
 
     fig, (a1, a2) = plt.subplots(2, 1, figsize=(8, 8))
-    c1 = a1.contourf(rim_lon, 90-rim_lat, rim_sighN, **kwargs)
-    c2 = a1.contourf(rim_lon, -1*rim_lat, rim_sighS, **kwargs)
-    c2 = a2.tricontourf(mlon.flatten(), mlat.flatten(), sigH.flatten(),
+    # Plot both hemispheres twice to cover same range as GITM:
+    c1 = a1.contourf(rim_lon, 90-rim_lat, rim_sigpN, **kwargs)
+    c2 = a1.contourf(rim_lon, -1*rim_lat, rim_sigpS, **kwargs)
+    c1 = a1.contourf(rim_lon - 360, 90-rim_lat, rim_sigpN, **kwargs)
+    c2 = a1.contourf(rim_lon - 360, -1*rim_lat, rim_sigpS, **kwargs)
+    # Now plot GITM:
+    c2 = a2.tricontourf(mlon.flatten(), mlat.flatten(), sigP.flatten(),
                         **kwargs)
 
+    a1.set_xlim([-180, 180])
     a1.set_title('Interpolated Conductace: Pedersen')
     a2.set_title('Rotated GITM Conductance: Pedersen')
     for a, c in zip([a1, a2], [c1, c2]):
@@ -178,10 +191,6 @@ def interp_to_rim(itime, mincond=0.5, dosave=True, doplot=True):
     fig.suptitle(f'T={t}')
     fig.tight_layout()
     fig.savefig(outdir + f'interp_P_t{t:%Y%m%d_%H%M%S}.png')
-
-    # Set minimum values:
-    for cond in (rim_sighN, rim_sighS, rim_sigpN, rim_sigpS):
-        cond[cond < mincond] = mincond
 
     # Return conductance:
     return rim_sighN, rim_sighS, rim_sigpN, rim_sigpS
@@ -196,7 +205,7 @@ def plot_rim_sigma(itime, hallN, hallS, pedN, pedS, maxz=20, latlim=45,
                              subplot_kw={'polar': polar})
     fig.subplots_adjust(left=0.06, bottom=0.133, right=.955, top=.905,
                         hspace=0.35, wspace=0.25)
-    x = rim_psi[0, :] if polar else rim_lon[0, :]
+    x = rim_psi[0, :] - np.pi if polar else rim_lon[0, :]
     yN = rim_lat[:, 0] if polar else rim_lat[:, 0]
 
     # Set levels and contour kwargs.
@@ -204,7 +213,7 @@ def plot_rim_sigma(itime, hallN, hallS, pedN, pedS, maxz=20, latlim=45,
     kwargs = {'levels': levs, 'extend': 'max'}
 
     # Northern Hemisphere:
-    loc = rim_lat[:, 0] > latlim
+    loc = rim_lat[:, 0] < latlim
     z = hallN[loc, :]
     cont = axes[0, 0].contourf(x, yN[loc], z, **kwargs)
     axes[0, 0].set_title(r'North $\Sigma_{Hall}$')
@@ -300,6 +309,12 @@ def create_cond():
         plot_rim_sigma(itime, hallN, hallS, pedN, pedS)
         plot_gitm_sigma(itime)
         plt.close('all')
+
+    # Copy first file (5:10UT) to previous time (5:00UT)
+    copy(outdir + 'cond_N_t20211204_051000.dat',
+         outdir + 'cond_N_t20211204_050000.dat')
+    copy(outdir + 'cond_S_t20211204_051000.dat',
+         outdir + 'cond_S_t20211204_050000.dat')
 
     if set_inter:
         plt.ion()

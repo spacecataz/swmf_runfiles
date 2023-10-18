@@ -1,0 +1,66 @@
+#SATELLITE
+16			nSatellite
+MHD RAY date time	StringSatellite
+-1			DnOutput
+60.0			DtOutput
+virtsats/cluster1.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+60.0			DtOutput
+virtsats/cluster2.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+60.0			DtOutput
+virtsats/cluster3.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+60.0			DtOutput
+virtsats/cluster4.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+60.0			DtOutput
+virtsats/goes13.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+60.0			DtOutput
+virtsats/goes14.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+60.0			DtOutput
+virtsats/goes15.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+60.0			DtOutput
+virtsats/goes16.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+60.0			DtOutput
+virtsats/geotail.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+60.0			DtOutput
+virtsats/themisa.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+60.0			DtOutput
+virtsats/themisb.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+60.0			DtOutput
+virtsats/themisc.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+60.0			DtOutput
+virtsats/themisd.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+60.0			DtOutput
+virtsats/themise.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+60.0			DtOutput
+virtsats/rbspa.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+60.0			DtOutput
+virtsats/rbspb.sat
