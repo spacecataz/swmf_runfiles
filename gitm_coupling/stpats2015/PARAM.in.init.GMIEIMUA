@@ -183,6 +183,7 @@ MAG                     TypeCoordFacGrid
 60.0			DtOutput      [sec]
 
 #MAGNETOMETERGRID
+1			nMagGridFile
 real8			TypeFileMagGrid
 MAG			TypeCoordMagGrid
 72			nLonMagGrid
