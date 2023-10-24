@@ -184,7 +184,7 @@ MAG                     TypeCoordFacGrid
 
 #MAGNETOMETERGRID
 1			nMagGridFile
-real8			TypeFileMagGrid
+global real8		TypeFileMagGrid
 MAG			TypeCoordMagGrid
 72			nLonMagGrid
 32			nLatMagGrid
