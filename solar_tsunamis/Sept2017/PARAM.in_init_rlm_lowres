@@ -41,9 +41,9 @@ IE			NameComp2
 25000
 
 #GRID
-1			nRootBlock_D(x_)
-1			nRootBlock_D(y_)
-1			nRootBlock_D(z_)
+1			nRootBlock1
+1			nRootBlock2
+1			nRootBlock3
 -224.			xMin
  32.			xMax
 -128.			yMin
@@ -53,69 +53,51 @@ IE			NameComp2
 
 ! Maximum resolution initially
 #GRIDRESOLUTION
-1.0			Resolution
-initial			NameArea
+2.0			Resolution
+initial			StringShape
 
 ! Minimum resolution in the computational domain
 #GRIDRESOLUTION
 8.0			Resolution
-all			NameArea
+all			StringShape
 
 #GRIDRESOLUTION
 1.0			Resolution
-box			NameArea
+box			StringShape
 -100.0			xMinBox
  -16.0			yMinBox
  -16.0			zMinBox
-  32.0			xMaxBox
+  22.0			xMaxBox
   16.0			yMaxBox
   16.0			zMaxBox
 
-! Super high at inner boundary
-! to capture outflow patterns.
-#GRIDRESOLUTION
-1/16			Resolution
-box			NameArea
--4.0                   	xMinBox
--4.0                   	yMinBox
--4.0                   	zMinBox
- 4.0			xMaxBox
- 4.0                   	yMaxBox
- 4.0                   	zMaxBox
-
-! Strong resolution just outside
-! super-hi for clean outflow.
-#GRIDRESOLUTION
-1/8			Resolution
-box			NameArea
--8.0			xMinBox
--8.0                   	yMinBox
--8.0                   	zMinBox
- 8.0                   	xMaxBox
- 8.0                   	yMaxBox
- 8.0                   	zMaxBox
-
-! Good res throughout lobes.
+! Better res at geosync and near tail.
 #GRIDRESOLUTION
 1/4			Resolution
-box			NameArea
--32.0			xMinBox
--16.0			yMinBox
--16.0			zMinBox
- 12.0			xMaxBox
- 16.0			yMaxBox
- 16.0			zMaxBox
+box			StringShape
+-20.0			xMinBox
+-8.0			yMinBox
+-8.0			zMinBox
+ 8.0			xMaxBox
+ 8.0			yMaxBox
+ 8.0			zMaxBox
 
-! 1/2 RE buffer around inner mag.
+! Close tail and bow shock resolution
 #GRIDRESOLUTION
 1/2			Resolution
-box			NameArea
--40.0			xMinBox
--24.0			yMinBox
--24.0			zMinBox
- 24.0			xMaxBox
- 24.0			yMaxBox
- 24.0			zMaxBox
+box			StringShape
+-32.0			xMinBox
+-22.0			yMinBox
+-10.0			zMinBox
+ 20.0			xMaxBox
+ 22.0			yMaxBox
+ 10.0			zMaxBox
+
+#GRIDRESOLUTION
+1/8			Resolution
+shell0			StringShape
+2.5			RadiusInner
+3.5			Radius
 
 #BODY
 T                       UseBody
@@ -198,7 +180,7 @@ MAG                     TypeCoordFacGrid
 mags.dat		NameMagInputFile
 single			TypeFileOut
 -1			DnOutput
-10.0			DtOutput
+60.0			DtOutput
 
 #GEOMAGINDICES
 180			nSizeKpWindow [min]
