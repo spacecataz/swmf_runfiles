@@ -187,7 +187,8 @@ single			TypeFileOut
 60.0			DtOutput      [sec]
 
 #MAGNETOMETERGRID
-real8			TypeFileMagGrid
+1			nMagGridFile
+global real8	 	TypeFileMagGrid
 GEO			TypeCoordMagGrid
 180			nLonMagGrid
 89			nLatMagGrid
@@ -196,7 +197,7 @@ GEO			TypeCoordMagGrid
 -89.			LatMinMagGrid
 89.			LatMaxMagGrid
 -1			DnSaveMagGrid
-10.0			DtSaveMagGrid
+60.0			DtSaveMagGrid
 
 #INCLUDE
 virtsats/sats.include

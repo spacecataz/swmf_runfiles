@@ -1,11 +1,12 @@
 #ECHO
 T			DoEcho
 
+GITM and BATS should not share CPUs unless you have a LOT of memory.
 #COMPONENTMAP           For 128+ cores like production run
-GM  0 -3 -1  -1         GM runs on 0:nProc-3 multithreaded
+GM  0 -399 -1  -1       GM runs on 0:nProc-399 multithreaded
 IE -2 -1  1             IE runs on last 2 PE-s
 IM -2 -2  1             IM runs on nProc-2 PE
-UA 0 399 1 		UA requires 400 processors.
+UA -400 -1 1 		UA requires 400 processors.
 
 #DESCRIPTION
 Sept. 2017 event for Solar Tsunamis with GITM coupling.
