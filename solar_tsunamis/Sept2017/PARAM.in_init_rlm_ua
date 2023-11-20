@@ -211,7 +211,8 @@ single			TypeFileOut
 60.0			DtOutput      [sec]
 
 #MAGNETOMETERGRID
-real8			TypeFileMagGrid
+1			nMagGridFile
+global real8		TypeFileMagGrid
 GEO			TypeCoordMagGrid
 1440			nLonMagGrid
 719			nLatMagGrid
@@ -481,6 +482,7 @@ F               UseMSISFlat
 T               UseMSISTides
 F               UseGSWMTides
 F               UseWACCMTides
+F		UseHmeTides
 
 #GSWMCOMP
 F               Diurnal Migrating
