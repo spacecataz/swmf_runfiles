@@ -80,7 +80,7 @@ from process_drivers import scale_imf
 start = dt.datetime(2000,1,1,8,15,0)
 stop = dt.datetime(2000,1,1,21,0,0)
 
-imf, scale = scale_imf('./imf_SH_mean.dat', start, stop, 120, 720)
+imf, scale = scale_imf('sea_original/imf_SH_mean.dat', start, stop, 120, 720)
 imf.quicklook()
 ```
 
@@ -89,7 +89,13 @@ A dictionary is used to set amplitudes on a per-variable basis.
 The values below are selected
 
 ```
-amps = {'ux': 4.05, 'uy': 4.05, 'uz': 4.05, 'bx': 7.381, 'bz': 7.381, 'bz': 7.381, 't':}
+amps = {'ux': 4.05, 'uy': 4.05, 'uz': 4.05, 'bx': 7.381, 'bz': 7.381, 'bz': 7.381, 't':4}
+
+start = dt.datetime(2000,1,1,8,15,0)
+stop = dt.datetime(2000,1,1,21,0,0)
+
+imf, scale = scale_imf('sea_original/imf_SH_mean.dat', start, stop, 120, 720, amp=amps)
+imf.quicklook()
 ```
 
 # Python Code
