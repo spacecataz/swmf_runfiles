@@ -76,11 +76,18 @@ intsigp = linterp(points, 3*list(sigP.flatten()), fill_value=0)
 print("Timing to create interpolators: ",
       (dt.datetime.now() - timing_start).total_seconds())
 
-fig, ax = plt.subplots(1, 1, figsize=(8, 8))
+fig, ax = plt.subplots(1, 1, figsize=(10, 7))
 patch = Rectangle((0, -90), 360, 180, ec='k', fill=False)
-ax.plot(glon, glat, '.k', ms=.3)
-ax.plot(mlon, mlat, '.r', ms=.5)
+pts1 = ax.plot(glon, glat, 'ok', ms=.3, label='GEO Coords')
+pts2 = ax.plot(mlon, mlat, '.r', ms=.5, label='SM Coords')
 ax.add_patch(patch)
+
+ax.set_title('GITM Output Points', size=20, loc='left')
+ax.set_xlabel('Longitude', size=16)
+ax.set_ylabel('Latitude', size=16)
+fig.legend([pts1[0], pts2[0]], ['GEO Coords', 'SM Coords'],
+           ncol=2, fontsize=16)
+fig.tight_layout()
 
 # Re-create IE grid exactly:
 rim_nlat, rim_nlon = 91, 181
