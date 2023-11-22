@@ -158,11 +158,6 @@ def scale_imf(imffile, epoch_rise, epoch_fall, lamb_rise, lamb_fall,
     for v in scales.keys():  # imf.attrs['var']:
         imf[v] *= scales[v]
 
-      #  if v[0] == 'u':
-      #      imf[v] *= scale_u
-      #  else:
-      #      imf[v] *= scale
-
     # Overwrite imf['v']:
     if 'v' in imf:
         imf['v'] = dmarray(np.abs(imf['ux']),
