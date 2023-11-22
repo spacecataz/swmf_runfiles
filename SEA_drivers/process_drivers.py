@@ -140,7 +140,7 @@ def scale_imf(imffile, epoch_rise, epoch_fall, lamb_rise, lamb_fall,
 
     # Handle amplitudes. If just a single floating point value,
     # convert into dictionary with amplitude applied to all values.
-    if type(amp) is float or int:
+    if type(amp) in [float, int]:
         amp = dict([[v, amp] for v in imf.attrs['var']])
 
     # Generate scaling functions:
