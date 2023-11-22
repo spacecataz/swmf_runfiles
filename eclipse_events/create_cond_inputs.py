@@ -19,8 +19,8 @@ from spacepy import coordinates as crds
 from spacepy.time import Ticktock
 
 # Set input and output files/directories:
-infile = 'dec2021eclipse/combined_parms_2dall_geo.npz'
-outdir = 'CondFiles_Dec2021_GEO/'
+infile = 'dec2021eclipse/combined_parms_2dall_euv.npz'
+outdir = 'CondFiles_Dec2021_EUV/'
 if not os.path.exists(outdir):
     os.mkdir(outdir)
 
@@ -55,6 +55,63 @@ flat_lon, flat_lat = rim_lon.flatten(), rim_lat.flatten()
 rim_ptsN = list(zip(flat_lon, 90 - flat_lat))
 rim_ptsS = list(zip(flat_lon, -flat_lat))
 rim_psi = np.pi*rim_lon/180. - np.pi/2
+
+
+def plot_grid_comp(itime=0):
+    '''
+    Create a quick comparison of GEO vs. SM points from GITM.
+    '''
+    from matplotlib.patches import Rectangle
+
+    # Create some arrays for storage:
+    mlat = np.zeros([nlons, nlats])
+    mlon = np.zeros([nlons, nlats])
+
+    # Create time array using TickTock
+    tnow = Ticktock(nlons * [start_time +
+                             dt.timedelta(hours=gitm['ut'][itime])])
+
+    # Loop over slices of constant geo latitude:
+    for i in range(nlats):
+        # Flatten lat/lon pairs; convert to SM coords
+        pts = np.array([nlons*[1], glat[:, i].flatten(),
+                        glon[:, i].flatten()]).transpose()
+        gm_coord = crds.Coords(pts, dtype='GEO', carsph='sph', ticks=tnow)
+        sm_coord = gm_coord.convert('SM', 'sph')
+
+        # Stash result into SM arrays:
+        mlat[:, i], mlon[:, i] = sm_coord.lati, sm_coord.long + 180
+
+    fig, ax = plt.subplots(1, 1, figsize=(10, 7))
+    patch = Rectangle((0, -90), 360, 180, ec='k', fill=False)
+    pts1 = ax.plot(glon, glat, 'ok', ms=.5, label='GEO Coords')
+    pts2 = ax.plot(mlon, mlat, 'or', ms=.5, label='SM Coords')
+    ax.add_patch(patch)
+
+    ax.set_title('GITM Output Points', size=20, loc='left')
+    ax.set_xlabel('Longitude', size=16)
+    ax.set_ylabel('Latitude', size=16)
+    fig.legend([pts1[0], pts2[0]], ['GEO Coords', 'SM Coords'],
+               ncol=2, fontsize=16, markerscale=10)
+    fig.tight_layout()
+    fig.savefig('grid_compare_full.png')
+
+    # Again, but zoom in.
+    fig, ax = plt.subplots(1, 1, figsize=(8, 5))
+    patch = Rectangle((0, -90), 360, 180, ec='k', fill=False)
+    pts1 = ax.plot(glon, glat, 'ok', ms=1, label='GEO Coords')
+    pts2 = ax.plot(mlon, mlat, 'or', ms=1, label='SM Coords')
+    ax.add_patch(patch)
+
+    ax.set_title('GITM Output Points', size=20, loc='left')
+    ax.set_xlabel('Longitude', size=16)
+    ax.set_ylabel('Latitude', size=16)
+    ax.set_ylim([55, 95])
+    ax.set_xlim([-5, 60])
+    fig.legend([pts1[0], pts2[0]], ['GEO Coords', 'SM Coords'],
+               ncol=2, fontsize=16, markerscale=4)
+    fig.tight_layout()
+    fig.savefig('grid_compare_zoom.png')
 
 
 def write_cond_rim(itime, hallN, hallS, pedN, pedS):
@@ -155,8 +212,8 @@ def interp_to_rim(itime, mincond=0.5, dosave=True, doplot=True):
     fig, (a1, a2) = plt.subplots(2, 1, figsize=(8, 8))
     c1 = a1.contourf(rim_lon, 90-rim_lat, rim_sighN, **kwargs)
     c2 = a1.contourf(rim_lon, -1*rim_lat, rim_sighS, **kwargs)
-    c1 = a1.contourf(rim_lon - 360, 90-rim_lat, rim_sighN, **kwargs)
-    c2 = a1.contourf(rim_lon - 360, -1*rim_lat, rim_sighS, **kwargs)
+    c1 = a1.contourf(rim_lon - 361, 90-rim_lat, rim_sighN, **kwargs)
+    c2 = a1.contourf(rim_lon - 361, -1*rim_lat, rim_sighS, **kwargs)
     c2 = a2.tricontourf(mlon.flatten(), mlat.flatten(), sigH.flatten(),
                         **kwargs)
 
@@ -175,8 +232,8 @@ def interp_to_rim(itime, mincond=0.5, dosave=True, doplot=True):
     # Plot both hemispheres twice to cover same range as GITM:
     c1 = a1.contourf(rim_lon, 90-rim_lat, rim_sigpN, **kwargs)
     c2 = a1.contourf(rim_lon, -1*rim_lat, rim_sigpS, **kwargs)
-    c1 = a1.contourf(rim_lon - 360, 90-rim_lat, rim_sigpN, **kwargs)
-    c2 = a1.contourf(rim_lon - 360, -1*rim_lat, rim_sigpS, **kwargs)
+    c1 = a1.contourf(rim_lon - 361, 90-rim_lat, rim_sigpN, **kwargs)
+    c2 = a1.contourf(rim_lon - 361, -1*rim_lat, rim_sigpS, **kwargs)
     # Now plot GITM:
     c2 = a2.tricontourf(mlon.flatten(), mlat.flatten(), sigP.flatten(),
                         **kwargs)
@@ -302,6 +359,11 @@ def create_cond():
 
     set_inter = True if plt.isinteractive() else False
     plt.ioff()
+
+    print("Converting conductance using:")
+    print(f"\t{infile}")
+    print("Writing output to directory:")
+    print(f"\t{outdir}")
 
     for itime in range(gitm['ut'].shape[0]):
         print(f"Working on iTime = {itime}")
