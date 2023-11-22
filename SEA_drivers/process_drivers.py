@@ -7,6 +7,7 @@ A set of helper functions for handling the SEA upstream driver files:
 - *intensify_storm* can be used to change the magnitude of the IMF drivers.
 
 '''
+
 from copy import copy
 
 import numpy as np
@@ -101,11 +102,12 @@ def scale_imf(imffile, epoch_rise, epoch_fall, lamb_rise, lamb_fall,
        The period of the rise in scaling towards *amp* (in minutes).
     lamb_fall : :class:`float`
        The period of the fall in scaling as it returns to 1 (in minutes).
-
-    Other Parameters
-    ----------------
-    amp : :class:`float`, default 5
+    amp : :class:`float` or :class:`dict`, default 5
        The normalized amplitude for the peak.
+       If a float is given, the same scaling is applied to all variables.
+       If a dictionary is given, it should contain variable name-amplitude
+       pairs. Only values within the `amp` dictionary will have scaling
+       applied.
     outfile : :class:`str`, default None
        If provided, the path/name to save the altered IMF data.
     ufactor : :class:`int`, default 5
@@ -136,20 +138,30 @@ def scale_imf(imffile, epoch_rise, epoch_fall, lamb_rise, lamb_fall,
     lamb_rise /= 1440.
     lamb_fall /= 1440.
 
-    # Generate scaling function:
-    scale = generate_scaling(time, amp, epoch_rise, epoch_fall,
-                             lamb_rise, lamb_fall)
+    # Handle amplitudes. If just a single floating point value,
+    # convert into dictionary with amplitude applied to all values.
+    if type(amp) is float or int:
+        amp = dict([[v, amp] for v in imf.attrs['var']])
+
+    # Generate scaling functions:
+    scales = {}
+    for v in amp:
+        isU = v[0] == 'u'  # Separate time scalings for velocities.
+        scales[v] = generate_scaling(time, amp[v], epoch_rise, epoch_fall,
+                                     lamb_rise, lamb_fall*(1+ufactor*isU))
 
     # Scale velocity separately- it decays much slower.
-    scale_u = generate_scaling(time, amp, epoch_rise, epoch_fall,
-                               lamb_rise, lamb_fall*ufactor)
+    # scale_u = generate_scaling(time, amp, epoch_rise, epoch_fall,
+    #                           lamb_rise, lamb_fall*ufactor)
 
     # Apply to all variables:
-    for v in imf.attrs['var']:
-        if v[0] == 'u':
-            imf[v] *= scale_u
-        else:
-            imf[v] *= scale
+    for v in scales.keys():  # imf.attrs['var']:
+        imf[v] *= scales[v]
+
+      #  if v[0] == 'u':
+      #      imf[v] *= scale_u
+      #  else:
+      #      imf[v] *= scale
 
     # Overwrite imf['v']:
     if 'v' in imf:
@@ -161,4 +173,4 @@ def scale_imf(imffile, epoch_rise, epoch_fall, lamb_rise, lamb_fall,
         imf.attrs['file'] = outfile
         imf.write()
 
-    return imf, scale
+    return imf, scales
