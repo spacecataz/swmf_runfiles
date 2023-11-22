@@ -22,14 +22,15 @@ from scipy.io import loadmat
 
 from spacepy.pybats import ImfInput
 
-#### Constants/parameters ####
+# ### Constants/parameters ####
 start = dt.datetime(2000, 1, 1, 0, 0, 0)  # First day/time of file.
 
 var = ['ux', 'rho', 'bx', 'by', 'bz', 'temp']
-fil = ['Nvx.mat', 'Nn.mat', 'NBx.mat', 'NBy.mat','NBz.mat', 'NT.mat']
+fil = ['Nvx.mat', 'Nn.mat', 'NBx.mat', 'NBy.mat', 'NBz.mat', 'NT.mat']
 
 # We need this header for IMF files...
-imfheader = '''Data obtained via superposed epoch analysis performed by Katus et al. [2015] (https://doi.org/10.1002/2014JA020712)\n'''
+imfheader = 'Data obtained via superposed epoch analysis performed by ' + \
+    'Katus et al. [2015] (https://doi.org/10.1002/2014JA020712)\n'
 
 # We need this header for HPI files...
 hpiheader = '''# Prepared by the U.S. Dept. of Commerce, NOAA, Space Environment Center.
@@ -60,7 +61,7 @@ hpiheader = '''# Prepared by the U.S. Dept. of Commerce, NOAA, Space Environment
 
 '''
 
-#### Functions ####
+
 def write_hpi(time, hpi, filename):
 
     from numpy import log, isfinite
@@ -84,6 +85,7 @@ def write_hpi(time, hpi, filename):
 
     return True
 
+
 def write_dstlog(time, dstMean, dstMedian, filename):
 
     with open(filename, 'w') as f:
@@ -96,13 +98,14 @@ def write_dstlog(time, dstMean, dstMedian, filename):
             # Write data entry:
             f.write(f'{d1:13.5E} {d2:13.5E}\n')
 
-#### MAIN SCRIPT BEGIN ####
-#### Request data location ####
+
+# ### MAIN SCRIPT BEGIN ####
+# ### Request data location ####
 print("Enter location of raw data (e.g., /users/uname/SEAdata/)")
 data_dir = input() + '/'
 
 # Create output files:
-for prefix in ['CIR','SH','MC']:
+for prefix in ['CIR', 'SH', 'MC']:
 
     # Some convenience vars:
     meanpath = f'{data_dir}{prefix}/SEA_MeanData/'
@@ -137,7 +140,7 @@ for prefix in ['CIR','SH','MC']:
     # Add data values:
     imfMean['time'] = time
     imfMedi['time'] = time
-    for v, f in zip (var, fil):
+    for v, f in zip(var, fil):
         imfMean[v] = loadmat(f'{meanpath}Mean{f}')['Data'].reshape(npts)
         imfMedi[v] = loadmat(f'{medipath}Median{f}')['Data'].reshape(npts)
 
