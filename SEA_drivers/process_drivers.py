@@ -8,12 +8,12 @@ A set of helper functions for handling the SEA upstream driver files:
 
 '''
 from copy import copy
-import datetime as dt
 
 import numpy as np
 
 from spacepy.datamodel import dmarray
 from spacepy.pybats import ImfInput
+
 
 def smooth_imf(imffile, varlist=['ux'], do_write=False, window=31):
     '''
@@ -33,18 +33,20 @@ def smooth_imf(imffile, varlist=['ux'], do_write=False, window=31):
     imf = copy(imffile) if type(imffile) is ImfInput else ImfInput(imffile)
 
     for v in varlist:
-      imf[v] = medfilt(imf[v], window)
+        imf[v] = medfilt(imf[v], window)
 
     # Overwrite imf['v']:
     if 'v' in imf:
-        imf['v'] = dmarray(np.abs(imf['ux']), {'units':'km/s','label':'$km/s$'})
-      
-    outname = imf.attrs['file'].split('.')
+        imf['v'] = dmarray(np.abs(imf['ux']),
+                           {'units': 'km/s', 'label': '$km/s$'})
+
     imf.attrs['file'] = imf.attrs['file'][:-4] + f'_smoothed{window}' \
         + imf.attrs['file'][-4:]
-    if do_write: imf.write()
+    if do_write:
+        imf.write()
 
     return imf
+
 
 def generate_scaling(x, amp, x_rise, x_fall, lamb_rise, lamb_fall):
     '''
@@ -75,9 +77,10 @@ def generate_scaling(x, amp, x_rise, x_fall, lamb_rise, lamb_fall):
 
     # Sum the two hyperbolic tangents:
     y = amp*np.tanh(2*np.pi/lamb_rise*(x-(x_rise+lamb_rise/2))) - \
-        amp*np.tanh(2*np.pi/lamb_fall*(x-(x_fall+lamb_fall/2))) + 1#(amp+1)/2
+        amp*np.tanh(2*np.pi/lamb_fall*(x-(x_fall+lamb_fall/2))) + 1
 
     return y
+
 
 def scale_imf(imffile, epoch_rise, epoch_fall, lamb_rise, lamb_fall,
               amp=5, outfile=None, ufactor=5):
@@ -150,7 +153,8 @@ def scale_imf(imffile, epoch_rise, epoch_fall, lamb_rise, lamb_fall,
 
     # Overwrite imf['v']:
     if 'v' in imf:
-        imf['v'] = dmarray(np.abs(imf['ux']), {'units':'km/s','label':'$km/s$'})
+        imf['v'] = dmarray(np.abs(imf['ux']),
+                           {'units': 'km/s', 'label': '$km/s$'})
 
     # Save file if requested:
     if outfile:
