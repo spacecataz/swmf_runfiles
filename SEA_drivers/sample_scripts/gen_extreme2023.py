@@ -7,7 +7,6 @@ Tsurutani & Lahkina, 2014, amplitudes.
 
 import datetime as dt
 
-from spacepy.pybats import ImfInput
 from spacepy.plot import style
 from process_drivers import scale_imf, smooth_imf
 
@@ -18,7 +17,8 @@ plotvars = [['bx', 'by'], 'bz', 'v', 'n', 't']
 # Open base data, apply some smoothing:
 vsmooth = ['n', 't', 'ux', 'bx', 'by', 'bz']
 imf_mean = smooth_imf('../sea_fullmin2023/imf_SH_mean.dat', vsmooth, window=15)
-imf_medi = smooth_imf('../sea_fullmin2023/imf_SH_median.dat', vsmooth, window=15)
+imf_medi = smooth_imf('../sea_fullmin2023/imf_SH_median.dat', vsmooth,
+                      window=15)
 
 imf_medi.quicklook(title='SEA Medians', plotvars=plotvars)
 imf_mean.quicklook(title='SEA Means', plotvars=plotvars)
