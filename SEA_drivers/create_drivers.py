@@ -245,7 +245,7 @@ for prefix in ['CIR', 'SH', 'MC', 'CME']:
             # Save .mat files:
             filebase = f.split('/')[-1]
             savemat(f'{meanpath}Mean{filebase}', {'Data': mean})
-            savemat(f'{medipath}Median{filebase}', {'Data': mean})
+            savemat(f'{medipath}Median{filebase}', {'Data': medi})
 
             # Save information in log:
             ntotal = data.size
