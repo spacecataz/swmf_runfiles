@@ -4,6 +4,13 @@ This directory contains run files for synthetic extreme event studies.
 
 ## Model Setup & Code Configuration
 
+```
+git clone git@github.com:SWMFsoftware/SWMF.git
+
+./Config.pl -install=BATSRUS,RCM2,Ridley_serial -compiler=[YOUR CHOICE]
+./Config.pl -v=GM/BATSRUS,IE/Ridley_serial,IM/RCM2
+./Config.pl -o=IE:g=181,361
+```
 
 
 ## Run Configurations
@@ -25,4 +32,4 @@ PARAM setups are listed below with the following common settings:
 | IMF File | Description |
 |--------------|-------------|
 |imf_TS2014_KatusMedian.dat | Katus et al. SEA medians set to match Tsurutani & Lakhina, 2014 |
-|SWPC          | SWPCv2-like configuration |
+| imf_TS2014_KatusMedian.dat  | Same as above, but ML-based scaling for density, temperature amplitudes. |
