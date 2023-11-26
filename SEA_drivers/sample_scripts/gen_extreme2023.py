@@ -16,9 +16,8 @@ plotvars = [['bx', 'by'], 'bz', 'v', 'n', 't']
 
 # Open base data, apply some smoothing:
 vsmooth = ['n', 't', 'ux', 'bx', 'by', 'bz']
-imf_mean = smooth_imf('../sea_fullmin2023/imf_SH_mean.dat', vsmooth, window=15)
-imf_medi = smooth_imf('../sea_fullmin2023/imf_SH_median.dat', vsmooth,
-                      window=15)
+imf_mean = smooth_imf('sea_fullmin2023/imf_SH_mean.dat', vsmooth, window=15)
+imf_medi = smooth_imf('sea_fullmin2023/imf_SH_median.dat', vsmooth, window=15)
 
 imf_medi.quicklook(title='SEA Medians', plotvars=plotvars)
 imf_mean.quicklook(title='SEA Means', plotvars=plotvars)
@@ -33,10 +32,14 @@ amps = {'ux': 4.05, 'uy': 4.05, 'uz': 4.05,
         'bx': 7.381, 'by': 7.381, 'bz': 7.381, 't': 4}
 # These amplitudes adjust n, T based on ML prediction:
 ampsML = {'ux': 4.05, 'uy': 4.05, 'uz': 4.05, 'n': 1.482,
-          'bx': 7.381, 'by': 7.381, 'bz': 7.381, 't': 0.693}
+          'bx': 7.381, 'by': 7.381, 'bz': 7.381, 't': 2.708}
 
 imf_ext1, scale = scale_imf(imf_medi, start, stop, 120, 720, amp=amps)
 imf_ext1.quicklook(title='Median Extreme', plotvars=plotvars)
+
+# This line (commented out) demonstrates that deepcopy works to prevent
+# back-editing of the original IMF file.
+# imf_medi.quicklook(title='Medi AFTER', plotvars=plotvars)
 
 imf_ext2, scale = scale_imf(imf_mean, start, stop, 120, 720, amp=amps)
 imf_ext2.quicklook(title='Mean Extreme', plotvars=plotvars)
