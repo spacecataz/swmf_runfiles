@@ -8,7 +8,7 @@ A set of helper functions for handling the SEA upstream driver files:
 
 '''
 
-from copy import copy
+from copy import copy, deepcopy
 
 import numpy as np
 
@@ -127,7 +127,7 @@ def scale_imf(imffile, epoch_rise, epoch_fall, lamb_rise, lamb_fall,
     from matplotlib.dates import date2num
 
     # If ImfInput is an existing object, just use it.  Else, open the data.
-    imf = copy(imffile) if type(imffile) is ImfInput else ImfInput(imffile)
+    imf = deepcopy(imffile) if type(imffile) is ImfInput else ImfInput(imffile)
 
     # Convert the datetimes to floating points:
     epoch_rise = date2num(epoch_rise)
