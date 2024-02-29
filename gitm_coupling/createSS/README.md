@@ -3,6 +3,11 @@
 These files are for stand-alone GITM to create a steady-state solution that
 other simulations can build off of.
 
+Files in this directory:
+
+- `UAM.in`: a GITM stand-alone input file for reference.
+- `PARAM.in.gitmss`: an SWMF input file for GITM as the sole module.
+
 GITM quirks and things to know about the UAM.in:
 1a) #GRID is not smart. enough to handle a random number of processors. If lat and lon are set to 20 and 20 then you will need to run on 20x20=400 processors.
 
