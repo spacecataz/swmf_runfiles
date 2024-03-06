@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 '''
 Freeman & Morley's Minimal Substorm Model.  Calculate the energy in the tail vs.
 time using solar input from a SWMF-formatted ascii solar wind file.
