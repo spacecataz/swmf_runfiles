@@ -8,22 +8,19 @@ F		usebarriers - forces the code to stop and wait more often
 #RESTART
 F
 
-#CPUTIMEMAX
-86000.0		Maximum amount of cputime to use before stopping the code
-
-#STARTTIME            
-2015			year
+#STARTTIME
+2015    			year
 03              	month
-15              	day
-20			hour
+14              	day
+00		        	hour
 00             		minute
 00              	second
-0.0			FracSecond
+0.0			        FracSecond
 
-#ENDTIME            
+#ENDTIME
 2015			year
 03              	month
-17              	day
+16              	day
 00			hour
 00             		minute
 00              	second
@@ -61,18 +58,18 @@ F               if you want to run with msis and iri only (i.e. not GITM)
 1.0             dt for output to a log file
 
 #SAVEPLOTS
-7200.0          dt for writing restart files
+21600.0          dt for writing restart files
 3               how many output files do you want
 2DGEL           output style
-900.0            dt for output
+7200.0            dt for output
 2DMEL
-900.0
+7200.0
 3DION
-900.0
+7200.0
 
 #ELECTRODYNAMICS
-10.0            how often to update potential
-10.0            how often to update aurora and euv
+600.0            how often to update potential
+600.0            how often to update aurora and euv
 
 #ALTITUDE
 100.0           minimum altitude to use
@@ -93,6 +90,7 @@ F               UseMSISFlat
 T               UseMSISTides
 F               UseGSWMTides
 F               UseWACCMTides
+F		        UseHmeTides
 
 #GSWMCOMP
 F               Diurnal Migrating
@@ -189,12 +187,12 @@ T               UseIonAdvection
 T               UseNeutralChemistry
 
 #DYNAMO
-T
-88.0            Testing new coding of dynamo region (MB - needs to be this high for coupled code)
-500
-1.0
-F
-20
+T		        UseDynamo
+88.0            DynamoHighLatBoundary
+500		        nItersMax
+1.0		        MaxResidual
+F		        IncludeCowling
+20		        DynamoLonAverage
 
 #STRETCH
 65.0            ! location of minimum grid spacing
