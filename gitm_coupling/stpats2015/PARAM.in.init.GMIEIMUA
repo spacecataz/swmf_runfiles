@@ -486,6 +486,12 @@ T               Use apex magnetic coordinate system
 115.0           f10.7
 115.0           f10.7 averaged over 81 days
 
+#AURORAMODS
+F               NormAuroraToHP (set to False for SWMF coupling)
+1.0             AveEFactor
+F               IsKappaAurora
+3.0             AuroraKappa
+
 #HPI
 10.0            hemispheric power
 
