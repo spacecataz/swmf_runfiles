@@ -105,9 +105,6 @@ SMG			TypeCoordGrid_I
 -1			DnSaveMagGrid_I
 20			DtSaveMagGrid_I
 
-#SUPERMAGINDICES
-T			DoWriteSupermagIndices
-
 #CONSERVATIVECRITERIA
 1			nConservCrit
 parabola		TypeConservCrit
@@ -250,9 +247,9 @@ max idl			StringPlot
 #END_COMP IE -----------------------------------------------------------------
 
 #ENDTIME
-2015			iYear
-03			iMonth
-15			iDay
+2000			iYear
+01			iMonth
+01			iDay
 12			iHour
 00			iMinute
 00			iSecond
