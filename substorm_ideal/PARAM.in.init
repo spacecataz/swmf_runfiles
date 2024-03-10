@@ -13,9 +13,9 @@ Ideal substorm investigation -- base run	StringDescription
 F			IsTimeAccurate
 
 #STARTTIME
-2015			iYear
-03			iMonth
-15			iDay
+2000			iYear
+01			iMonth
+01			iDay
 00			iHour
 00			iMinute
 00			iSecond
@@ -158,9 +158,6 @@ T			IsStrictAmr
 180			nSizeKpWindow [min]
 1 min			DtOutput      [sec]
 
-#SUPERMAGINDICES
-T			DoWriteSupermagIndices
-
 #MAGNETOMETERGRID
 1			nMagGridFile
 global real8		StrGridFileOut_I
@@ -255,7 +252,7 @@ T			UseComp
 
 ! Allow GM/IM and IE run in parallel. #COMPONENTMAP has to be properly set!
 #COUPLEORDER
-7			nCouple
+5			nCouple
 IE GM			NameSourceTarget
 IE IM			NameSourceTarget
 GM IE			NameSourceTarget
@@ -376,9 +373,9 @@ max idl			StringPlot
 #END_COMP IE -----------------------------------------------------------------
 
 #ENDTIME
-2015			iYear
-03			iMonth
-15			iDay
+2000			iYear
+01			iMonth
+01			iDay
 12			iHour
 00			iMinute
 00			iSecond
