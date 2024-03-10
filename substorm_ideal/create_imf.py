@@ -15,9 +15,9 @@ start = dt.datetime(2000, 1, 1, 0, 0, 0)
 time = np.array([start + dt.timedelta(minutes=m) for m in t])
 
 # Create simple curves for every non-zero item.
-dens = np.zeros(len(t))+10.0
-temp = np.zeros(len(t))+100000.0
-vx = np.zeros(len(t))-500.0
+dens = np.zeros(len(t)) + 10.0
+temp = np.zeros(len(t)) + 100000.0
+vx = np.zeros(len(t)) - 500.0
 
 # Create some cool Bz curves:
 names = []
@@ -54,9 +54,9 @@ ax = f.add_subplot(111)
 for b, n in zip(bz, names):
     fname = 'imf_files/imf_ideal_{}.dat'.format(n)
     imf = ImfInput(fname, load=False, npoints=t.size)
-    imf['rho'] = dens
-    imf['ux'] = vx
-    imf['temp'] = temp
+    imf['n'] = dens
+    imf['ux'], imf['v'] = vx, vx
+    imf['t'] = temp
     imf['bz'] = b
     imf['time'] = time
     if 'pram' in imf:
@@ -64,6 +64,7 @@ for b, n in zip(bz, names):
     if not os.path.exists(fname) or owrite:
         imf.write()
     ax.plot(time, b, lw=2.5, label=n)
+    imf.quicklook(title=n)
 
 ax.legend(loc='best', ncol=2)
 applySmartTimeTicks(ax, time)
