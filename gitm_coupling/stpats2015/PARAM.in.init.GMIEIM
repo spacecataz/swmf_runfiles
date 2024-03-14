@@ -218,7 +218,7 @@ F 			UseSubOvalConductance
 T 			UseAdvancedOval 
 F 			DoFitCircle (read if UseAdvancedOval is true)
 
-Not using CMEE quite yet.
+Turn this on to use CMEE (default for this run: on.)
 #CONDUCTANCEFILES 
 cmee_hal_coeffs.dat	NameHalFile 
 cmee_ped_coeffs.dat 	NamePedFile
