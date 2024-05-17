@@ -1,0 +1,38 @@
+#SATELLITE
+9			nSatellite
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+virtsats/goes14.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+virtsats/goes16.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+virtsats/goes17.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+virtsats/goes18.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+virtsats/themisa.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+virtsats/themisb.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+virtsats/themisc.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+virtsats/themisd.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+virtsats/themise.sat

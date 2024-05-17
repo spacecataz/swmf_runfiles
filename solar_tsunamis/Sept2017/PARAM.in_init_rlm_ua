@@ -218,8 +218,8 @@ GEO			TypeCoordMagGrid
 719			nLatMagGrid
 0.			LonMinMagGrid
 360.			LonMaxMagGrid
--89.			LatMinMagGrid
-89.			LatMaxMagGrid
+-89.75			LatMinMagGrid
+89.75			LatMaxMagGrid
 -1			DnSaveMagGrid
 10.0			DtSaveMagGrid
 
@@ -449,6 +449,12 @@ F               if you want to run with msis and iri only (i.e. not GITM)
 #LOGFILE
 1.0             dt for output to a log file
 
+#AURORAMODS
+F               NormAuroraToHP
+1.0		AveEFactor
+F		IsKappaAurora
+3.0		AuroraKappa
+
 #SAVEPLOTS
 3600.0          dt for writing restart files
 3               how many output files do you want
@@ -501,7 +507,7 @@ T               Use apex magnetic coordinate system
 10.0            hemispheric power
 
 #MHD_INDICES
-IMF.dat
+IMF_advected.dat
 
 #AMIEFILES
 none            northern hemisphere amie file
