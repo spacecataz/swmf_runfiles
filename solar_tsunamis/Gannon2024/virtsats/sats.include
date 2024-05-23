@@ -3,36 +3,36 @@
 MHD RAY date time	StringSatellite
 -1			DnOutput
 15.0			DtOutput
-virtsats/goes14.sat
+goes14.sat
 MHD RAY date time	StringSatellite
 -1			DnOutput
 15.0			DtOutput
-virtsats/goes16.sat
+goes16.sat
 MHD RAY date time	StringSatellite
 -1			DnOutput
 15.0			DtOutput
-virtsats/goes17.sat
+goes17.sat
 MHD RAY date time	StringSatellite
 -1			DnOutput
 15.0			DtOutput
-virtsats/goes18.sat
+goes18.sat
 MHD RAY date time	StringSatellite
 -1			DnOutput
 15.0			DtOutput
-virtsats/themisa.sat
+themisa.sat
 MHD RAY date time	StringSatellite
 -1			DnOutput
 15.0			DtOutput
-virtsats/themisb.sat
+themisb.sat
 MHD RAY date time	StringSatellite
 -1			DnOutput
 15.0			DtOutput
-virtsats/themisc.sat
+themisc.sat
 MHD RAY date time	StringSatellite
 -1			DnOutput
 15.0			DtOutput
-virtsats/themisd.sat
+themisd.sat
 MHD RAY date time	StringSatellite
 -1			DnOutput
 15.0			DtOutput
-virtsats/themise.sat
+themise.sat
