@@ -145,29 +145,29 @@ Sokolov			TypeFlux
 
 #CONSERVATIVECRITERIA
 1			nConservCrit
-parabola		TypeConservCrit_I x
+parabola		TypeConservCrit_I
  5.0			xParabolaConserv
 15.0			yParabolaConserv
 
 #SAVELOGNAME
-F                       IsLogName_n x
-T                       IsLogName_e x
+F                       IsLogName_n
+T                       IsLogName_e
 
 #SAVEPLOTNAME
-F                       IsPlotName_n x
-F                       IsPlotName_t x
-T                       IsPlotName_e x
+F                       IsPlotName_n
+F                       IsPlotName_t
+T                       IsPlotName_e
 
 #PLOTFILENAME
-date			TimeUnitMax x
+date			TimeUnitMax
 
 #SAVELOGFILE
-T			DoSaveLo5Dgfile x
-VAR step date		StringLogfile x
+T			DoSaveLo5Dgfile
+VAR step date		StringLogfile
 -1			DnSaveLogfile 
 5.0			DtSaveLogfile
 dt rho mx my mz p bx by bz pmin pmax dst dst_sm cpcpn
-3.0			StringRFlux x
+3.0			StringRFlux
 
 #DOAMR
 T			DoAmr
