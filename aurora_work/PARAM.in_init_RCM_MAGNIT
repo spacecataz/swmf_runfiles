@@ -1,18 +1,16 @@
 #ECHO
 T			DoEcho
 
-#COMPONENTMAP			For 128+ cores like production run
+#COMPONENTMAP	     	For 128+ cores like production run
 GM  0 -3 -1  -1         GM runs on 0:nProc-3 multithreaded
 IE -2 -1  1             IE runs on last 2 PE-s
 IM -2 -2  1             IM runs on nProc-2 PE
 
 #DESCRIPTION
-High resolution idealized IMF BY simulation configuration.
+Template for MAGNIT-based polar cap & auroral investigations
 
 #TIMEACCURATE
-F			DoTimeAccurate
-
-#IDEALAXES
+F			IsTimeAccurate
 
 #STARTTIME            
 2010			year
@@ -39,10 +37,13 @@ IE			NameComp2
 
 #BEGIN_COMP GM ---------------------------------------------------------------
 
+#GRIDBLOCKALL
+5000			MaxBlock
+
 #GRID
-1			nRootBlock_D(x_) x
-1			nRootBlock_D(y_) x
-1			nRootBlock_D(z_) x
+1			nRootBlock_D(x_)
+1			nRootBlock_D(y_)
+1			nRootBlock_D(z_)
 -224.			xMin
  32.			xMax
 -128.			yMin
@@ -115,7 +116,7 @@ T                       UseBody
 
 #TIMESTEPPING
 1			nStage
-0.80			CflExlp x
+0.80			CflExpl
 
 #OUTERBOUNDARY
 outflow			TypeBc1
@@ -141,9 +142,6 @@ IMF_noBY.dat			NameSolarWindFile
 #SCHEME
 1			nOrder
 Sokolov			TypeFlux
-
-#NONCONSERVATIVE
-T                       UseNonConservative
 
 #CONSERVATIVECRITERIA
 1			nConservCrit
@@ -188,49 +186,39 @@ MAG                     TypeCoordFacGrid
 60.0			DtOutput      [sec]
 
 #MAGNETOMETERGRID
-real8			TypeFileMagGrid x
-GEO			TypeCoordMagGrid x
-72			nLonMagGrid x
-34			nLatMagGrid x
-0.			LonMinMagGrid x
-360.			LonMaxMagGrid x
--85.			LatMinMagGrid x
-85.			LatMaxMagGrid x
+1			nMagGridFile
+global real8		TypeFileMagGrid
+GEO			TypeCoordMagGrid
+72			nLonMagGrid
+34			nLatMagGrid
+0.			LonMinMagGrid
+360.			LonMaxMagGrid
+-85.			LatMinMagGrid
+85.			LatMaxMagGrid
 -1			DnSaveMagGrid
 60.0			DtSaveMagGrid 
 
-#IE x (should also test #TRACE - UseTrace, UseAccurateTrace)
-T			DoRayTraceIE x
+#TRACEIE
+T			DoRayTraceIE
+
+We may activate this later for comparison!
+TRACE
+T			UseTrace
+T			UseAccurateTrace
+0.1			DtExchangeTrace
+1			DnTrace
 
 #END_COMP GM -----------------------------------------------------------------
 
 #BEGIN_COMP IE ---------------------------------------------------------------
 
 #IONOSPHERE
-8                       TypeConductanceModel x
+8                       TypeConductanceModel
 F                       UseFullCurrent 
 F			UseFakeRegion2
 150.0                   F107Flux
 1.0                     StarLightPedConductance
 0.25                    PolarCapPedConductance
-
-#CONDUCTANCEFILES 
-cmee_hal_coeffs.dat	NameHalFile 
-cmee_ped_coeffs.dat 	NamePedFile
-
-#AURORALOVAL 
-T			UseOval (rest of parameters read if true) 
-T 			UseOvalShift 
-F 			UseSubOvalConductance 
-T 			UseAdvancedOval 
-F 			DoFitCircle (read if UseAdvancedOval is true)
-
-#USECMEE 
-T			UseCMEEFitting (rest of parameters read if true) 
-45 			LatNoConductanceSI (default) 
-7.5 			FactorHallCMEE (default) 
-5 			FactorPedCMEE (default)
-
 
 #BOUNDARY
 10.0			LatBoundary
@@ -249,14 +237,14 @@ T			UseCMEEFitting (rest of parameters read if true)
 F			DoAmr
 
 #SCHEME
-2			nORDER x 
+2			nORDER
 Sokolov			TypeFlux
-mc3                     TypeLimiter x?
-1.2			BetaLimiter x?
+mc3                     TypeLimiter
+1.2			BetaLimiter
 
 #TIMESTEPPING
 1			nStage
-0.60			CflExlp x
+0.60			CflExpl
 
 #END_COMP GM -----------------------------------------------------------------
 
@@ -277,9 +265,6 @@ T			DoTimeAccurate
 T                       DoSaveRestart
 -1                      DnSaveRestart
 7200.0                    DtSaveRestart
-
-#RESTARTOUTDIR
-SWMF_RESTART.YYYYMMDD_HHMMSS            NameRestartOutDir
 
 #COMPONENT
 IM			NameComp
@@ -371,7 +356,7 @@ borisregion			NameBorisRegion
 
 #TIMESTEPPING
 1			nStage
-0.85			CflExpl x 
+0.85			CflExpl 
 
 #END_COMP GM -----------------------------------------------------------------
 
@@ -386,7 +371,7 @@ FIXED			NameCompModel
 ! Decay for RCM particle densities
 #DECAY
 T 			UseDecay
-10 hour			DecayTimescale x?
+10 hour			DecayTimescale
 
 #END_COMP IM -----------------------------------------------------------------
 
@@ -394,7 +379,7 @@ T 			UseDecay
 
 #SAVEPLOT
 1			nPlotFile
-aur idl                 StringPlot
+max idl                 StringPlot
 -1                      DnSavePlot
 60.0			DtSavePlot
 
