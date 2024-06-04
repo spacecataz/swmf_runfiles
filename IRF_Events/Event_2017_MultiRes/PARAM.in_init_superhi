@@ -205,7 +205,8 @@ single			TypeFileOut
 60.0			DtOutput      [sec]
 
 #MAGNETOMETERGRID
-real8			TypeFileMagGrid
+1			nMagGridFile
+global real8		TypeFileMagGrid
 GEO			TypeCoordMagGrid
 360			nLonMagGrid
 171			nLatMagGrid
