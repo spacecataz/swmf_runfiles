@@ -37,6 +37,9 @@ IE			NameComp2
 
 #BEGIN_COMP GM ---------------------------------------------------------------
 
+#GRIDBLOCKALL
+25000
+
 #GRID
 1			nRootBlock_D(x_)
 1			nRootBlock_D(y_)
@@ -123,7 +126,7 @@ T                       UseBody
 
 #TIMESTEPPING
 1			nStage
-0.80			CflExlp
+0.85			CflExlp
 
 #OUTERBOUNDARY
 outflow			TypeBc1
@@ -175,7 +178,7 @@ date			TimeUnitMax
 T			DoSaveLo5Dgfile
 VAR step date		StringLogfile
 -1			DnSaveLogfile
-5.0			DtSaveLogfile
+10.0			DtSaveLogfile
 dt rho mx my mz p bx by bz pmin pmax dst cpcpn
 3.0			StringRFlux
 
@@ -184,6 +187,12 @@ T			DoAmr
 100			DnAmr
 -1.0			DtAmr
 T			IsStrictAmr
+
+#MAGPERTURBINTEGRAL
+T                       UseSurfaceIntegral
+T                       UseFastFacIntegral
+MAG                     TypeCoordIndex
+MAG                     TypeCoordFacGrid
 
 #MAGNETOMETER
 mags.dat		NameMagInputFile
@@ -370,7 +379,7 @@ T 			UseDecay
 
 #SAVEPLOT
 1			nPlotFile
-aur idl                 StringPlot
+max idl                 StringPlot
 -1                      DnSavePlot
 60.0			DtSavePlot
 
