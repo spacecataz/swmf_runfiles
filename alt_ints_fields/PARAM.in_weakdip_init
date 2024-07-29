@@ -119,7 +119,7 @@ ionosphere		TypeBcBody
 
 #SOLARWINDFILE
 T			                UseSolarWindFile
-IMF_seaSH.dat.dat			NameSolarWindFile
+IMF_seaSH.dat			    NameSolarWindFile
 
 #SCHEME
 1			      nOrder
