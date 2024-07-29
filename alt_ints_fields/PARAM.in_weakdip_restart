@@ -84,6 +84,11 @@ float			TypeBc6
 #INNERBOUNDARY
 ionosphere		TypeBcBody
 
+#CPCPBOUNDARY
+T         UseCpcpBc (rest is read if true)
+50.0      Rho0Cpcp [amu/cc] for 1st ion fluid/species
+0.1       RhoPerCpcp [amu/cc / kV]
+
 #SOLARWINDFILE
 T			                UseSolarWindFile
 IMF_seaSH.dat			    NameSolarWindFile
