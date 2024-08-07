@@ -239,7 +239,7 @@ mc3			  TypeLimiter
 
 #TIMESTEPPING
 2			  nStage
-0.6			CflExpl
+0.65			  CflExpl
 
 #END_COMP GM -----------------------------------------------------------------
 
@@ -343,7 +343,7 @@ lcb nul tec		StringPlot  !last closed field line plots
 
 #BORIS
 T			UseBorisCorrection
-0.01			BorisClightFactor
+0.02			BorisClightFactor
 
 #REGION
 borisregion		NameRegion
@@ -358,8 +358,8 @@ sphere tapered		StringShape
 borisregion		NameBorisRegion
 
 #TIMESTEPPING
-1			    nStage
-0.85			CflExpl
+1			nStage
+0.65			CflExpl
 
 #END_COMP GM -----------------------------------------------------------------
 
