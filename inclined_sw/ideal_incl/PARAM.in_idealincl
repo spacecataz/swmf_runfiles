@@ -29,7 +29,7 @@ IE			NameComp2
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-5000			MaxBlock
+50000			MaxBlock
 
 #GRID
 1			nRootBlock1
@@ -231,10 +231,10 @@ T			DoSaveRestart
 60 min			DtSaveRestart
 
 ! On Pleiades, switch on MAKEDIR and switch off RESTARTOUTDIR
-MAKEDIR
+#MAKEDIR
 F			DoMakeDir
 
-#RESTARTOUTDIR
+RESTARTOUTDIR
 SWMF_RESTART.YYYYMMDD_HHMMSS		NameRestartOutDir
 
 ! Allow GM/IM and IE run in parallel. #COMPONENTMAP has to be properly set!
@@ -301,14 +301,9 @@ borisregion		NameBorisRegion
 #END_COMP GM -----------------------------------------------------------------
 
 Run for 3 hours leading up to transient arrival.
-#ENDTIME
-2015			year
-01              	month
-01              	day
-03			hour
-00             		minute
-00              	second
-0.0			FracSecond
+#STOP
+-1                      MaxIter
+10800                   TimeMax
 
 #RUN	######################################################################
 
@@ -351,7 +346,7 @@ lcb nul tec		StringPlot  !last closed field line plots
 5.			Radius
 36			nLon
 
-#BEGIN_COMP GM ---------------------------------------------------------------
+#END_COMP GM ---------------------------------------------------------------
 
 #ENDTIME
 2015			year
