@@ -214,14 +214,14 @@ single			TypeFileOut
 1			nMagGridFile
 global real8		TypeFileMagGrid
 GEO			TypeCoordMagGrid
-1440			nLonMagGrid
-719			nLatMagGrid
+180			nLonMagGrid
+89			nLatMagGrid
 0.			LonMinMagGrid
 360.			LonMaxMagGrid
--89.75			LatMinMagGrid
-89.75			LatMaxMagGrid
+-89			LatMinMagGrid
+89.			LatMaxMagGrid
 -1			DnSaveMagGrid
-10.0			DtSaveMagGrid
+60.0			DtSaveMagGrid
 
 #INCLUDE
 virtsats/sats.include
@@ -459,11 +459,11 @@ F		IsKappaAurora
 3600.0          dt for writing restart files
 3               how many output files do you want
 2DGEL           output style
-300.0            dt for output
+60.0            dt for output
 2DMEL
-300.0
-3DION
-1800.0
+60.0
+3DALL
+60.0
 
 #ELECTRODYNAMICS
 10.0            how often to update potential
