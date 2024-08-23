@@ -1,6 +1,6 @@
 Solar wind propagation:
 
-Wind HO level MFI and H1 level SWE data were downloaded from CDAWeb.
+Wind H0 level MFI and H1 level SWE data were downloaded from CDAWeb.
 These two files were handed to `resample_sw.py` which removed bad
 data, replaced them with NaNs, converted velocity from GSE to GSM
 coordinates, calculated temperature from thermal velocity (W), and
