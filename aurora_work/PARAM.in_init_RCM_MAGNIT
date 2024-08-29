@@ -12,11 +12,11 @@ Template for MAGNIT-based polar cap & auroral investigations
 #TIMEACCURATE
 F			IsTimeAccurate
 
-#STARTTIME            
-2010			year
-03              	month
-20              	day
-00			hour
+#STARTTIME
+1998			year
+09              	month
+23              	day
+23			hour
 00             		minute
 00              	second
 0.0			FracSecond
@@ -38,7 +38,7 @@ IE			NameComp2
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-5000			MaxBlock
+50000			MaxBlock
 
 #GRID
 1			nRootBlock_D(x_)
@@ -137,7 +137,7 @@ T                       UseCpcpBc  (rest is read if true)
 
 #SOLARWINDFILE
 T				UseSolarWindFile
-IMF_noBY.dat			NameSolarWindFile
+SMC_19980924.dat			NameSolarWindFile
 
 #SCHEME
 1			nOrder
@@ -385,13 +385,13 @@ max idl                 StringPlot
 
 #END_COMP IE -----------------------------------------------------------------
 
-#ENDTIME            
-2010			year
-03              	month
-20              	day
+#ENDTIME  1998 09 25 12 00 00 000
+1998			year
+09              	month
+25              	day
 12			hour
-05             		minute
-59              	second
+00             		minute
+00              	second
 0.0			FracSecond
 
 #END ############################################################
