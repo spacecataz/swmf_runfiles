@@ -16,7 +16,7 @@ F			DoTimeAccurate
 2024			year
 05              	month
 10              	day
-14			hour
+00			hour
 00             		minute
 00              	second
 0.0			FracSecond
