@@ -1,6 +1,3 @@
-#ECHO
-T			DoEcho
-
 #COMPONENTMAP	     	For 128+ cores like production run
 GM  0 -3 -1  -1         GM runs on 0:nProc-3 multithreaded
 IE -2 -1  1             IE runs on last 2 PE-s
@@ -16,7 +13,7 @@ F			IsTimeAccurate
 1998			year
 09              	month
 23              	day
-23			hour
+21			hour
 00             		minute
 00              	second
 0.0			FracSecond
@@ -164,7 +161,7 @@ date			TimeUnitMax
 #SAVELOGFILE
 T			DoSaveLo5Dgfile
 VAR step date		StringLogfile
--1			DnSaveLogfile 
+-1			DnSaveLogfile
 5.0			DtSaveLogfile
 dt rho mx my mz p bx by bz pmin pmax dst dst_sm cpcpn
 3.0			StringRFlux
@@ -174,12 +171,6 @@ T			DoAmr
 100			DnAmr
 -1.0			DtAmr
 T			IsStrictAmr
-
-#MAGPERTURBINTEGRAL
-T                       UseSurfaceIntegral
-T                       UseFastFacIntegral
-MAG                     TypeCoordIndex
-MAG                     TypeCoordFacGrid
 
 #GEOMAGINDICES
 180			nSizeKpWindow [min]
@@ -196,7 +187,7 @@ GEO			TypeCoordMagGrid
 -85.			LatMinMagGrid
 85.			LatMaxMagGrid
 -1			DnSaveMagGrid
-60.0			DtSaveMagGrid 
+60.0			DtSaveMagGrid
 
 #TRACEIE
 T			DoRayTraceIE
@@ -214,9 +205,9 @@ T			UseAccurateTrace
 
 #IONOSPHERE
 8                       TypeConductanceModel
-F                       UseFullCurrent 
-F			UseFakeRegion2
-150.0                   F107Flux
+F                       UseFullCurrent
+F			            UseFakeRegion2
+-1                      F107Flux
 1.0                     StarLightPedConductance
 0.25                    PolarCapPedConductance
 
@@ -264,7 +255,7 @@ T			DoTimeAccurate
 #SAVERESTART
 T                       DoSaveRestart
 -1                      DnSaveRestart
-7200.0                    DtSaveRestart
+7200.0                  DtSaveRestart
 
 #COMPONENT
 IM			NameComp
@@ -335,7 +326,7 @@ z=0 ray idl             StringPlot
 -1.0                    DxSavePlot
 3d MHD idl              StringPlot
 -1                      DnSavePlot
-1800.                   DtSavePlot
+900.                   DtSavePlot
 -1			DxSavePlot
 
 #BORIS
@@ -356,7 +347,7 @@ borisregion			NameBorisRegion
 
 #TIMESTEPPING
 1			nStage
-0.85			CflExpl 
+0.85			CflExpl
 
 #END_COMP GM -----------------------------------------------------------------
 
