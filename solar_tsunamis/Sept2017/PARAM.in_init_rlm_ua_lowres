@@ -431,6 +431,12 @@ F               if you want to run with msis and iri only (i.e. not GITM)
 #LOGFILE
 1.0             dt for output to a log file
 
+#AURORAMODS
+F		NormAuroraToHP
+1.0		AveEFactor
+F		IsKappaAurora
+3.0		AuroraKappa
+
 #SAVEPLOTS
 3600.0          dt for writing restart files
 3               how many output files do you want
