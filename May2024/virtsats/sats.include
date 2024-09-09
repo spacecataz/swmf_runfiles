@@ -3,52 +3,52 @@
 MHD RAY date time	StringSatellite
 -1			DnOutput
 15.0			DtOutput
-goes14.sat
+virtsats/goes14.sat
 MHD RAY date time	StringSatellite
 -1			DnOutput
 15.0			DtOutput
-goes16.sat
+virtsats/goes16.sat
 MHD RAY date time	StringSatellite
 -1			DnOutput
 15.0			DtOutput
-goes17.sat
+virtsats/goes17.sat
 MHD RAY date time	StringSatellite
 -1			DnOutput
 15.0			DtOutput
-goes18.sat
+virtsats/goes18.sat
 MHD RAY date time	StringSatellite
 -1			DnOutput
 15.0			DtOutput
-themisa.sat
+virtsats/themisa.sat
 MHD RAY date time	StringSatellite
 -1			DnOutput
 15.0			DtOutput
-themisb.sat
+virtsats/themisb.sat
 MHD RAY date time	StringSatellite
 -1			DnOutput
 15.0			DtOutput
-themisc.sat
+virtsats/themisc.sat
 MHD RAY date time	StringSatellite
 -1			DnOutput
 15.0			DtOutput
-themisd.sat
+virtsats/themisd.sat
 MHD RAY date time	StringSatellite
 -1			DnOutput
 15.0			DtOutput
-themise.sat
+virtsats/themise.sat
 MHD RAY date time	StringSatellite
 -1			DnOutput
 15.0			DtOutput
-mms1.sat
+virtsats/mms1.sat
 MHD RAY date time	StringSatellite
 -1			DnOutput
 15.0			DtOutput
-mms2.sat
+virtsats/mms2.sat
 MHD RAY date time	StringSatellite
 -1			DnOutput
 15.0			DtOutput
-mms3.sat
+virtsats/mms3.sat
 MHD RAY date time	StringSatellite
 -1			DnOutput
 15.0			DtOutput
-mms4.sat
+virtsats/mms4.sat
