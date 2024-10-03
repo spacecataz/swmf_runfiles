@@ -18,3 +18,10 @@ make SWMF PIDL
 
 If you need to change `ModUserPointSource.f90`, you need re-execute the
 User file command through `Config.pl` before recompiling.
+
+## List of PARAM files:
+
+| PARAM | Info |
+|-------|------|
+| PARAM.in_test | A single-CPU viable 2 minute test of the module. |
+| PARAM.in_UserRef | Reference file for comparison to a different User file. |
