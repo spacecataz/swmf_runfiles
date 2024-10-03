@@ -1,0 +1,430 @@
+#DESCRIPTION
+Param/ROSETTA/PARAM.in.fluids.all: multifluid comet CG simulation		StringDescription
+
+#PLANET
+NONE			NamePlanet
+
+#COORDSYSTEM
+GSE			TypeCoordSystem
+
+#TIMEACCURATE
+F			IsTimeAccurate
+
+#STARTTIME
+2003			iYear
+10			iMonth
+29			iDay
+04			iHour
+00			iMinute
+00			iSecond
+0.0			FracSecond
+
+INCLUDE
+restartIN/restart.H
+
+#GRID
+16			nRootBlock1
+8			nRootBlock2
+8			nRootBlock3
+-1048576.0		xMin
+ 1048576.0		xMax
+-524288.0		yMin
+ 524288.0		yMax
+-524288.0		zMin
+ 524288.0		zMax
+
+#GRIDBLOCKALL
+40000			MaxBlock
+
+#REGION
+InnerSphere		NameRegion
+shell0			StringShape
+1.5			RadiusInner
+4.0			Radius
+
+#REGION
+OuterSphere		NameRegion
+sphere0			StringShape
+64.0			Radius
+
+#REGION
+InnerBox		NameRegion
+box			StringShape
+-512.0			xMinBox
+-256.0			yMinBox
+-256.0			zMinBox
+ 256.0			xMaxBox
+ 256.0			yMaxBox
+ 256.0			zMaxBox
+
+#REGION
+bs			NameRegion
+box			StringShape
+ 0.0			xMinBox
+-1.024e4		yMinBox
+-1.024e4		zMinBox
+ 2.048e4		xMaxBox
+ 1.024e4		yMaxBox
+ 1.024e4		zMaxBox
+
+#REGION
+FullDomain		NameRegion
+box			StringShape
+-1e6			xMinBox
+-1e6			yMinBox
+-1e6			zMinBox
+ 1e6			xMaxBox
+ 1e6			yMaxBox
+ 1e6			zMaxBox
+
+#AMRCRITERIARESOLUTION
+3			nCriteria
+dx InnerSphere		TypeCriteria
+0.16			RefineTo
+0.08			CoarsenFrom
+dx InnerBox		TypeCriteria
+20			RefineTo
+10			CoarsenFrom
+dx FullDomain		TypeCriteria
+32000			RefineTo
+16000			CoarsenFrom
+dx bs			TypeCriteria
+500			CoarsenTo
+250			CoarsenFrom
+
+#GRIDRESOLUTION
+0.125			Resolution
+initial                 NameArea
+
+#SAVERESTART
+T			DoSaveRestart
+5000			DnSaveRestart
+-1			DtSaveRestart
+
+#BODY
+T			UseBody
+1.0e-6			rBody
+0.0			rCurrents
+1.0e-9			BodyNDim (1/cc)
+25.0			BodyTDim (K) temperature for fixed BC pressure
+1.0e-9			BodyNDim (1/cc)
+180.0			BodyTDim (K) temperature for fixed BC pressure
+1.0e-9			BodyNDim (1/cc)
+180.0			BodyTDim (K) temperature for fixed BC pressure
+
+#USERSWITCH
++init +ic		StringSwitch
+
+#USERINPUTBEGIN -----------------------------------
+
+#SHAPEFILE
+CG_MOC.bdf		NameShapeFile
+
+#USECGSHAPE
+F			DoUseCGShape
+2.0e3			rSphericalBodySi [m]
+
+#COMETSTATE              For the spheical body with illumination
+9.02e18                  ProductionRateMinSi [m^-2 s^-1]
+6.60e20                  ProductionRateMaxSi [m^-2 s^-1]
+84.5                     SolarAngleMaxDim [degree]
+140.0                    TempCometMinDim [K]
+195.97                   TempCometMaxDim [K]
+188.57                   TempComet75Dim [K]
+
+#IONIZATIONPARAM
+1.3                     Heliocentric distance [AU]
+0.6e-6                  Ionization frequency for cometary heavy ions
+15.0                    Minimum ion temperature (enforced in user_update_states)
+1.566e10                Total production rate [1/s]
+800.0                   uhaser [m/s]
+
+#BODYBC
+solarwind		UseSwBC
+
+#MINIMUMNEUTEMPERATURE
+100.0			TneuMin
+
+#USERINPUTEND -------------------------------------
+
+#SOLARWIND
+ 1.0			SwNDim [n/cc]      \
+100.0			SwTDim [K]          |
+ 0.0			SwUxDim [km/s]      |
+ 0.0			SwUyDim [km/s]      | 3.3 AU
+ 0.0			SwUzDim [km/s]      |
+ 0.0			SwBxDim [nT]        |
+ 0.0			SwByDim [nT]        |
+ 0.0			SwBzDim [nT]       /
+
+#INNERBOUNDARY
+ionosphere		TypeBcBody
+
+#BOXBOUNDARY
+outflow			TypeBc1
+user			TypeBc2
+float			TypeBc3
+float			TypeBc4
+float			TypeBc5
+float			TypeBc6
+
+#EXTRABOUNDARY
+T			UseExtraBoundary
+user			TypeExtraBoundary
+
+#MINIMUMPRESSURE
+1e-15			pMinDim
+1e-15			pMinDim
+1e-15			pMinDim
+1e-15			PeMinDim
+
+#MINIMUMDENSITY
+1e-15			RhoMinDim
+1e-15			RhoMinDim
+1e-15			RhoMinDim
+
+#MINIMUMTEMPERATURE
+100			TminDim
+100			TminDim
+100			TminDim
+100			TeMinDim
+
+#GAMMA
+5.0/3.0			Gamma
+8.0/6.0			Gamma
+8.0/6.0			Gamma
+5.0/3.0			GammaElectron
+
+#PLASMA
+1.0			FluidMass SWp [amu]
+18.0			FluidMass H2Op [amu]
+18.0			FluidMass Neutral [amu]
+1.0			IonCharge SWp [e]
+1.0			IonCharge H2Op [e]
+1.0			ElectronTemperatureRatio
+
+#MULTIION
+1e-8			LowDensityRatio
+1e-13			LowPressureRatio
+F			DoRestrictMultiIon
+
+#MULTIIONSTATE
+T			UseSingleIonVelocity
+F			UseSingleIonTemperature
+
+#SCHEME
+2			nOrder
+Linde			TypeFlux | only for nOrder=2
+minmod			Limiter
+
+TIMESTEPPING
+1			nStage
+0.8			CflExpl
+
+#RK
+1			nStage
+0.4			CflExpl
+
+#NEUTRALFLUID
+F			DoConserveNeutrals
+Linde			TypeFluxNeutral
+
+#POINTIMPLICIT
+F			UsePointImplicit
+
+#RESTARTOUTFILE
+one			StringRestartOutFile
+
+#NONCONSERVATIVE
+T			UseNonConservative
+
+#SAVELOGFILE
+T			DoSaveLogfile rest of parameters read if true
+VAR step date time		StringLog
+1000			DnSaveLogfile
+-1.			DtSaveLogfile [sec]
+dtpnt rho Ux Uy Uz Bx By Bz p rhopnt Uxpnt Uypnt Uzpnt ppnt Pmin Pmax Neu1Rhoflx		NameLogVars
+3.0 4.0			StringLogRadii
+
+#SAVEINITIAL
+T			DoSaveInitial
+
+#SAVEPLOT
+3			nPlotFile
+x=0 VAR idl		StringPlot
+5000			DnSavePlot
+-1.			DtSavePlot
+-1.			DxSavePlot
+{MHD} dt te dx		NameVars
+rBody 	    		NamePars
+y=0 VAR idl		StringPlot
+5000			DnSavePlot
+-1.			DtSavePlot
+-1.			DxSavePlot
+{MHD} dt te dx		NameVars
+rBody 	    		NamePars
+z=0 VAR idl		StringPlot
+5000			DnSavePlot
+-1.			DtSavePlot
+-1.			DxSavePlot
+{MHD} dt te dx		NameVars
+rBody 	    		NamePars
+3d MHD tec		StringPlot
+50000			DnSavePlot
+-1.			DtSavePlot
+
+#STOP
+40000			MaxIteration
+-1.0			tSimulationMax
+
+#RUN ##########################################################################
+
+#USERSWITCH
++source +update +perturb		StringSwitch
+
+#USERINPUTBEGIN -----------------------------------
+
+#BODYBC
+reflected		TypeBodyBC
+
+default			TypeBodyBC
+
+#PERTURBEDCONDITIONS
+1e7			R0Perturbed
+2e7			R1Perturbed
+1e-11			ratioPerturbed
+
+#USERINPUTEND -------------------------------------
+
+#SOLARWINDFILE
+T                       UseSolarWindFile
+halloween_cg.dat                 NameSolarWindFile
+
+#NEUTRALFLUID
+F			DoConserveNeutrals
+Linde			TypeFluxNeutral
+
+#SCHEME
+1			nOrder
+Linde			TypeFlux
+
+#TIMESTEPPING
+1			nStage
+0.1			CflExpl
+
+#POINTIMPLICIT
+T			UsePointImplicit
+1.0			BetaPointImplicit
+T			IsAsymmetric
+T			DoNormalizeCell
+
+#STOP
+50000			MaxIteration
+-1.0			tSimulationMax
+
+#RUN ##########################################################################
+
+#USERSWITCH
++source +update		StringSwitch
+
+#AMRCRITERIARESOLUTION
+4			nCriteria
+dx InnerSphere		TypeCriteria
+0.16			RefineTo
+0.08			CoarsenFrom
+dx InnerBox		TypeCriteria
+20			RefineTo
+10			CoarsenFrom
+dx FullDomain		TypeCriteria
+32000			RefineTo
+16000			CoarsenFrom
+dx bs			TypeCriteria
+500			CoarsenTo
+250			CoarsenFrom
+
+#DOAMR
+T			DoAmr
+30000			DnAmr
+-1			DtAmr
+T			IsStrictAmr
+
+#SCHEME
+2			nOrder
+Linde			TypeFlux | only for nOrder=2
+minmod			Limiter
+
+#TIMESTEPPING
+1			nStage
+0.1			CflExpl
+
+#STOP
+100000			MaxIteration
+-1.0			tSimulationMax
+
+#RUN ##########################################################################
+
+#DOAMR
+F			DoAmr
+
+#MULTIIONSTATE
+F			UseSingleIonVelocity
+F			UseSingleIonTemperature
+
+#POINTIMPLICIT
+T			UsePointImplicit
+1.0			BetaPointImplicit
+F			IsAsymmetric
+T			DoNormalizeCell
+
+#TIMESTEPPING
+1			nStage
+0.2			CflExpl
+
+#STOP
+200000			MaxIteration
+-1.0			tSimulationMax
+
+#RUN ##########################################################################
+#END
+
+#TIMEACCURATE
+T			IsTimeAccurate
+
+#TIMESTEPLIMIT
+T                       UseDtLimit
+0.005                   DtLimitDim [sec] (read if UseDtLimit is true)
+
+#SAVERESTART
+T
+-10000
+3600.0
+
+#SAVEPLOT
+3			nPlotFile
+x=0 VAR idl		StringPlot
+-1			DnSavePlot
+1 min			DtSavePlot
+-1.			DxSavePlot
+{MHD} dt te dx		NameVars
+rBody 	    		NamePars
+y=0 VAR idl		StringPlot
+-1			DnSavePlot
+1 min			DtSavePlot
+-1.			DxSavePlot
+{MHD} dt te dx		NameVars
+rBody 	    		NamePars
+z=0 VAR idl		StringPlot
+-1			DnSavePlot
+1 min			DtSavePlot
+-1.			DxSavePlot
+{MHD} dt te dx		NameVars
+rBody 	    		NamePars
+
+#ENDTIME
+2003                    iYear
+10                      iMonth
+30                      iDay
+00                      iHour
+00                      iMinute
+00                      iSecond
+0.0                     FracSecond
