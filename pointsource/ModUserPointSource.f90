@@ -18,6 +18,7 @@ module ModUser
        iTest, jTest, kTest, iBlockTest, iProcTest, iVarTest, iProc
   ! use ModSize
   use ModNumConst,  ONLY: cPi
+  use ModConst,     ONLY: cProtonMass
 
   include 'user_module.h' ! list of public methods
 
@@ -76,21 +77,25 @@ contains
        select case(NameCommand)
        case("#POINTMASSSOURCE")
           call read_var('UsePointSource', UsePointSource)
-          if(.not.UsePointSource)continue
+          if(.not.UsePointSource)cycle
           call read_var('nPointSource', nPointSource)
+          write(*,*) 'nPointSource = ', nPointSource
           ! Initialize arrays:
-          allocate(XyzSource_DI(nPointSource, 3))
+          allocate(XyzSource_DI(3, nPointSource))
           allocate(Amplitude_I(nPointSource))
           XyzSource_DI = 0
           Amplitude_I = 0
-          if(DoTest) write(*,*) "READING POINT SOURCE INFO"
+          write(*,*) "READING POINT SOURCE INFO"
           do i=1, nPointSource
               call read_var('SourceAmplitude', Amplitude_I(i))
-              call read_var('xPosition', XyzSource_DI(i, 1))
-              call read_var('yPosition', XyzSource_DI(i, 2))
-              call read_var('zPosition', XyzSource_DI(i, 3))
-              if(DoTest) write(*,'(a,i02,a,3f10.7)') 'Source #', i, &
-                   ' located at xyz=', XyzSource_DI(i, :)
+              call read_var('xPosition', XyzSource_DI(1, i))
+              call read_var('yPosition', XyzSource_DI(2, i))
+              call read_var('zPosition', XyzSource_DI(3, i))
+              write(*,'(a,i02,a,e12.7,a,3f10.7)') 'Source #', i, &
+                   ' Amplitude=', Amplitude_I(i), &
+                   ' located at xyz=', XyzSource_DI(:, i)
+               ! Convert to SI Units: amu/cm3 -> kg/m3
+              Amplitude_I(i) = 1E6 * cProtonMass * Amplitude_I(i)
           end do
 
        case('#USERINPUTEND')
@@ -127,20 +132,15 @@ contains
     use ModMain,       ONLY: nI, nJ, nK, tSimulation
     use ModAdvance,    ONLY: State_VGB, Source_VC, p_, Rho_
     use ModGeometry,   ONLY: Xyz_DGB
-    use ModPhysics,    ONLY: Si2No_V, No2Si_V, &
-         UnitEnergyDens_, UnitN_, UnitRho_, UnitU_, UnitP_, UnitT_, &
-         UnitRhoU_, UnitTemperature_, UnitX_,       &
-         ElectronPressureRatio, ElectronCharge
+    use ModPhysics,    ONLY: Si2No_V, UnitRho_, UnitP_
 
     integer, intent(in) :: iBlock
 
     integer :: iPoint, i, j, k
-    real, dimension(1:nI,1:nJ,1:nK) :: distSource_C = 0
 
     ! Local source arrays
     real, dimension(1:nI,1:nJ,1:nK) :: SRho_C, SP_C
-
-    real :: distNow_D(3)
+    real :: distNow_D(3), distSource=0, gauss
 
     logical :: DoTestCell
 
@@ -148,7 +148,7 @@ contains
     character(len=*), parameter:: NameSub = 'user_calc_sources_impl'
     !--------------------------------------------------------------------------
     call test_start(NameSub, DoTest, iBlock)
-
+    write(*,*) NameSub // ' has been called.'
     if(.not.UsePointSource)return
 
     !! Set the source arrays for this block to zero
@@ -163,20 +163,29 @@ contains
         do k=1,nK; do j=1,nJ; do i=1,nI
            ! For each point, get distance from point.
            distNow_D = Xyz_DGB(:, i, j, k, iBlock) - XyzSource_DI(:, iPoint)
-           distSource_C(i, j, k) = sum((distNow_D)**2, DIM=1)
-        end do; end do; end do
+           distSource = sum((distNow_D)**2)
 
-        ! Apply source as Gaussian about central point.
-        SRho_C(i,j,k) = SRho_C(i,j,k) + (1/(2*cPi*rspread)) * &
-            exp(distSource_C(i,j,k)/(-2*rspread**2))
+           if (sqrt(distSource)>5.) cycle
+
+           write(*,'(a,3f10.4,a,f10.4)') ' XYZ=', Xyz_DGB(:, i, j, k, iBlock), &
+               'dist = ', sqrt(distSource)
+
+           gauss = (1/sqrt(2*cPi*rspread)) * exp(-1*distSource/(2*rspread**2))
+           write(*,'(a,e12.7)') 'gauss=', gauss
+
+           ! Apply source as Gaussian about central point.
+           SRho_C(i,j,k) = SRho_C(i,j,k) + &
+           Amplitude_I(iPoint)*(1/sqrt(2*cPi*rspread)) * &
+           exp(-1*distSource/(2*rspread**2)) * SI2No_V(UnitRho_)
+         end do; end do; end do
     end do
 
     ! Apply sources to Source_VC
     do k=1,nK; do j=1,nJ; do i=1,nI
-       Source_VC(Rho_,i,j,k) = SRho_C(i,j,k)    + &
+       Source_VC(Rho_,i,j,k) = SRho_C(i,j,k) + &
             Source_VC(Rho_,i,j,k)
-       Source_VC(p_,i,j,k) = SP_C(i,j,k)      + &
-            Source_VC(p_,i,j,k)
+       !Source_VC(p_,i,j,k) = SP_C(i,j,k) + &
+       !     Source_VC(p_,i,j,k)
     end do;  end do;  end do
 
     call test_stop(NameSub, DoTest, iBlock)
@@ -185,9 +194,59 @@ contains
   !============================================================================
   subroutine user_calc_sources_expl(iBlock)
 
-    integer, intent(in) :: iBlock
+     use ModMain,       ONLY: nI, nJ, nK, tSimulation
+     use ModAdvance,    ONLY: State_VGB, Source_VC, p_, Rho_
+     use ModGeometry,   ONLY: Xyz_DGB
+     use ModPhysics,    ONLY: Si2No_V, UnitRho_, UnitP_
 
-    !--------------------------------------------------------------------------
+     integer, intent(in) :: iBlock
+
+     integer :: iPoint, i, j, k
+
+     ! Local source arrays
+     real, dimension(1:nI,1:nJ,1:nK) :: SRho_C, SP_C
+     real :: distNow_D(3), distSource=0
+
+     logical :: DoTestCell
+
+     logical:: DoTest
+     character(len=*), parameter:: NameSub = 'user_calc_sources_expl'
+     !--------------------------------------------------------------------------
+     call test_start(NameSub, DoTest, iBlock)
+
+     if(.not.UsePointSource)return
+
+     !! Set the source arrays for this block to zero
+     SRho_C = 0.
+     SP_C = 0.
+
+     do iPoint=1, nPointSource
+         ! Check time to see if source is active.
+         ! HERE!
+
+         ! Calculate source:
+         do k=1,nK; do j=1,nJ; do i=1,nI
+            ! For each point, get distance from point.
+            distNow_D = Xyz_DGB(:, i, j, k, iBlock) - XyzSource_DI(:, iPoint)
+            distSource = sum((distNow_D)**2)
+
+            ! Apply source as Gaussian about central point.
+            SRho_C(i,j,k) = SRho_C(i,j,k) + &
+                Amplitude_I(iPoint)*(1/sqrt(2*cPi*rspread)) * &
+                exp(-1*distSource/(2*rspread**2)) * SI2No_V(UnitRho_)
+          end do; end do; end do
+     end do
+
+     ! Apply sources to Source_VC
+     do k=1,nK; do j=1,nJ; do i=1,nI
+        Source_VC(Rho_,i,j,k) = SRho_C(i,j,k) + &
+             Source_VC(Rho_,i,j,k)
+        !Source_VC(p_,i,j,k) = SP_C(i,j,k)     + &
+        !     Source_VC(p_,i,j,k)
+     end do;  end do;  end do
+
+     call test_stop(NameSub, DoTest, iBlock)
+
   end subroutine user_calc_sources_expl
   !============================================================================
 
