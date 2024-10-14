@@ -279,10 +279,6 @@ T                       DoSaveRestart
 IM			NameComp
 T			UseComp
 
-#COMPONENT
-UA			NameComp
-T			UseComp
-
 ! All processors are used now
 #STRICT
 T			UseStrict
