@@ -94,10 +94,10 @@ box			StringShape
  10.0			zMaxBox
 
 #GRIDRESOLUTION
-1/8			Resolution
-shell0  StringShape
-1.75    RadiusInner
-3.5			Radius
+1/8			    Resolution
+shell0      StringShape
+1.75        RadiusInner
+3.5			    Radius
 
 #BODY
 T         UseBody
