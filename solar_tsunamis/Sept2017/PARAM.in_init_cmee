@@ -12,7 +12,7 @@ Sept. 2017 event for Solar Tsunamis
 #TIMEACCURATE
 F			DoTimeAccurate
 
-#STARTTIME            
+#STARTTIME
 2017			year
 09              	month
 06              	day
@@ -208,7 +208,7 @@ single			TypeFileOut
 real8			TypeFileMagGrid
 GEO			TypeCoordMagGrid
 1440			nLonMagGrid
-719			nLatMagGrid
+713			nLatMagGrid
 0.			LonMinMagGrid
 360.			LonMaxMagGrid
 -89.			LatMinMagGrid
@@ -231,14 +231,14 @@ F			UseFakeRegion2
 1.0                     StarLightPedConductance
 0.25                    PolarCapPedConductance
 
-#CONDUCTANCEFILES 
-cmee_hal_coeffs.dat	NameHalFile 
+#CONDUCTANCEFILES
+cmee_hal_coeffs.dat	NameHalFile
 cmee_ped_coeffs.dat 	NamePedFile
 
-#USECMEE 
-T			UseCMEEFitting (rest of parameters read if true) 
-45 			LatNoConductanceSI (default) 
-7.5 			FactorHallCMEE (default) 
+#USECMEE
+T			UseCMEEFitting (rest of parameters read if true)
+45 			LatNoConductanceSI (default)
+7.5 			FactorHallCMEE (default)
 5 			FactorPedCMEE (default)
 
 #BOUNDARY
@@ -403,7 +403,7 @@ max idl                 StringPlot
 
 #END_COMP IE -----------------------------------------------------------------
 
-#ENDTIME            
+#ENDTIME
 2017			year
 09              	month
 09              	day
