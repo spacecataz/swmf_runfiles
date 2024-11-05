@@ -7,11 +7,12 @@ amplitudes from a number of sources.
 
 # Add SEA library to path:
 import sys
-sys.path.append('../../SEA_drivers')
 
 import datetime as dt
 
 from spacepy.plot import style
+
+sys.path.append('../../SEA_drivers')
 from process_drivers import scale_imf, smooth_imf
 
 style()
