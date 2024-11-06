@@ -18,7 +18,7 @@ from process_drivers import scale_imf, smooth_imf
 style()
 
 plotvars = [['bx', 'by'], 'bz', 'v', 'n', 't']
-rise, fall = 120, 720
+rise, fall = 15, 720
 
 # Open base data, apply some smoothing:
 vsmooth = ['n', 't', 'ux', 'bx', 'by', 'bz']
@@ -48,14 +48,16 @@ amps = {'TS2014': {'ux': 4.05, 'uy': 4.05, 'uz': 4.05,
 for n in names:
     # Perform Median-based extreme.
     imf, scale = scale_imf(imf_medi, start, stop, rise, fall, amp=amps[n])
-    imf.quicklook(title=f'SEA Median-Based Extreme: {n}',
-                  plotvars=plotvars)
+    fig = imf.quicklook(title=f'SEA Median-Based Extreme: {n}',
+                        plotvars=plotvars)
+    fig.savefig(f'./imf_{n}_KatusMedian.png')
     imf.attrs['file'] = f'./imf_{n}_KatusMedian.dat'
     imf.write()
 
     # Perform Mean-based extreme.
     imf, scale = scale_imf(imf_mean, start, stop, rise, fall, amp=amps[n])
-    imf.quicklook(title=f'SEA Mean-Based Extreme: {n}',
-                  plotvars=plotvars)
+    fig = imf.quicklook(title=f'SEA Mean-Based Extreme: {n}',
+                        plotvars=plotvars)
+    fig.savefig(f'./imf_{n}_KatusMean.png')
     imf.attrs['file'] = f'./imf_{n}_KatusMean.dat'
     imf.write()
