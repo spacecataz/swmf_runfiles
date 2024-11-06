@@ -147,7 +147,7 @@ T                       UseCpcpBc  (rest is read if true)
 
 #SOLARWINDFILE
 T			UseSolarWindFile
-IMF_advected.dat	NameSolarWindFile
+IMF_wind.dat		NameSolarWindFile
 
 #SCHEME
 1			nOrder
@@ -205,7 +205,8 @@ single			TypeFileOut
 60.0			DtOutput      [sec]
 
 #MAGNETOMETERGRID
-real8			TypeFileMagGrid
+1			nMagGridFile
+global real8		TypeFileMagGrid
 GEO			TypeCoordMagGrid
 1440			nLonMagGrid
 713			nLatMagGrid
