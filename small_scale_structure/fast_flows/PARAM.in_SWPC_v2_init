@@ -34,7 +34,7 @@ IE			NameComp2
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-5000			MaxBlock
+15000			MaxBlock
 
 #GRID
 1			nRootBlock1
@@ -60,7 +60,7 @@ all			StringShape
 #GRIDRESOLUTION
 1/8		      Resolution
 box			    StringShape
--50.0			  xMinBox
+-40.0			  xMinBox
  -16.0			yMinBox
  -16.0			zMinBox
   22.0			xMaxBox
@@ -68,26 +68,26 @@ box			    StringShape
   16.0			zMaxBox
 
 ! Better res at geosync and near tail.
-GRIDRESOLUTION
+#GRIDRESOLUTION
 1/4			Resolution
 box			StringShape
--20.0			xMinBox
--8.0			yMinBox
--8.0			zMinBox
- 8.0			xMaxBox
- 8.0			yMaxBox
- 8.0			zMaxBox
+-42.0			xMinBox
+-18.0			yMinBox
+-18.0			zMinBox
+ 20.0			xMaxBox
+ 18.0			yMaxBox
+ 18.0			zMaxBox
 
 ! Close tail and bow shock resolution
-GRIDRESOLUTION
+#GRIDRESOLUTION
 1/2			Resolution
 box			StringShape
--32.0			xMinBox
--22.0			yMinBox
--10.0			zMinBox
+-45.0			xMinBox
+-20.0			yMinBox
+-20.0			zMinBox
  20.0			xMaxBox
  22.0			yMaxBox
- 10.0			zMaxBox
+ 20.0			zMaxBox
 
 #GRIDRESOLUTION
 1/16                    Resolution
