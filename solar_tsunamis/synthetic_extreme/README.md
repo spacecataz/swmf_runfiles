@@ -35,10 +35,10 @@ specify a value of 20$/cc$, matching Katus et al. closely).
 Gopalswamy paper blah gives estimates for 1/100 and 1/1000 year events.
 The values are summarized below:
 
-| Freq (1/yr)| Dist. Type | Max $V$    | Max $B$ |
-|------------|------------|------------|---------|
-| 1/100      | Weibull    | 3800$km/s$ |         |
-| 1/1000     | Weibull    | 4700$km/s$ |
+| Freq (1/yr)| Dist. Type | Max $V$    | Max $B$ | Total $E$ |
+|------------|------------|------------|---------|-----------|
+| 1/100      | Weibull    | 3800$km/s$ |         | 4.4E33$ergs |
+| 1/1000     | Weibull    | 4700$km/s$ |         | 9.8E33$ergs |
 
 - No slowdown from near-Sun to L1 velocity.
 
