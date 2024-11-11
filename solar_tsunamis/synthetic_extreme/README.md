@@ -27,18 +27,21 @@ other scalings, as described below. **This specification is not recommended.**
 
 ### Tsurutani & Lahkina Most Extreme SSI
 Tsurutani & Lahkina calculations put the total solar wind velocity at just
-under 2500$km/s$ and a total $B$-field of 128$nT$. $B$ is scaled by component
+under 2700$km/s$ and a total $B$-field of 128$nT$. $B$ is scaled by component
 such that $|B|$ matches the T&L values. Number density is not scaled (T&S
 specify a value of 20$/cc$, matching Katus et al. closely).
 
 ### Gopalswamy 1/100 and 1/1000-Year Estimates
 Gopalswamy paper blah gives estimates for 1/100 and 1/1000 year events.
+We take the 1/100 and 1/1000 values; slow the solar wind by 10%, and use
+Equation 7 to get the associated total magnetic field.
+
 The values are summarized below:
 
-| Freq (1/yr)| Dist. Type | Max $V$    | Max $B$ | Total $E$ |
-|------------|------------|------------|---------|-----------|
-| 1/100      | Weibull    | 3800$km/s$ |         | 4.4E33$ergs |
-| 1/1000     | Weibull    | 4700$km/s$ |         | 9.8E33$ergs |
+| Freq (1/yr)| Dist. Type | Max $V$    | Total $E$   | 90% $V_max$ | Max $B$ |
+|------------|------------|------------|-------------|-------------|---------|
+| 1/100      | Weibull    | 3800$km/s$ | 4.4E33$ergs |             |         |
+| 1/1000     | Weibull    | 4700$km/s$ | 9.8E33$ergs |             |         |
 
 - No slowdown from near-Sun to L1 velocity.
 
