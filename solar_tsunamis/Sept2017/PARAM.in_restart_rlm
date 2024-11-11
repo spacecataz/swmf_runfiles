@@ -78,7 +78,7 @@ T                       UseCpcpBc  (rest is read if true)
 
 #SOLARWINDFILE
 T			UseSolarWindFile
-IMF_advected.dat	NameSolarWindFile
+IMF_wind.dat	NameSolarWindFile
 
 #MAGNETOMETER
 mags.dat		NameMagInputFile
@@ -97,14 +97,15 @@ MAG                     TypeCoordFacGrid
 60.0			DtOutput      [sec]
 
 #MAGNETOMETERGRID
-real8			TypeFileMagGrid
+1			nMagGridFile
+global real8		TypeFileMagGrid
 GEO			TypeCoordMagGrid
 1440			nLonMagGrid
-719			nLatMagGrid
+713			nLatMagGrid
 0.			LonMinMagGrid
 360.			LonMaxMagGrid
 -89.			LatMinMagGrid
-85.			LatMaxMagGrid
+89.			LatMaxMagGrid
 -1			DnSaveMagGrid
 10.0			DtSaveMagGrid
 
