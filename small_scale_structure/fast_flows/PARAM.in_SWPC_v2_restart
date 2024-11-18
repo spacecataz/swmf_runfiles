@@ -20,7 +20,7 @@ T			IsTimeAccurate
 #SAVERESTART
 T			DoSaveRestart
 -1			DnSaveRestart
-1 min			DtSaveRestart
+30 min			DtSaveRestart
 
 #RESTARTOUTDIR
 SWMF_RESTART.YYYYMMDD_HHMMSS		NameRestartOutDir
@@ -86,7 +86,7 @@ T			UseCpcpBc  (rest is read if true)
 
 #SOLARWINDFILE
 T                       UseSolarWindFile
-imf_ideal.dat			NameSolarWindFile
+imf_SH_mean_smoothed15.dat			NameSolarWindFile
 
 #GEOMAGINDICES
 180			nSizeKpWindow [min]
