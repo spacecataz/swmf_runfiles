@@ -34,7 +34,7 @@ IE			NameComp2
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-15000			MaxBlock
+100000			MaxBlock
 
 #GRID
 1			nRootBlock1
@@ -58,36 +58,36 @@ initial			StringShape
 all			StringShape
 
 #GRIDRESOLUTION
-1/8		      Resolution
-box			    StringShape
--40.0			  xMinBox
+1/8		        Resolution
+box			StringShape
+ -32.0			xMinBox
  -16.0			yMinBox
  -16.0			zMinBox
-  22.0			xMaxBox
+  16.0			xMaxBox
   16.0			yMaxBox
   16.0			zMaxBox
 
 ! Better res at geosync and near tail.
 #GRIDRESOLUTION
-1/4			Resolution
-box			StringShape
--42.0			xMinBox
--18.0			yMinBox
--18.0			zMinBox
- 20.0			xMaxBox
- 18.0			yMaxBox
- 18.0			zMaxBox
-
-! Close tail and bow shock resolution
-#GRIDRESOLUTION
 1/2			Resolution
 box			StringShape
--45.0			xMinBox
--20.0			yMinBox
--20.0			zMinBox
- 20.0			xMaxBox
- 22.0			yMaxBox
- 20.0			zMaxBox
+-40.0			xMinBox
+-24.0			yMinBox
+-24.0			zMinBox
+ 24.0			xMaxBox
+ 24.0			yMaxBox
+ 24.0			zMaxBox
+
+! Close tail and bow shock resolution
+GRIDRESOLUTION
+1			Resolution
+box			StringShape
+-52.0			xMinBox
+-28.0			yMinBox
+-28.0			zMinBox
+ 32.0			xMaxBox
+ 28.0			yMaxBox
+ 28.0			zMaxBox
 
 #GRIDRESOLUTION
 1/16                    Resolution
@@ -125,7 +125,7 @@ T			    UseCpcpBc  (rest is read if true)
 
 #SOLARWINDFILE
 T			            UseSolarWindFile
-imf_ideal.dat			NameSolarWindFile
+imf_SH_mean_smoothed15.dat			NameSolarWindFile
 
 #SCHEME
 1			      nOrder
