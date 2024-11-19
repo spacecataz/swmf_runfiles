@@ -177,7 +177,7 @@ def analyze_katusdens(category='SH'):
     fig.tight_layout()
 
 
-def scale_dens(v_in, n_in, volrat=1):
+def scale_dens(v_in, n_in, volrat=1, debug=False):
     '''
     Convert Katus et al max velocity and density into extreme storm densities
     for the 1/100 and 1/1000 year storms.
@@ -194,17 +194,19 @@ def scale_dens(v_in, n_in, volrat=1):
     occ = weibull(v_in)
     ener = inv_weib(occ, a=e_a, eta=e_eta, gamma=e_gam)
 
-    print(f'For a storm of velocity {v_in}, ' +
-          f'occurrence is {occ:.1f} events/year and energy is {ener:.2E} ergs')
+    if debug:
+        print(f'For a storm of velocity {v_in}, occurrence is {occ:.1f} ' +
+              'events/year and energy is {ener:.2E} ergs')
 
     # Get scaling factor:
     gamma100 = e100/ener / volrat
     gamma1k = e1000/ener / volrat
-    print(f'Energy scaling factors:\n\tgamma100 = {gamma100}' +
-          f'\n\t gamma1000 = {gamma1k}')
-    print('Velocity ratio factors (v_in/v_ext)**2:')
-    print(f'\t1/100:  {(v_in/v100)**2}')
-    print(f'\t1/1000: {(v_in/v1000)**2}')
+    if debug:
+        print(f'Energy scaling factors:\n\tgamma100 = {gamma100}' +
+              f'\n\t gamma1000 = {gamma1k}')
+        print('Velocity ratio factors (v_in/v_ext)**2:')
+        print(f'\t1/100:  {(v_in/v100)**2}')
+        print(f'\t1/1000: {(v_in/v1000)**2}')
 
     # Scale it up:
     n100 = n_in * gamma100 * (v_in/v100)**2
@@ -256,13 +258,13 @@ def gen_gopal_scalings(volrat=50):
 
     # Print'em out:
     print('1/100 scalings for MEAN:')
-    print(f'V={v100/vmax_mean}\tB={b100/bmax_mean}\tN={n100/nmax_mean}')
+    print(f'V={.9*v100/vmax_mean}\tB={b100/bmax_mean}\tN={n100/nmax_mean}')
     print('1/100 scalings for MEDIAN:')
-    print(f'V={v100/vmax_medi}\tB={b100/bmax_medi}\tN={n100/nmax_medi}')
+    print(f'V={.9*v100/vmax_medi}\tB={b100/bmax_medi}\tN={n100/nmax_medi}')
     print('1/1000 scalings for MEAN:')
-    print(f'V={v1000/vmax_mean}\tB={b1000/bmax_mean}\tN={n1000/nmax_mean}')
+    print(f'V={.9*v1000/vmax_mean}\tB={b1000/bmax_mean}\tN={n1000/nmax_mean}')
     print('1/1000 scalings for MEDIAN:')
-    print(f'V={v1000/vmax_medi}\tB={b1000/bmax_medi}\tN={n1000/nmax_medi}')
+    print(f'V={.9*v1000/vmax_medi}\tB={b1000/bmax_medi}\tN={n1000/nmax_medi}')
 
 
 def summarize_extremes():

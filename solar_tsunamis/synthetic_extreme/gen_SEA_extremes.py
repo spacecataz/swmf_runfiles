@@ -17,6 +17,8 @@ from process_drivers import scale_imf, smooth_imf
 
 style()
 
+do_save = False
+
 plotvars = [['bx', 'by'], 'bz', 'v', 'n', 't']
 rise, fall = 15, 720
 
@@ -37,27 +39,35 @@ stop = dt.datetime(2000, 1, 1, 21, 0, 0)
 names = ['TS2014', 'G100', 'G1000']
 
 # Set variable-based amplitudes.
-amps = {'TS2014': {'ux': 4.05, 'uy': 4.05, 'uz': 4.05,
-                   'bx': 7.381, 'by': 7.381, 'bz': 7.381, 't': 4},
-        'G100': {'ux': 4.05, 'uy': 4.05, 'uz': 4.05,
-                 'bx': 7.381, 'by': 7.381, 'bz': 7.381, 't': 4},
-        'G1000': {'ux': 4.05, 'uy': 4.05, 'uz': 4.05,
-                  'bx': 7.381, 'by': 7.381, 'bz': 7.381, 't': 4}}
+amps_med = {'TS2014': {'ux': 4.05, 'uy': 4.05, 'uz': 4.05,
+                       'bx': 7.381, 'by': 7.381, 'bz': 7.381, 't': 4},
+            'G100': {'ux': 5.349, 'uy': 5.349, 'uz': 5.349, 'n': 2.4029,
+                     'bx': 14.2675, 'by': 14.2675, 'bz': 14.2675, 't': 5.349},
+            'G1000': {'ux': 6.573, 'uy': 6.573, 'uz': 6.573, 'n': 3.5436,
+                      'bx': 17.741, 'by': 17.741, 'bz': 17.741, 't': 6.573}}
+amps_avg = {'TS2014': {'ux': 4.05, 'uy': 4.05, 'uz': 4.05,
+                       'bx': 7.381, 'by': 7.381, 'bz': 7.381, 't': 4},
+            'G100': {'ux': 5.943, 'uy': 5.943, 'uz': 5.943, 'n': 2.2057,
+                     'bx': 13.656, 'by': 13.656, 'bz': 13.656, 't': 5.943},
+            'G1000': {'ux': 7.3038, 'uy': 7.3038, 'uz': 7.3038, 'n': 3.2527,
+                      'bx': 7.381, 'by': 7.381, 'bz': 7.381, 't': 7.3038}}
 
 # Create scaled drivers:
 for n in names:
     # Perform Median-based extreme.
-    imf, scale = scale_imf(imf_medi, start, stop, rise, fall, amp=amps[n])
+    imf, scale = scale_imf(imf_medi, start, stop, rise, fall, amp=amps_med[n])
     fig = imf.quicklook(title=f'SEA Median-Based Extreme: {n}',
                         plotvars=plotvars)
-    fig.savefig(f'./imf_{n}_KatusMedian.png')
-    imf.attrs['file'] = f'./imf_{n}_KatusMedian.dat'
-    imf.write()
+    if do_save:
+        fig.savefig(f'./imf_input_files/imf_{n}_KatusMedian.png')
+        imf.attrs['file'] = f'imf_input_files/imf_{n}_KatusMedian.dat'
+        imf.write()
 
     # Perform Mean-based extreme.
-    imf, scale = scale_imf(imf_mean, start, stop, rise, fall, amp=amps[n])
+    imf, scale = scale_imf(imf_mean, start, stop, rise, fall, amp=amps_avg[n])
     fig = imf.quicklook(title=f'SEA Mean-Based Extreme: {n}',
                         plotvars=plotvars)
-    fig.savefig(f'./imf_{n}_KatusMean.png')
-    imf.attrs['file'] = f'./imf_{n}_KatusMean.dat'
-    imf.write()
+    if do_save:
+        fig.savefig(f'./imf_input_files/imf_{n}_KatusMean.png')
+        imf.attrs['file'] = f'./imf_input_files/imf_{n}_KatusMean.dat'
+        imf.write()

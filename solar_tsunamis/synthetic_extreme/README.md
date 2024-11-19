@@ -32,18 +32,23 @@ such that $|B|$ matches the T&L values. Number density is not scaled (T&S
 specify a value of 20$/cc$, matching Katus et al. closely).
 
 ### Gopalswamy 1/100 and 1/1000-Year Estimates
-Gopalswamy paper blah gives estimates for 1/100 and 1/1000 year events.
+[Gopalswamy 2018](https://www.sciencedirect.com/science/article/pii/B9780128127001000029)
+gives estimates for 1/100 and 1/1000 year events.
 We take the 1/100 and 1/1000 values; slow the solar wind by 10%, and use
 Equation 7 to get the associated total magnetic field.
+Densities are obtained through ratios of total kinetic energy (Katus-based
+events are mapped to the Weibull distributions to get total KE) and assuming
+that the extremes have a total volume of 50 times that of the mean/median
+events. Magnetic fields are scaled to maintain the direction from the
+Katus mean/median events.
 
 The values are summarized below:
 
-| Freq (1/yr)| Dist. Type | Max $V$    | Total $E$   | 90% $V_max$ | Max $B$ |
-|------------|------------|------------|-------------|-------------|---------|
-| 1/100      | Weibull    | 3800$km/s$ | 4.4E33$ergs |             |         |
-| 1/1000     | Weibull    | 4700$km/s$ | 9.8E33$ergs |             |         |
+| Freq (1/yr) | Dist. Type  |$$V$$ ($km/s$) |$$E$$ ($$ergs$$) |   90% $$V$$   | $$B$$ ($$nT$$)  |Dens ($$ccm$$) |
+|-------------|-------------|-------------|-------------|-------------|-------------|-------------|
+|    1/100    |   Weibull   |   3800.0    |  4.400E+33  |   3420.0    |   214.420   |   48.635    |
+|   1/1000    |   Weibull   |   4670.0    |  9.800E+33  |   4203.0    |   266.620   |   71.722    |
 
-- No slowdown from near-Sun to L1 velocity.
 
 ## Model Setup & Code Configuration
 
