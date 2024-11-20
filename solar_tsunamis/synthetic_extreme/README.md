@@ -78,7 +78,9 @@ PARAM setups are listed below with the following common settings:
 
 | IMF File | Description |
 |--------------|-------------|
-|imf_TS2014_KatusMedian.dat | Katus et al. SEA medians set to match Tsurutani & Lakhina, 2014 |
+|imf_TS2014_KatusMedian.dat | Katus et al. SEA medians set to match Tsurutani & Lakhina, 2014. |
 |imf_TS2014ML_KatusMedian.dat  | Same as above, but ML-based scaling for density, temperature amplitudes. |
-|imf_unscaled_nt_model.dat | Random-forest recreation of Katus using Katus Bz, Vx |
-|imf_scaled_nt_model.dat | Random-forest extreme event using TS-Katus Bz, Vx |
+|imf_G100_KatusMedian.dat | Same as above, but using Gopalswamy's 1/100 estimate. |
+|imf_G1000_KatusMedian.dat |Same as above, but using Gopalswamy's 1/1000 estimate. |
+|imf_unscaled_nt_model.dat | Random-forest recreation of Katus using Katus Bz, Vx. |
+|imf_scaled_nt_model.dat | Random-forest extreme event using TS-Katus Bz, Vx. |
