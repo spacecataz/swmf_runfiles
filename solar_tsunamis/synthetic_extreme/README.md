@@ -18,12 +18,17 @@ means or medians) which are then scaled up to amplitudes to match extreme
 event scenarios in literature. Each scaling uses a set of hyperbolic tangents
 to ramp up then down the amplitudes of storms within a given window.
 Ramp up time is 15 minutes; ramp down is 12 hours.
+Previously, a multi-hour ramp up was used. It produces a poor sudden impulse
+and was discarded.
 
 ### ML-Scaled
 A random-forest based specification was created, first by Rashmi Siddalingappa
 and then by Qusai Al-Shidi (both of WVU). The former was not able to create
 a reasonable time series, so the amplitudes were used as an alternative to
-other scalings, as described below. **This specification is not recommended.**
+other scalings, as described below. A random-forest regression model was used to
+generate these files. For the fast ramp-up input, the only output of the RFR
+model is density (temperature result was poor and discarded). All other variables
+are TL-scaled Katus.
 
 ### Tsurutani & Lahkina Most Extreme SSI
 Tsurutani & Lahkina calculations put the total solar wind velocity at just
@@ -83,4 +88,5 @@ PARAM setups are listed below with the following common settings:
 |imf_G100_KatusMedian.dat | Same as above, but using Gopalswamy's 1/100 estimate. |
 |imf_G1000_KatusMedian.dat |Same as above, but using Gopalswamy's 1/1000 estimate. |
 |imf_unscaled_nt_model.dat | Random-forest recreation of Katus using Katus Bz, Vx. |
-|imf_scaled_nt_model.dat | Random-forest extreme event using TS-Katus Bz, Vx. |
+|imf_scaled_rfr_model_slow.dat | Random-forest extreme event using TS-Katus Bz, Vx and a slow ramp-up |
+|imf_scaled_rfr_model.dat | Random-forest extreme event using TS-Katus Bz, Vx as inputs |
