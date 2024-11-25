@@ -58,36 +58,36 @@ initial			StringShape
 all			StringShape
 
 #GRIDRESOLUTION
-1/8		        Resolution
-box			StringShape
- -32.0			xMinBox
- -16.0			yMinBox
- -16.0			zMinBox
+1/8		      Resolution
+box         StringShape
+ -40.0			xMinBox
+ -24.0			yMinBox
+ -20.0			zMinBox
   16.0			xMaxBox
-  16.0			yMaxBox
-  16.0			zMaxBox
+  24.0			yMaxBox
+  20.0			zMaxBox
 
 ! Better res at geosync and near tail.
 #GRIDRESOLUTION
 1/2			Resolution
 box			StringShape
--40.0			xMinBox
--24.0			yMinBox
--24.0			zMinBox
+-44.0			xMinBox
+-28.0			yMinBox
+-28.0			zMinBox
  24.0			xMaxBox
- 24.0			yMaxBox
- 24.0			zMaxBox
+ 28.0			yMaxBox
+ 28.0			zMaxBox
 
 ! Close tail and bow shock resolution
 GRIDRESOLUTION
 1			Resolution
 box			StringShape
 -52.0			xMinBox
--28.0			yMinBox
--28.0			zMinBox
+-36.0			yMinBox
+-36.0			zMinBox
  32.0			xMaxBox
- 28.0			yMaxBox
- 28.0			zMaxBox
+ 36.0			yMaxBox
+ 36.0			zMaxBox
 
 #GRIDRESOLUTION
 1/16                    Resolution
@@ -305,20 +305,24 @@ F			DoFixPolarRegion
 1e-5			pMinDim [nPa]
 
 #SAVEPLOT
-3			    nPlotFile
-y=0 MHD idl		StringPlot
--1			    DnSavePlot
-1 min			DtSavePlot
--1.0			DxSavePlot
-z=0 MHD idl		StringPlot
--1			    DnSavePlot
-1 min			DtSavePlot
--1.0			DxSavePlot
-lcb nul tec		StringPlot  !last closed field line plots
--1  			DnSavePlot  !Tecplot (ONLY!)
-1 min			DtSavePlot
-5.			    Radius
-36			    nLon
+4               nPlotFile
+y=0 MHD idl     StringPlot
+-1              DnSavePlot
+1 min           DtSavePlot
+-1.0            DxSavePlot
+z=0 MHD idl     StringPlot
+-1              DnSavePlot
+1 min           DtSavePlot
+-1.0            DxSavePlot
+z=0 ray idl     StringPlot
+-1              DnSavePlot
+1 min           DtSavePlot
+-1.0            DxSavePlot
+lcb nul tec     StringPlot  !last closed field line plots
+-1              DnSavePlot  !Tecplot (ONLY!)
+1 min           DtSavePlot
+5.              Radius
+36              nLon
 
 #BORIS
 T			    UseBorisCorrection

@@ -145,20 +145,24 @@ dt rho mx my mz p bx by bz pmin pmax dst_sm dst		NameLogVars
 3.0			        StringLogRadii
 
 #SAVEPLOT
-3			    nPlotFile
-y=0 MHD idl		StringPlot
--1			    DnSavePlot
-1 min			DtSavePlot
--1.0			DxSavePlot
-z=0 MHD idl		StringPlot
--1			    DnSavePlot
-1 min			DtSavePlot
--1.0			DxSavePlot
-lcb nul tec		StringPlot  !last closed field line plots
--1  			DnSavePlot  !Tecplot (ONLY!)
-1 min			DtSavePlot
-5.			    Radius
-36			    nLon
+4               nPlotFile
+y=0 MHD idl     StringPlot
+-1              DnSavePlot
+1 min           DtSavePlot
+-1.0            DxSavePlot
+z=0 MHD idl     StringPlot
+-1              DnSavePlot
+1 min           DtSavePlot
+-1.0            DxSavePlot
+z=0 ray idl     StringPlot
+-1              DnSavePlot
+1 min           DtSavePlot
+-1.0            DxSavePlot
+lcb nul tec     StringPlot  !last closed field line plots
+-1              DnSavePlot  !Tecplot (ONLY!)
+1 min           DtSavePlot
+5.              Radius
+36              nLon
 
 #SCHEME
 2			nOrder
