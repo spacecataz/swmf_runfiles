@@ -60,10 +60,10 @@ all			StringShape
 #GRIDRESOLUTION
 1/8		      Resolution
 box         StringShape
- -40.0			xMinBox
+ -48.0			xMinBox
  -24.0			yMinBox
  -20.0			zMinBox
-  16.0			xMaxBox
+  12.0			xMaxBox
   24.0			yMaxBox
   20.0			zMaxBox
 
@@ -71,7 +71,7 @@ box         StringShape
 #GRIDRESOLUTION
 1/2			Resolution
 box			StringShape
--44.0			xMinBox
+-52.0			xMinBox
 -28.0			yMinBox
 -28.0			zMinBox
  24.0			xMaxBox
@@ -82,7 +82,7 @@ box			StringShape
 GRIDRESOLUTION
 1			Resolution
 box			StringShape
--52.0			xMinBox
+-60.0			xMinBox
 -36.0			yMinBox
 -36.0			zMinBox
  32.0			xMaxBox
@@ -190,11 +190,15 @@ GEO			    TypeCoordGrid
 
 #SOLAREUV
 T       DoUseSolarEUV
-200     F10.7
+100     F10.7
 
 #AURORA
-T       DoUseAurora
+F       DoUseAurora
 RLM5    NameAurMod
+
+#UNIFORMCONDUCTANCE
+5       SigmaPedConst
+5       SigmaHalConst
 
 #BOUNDARY
 10.0			LatBoundary

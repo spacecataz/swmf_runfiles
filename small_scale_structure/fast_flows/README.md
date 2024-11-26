@@ -35,3 +35,4 @@ Version History
 |---|------|---------|
 | 1 | Oct., 2024 | Initial successful PARAMs.
 | 2 | Nov. 25, 2024 | Expanded high-res block; updated output to include raytracing |
+| 3 | Nov. 26, 2024 | Lengthened high-res block downtail; uniform conductance. |
