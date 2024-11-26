@@ -125,7 +125,7 @@ T			    UseCpcpBc  (rest is read if true)
 
 #SOLARWINDFILE
 T			            UseSolarWindFile
-imf_SH_mean_smoothed15.dat			NameSolarWindFile
+imf_ideal.dat			NameSolarWindFile
 
 #SCHEME
 1			      nOrder
