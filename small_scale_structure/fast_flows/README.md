@@ -30,6 +30,8 @@ resolution* in the global MHD portion.
 Other small changes include the use of `#IDEALAXES` to remove dipole tilt and
 deactivation of operational details (no re-read of IMF, etc.)
 
+The Hall MHD version is based on simulations by Tim Keebler.
+
 Version History
 | # | Date | Updates |
 |---|------|---------|
