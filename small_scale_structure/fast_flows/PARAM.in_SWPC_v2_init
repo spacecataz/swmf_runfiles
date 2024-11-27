@@ -61,33 +61,22 @@ all			StringShape
 1/8		      Resolution
 box         StringShape
  -48.0			xMinBox
- -24.0			yMinBox
- -20.0			zMinBox
-  12.0			xMaxBox
-  24.0			yMaxBox
-  20.0			zMaxBox
+ -20.0			yMinBox
+ -16.0			zMinBox
+  16.0			xMaxBox
+  20.0			yMaxBox
+  16.0			zMaxBox
 
 ! Better res at geosync and near tail.
 #GRIDRESOLUTION
 1/2			Resolution
 box			StringShape
--52.0			xMinBox
--28.0			yMinBox
--28.0			zMinBox
+-56.0			xMinBox
+-32.0			yMinBox
+-24.0			zMinBox
  24.0			xMaxBox
- 28.0			yMaxBox
- 28.0			zMaxBox
-
-! Close tail and bow shock resolution
-GRIDRESOLUTION
-1			Resolution
-box			StringShape
--60.0			xMinBox
--36.0			yMinBox
--36.0			zMinBox
- 32.0			xMaxBox
- 36.0			yMaxBox
- 36.0			zMaxBox
+ 32.0			yMaxBox
+ 24.0			zMaxBox
 
 #GRIDRESOLUTION
 1/16                    Resolution
@@ -171,11 +160,11 @@ T			    IsStrictAmr
 1			    nMagGridFile
 global real8    StrGridFileOut
 GEO			    TypeCoordGrid
-180			    nGridLon
-86			    nGridLat
+720			    nGridLon
+170			    nGridLat
 0.			    GridLonMin
 360.			GridLonMax
--85.			GridLatMin
+0.			GridLatMin
 85.			    GridLatMax
 -1			    DnSaveMagGrid
 1 min			DtSaveMagGrid
