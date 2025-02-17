@@ -31,10 +31,10 @@ model is density (temperature result was poor and discarded). All other variable
 are TL-scaled Katus.
 
 ### Tsurutani & Lahkina Most Extreme SSI
-Tsurutani & Lahkina calculations put the total solar wind velocity at just
-under 2700$km/s$ and a total $B$-field of 128$nT$. $B$ is scaled by component
-such that $|B|$ matches the T&L values. Number density is not scaled (T&S
-specify a value of 20$/cc$, matching Katus et al. closely).
+[Tsurutani & Lahkina](http://doi.wiley.com/10.1002/2013GL058825) calculations put the total solar wind velocity at just
+under 2700$$km/s$$ and a total $$B$$-field of 128$$nT$$. $$B$$ is scaled by component
+such that $$|B|$$ matches the T&L values. Number density is not scaled (T&S
+specify a value of 20$$/cc$$, matching Katus et al. closely).
 
 ### Gopalswamy 1/100 and 1/1000-Year Estimates
 [Gopalswamy 2018](https://www.sciencedirect.com/science/article/pii/B9780128127001000029)

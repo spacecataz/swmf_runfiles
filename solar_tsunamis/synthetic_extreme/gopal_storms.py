@@ -3,7 +3,7 @@
 Create estimates for Gopalswamy storms
 '''
 
-from glob import glob
+import datetime as dt
 
 import numpy as np
 from scipy.io import loadmat
@@ -135,16 +135,14 @@ def analyze_katusdens(category='SH'):
         Set storm category: CME, SH, MC
     '''
 
-    print("Enter location of raw data (e.g., " +
-          "/users/uname/SEAdata/), enter X to exit")
-    data_dir = '/home/dwelling/projects/SEA_drivers/Dan_SEA_2023v1/'
+    data_dir = '/home/dwelling/projects/SEA_drivers/v10_Dan_SEA/'
     # data_dir = input() + '/'
     if data_dir[0] == 'X':
         exit()
 
     # Open data:
-    dens = loadmat(data_dir + f'{category}/RawSEAdata/Nn.mat')['Data']
-    vels = loadmat(data_dir + f'{category}/RawSEAdata/Nv.mat')['Data']
+    dens = load_masked(data_dir + f'{category}/Nn.mat')
+    vels = load_masked(data_dir + f'{category}/Nv.mat')
 
     # Remove nans:
     dens[np.isnan(dens)] = 0
@@ -153,6 +151,9 @@ def analyze_katusdens(category='SH'):
     # Get max vals:
     max_n = dens.max(axis=0)
     max_v = vels.max(axis=0)
+
+    avg_n = dens.mean(axis=0)
+    avg_v = vels.mean(axis=0)
 
     loc_big = max_v > 750.
 
@@ -164,6 +165,7 @@ def analyze_katusdens(category='SH'):
     fig, (a1, a2, a3) = plt.subplots(1, 3, figsize=(8, 4))
     fig.suptitle(f'CME Characteristic Relationships ({category}-type)')
     a1.plot(max_v, max_n, '*')
+    # a1.plot(avg_v, avg_n, 'o')
     a1.plot(max_v[loc_big], max_n[loc_big], '*')
     a1.set_xlabel('Max $V$ ($km/s$)')
     a1.set_ylabel('Max $n$ ($cm^{-3}$)')
@@ -293,3 +295,74 @@ def summarize_extremes():
     # 1/1000 year storm using Katus medians:
     print(f"|{'1/1000':^13s}|{'Weibull':^13s}|{v1000:^13.1f}|{e1000:^13.3E}" +
           f"|{.9*v1000:^13.1f}|{b1000:^13.3f}|{n1000:^13.3f}|")
+
+
+def illustrate_scaling():
+    '''
+    Create a set of plots that illustrate how IMF is scaled.
+    '''
+
+    import sys
+    import os
+
+    from spacepy.plot import style, applySmartTimeTicks
+    from spacepy.pybats import ImfInput
+    style()
+
+    sys.path.append('../../SEA_drivers')
+    from process_drivers import scale_imf, smooth_imf
+
+    plotvars = [['bx', 'by'], 'bz', 'v', 'n']
+    colors = ['grey', 'C2', 'C3', 'C4']
+    labels = ['$nT$', 'IMF B$_Z$ ($nT$)',
+              r'V$_{SW}$ ($km/s$)', r'$\rho$ ($cm^{-3}$)']
+    rise, fall = 15, 720
+
+    if not os.path.exists('./imf_SH_median_smoothed.dat'):
+        # Open base data, apply some smoothing:
+        vsmooth = ['n', 't', 'ux', 'bx', 'by', 'bz']
+        path = '../../SEA_drivers/sea_fullmin2023/'
+        imf_medi = smooth_imf(path + '/imf_SH_median.dat', vsmooth, window=15)
+
+        imf_medi.attrs['file'] = './imf_SH_median_smoothed.dat'
+        imf_medi.write()
+
+    imf_medi = ImfInput('./imf_SH_median_smoothed.dat')
+
+    fig1 = imf_medi.quicklook(title='SEA Medians', plotvars=plotvars)
+    fig1.tight_layout()
+    fig1.savefig('scaledemo_SEA_medians.png')
+
+    # Set key dates for amplification
+    start = dt.datetime(2000, 1, 1, 8, 15, 0)
+    stop = dt.datetime(2000, 1, 1, 21, 0, 0)
+
+    # T&L 2014 scaling factors:
+    factors = {'ux': 4.05, 'uy': 4.05, 'uz': 4.05, 'n': 1.5,
+               'bx': 7.381, 'by': 7.381, 'bz': 7.381, 't': 4}
+
+    # Perform scaling:
+    imf, scale = scale_imf(imf_medi, start, stop, rise, fall, amp=factors)
+    scale['v'] = scale['ux']
+
+    # Plot scaling:
+    fig2, axes = plt.subplots(4, 1, figsize=fig1.get_size_inches(), sharex=True)
+    for i, ax in enumerate(axes):
+        if i == 0:
+            ax.plot(imf['time'], scale['bx'], lw=2, label='IMF B$_X$')
+            ax.plot(imf['time'], scale['bx'], lw=2, label='IMF B$_Y$')
+            ax.legend(loc='best')
+        else:
+            ax.plot(imf['time'], scale[plotvars[i]], c=colors[i], lw=2)
+
+        ax.set_ylabel(labels[i], color=colors[i])
+
+    applySmartTimeTicks(axes[-1], imf['time'], dolabel=True)
+    axes[0].set_title('Dynamic Scaling')
+
+    fig2.tight_layout()
+    fig2.savefig('scaledemo_scale_curves.png')
+
+    fig3 = imf.quicklook(title='Scaled SEA Medians', plotvars=plotvars)
+    fig3.tight_layout()
+    fig3.savefig('scaledemo_final_result.png')
