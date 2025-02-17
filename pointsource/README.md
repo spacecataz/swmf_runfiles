@@ -25,3 +25,4 @@ User file command through `Config.pl` before recompiling.
 |-------|------|
 | PARAM.in_test | A single-CPU viable 2 minute test of the module. |
 | PARAM.in_UserRef | Reference file for comparison to a different User file. |
+| PARAM.in_SWPC_v2_init | Simple event simulation case for early simulation exercises. |

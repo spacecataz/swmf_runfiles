@@ -10,8 +10,8 @@ module ModUser
        IMPLEMENTED1  => user_action,                     &
        IMPLEMENTED2  => user_read_inputs,                &
        IMPLEMENTED3  => user_init_session,               &
-       IMPLEMENTED4  => user_calc_sources_expl,          &
-       IMPLEMENTED5  => user_calc_sources_impl
+       IMPLEMENTED4  => user_calc_sources_expl ! ,          &
+       ! IMPLEMENTED5  => user_calc_sources_impl
 
   use BATL_lib, ONLY: &
        test_start, test_stop, &
@@ -126,71 +126,71 @@ contains
     call test_stop(NameSub, DoTest)
   end subroutine user_init_session
   !============================================================================
-
-  subroutine user_calc_sources_impl(iBlock)
-
-    use ModMain,       ONLY: nI, nJ, nK, tSimulation
-    use ModAdvance,    ONLY: State_VGB, Source_VC, p_, Rho_
-    use ModGeometry,   ONLY: Xyz_DGB
-    use ModPhysics,    ONLY: Si2No_V, UnitRho_, UnitP_
-
-    integer, intent(in) :: iBlock
-
-    integer :: iPoint, i, j, k
-
-    ! Local source arrays
-    real, dimension(1:nI,1:nJ,1:nK) :: SRho_C, SP_C
-    real :: distNow_D(3), distSource=0, gauss
-
-    logical :: DoTestCell
-
-    logical:: DoTest
-    character(len=*), parameter:: NameSub = 'user_calc_sources_impl'
-    !--------------------------------------------------------------------------
-    call test_start(NameSub, DoTest, iBlock)
-    write(*,*) NameSub // ' has been called.'
-    if(.not.UsePointSource)return
-
-    !! Set the source arrays for this block to zero
-    SRho_C = 0.
-    SP_C = 0.
-
-    do iPoint=1, nPointSource
-        ! Check time to see if source is active.
-        ! HERE!
-
-        ! Calculate source:
-        do k=1,nK; do j=1,nJ; do i=1,nI
-           ! For each point, get distance from point.
-           distNow_D = Xyz_DGB(:, i, j, k, iBlock) - XyzSource_DI(:, iPoint)
-           distSource = sum((distNow_D)**2)
-
-           if (sqrt(distSource)>5.) cycle
-
-           write(*,'(a,3f10.4,a,f10.4)') ' XYZ=', Xyz_DGB(:, i, j, k, iBlock), &
-               'dist = ', sqrt(distSource)
-
-           gauss = (1/sqrt(2*cPi*rspread)) * exp(-1*distSource/(2*rspread**2))
-           write(*,'(a,e12.7)') 'gauss=', gauss
-
-           ! Apply source as Gaussian about central point.
-           SRho_C(i,j,k) = SRho_C(i,j,k) + &
-           Amplitude_I(iPoint)*(1/sqrt(2*cPi*rspread)) * &
-           exp(-1*distSource/(2*rspread**2)) * SI2No_V(UnitRho_)
-         end do; end do; end do
-    end do
-
-    ! Apply sources to Source_VC
-    do k=1,nK; do j=1,nJ; do i=1,nI
-       Source_VC(Rho_,i,j,k) = SRho_C(i,j,k) + &
-            Source_VC(Rho_,i,j,k)
-       !Source_VC(p_,i,j,k) = SP_C(i,j,k) + &
-       !     Source_VC(p_,i,j,k)
-    end do;  end do;  end do
-
-    call test_stop(NameSub, DoTest, iBlock)
-
-  end subroutine user_calc_sources_impl
+!
+!   subroutine user_calc_sources_impl(iBlock)
+!
+!     use ModMain,       ONLY: nI, nJ, nK, tSimulation
+!     use ModAdvance,    ONLY: State_VGB, Source_VC, p_, Rho_
+!     use ModGeometry,   ONLY: Xyz_DGB
+!     use ModPhysics,    ONLY: Si2No_V, UnitRho_, UnitP_
+!
+!     integer, intent(in) :: iBlock
+!
+!     integer :: iPoint, i, j, k
+!
+!     ! Local source arrays
+!     real, dimension(1:nI,1:nJ,1:nK) :: SRho_C, SP_C
+!     real :: distNow_D(3), distSource=0, gauss
+!
+!     logical :: DoTestCell
+!
+!     logical:: DoTest
+!     character(len=*), parameter:: NameSub = 'user_calc_sources_impl'
+!     !--------------------------------------------------------------------------
+!     call test_start(NameSub, DoTest, iBlock)
+!     write(*,*) NameSub // ' has been called.'
+!     if(.not.UsePointSource)return
+!
+!     !! Set the source arrays for this block to zero
+!     SRho_C = 0.
+!     SP_C = 0.
+!
+!     do iPoint=1, nPointSource
+!         ! Check time to see if source is active.
+!         ! HERE!
+!
+!         ! Calculate source:
+!         do k=1,nK; do j=1,nJ; do i=1,nI
+!            ! For each point, get distance from point.
+!            distNow_D = Xyz_DGB(:, i, j, k, iBlock) - XyzSource_DI(:, iPoint)
+!            distSource = sum((distNow_D)**2)
+!
+!            if (sqrt(distSource)>5.) cycle
+!
+!            write(*,'(a,3f10.4,a,f10.4)') ' XYZ=', Xyz_DGB(:, i, j, k, iBlock), &
+!                'dist = ', sqrt(distSource)
+!
+!            gauss = (1/sqrt(2*cPi*rspread)) * exp(-1*distSource/(2*rspread**2))
+!            write(*,'(a,e12.7)') 'gauss=', gauss
+!
+!            ! Apply source as Gaussian about central point.
+!            SRho_C(i,j,k) = SRho_C(i,j,k) + &
+!            Amplitude_I(iPoint)*(1/sqrt(2*cPi*rspread)) * &
+!            exp(-1*distSource/(2*rspread**2)) * SI2No_V(UnitRho_)
+!          end do; end do; end do
+!     end do
+!
+!     ! Apply sources to Source_VC
+!     do k=1,nK; do j=1,nJ; do i=1,nI
+!        Source_VC(Rho_,i,j,k) = SRho_C(i,j,k) + &
+!             Source_VC(Rho_,i,j,k)
+!        !Source_VC(p_,i,j,k) = SP_C(i,j,k) + &
+!        !     Source_VC(p_,i,j,k)
+!     end do;  end do;  end do
+!
+!     call test_stop(NameSub, DoTest, iBlock)
+!
+!   end subroutine user_calc_sources_impl
   !============================================================================
   subroutine user_calc_sources_expl(iBlock)
 
