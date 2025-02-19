@@ -3,7 +3,6 @@ Name Root Last Stride nThread
 GM  0 -3 -1  -1		CompMap 0:nProc-3 multithreaded
 IE -2 -1  1  		CompMap last 2 PE-s
 IM -2 -2  1		CompMap nProc-2 PE
-RB -1 -1  1		CompMap nProc-1 PE
 
 #DESCRIPTION
 Testing the PointSource interface in a real run.
