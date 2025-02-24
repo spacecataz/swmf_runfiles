@@ -19,6 +19,19 @@ make SWMF PIDL
 If you need to change `ModUserPointSource.f90`, you need re-execute the
 User file command through `Config.pl` before recompiling.
 
+## Using the User Module
+The main command is `#POINTMASSSOURCE`, which works as follows:
+
+```
+#POINTMASSSOURCE
+T         UsePointSource
+1         nPointSource
+100.0     SourceAmplitude (AMU/cm^3)
+6.6       xPosition
+0.0       yPosition
+0.0       zPosition
+```
+
 ## List of PARAM files:
 
 | PARAM | Info |
