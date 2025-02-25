@@ -203,13 +203,17 @@ T			UseAccurateTrace
 
 #BEGIN_COMP IE ---------------------------------------------------------------
 
-#IONOSPHERE
-8                       TypeConductanceModel
-F                       UseFullCurrent
-F			            UseFakeRegion2
--1                      F107Flux
-1.0                     StarLightPedConductance
-0.25                    PolarCapPedConductance
+#BACKGROUNDCOND
+0.25            StarLightPedCond
+0.25            PolarCapPedCond
+
+#SOLAREUV
+T               DoUseSolarEUV
+100.0           F10.7
+
+#AURORA
+T               DoUseAurora
+MAGNIT          NameAurMod
 
 #BOUNDARY
 10.0			LatBoundary
