@@ -97,7 +97,9 @@ contains
                ! Convert to SI Units: amu/cm3 -> kg/m3
               Amplitude_I(i) = 1E6 * cProtonMass * Amplitude_I(i)
           end do
-
+         case("#POINTSPREAD")
+            call read_var('radSpread', rspread)
+            write(*,'(a, f8.3)') "POINTSOURCE: Using an rspread of ", rspread
        case('#USERINPUTEND')
           EXIT
        case default
