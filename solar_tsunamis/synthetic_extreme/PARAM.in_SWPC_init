@@ -1,11 +1,11 @@
 Name Root Last Stride nThread
-#COMPONENTMAP		
+#COMPONENTMAP
 GM  0 -3 -1  -1		CompMap 0:nProc-3 multithreaded
 IE -2 -1  1  		CompMap last 2 PE-s
 IM -2 -2  1		CompMap nProc-2 PE
 
 #DESCRIPTION
-A SWPC-like configuration for extreme simulations.		StringDescription
+A SWPC-like configuration for extreme simulations.
 
 #TIMEACCURATE
 F			IsTimeAccurate
@@ -95,14 +95,14 @@ box			StringShape
 #GRIDRESOLUTION
 1/8			Resolution
 shell0			StringShape
-1.75			RadiusInner
+1.5			RadiusInner
 3.5			Radius
 
 #BODY
-T			UseBody
-1.75			rBody     (in planet radius)
-2.25			rCurrents (in planet radius)
-28.0			BodyNDim  (/cc)
+T           UseBody
+1.5			    rBody     (in planet radius)
+2.0			    rCurrents (in planet radius)
+64.0			  BodyNDim  (/cc)
 25000.0			BodyTDim  (K)
 
 #OUTERBOUNDARY
@@ -118,9 +118,9 @@ ionosphere		TypeBcBody
 
 ! Set the inner boundary density as Rho0Cpcp + RhoPerCpcp*CPCP[keV]
 #CPCPBOUNDARY
-T			UseCpcpBc  (rest is read if true)
-28.0			Rho0Cpcp   [amu/cc]
-0.1			RhoPerCpcp [amu/cc / keV]
+T         UseCpcpBc  (rest is read if true)
+64.0			Rho0Cpcp   [amu/cc]
+0.22			RhoPerCpcp [amu/cc / keV]
 
 #SOLARWINDFILE
 T			UseSolarWindFile
@@ -322,20 +322,8 @@ z=0 MHD idl		StringPlot
 -1.0			DxSavePlot
 
 #BORIS
-T			UseBorisCorrection
-0.01			BorisClightFactor
-
-#REGION
-borisregion		NameRegion
-sphere tapered		StringShape
--4.0			xPosition
-0.0			yPosition
-0.0			zPosition
-14.0			Radius
-2.0			Taper
-
-#BORISREGION
-borisregion		NameBorisRegion
+T			    UseBorisCorrection
+0.005			BorisClightFactor
 
 #TIMESTEPPING
 1			nStage
