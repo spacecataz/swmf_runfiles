@@ -7,7 +7,11 @@ from glob import glob
 import numpy as np
 import matplotlib.pyplot as plt
 
-from spacepy.pybats import bats, parse_filename_time
+from spacepy.pybats import bats
+
+
+plt.style.use('fivethirtyeight')
+
 
 #  Physical Constants.
 re = 6378000  # Earth radii in meters.
@@ -47,7 +51,7 @@ def integrate_dens(mhd, res):
     '''
 
     # Volume of a single cell, in cm^3
-    vol = (res * re * 1000)**3
+    vol = (res * re * 100)**3
 
     # Integrate:
     protons = 0.0
@@ -74,3 +78,35 @@ def get_mass(res, s='GM/IO2/'):
         num[i], mass[i] = integrate_dens(mhd, res)
 
     return time, num, mass
+
+
+def plot_mass_change(res, s='GM/IO2/'):
+    '''
+    Given a test run, integrate and plot the change in mass and number
+    density.
+    '''
+
+    time, num, mass = get_mass(res, s=s)
+
+    dnum, dmass = num-num[0], mass-mass[0]
+
+    fig, (a1, a2) = plt.subplots(2, 1)
+
+    a1.plot(time, dnum)
+    a2.plot(time, dmass)
+    a1.set_ylabel(r'$\Delta N$ ($protons$)')
+    a2.set_ylabel(r'$\Delta m$ ($kg$)')
+    a2.set_xlabel('Run time ($s$)')
+    fig.tight_layout()
+
+
+def plot_mass_dens_2d(s='GM/IO2/'):
+    '''Plot all z=0 density slices.'''
+    files = glob(s + 'z*.out')
+
+    kwargs = {'add_cbar': True, 'zlim': [0.01, 10.], 'dolog': True}
+
+    for i, f in enumerate(files[1:]):
+        mhd = bats.Bats2d(f)
+        fig, ax, cnt, cbar = mhd.add_contour('x', 'y', 'rho', **kwargs)
+        ax.set_title(f'T={mhd.attrs["runtime"]:.2f}s')
