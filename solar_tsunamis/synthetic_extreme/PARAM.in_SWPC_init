@@ -174,7 +174,7 @@ single			TypeFileOut
 180			nSizeKpWindow [min]
 1 min			DtOutput      [sec]
 
-MAGNETOMETERGRID
+#MAGNETOMETERGRID
 1			nMagGridFile
 global real4		StrGridFileOut_I
 SMG			TypeCoordGrid_I
@@ -188,7 +188,7 @@ SMG			TypeCoordGrid_I
 20			DtSaveMagGrid_I
 
 Solar Tsunamis grid output:
-#MAGNETOMETERGRID
+MAGNETOMETERGRID
 1                       nMagGridFile
 global real8            TypeFileMagGrid
 GEO                     TypeCoordMagGrid
