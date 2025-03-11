@@ -187,6 +187,20 @@ SMG			TypeCoordGrid_I
 -1			DnSaveMagGrid_I
 20			DtSaveMagGrid_I
 
+Solar Tsunamis grid output:
+MAGNETOMETERGRID
+1                       nMagGridFile
+global real8            TypeFileMagGrid
+GEO                     TypeCoordMagGrid
+1440                    nLonMagGrid
+713                     nLatMagGrid
+0.                      LonMinMagGrid
+360.                    LonMaxMagGrid
+-89.                    LatMinMagGrid
+89.                     LatMaxMagGrid
+-1                      DnSaveMagGrid
+10.0                    DtSaveMagGrid
+
 #END_COMP GM -----------------------------------------------------------------
 
 #BEGIN_COMP IE ---------------------------------------------------------------
