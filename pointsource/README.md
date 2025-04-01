@@ -26,7 +26,7 @@ The main command is `#POINTMASSSOURCE`, which works as follows:
 #POINTMASSSOURCE
 T         UsePointSource
 1         nPointSource
-100.0     SourceAmplitude (AMU/cm^3)
+100.0     SourceAmplitude (AMU/cm^3/s)
 6.6       xPosition
 0.0       yPosition
 0.0       zPosition

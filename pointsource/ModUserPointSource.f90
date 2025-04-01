@@ -94,8 +94,8 @@ contains
               write(*,'(a,i02,a,e12.7,a,3f10.7)') 'Source #', i, &
                    ' Amplitude=', Amplitude_I(i), &
                    ' located at xyz=', XyzSource_DI(:, i)
-               ! Convert to SI Units: amu/cm3 -> kg/m3
-              Amplitude_I(i) = cProtonMass * Amplitude_I(i)
+               ! Convert to SI Units: amu/cm3/s -> kg/m3/s
+              Amplitude_I(i) = cProtonMass * 1.0E6 * Amplitude_I(i)
           end do
          case("#POINTSPREAD")
             call read_var('radSpread', rspread)
