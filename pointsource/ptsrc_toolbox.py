@@ -29,6 +29,30 @@ def plot_gaussian(rspread=1):
     plt.plot(dist, gauss(dist))
 
 
+def estimate_source(A=100, rspread=1, dx=0.5, npts=5):
+    '''
+    Estimate the source rate (#/s and kg/s) of a spacecraft of source rate
+    A (in protons per cubic centimeter per second) with a Gaussian spread of
+    `rspread` and grid size of `dx`.
+    '''
+
+    # Units! Constants!
+    vol = dx**3
+    A *= 1E6 * re**3  # protons/s/cm^3 to protons/s/RE^3
+
+    rate = 0
+    # Do a npts x npts grid:
+    half = (npts-1) // 2
+    for i in range(-half, half+1):
+        for j in range(-half, half+1):
+            d = np.sqrt(i**2 + j**2)
+            g = gauss(d, rspread=rspread)
+            # print(f"i, j = {i}, {j} -- d, gauss = {d:.3f}, {g:.3f}")
+            rate += g * A * vol
+
+    return rate, rate*mp
+
+
 def integrate_dens(mhd, res):
     '''
     Given a 3D file of *uniform* grid spacing, integrate mass density into
