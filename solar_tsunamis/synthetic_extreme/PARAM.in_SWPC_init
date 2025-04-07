@@ -174,7 +174,7 @@ single			TypeFileOut
 180			nSizeKpWindow [min]
 1 min			DtOutput      [sec]
 
-#MAGNETOMETERGRID
+MAGNETOMETERGRID
 1			nMagGridFile
 global real4		StrGridFileOut_I
 SMG			TypeCoordGrid_I
@@ -200,6 +200,21 @@ GEO                     TypeCoordMagGrid
 89.                     LatMaxMagGrid
 -1                      DnSaveMagGrid
 10.0                    DtSaveMagGrid
+
+SolarTsunamis low output
+#MAGNETOMETERGRID
+1			nMagGridFile
+global real8            TypeFileMagGrid
+GEO                     TypeCoordMagGrid
+360                    nLonMagGrid
+179                     nLatMagGrid
+0.                      LonMinMagGrid
+360.                    LonMaxMagGrid
+-89.                    LatMinMagGrid
+89.                     LatMaxMagGrid
+-1                      DnSaveMagGrid
+10.0                    DtSaveMagGrid
+
 
 #END_COMP GM -----------------------------------------------------------------
 
