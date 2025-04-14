@@ -156,13 +156,11 @@ VAR step date		StringLog
 dt rho mx my mz p bx by bz pmin pmax dst_sm cpcpn		NameLogVars
 3.0			StringLogRadii
 
-
 #DOAMR
 T			DoAmr
 100			DnAmr
 -1.0			DtAmr
 T			IsStrictAmr
-
 
 #MAGNETOMETER
 magin_GEM.dat		NameMagInputFile
