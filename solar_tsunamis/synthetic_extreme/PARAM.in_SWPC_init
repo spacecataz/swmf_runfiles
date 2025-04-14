@@ -219,11 +219,11 @@ GEO                     TypeCoordMagGrid
 #BEGIN_COMP IE ---------------------------------------------------------------
 
 #AURORA
-T		DoUseAurora
+T		    DoUseAurora
 CMEE		NameAurMod
 
 #SOLAREUV
-T		DoUseSolarEuv
+T		    DoUseSolarEuv
 255.0		F10.7
 
 #BOUNDARY
@@ -233,7 +233,7 @@ T		DoUseSolarEuv
 
 #STOP
 2500			MaxIter
--1.			TimeMax
+-1.			  TimeMax
 
 #RUN ##########################################################################
 
@@ -331,15 +331,15 @@ F			DoFixPolarRegion
 1e-5			pMinDim [nPa]
 
 #SAVEPLOT
-2			nPlotFile
+2			        nPlotFile
 y=0 MHD idl		StringPlot
--1			DnSavePlot
-20			DtSavePlot
--1.0			DxSavePlot
+-1			      DnSavePlot
+20			      DtSavePlot
+-1.0			    DxSavePlot
 z=0 MHD idl		StringPlot
--1			DnSavePlot
-20			DtSavePlot
--1.0			DxSavePlot
+-1			      DnSavePlot
+20			      DtSavePlot
+-1.0			    DxSavePlot
 
 #BORIS
 T			    UseBorisCorrection
@@ -377,12 +377,12 @@ max idl			StringPlot
 #END_COMP IE -----------------------------------------------------------------
 
 #ENDTIME
-2000			iYear
-01			iMonth
-02			iDay
-12			iHour
-02			iMinute
-00			iSecond
-0.0			FracSecond
+2000		  iYear
+01			  iMonth
+02			  iDay
+12			  iHour
+02			  iMinute
+00			  iSecond
+0.0			  FracSecond
 
 #END ############################################################
