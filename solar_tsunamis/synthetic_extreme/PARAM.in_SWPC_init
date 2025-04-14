@@ -172,18 +172,19 @@ single			TypeFileOut
 180			nSizeKpWindow [min]
 1 min			DtOutput      [sec]
 
-MAGNETOMETERGRID
-1			nMagGridFile
-global real4		StrGridFileOut_I
-SMG			TypeCoordGrid_I
-72			nGridLon_I
-35			nGridLat_I
-0.			GridLonMin_I
-360.			GridLonMax_I
--85.			GridLatMin_I
-85.			GridLatMax_I
--1			DnSaveMagGrid_I
-20			DtSaveMagGrid_I
+Low density output:
+#MAGNETOMETERGRID
+1               nMagGridFile
+global real4    StrGridFileOut_I
+SMG			        TypeCoordGrid_I
+72			        nGridLon_I
+35			        nGridLat_I
+0.			        GridLonMin_I
+360.		        GridLonMax_I
+-85.		        GridLatMin_I
+85.			        GridLatMax_I
+-1			        DnSaveMagGrid_I
+20			        DtSaveMagGrid_I
 
 Solar Tsunamis grid output:
 MAGNETOMETERGRID
