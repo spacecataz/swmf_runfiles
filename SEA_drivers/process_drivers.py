@@ -25,13 +25,32 @@ def smooth_imf(imffile, varlist=['ux'], do_write=False, window=31):
     The resulting data will be saved to a new file with `smooth{window}`
     appended to file name if the kwarg *do_write* is set to `True`.
 
-    The default action is to only smooth radial velocity.
+    Parameters
+    ----------
+    imffile : str or ImfFile object
+      The file or data to smooth.
+    varlist : list or True; defaults to ['ux']
+        Set the list of variables to smooth. If `True`, all variables will
+        be smoothed. The default action is to only smooth radial velocity.
+    do_write : bool, defaults to False
+        Toggle writing result to disk.
+    window : int, defaults to 31
+        Set size of smoothing window in number of entries. Must be an odd
+        number.
+
+    Returns
+    -------
+    imf : ImfFile object
+        Resulting IMF object.
     '''
 
     from scipy.signal import medfilt
 
     # If ImfInput is an existing object, just use it.  Else, open the data.
     imf = copy(imffile) if type(imffile) is ImfInput else ImfInput(imffile)
+
+    if varlist is True:
+        varlist = imf.attrs['var']
 
     for v in varlist:
         imf[v] = medfilt(imf[v], window)

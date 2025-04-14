@@ -13,6 +13,9 @@ each variable. Further work is in progress to alleviate this shortcoming.
 
 ## Existing Datasets
 
+The following folders contain already-processed, ready-to-use SEA mean and
+median input files.
+
 | Folder | Description |
 | ----------- | ----------- |
 | sea_original| Original data set as presented in JGR article.|
@@ -21,12 +24,14 @@ each variable. Further work is in progress to alleviate this shortcoming.
 
 ## Creating New Data Sets
 New SEA data sets come in Matlab `.mat` format. Organize them into folders
-named `MC`, `SH`, `CIR`, and `CME`. Then, run the `process_drivers.py` script
+named `MC`, `SH`, `CIR`, and `CME`. Then, run the `create_drivers.py` script
 to create mean and median files (if necessary) and create the IMF ascii files.
 The script will ask for the location of the above folders and ask if
 mean/median files need to be created.
 An option to create summary PNGs is available, the script will ask if you want
 summary plots.
+
+An example
 
 ## Recommended Settings & Considerations
 
