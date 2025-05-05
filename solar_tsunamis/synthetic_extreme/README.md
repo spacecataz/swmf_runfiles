@@ -80,6 +80,7 @@ PARAM setups are listed below with the following common settings:
 |--------------|-------------|
 |init/restart | File is either an initialization or restart |
 |SWPC          | SWPCv2-like configuration |
+|hires         | CUSIA-like ~8M cell, 1/16 RE MHD grid |
 
 | IMF File | Description |
 |--------------|-------------|
@@ -90,3 +91,7 @@ PARAM setups are listed below with the following common settings:
 |imf_unscaled_nt_model.dat | Random-forest recreation of Katus using Katus Bz, Vx. |
 |imf_scaled_rfr_model_slow.dat | Random-forest extreme event using TS-Katus Bz, Vx and a slow ramp-up |
 |imf_scaled_rfr_model.dat | Random-forest extreme event using TS-Katus Bz, Vx as inputs |
+
+## PARAM Changelog
+
+- May 2025: Hires added with additional IE settings to promote stable inner boundary response
