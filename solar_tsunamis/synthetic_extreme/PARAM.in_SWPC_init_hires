@@ -72,7 +72,7 @@ box         NameArea
  4.0        zMaxBox
 
 ! High res inner magnetosphere
- #GRIDRESOLUTION
+#GRIDRESOLUTION
 1/8          Resolution
 box          NameArea
 -10.0        xMinBox
@@ -83,7 +83,7 @@ box          NameArea
  10.0        zMaxBox
 
 ! Better res at geosync and near tail.
- #GRIDRESOLUTION
+#GRIDRESOLUTION
 1/4          Resolution
 box          NameArea
 -24.0        xMinBox
