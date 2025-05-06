@@ -202,7 +202,7 @@ F			DoFitCircle (read if UseAdvancedOval is true)
 #END_COMP IE -----------------------------------------------------------------
 
 #STOP
-700			MaxIter
+5000			MaxIter
 -1.			TimeMax
 
 #RUN ##########################################################################
@@ -211,48 +211,6 @@ F			DoFitCircle (read if UseAdvancedOval is true)
 
 #DOAMR
 F			      DoAmr
-
---------------Hall begin---------------
-#HALLRESISTIVITY
-T         UseHallResist
-16.0      HallFactorMax
-1.0       HallCmaxFactor  1.0 !!!
-
-#REGION
-box1          NameRegion
-box tapered   StringShape
--100          xMinBox
--30	          yMinBox
--20	          zMinBox
-0.0	          xMaxBox
-30	          yMaxBox
-20	          zMaxBox
-1             Taper
-
-#REGION
-sphere1           NameRegion
-sphere0 tapered		StringShape
-3                 Radius
-0.5               Taper
-
-#HALLREGION
-+box1 -sphere1		StringHallRegion
-
-#SEMIIMPLICIT
-T                 UseSemiImplicit
-resistivity		    TypeSemiImplicit
-
-#SEMIKRYLOV
-GMRES             TypeKrylov  (GMRES, BICGSTAB, CG)
-0.001             ErrorMaxKrylov
-100               MaxMatvecKrylov
-
-#SEMIPRECONDITIONER
-T                 DoPrecond (rest of parameters are read if true)
-MBILU             TypePrecond (MBILU, BILU, DILU, GS, BLOCKJACOBI, JACOBI, HYPRE)
-0.5               PrecondParam (0 to 1, read for MBILU preconditioner only)
-
---------------Hall end---------------
 
 #SCHEME
 2			      nOrder
@@ -267,7 +225,7 @@ mc3			    TypeLimiter
 #END_COMP GM -----------------------------------------------------------------
 
 #STOP
-3000			MaxIter
+10000			MaxIter
 -1.			  TimeMax
 
 #RUN ##########################################################################
@@ -339,6 +297,48 @@ F			DoFixPolarRegion
 #MINIMUMPRESSURE
 1e-5			pMinDim [nPa]
 
+--------------Hall begin---------------
+#HALLRESISTIVITY
+T         UseHallResist
+16.0      HallFactorMax
+1.0       HallCmaxFactor  1.0 !!!
+
+#REGION
+box1          NameRegion
+box tapered   StringShape
+-100          xMinBox
+-30	          yMinBox
+-20	          zMinBox
+0.0	          xMaxBox
+30	          yMaxBox
+20	          zMaxBox
+1             Taper
+
+#REGION
+sphere1           NameRegion
+sphere0 tapered		StringShape
+3                 Radius
+0.5               Taper
+
+#HALLREGION
++box1 -sphere1		StringHallRegion
+
+#SEMIIMPLICIT
+T                 UseSemiImplicit
+resistivity		    TypeSemiImplicit
+
+#SEMIKRYLOV
+GMRES             TypeKrylov  (GMRES, BICGSTAB, CG)
+0.001             ErrorMaxKrylov
+100               MaxMatvecKrylov
+
+#SEMIPRECONDITIONER
+T                 DoPrecond (rest of parameters are read if true)
+MBILU             TypePrecond (MBILU, BILU, DILU, GS, BLOCKJACOBI, JACOBI, HYPRE)
+0.5               PrecondParam (0 to 1, read for MBILU preconditioner only)
+
+--------------Hall end---------------
+
 #SAVEPLOT
 4               nPlotFile
 y=0 MHD idl     StringPlot
@@ -361,9 +361,9 @@ lcb nul tec     StringPlot  !last closed field line plots
 
 #BORIS
 T			    UseBorisCorrection
-0.01			BorisClightFactor
+0.02			BorisClightFactor
 
-#REGION
+REGION
 borisregion		    NameRegion
 sphere tapered		StringShape
 -4.0			        xPosition
@@ -372,12 +372,12 @@ sphere tapered		StringShape
 14.0			        Radius
 2.0			          Taper
 
-#BORISREGION
+BORISREGION
 borisregion		NameBorisRegion
 
 #TIMESTEPPING
 1			    nStage
-0.85			CflExpl
+0.60			CflExpl
 
 #END_COMP GM -----------------------------------------------------------------
 
