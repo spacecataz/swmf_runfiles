@@ -25,12 +25,34 @@ The main command is `#POINTMASSSOURCE`, which works as follows:
 ```
 #POINTMASSSOURCE
 T         UsePointSource
+360.      RateRotate [degrees/day]
 1         nPointSource
 100.0     SourceAmplitude (AMU/cm^3/s)
 6.6       xPosition
 0.0       yPosition
 0.0       zPosition
 ```
+
+If RateRotate is non-zero, spacecraft will rotate counter-clockwise about the
+z-axis. This is useful for setting geosynchronous spacecraft in the equatorial
+plane (RateRotate=360.).
+
+All sources can be time activated by setting `#POINTSTART` and `#POINTSTOP`.
+If either is not set, the corresponding start/stop time is not used.
+The commands work like `#STARTTIME`:
+
+```
+#POINTSTART
+2000			iYear
+   3			iMonth
+  21			iDay
+  10			iHour
+  45			iMinute
+   0			iSecond
+   0.0			FracSecond
+```
+
+
 
 ## List of PARAM files:
 
