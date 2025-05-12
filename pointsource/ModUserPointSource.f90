@@ -17,8 +17,10 @@ module ModUser
        test_start, test_stop, &
        iTest, jTest, kTest, iBlockTest, iProcTest, iVarTest, iProc
   ! use ModSize
-  use ModNumConst,  ONLY: cPi
-  use ModConst,     ONLY: cProtonMass
+  use CON_time,        ONLY: TimeStart, tSimulation
+  use ModTimeConvert,  ONLY: TimeType, time_int_to_real, time_real_to_int
+  use ModNumConst,     ONLY: cPi, cDegToRad
+  use ModConst,        ONLY: cProtonMass
 
   include 'user_module.h' ! list of public methods
 
@@ -28,12 +30,17 @@ module ModUser
   character (len=*), parameter :: NameUserModule = &
        'Point mass source; DTW 2024'
 
+  ! Timing Vars
+  type(TimeType) :: TimePointStart, TimePointStop, TimePointNow
+
   ! DTW Variable defs
   logical, save :: UsePointSource
   integer, save :: nPointSource = 0  ! Number of point sources.
   ! Location and amplitude of sources:
   real, allocatable, save :: Amplitude_I(:), XyzSource_DI(:,:)
+  real, allocatable, save :: AngleInit_I(:), RadPoint_I(:)
   real :: rspread = 1.0  ! Spread of gaussian in RE.
+  real :: raterot = 0.0  ! Rotation rate in rads/second
 
 contains
   !============================================================================
@@ -50,7 +57,8 @@ contains
     if(iProc==0)write(*,*) NameSub,' called with action ',NameAction
     select case(NameAction)
     case('initialize module')
-       ! Do shit here.
+       TimePointStart % iYear = -1
+       TimePointStop % iYear  = -1
     case('clean module')
        ! Do shit here.
     end select
@@ -63,7 +71,7 @@ contains
 
     character (len=100) :: NameCommand
 
-    real :: sourceAmplitude
+    real :: sourceAmplitude, FracSecond
     integer :: i
 
     logical:: DoTest
@@ -75,25 +83,61 @@ contains
        if(.not.read_line() ) EXIT
        if(.not.read_command(NameCommand)) CYCLE
        select case(NameCommand)
+       case("#POINTSTART")
+         call read_var('iYear',   TimePointStart % iYear)
+         call read_var('iMonth',  TimePointStart % iMonth)
+         call read_var('iDay',    TimePointStart % iDay)
+         call read_var('iHour',   TimePointStart % iHour)
+         call read_var('iMinute', TimePointStart % iMinute)
+         call read_var('iSecond', TimePointStart % iSecond)
+         FracSecond = TimePointStart % FracSecond ! set default value
+         call read_var('FracSecond', FracSecond)
+         TimePointStart % FracSecond = FracSecond
+         call time_int_to_real(TimePointStart)
+       case("#POINTSTOP")
+         call read_var('iYear',   TimePointStop % iYear)
+         call read_var('iMonth',  TimePointStop % iMonth)
+         call read_var('iDay',    TimePointStop % iDay)
+         call read_var('iHour',   TimePointStop % iHour)
+         call read_var('iMinute', TimePointStop % iMinute)
+         call read_var('iSecond', TimePointStop % iSecond)
+         FracSecond = TimePointStop % FracSecond ! set default value
+         call read_var('FracSecond', FracSecond)
+         TimePointStop % FracSecond = FracSecond
+         call time_int_to_real(TimePointStop)
        case("#POINTMASSSOURCE")
           call read_var('UsePointSource', UsePointSource)
           if(.not.UsePointSource)cycle
+          call read_var('RateRotate', raterot)
+          ! Convert units:
+          raterot = cDegToRad * raterot / (3600.*24.)
           call read_var('nPointSource', nPointSource)
           write(*,*) 'nPointSource = ', nPointSource
           ! Initialize arrays:
           allocate(XyzSource_DI(3, nPointSource))
           allocate(Amplitude_I(nPointSource))
+          allocate(AngleInit_I(nPointSource))
+          allocate(RadPoint_I(nPointSource))
           XyzSource_DI = 0
           Amplitude_I = 0
+          AngleInit_I = 0
+          RadPoint_I = 0
           write(*,*) "READING POINT SOURCE INFO"
           do i=1, nPointSource
               call read_var('SourceAmplitude', Amplitude_I(i))
               call read_var('xPosition', XyzSource_DI(1, i))
               call read_var('yPosition', XyzSource_DI(2, i))
               call read_var('zPosition', XyzSource_DI(3, i))
+              ! Set angle & radius:
+              RadPoint_I(i) = sqrt(XyzSource_DI(1, i)**2 + &
+                                   XyzSource_DI(2, i)**2)
+              AngleInit_I(i) = atan2(XyzSource_DI(2, i), XyzSource_DI(1, i))
               write(*,'(a,i02,a,e12.7,a,3f10.7)') 'Source #', i, &
                    ' Amplitude=', Amplitude_I(i), &
                    ' located at xyz=', XyzSource_DI(:, i)
+              write(*, '(a,f10.2,a,f10.2)') &
+                   '     Radius = ', RadPoint_I(i), &
+                   ' Angle = ', AngleInit_I(i) / cDegToRad
                ! Convert to SI Units: amu/cm3/s -> kg/m3/s
               Amplitude_I(i) = cProtonMass * 1.0E6 * Amplitude_I(i)
           end do
@@ -207,7 +251,7 @@ contains
 
      ! Local source arrays
      real, dimension(1:nI,1:nJ,1:nK) :: SRho_C, SP_C
-     real :: distNow_D(3), distSource=0
+     real :: distNow_D(3), distSource=0, angleNow
 
      logical :: DoTestCell
 
@@ -218,13 +262,34 @@ contains
 
      if(.not.UsePointSource)return
 
+     ! Update simulation time:
+     TimePointNow % Time = TimeStart % Time + tSimulation
+     call time_real_to_int(TimePointNow)
+     if(DoTest) write(*,*) NameSub, 'Time Now = ', TimePointNow % string
+
+     ! Check start/stop time. Return if outside applicable time.
+     if(TimePointStart % iYear > 0) then
+      if(TimePointNow % Time < TimePointStart % Time) then
+         if(DoTest) write(*,*) NameSub, ' no source applied -- too early.'
+         return
+      end if
+     end if
+     if(TimePointStop % iYear > 0) then
+      if(TimePointNow % Time > TimePointStop % Time)then
+         if(DoTest) write(*,*) NameSub, ' no source applied -- too late.'
+         return
+      end if
+     end if
+
      !! Set the source arrays for this block to zero
      SRho_C = 0.
      SP_C = 0.
 
      do iPoint=1, nPointSource
-         ! Check time to see if source is active.
-         ! HERE!
+         ! Update source location if rotation:
+         angleNow = AngleInit_I(iPoint) + tSimulation * raterot
+         XyzSource_DI(1, iPoint) = RadPoint_I(iPoint) * cos(angleNow)
+         XyzSource_DI(2, iPoint) = RadPoint_I(iPoint) * sin(angleNow)
 
          ! Calculate source:
          do k=1,nK; do j=1,nJ; do i=1,nI
