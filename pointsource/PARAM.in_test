@@ -309,6 +309,7 @@ borisregion		NameBorisRegion
 
 #POINTMASSSOURCE
 T         UsePointSource
+0.0       RateRotate
 1         nPointSource
 100.0     SourceAmplitude
 6.0       xPosition
