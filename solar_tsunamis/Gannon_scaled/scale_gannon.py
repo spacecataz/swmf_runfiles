@@ -28,7 +28,7 @@ start = dt.datetime(2024, 5, 10, 17, 14)
 stop = dt.datetime(2024, 5, 11, 18, 0)
 
 # Loop over series of factors; scale plot and save.
-for x in [1.5, 2, 5]:
+for x in [1.5, 2, 3, 5]:
     imf_ext, scale = scale_imf(imf, start, stop, 15, 720, amp=x)
     fig = imf_ext.quicklook(title=f'Gannon $\\times$ {x}', plotvars=plotvars)
 
