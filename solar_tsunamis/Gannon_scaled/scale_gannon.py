@@ -17,6 +17,9 @@ from process_drivers import scale_imf
 
 style()
 
+# SWITCH THIS TO SAVE OUTPUT!
+dosave = False
+
 # Variables to plot:
 plotvars = [['bx', 'by'], 'bz', 'v', 'n', 't']
 
@@ -32,6 +35,7 @@ for x in [1.5, 2, 3, 5]:
     imf_ext, scale = scale_imf(imf, start, stop, 15, 720, amp=x)
     fig = imf_ext.quicklook(title=f'Gannon $\\times$ {x}', plotvars=plotvars)
 
-    xstr = f"{x}".replace('.', 'p')
-    fig.savefig(f'imf_scaled_{xstr}.png')
-    imf_ext.write(f"imf_scaled_{xstr}.dat")
+    if dosave:
+        xstr = f"{x}".replace('.', 'p')
+        fig.savefig(f'imf_scaled_{xstr}.png')
+        imf_ext.write(f"imf_scaled_{xstr}.dat")
