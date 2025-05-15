@@ -127,7 +127,7 @@ T			                        UseSolarWindFile
 imf_G100_KatusMedian.dat			NameSolarWindFile
 
 #SCHEME
-1			nOrder
+1           nOrder
 Sokolov			TypeFlux
 
 #CONSERVATIVECRITERIA
@@ -353,24 +353,29 @@ T			    UseBorisCorrection
 
 #POINTMASSSOURCE
 T         UsePointSource
+360       RateRotate [deg/day]
 4         nPointSource
-360       RateRotation
-100.0     SourceAmplitude
+132.55    SourceAmplitude
 6.6       xPosition
 0.0       yPosition
 0.0       zPosition
-100.0     SourceAmplitude
+132.55    SourceAmplitude
 -6.6      xPosition
 0.0       yPosition
 0.0       zPosition
-100.0     SourceAmplitude
+132.55    SourceAmplitude
 0.0       xPosition
 6.6       yPosition
 0.0       zPosition
-100.0     SourceAmplitude
+132.55    SourceAmplitude
 0.0       xPosition
 -6.6      yPosition
 0.0       zPosition
+
+#POINTSPREAD
+0.25      RadSpread [RE]
+
+#
 
 #USERINPUTEND -------------------------------------
 
