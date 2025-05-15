@@ -162,7 +162,7 @@ T			DoAmr
 -1.0			DtAmr
 T			IsStrictAmr
 
-#MAGNETOMETER
+MAGNETOMETER
 magin_GEM.dat		NameMagInputFile
 single			TypeFileOut
 -1			DnOutput
@@ -173,7 +173,7 @@ single			TypeFileOut
 1 min			DtOutput      [sec]
 
 Low density output:
-MAGNETOMETERGRID
+#MAGNETOMETERGRID
 1                       nMagGridFile
 global real4            StrGridFileOut_I
 SMG			                TypeCoordGrid_I
@@ -201,7 +201,7 @@ GEO                     TypeCoordMagGrid
 10.0                    DtSaveMagGrid
 
 Solar Tsunamis low output
-#MAGNETOMETERGRID
+MAGNETOMETERGRID
 1			nMagGridFile
 global real8            TypeFileMagGrid
 GEO                     TypeCoordMagGrid
@@ -348,6 +348,31 @@ T			    UseBorisCorrection
 #TIMESTEPPING
 1			nStage
 0.85			CflExpl
+
+#USERINPUTBEGIN -----------------------------------
+
+#POINTMASSSOURCE
+T         UsePointSource
+4         nPointSource
+360       RateRotation
+100.0     SourceAmplitude
+6.6       xPosition
+0.0       yPosition
+0.0       zPosition
+100.0     SourceAmplitude
+-6.6      xPosition
+0.0       yPosition
+0.0       zPosition
+100.0     SourceAmplitude
+0.0       xPosition
+6.6       yPosition
+0.0       zPosition
+100.0     SourceAmplitude
+0.0       xPosition
+-6.6      yPosition
+0.0       zPosition
+
+#USERINPUTEND -------------------------------------
 
 #END_COMP GM -----------------------------------------------------------------
 

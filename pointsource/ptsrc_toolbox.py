@@ -53,6 +53,20 @@ def estimate_source(A=100, rspread=1, dx=0.5, npts=5):
     return rate, rate*mp
 
 
+def estimate_bw_rec(A=132.55, dx=0.25, rspread=0.25, nsat=4):
+    '''
+    A convenience function for calculating the values required to
+    achieve BW's recommendation of 124,100kg of mass over 12 hours.
+    '''
+
+    target = 124100 / (12*3600.)
+    print(f"Target value is {target:.5f}kg/s")
+    print(f"...or {target/nsat:.5f} per S/C")
+
+    print(f"Using A={A}, rspread={rspread}, and dx={dx}...")
+    rate, massrate = estimate_source(A, dx=dx, npts=15, rspread=rspread)
+    print(f"...we achieve a per-spacecraft outflow rate of {massrate:.5f}")
+
 def integrate_dens(mhd, res):
     '''
     Given a 3D file of *uniform* grid spacing, integrate mass density into
