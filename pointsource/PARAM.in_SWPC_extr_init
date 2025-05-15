@@ -375,7 +375,23 @@ T         UsePointSource
 #POINTSPREAD
 0.25      RadSpread [RE]
 
-#
+#POINTSTART
+2000		iYear
+01			iMonth
+01			iDay
+06			iHour
+00			iMinute
+00			iSecond
+0.0			FracSecond
+
+#POINTEND
+2000		iYear
+01			iMonth
+01			iDay
+18			iHour
+00			iMinute
+00			iSecond
+0.0			FracSecond
 
 #USERINPUTEND -------------------------------------
 
