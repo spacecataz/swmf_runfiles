@@ -10,16 +10,14 @@ A SWPC-like configuration for extreme simulations.
 #TIMEACCURATE
 F			IsTimeAccurate
 
-#IDEALAXES
-
 #STARTTIME
-2000		iYear
-01			iMonth
-01			iDay
-04			iHour
-00			iMinute
-00			iSecond
-0.0			FracSecond
+2024                    year
+05                      month
+10                      day
+11                      hour
+00                      minute
+00                      second
+0.0                     FracSecond
 
 #COMPONENT
 IM			NameComp
@@ -124,7 +122,7 @@ T         UseCpcpBc  (rest is read if true)
 
 #SOLARWINDFILE
 T			                        UseSolarWindFile
-imf_G100_KatusMedian.dat			NameSolarWindFile
+IMF_wind_propagated.dat 			NameSolarWindFile
 
 #SCHEME
 1           nOrder
@@ -149,12 +147,12 @@ T			UsePlotNameDateTime
 date			NameMaxTimeUnit
 
 #SAVELOGFILE
-T			DoSaveLogfile
+T			          DoSaveLogfile
 VAR step date		StringLog
--1			DnSaveLogfile
-5.0			DtSaveLogfile
+-1			        DnSaveLogfile
+5.0			        DtSaveLogfile
 dt rho mx my mz p bx by bz pmin pmax dst_sm cpcpn		NameLogVars
-3.0			StringLogRadii
+3.0			        StringLogRadii
 
 #DOAMR
 T			DoAmr
@@ -162,14 +160,14 @@ T			DoAmr
 -1.0			DtAmr
 T			IsStrictAmr
 
-MAGNETOMETER
+#MAGNETOMETER
 magin_GEM.dat		NameMagInputFile
-single			TypeFileOut
--1			DnOutput
-20			DtOutput
+single		      TypeFileOut
+-1			        DnOutput
+20			        DtOutput
 
 #GEOMAGINDICES
-180			nSizeKpWindow [min]
+180			  nSizeKpWindow [min]
 1 min			DtOutput      [sec]
 
 Low density output:
@@ -224,7 +222,7 @@ CMEE		NameAurMod
 
 #SOLAREUV
 T		    DoUseSolarEuv
-255.0		F10.7
+-1		F10.7
 
 #BOUNDARY
 10.0			LatBoundary
@@ -281,7 +279,7 @@ T			UseComp
 
 ! Allow GM/IM and IE run in parallel. #COMPONENTMAP has to be properly set!
 #COUPLEORDER
-5			nCouple
+5			    nCouple
 IE GM			NameSourceTarget
 IE IM			NameSourceTarget
 GM IE			NameSourceTarget
@@ -317,11 +315,11 @@ F			DoCoupleOnTime
 
 #IMCOUPLING
 20.0			TauCoupleIm
-T			DoImSatTrace
-T			DoCoupleImPressure
-T			DoCoupleImDensity
+T			    DoImSatTrace
+T			    DoCoupleImPressure
+T			    DoCoupleImDensity
 0.01			DensityCoupleFloor
-F			DoFixPolarRegion
+F			    DoFixPolarRegion
 
 ! Pressures below pMinDim are replaced with pMinDim.
 #MINIMUMPRESSURE
@@ -343,7 +341,7 @@ T			    UseBorisCorrection
 0.01			BorisClightFactor
 
 #TIMESTEPPING
-1			nStage
+1			    nStage
 0.85			CflExpl
 
 #USERINPUTBEGIN -----------------------------------
@@ -373,22 +371,22 @@ T         UsePointSource
 0.25      RadSpread [RE]
 
 #POINTSTART
-2000		iYear
-01			iMonth
-01			iDay
-06			iHour
-00			iMinute
-00			iSecond
-0.0			FracSecond
+2024                    year
+05                      month
+10                      day
+16                      hour
+00                      minute
+00                      second
+0.0                     FracSecond
 
 #POINTEND
-2000		iYear
-01			iMonth
-01			iDay
-18			iHour
-00			iMinute
-00			iSecond
-0.0			FracSecond
+2024                    year
+05                      month
+11                      day
+04                      hour
+00                      minute
+00                      second
+0.0                     FracSecond
 
 #USERINPUTEND -------------------------------------
 
@@ -420,12 +418,12 @@ max idl			StringPlot
 #END_COMP IE -----------------------------------------------------------------
 
 #ENDTIME
-2000		  iYear
-01			  iMonth
-02			  iDay
-12			  iHour
-02			  iMinute
-00			  iSecond
-0.0			  FracSecond
+2024                    year
+05                      month
+12                      day
+12                      hour
+00                      minute
+00                      second
+0.0                     FracSecond
 
 #END ############################################################

@@ -61,3 +61,7 @@ The commands work like `#STARTTIME`:
 | PARAM.in_test | A single-CPU viable 2 minute test of the module. |
 | PARAM.in_UserRef | Reference file for comparison to a different User file. |
 | PARAM.in_SWPC_v2_init | Simple event simulation case for early simulation exercises. |
+| PARAM.in_SWPC_extr_init | SWPC configured for an extreme event (1/100 year) |
+| PARAM.in_SWPC_gannon_init | SWPC configured for the Gannon 2024 event. |
+
+Note that the Gannon event requires `magin_GEM.dat` from the common file directory.
