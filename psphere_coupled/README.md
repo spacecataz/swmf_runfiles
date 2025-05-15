@@ -20,6 +20,10 @@ This is the proof-of-concept simulation for PS->GM coupling.  It is the same
 as PlasCirc_PoC except that PS is turned on and is coupling into one of
 the GM fluids.
 
+Note the PARAM.in.init file is for running reference simulations with no PS
+component and single fluid MHD. It was introduced in 2025 for follow-on
+analysis.
+
 ## SWMF Configuration:
 ```
 Config.pl -install=BATSRUS,DGCPM,Ridley_serial
@@ -39,28 +43,28 @@ plasmasphere material.
 
 ## Install Legacy Configuration
 After Noverber 8, 2021 updates were made to the SWMF which made it neccesary to use a legacy version to continue devleoping the GM-IM coupling.
-The following repositories must be cloned explicitly  
-Repository                    Branch Head  
-MSTEM-QUDA/SWMF               b46608d44daa197a91a2661daf045f18bbbbbf61  
-MSTEM-QUDA/util               9595434666951ec26493db2c45245ca1fc79ea02  
-MSTEM-QUDA/share              02c4cab7df3ba2a5fa4515ef0d05e466ac1fa815  
-MSTEM-QUDA/BATSRUS            d34938b7dc9e135aefa11bde35ad3bf4f8b2c4f7  
-MSTEM-QUDA/Ridley_serial      a4ac0f4689a5bf0fffbc566f4c444e5030c2dac2  
-mudtop/CIMI2 Branch: ReHpPs   
-  
-use git checkout to checkout the apporiate branch heads for the above repositories.  
+The following repositories must be cloned explicitly
+Repository                    Branch Head
+MSTEM-QUDA/SWMF               b46608d44daa197a91a2661daf045f18bbbbbf61
+MSTEM-QUDA/util               9595434666951ec26493db2c45245ca1fc79ea02
+MSTEM-QUDA/share              02c4cab7df3ba2a5fa4515ef0d05e466ac1fa815
+MSTEM-QUDA/BATSRUS            d34938b7dc9e135aefa11bde35ad3bf4f8b2c4f7
+MSTEM-QUDA/Ridley_serial      a4ac0f4689a5bf0fffbc566f4c444e5030c2dac2
+mudtop/CIMI2 Branch: ReHpPs
+
+use git checkout to checkout the apporiate branch heads for the above repositories.
 
 minor modification to file: GM/BATSRUS/src/ModAMR.f90 masked_amr_criteria -> is_masked_amr_criteria
-three refrences need to be replaced.  
+three refrences need to be replaced.
 a refrenece to CON_stop_simple must be removed from the preable of BATSRUS/srcBATL/BATL_geometry.f90
 two calls to CON_stop_simple must be edited to refer to CON_stop instead.
- 
+
 ### Macro for install Legacy SWMF into ./SWMF/
 ```
 git clone git@github.com:MSTEM-QUDA/SWMF.git
 cd SWMF/
 git clone git@github.com:MSTEM-QUDA/share.git
-git clone git@github.com:MSTEM-QUDA/util.git 
+git clone git@github.com:MSTEM-QUDA/util.git
 git clone git@github.com:MSTEM-QUDA/BATSRUS.git GM/BATSRUS
 git clone git@github.com:MSTEM-QUDA/Ridley_serial.git IE/Ridley_serial
 git clone git@github.com:mudtop/CIMI2.git IM/CIMI2
@@ -75,13 +79,13 @@ cd ../share/
 git checkout 02c4cab7df3ba2a5fa4515ef0d05e466ac1fa815
 cd ../GM/BATSRUS/
 git checkout d34938b7dc9e135aefa11bde35ad3bf4f8b2c4f7
-cd ../../IE/Ridley_serial 
+cd ../../IE/Ridley_serial
 git checkout a4ac0f4689a5bf0fffbc566f4c444e5030c2dac2
 cd ../../
 cp ../swmf_runfiles/psphere_coupled/ModEquationRecircPe.f90 GM/BATSRUS/srcEquation/
 ```
-Note the user must still edit the GM/BATSRUS/scr(BATL)/ModAMR(BATL_geometry).f90 files as described above. Also note there is an assumption that 
-the swmf_runfiles folder is located in the same directory which the SWMF will be placed. 
+Note the user must still edit the GM/BATSRUS/scr(BATL)/ModAMR(BATL_geometry).f90 files as described above. Also note there is an assumption that
+the swmf_runfiles folder is located in the same directory which the SWMF will be placed.
 
 ## SWMF Configuration:
 ```
