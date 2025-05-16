@@ -57,12 +57,26 @@ The values are summarized below:
 
 ## Model Setup & Code Configuration
 
+For default (SWPC configuration-like) setups, simply follow:
+
 ```
 git clone git@github.com:SWMFsoftware/SWMF.git
 
 ./Config.pl -install=BATSRUS,RCM2,Ridley_serial -compiler=[YOUR CHOICE]
 ./Config.pl -v=GM/BATSRUS,IE/Ridley_serial,IM/RCM2
 ./Config.pl -o=IE:g=181,361
+```
+
+Note an extra step required if using MAGNIT with electron pressure MHD:
+
+```
+./Config.pl -o=GM:e=MhdPe
+```
+
+Then, the usual:
+
+```
+make SWMF PIDL rundir
 ```
 
 ## Run Configurations
@@ -80,7 +94,8 @@ PARAM setups are listed below with the following common settings:
 |--------------|-------------|
 |init/restart | File is either an initialization or restart |
 |SWPC          | SWPCv2-like configuration |
-|hires         | CUSIA-like ~8M cell, 1/16 RE MHD grid |
+|hires         | CUSIA-like ~11M cell, 1/16 RE MHD grid |
+|magnit        | SWPCv2-like configuration with electron pressure and MAGNIT |
 
 | IMF File | Description |
 |--------------|-------------|
@@ -95,3 +110,4 @@ PARAM setups are listed below with the following common settings:
 ## PARAM Changelog
 
 - May 2025: Hires added with additional IE settings to promote stable inner boundary response
+- May 2025: Added first attempt at working MAGNIT params.
