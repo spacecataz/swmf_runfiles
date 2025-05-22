@@ -67,6 +67,7 @@ def estimate_bw_rec(A=132.55, dx=0.25, rspread=0.25, nsat=4):
     rate, massrate = estimate_source(A, dx=dx, npts=15, rspread=rspread)
     print(f"...we achieve a per-spacecraft outflow rate of {massrate:.5f}")
 
+
 def integrate_dens(mhd, res):
     '''
     Given a 3D file of *uniform* grid spacing, integrate mass density into
