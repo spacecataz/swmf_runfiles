@@ -12,12 +12,12 @@ Ideal substorm investigation -- base run	StringDescription
 F			IsTimeAccurate
 
 #STARTTIME
-2010			iYear
-04			iMonth
-04			iDay
+2017			iYear
+09			iMonth
+06			iDay
 19			iHour
-45			iMinute
-29			iSecond
+00			iMinute
+40			iSecond
 0.0			FracSecond
 
 #STRICT
@@ -36,7 +36,7 @@ IE			NameComp2
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-50000			MaxBlock
+5000			MaxBlock
 
 #GRID
 1			nRootBlock1
@@ -95,14 +95,14 @@ box			StringShape
 #GRIDRESOLUTION
 1/8			Resolution
 shell0			StringShape
-2.5			RadiusInner
+1.5			RadiusInner
 3.5			Radius
 
 #BODY
 T			UseBody
-2.5			rBody     (in planet radius)
-3.0			rCurrents (in planet radius)
-28.0			BodyNDim  (/cc)
+1.5			rBody     (in planet radius)
+2.0			rCurrents (in planet radius)
+100.0			BodyNDim  (/cc)
 25000.0			BodyTDim  (K)
 
 #OUTERBOUNDARY
@@ -116,13 +116,29 @@ float			TypeBc6
 #INNERBOUNDARY
 ionosphere		TypeBcBody
 
+! Set the inner boundary density as Rho0Cpcp + RhoPerCpcp*CPCP[keV]
+#CPCPBOUNDARY
+T         UseCpcpBc  (rest is read if true)
+100.0                   Rho0Cpcp   [amu/cc]
+0.22                    RhoPerCpcp [amu/cc / keV]
+
 #ELECTRONPRESSURERATIO
-1.624			ElectronTemperatureRatio
+1.6			ElectronTemperatureRatio
 1/7.8		        InnerBcPeRatio
+
+#ELECTRONENTROPY
+T			UseElectronEntropy
+F			UseElectronEnergy
 
 #SOLARWINDFILE
 T			UseSolarWindFile
 IMF.dat			NameSolarWindFile
+
+#MAGNETOMETER
+mags.dat		NameMagInputFile
+single			TypeFileOut
+-1			DnOutput
+10.0			DtOutput
 
 #SCHEME
 1			nOrder
@@ -164,18 +180,33 @@ T			IsStrictAmr
 180			nSizeKpWindow [min]
 1 min			DtOutput      [sec]
 
+SMU/L only output
 #MAGNETOMETERGRID
 1                       nMagGridFile
 global real8            StrGridFileOut_I
 SMG                     TypeCoordGrid_I
 90                     nGridLon_I
-86                     nGridLat_I
+41                     nGridLat_I
 0.                      GridLonMin_I
 360.                    GridLonMax_I
--85.                    GridLatMin_I
-85.                     GridLatMax_I
+40.                    GridLatMin_I
+80.                     GridLatMax_I
 -1                      DnSaveMagGrid_I
 60                      DtSaveMagGrid_I
+
+Solar Tsunamis Low Output
+MAGNETOMETERGRID
+1                       nMagGridFile
+global real8            TypeFileMagGrid
+GEO                     TypeCoordMagGrid
+360                     nLonMagGrid
+179                     nLatMagGrid
+0.                      LonMinMagGrid
+360.                    LonMaxMagGrid
+-89.                    LatMinMagGrid
+89.                     LatMaxMagGrid
+-1                      DnSaveMagGrid
+10.0                    DtSaveMagGrid
 
 #SUPERMAGINDICES
 T			DoWriteSupermagIndices
@@ -183,14 +214,6 @@ T			DoWriteSupermagIndices
 #TRACEIE
 T			DoRayTraceIE
 
-TRACE
-T			UseTrace
-T			UseAccurateTrace
-0.1			DtExchangeTrace
-1			DnTrace
-
-TRACEACCURACY
-1
 
 #END_COMP GM -----------------------------------------------------------------
 
@@ -202,20 +225,30 @@ TRACEACCURACY
 
 #SOLAREUV
 T			DoUseSolarEUV
-100.0			F10.7
+-1			F10.7
 
 #AURORA
 T			DoUseAurora
 MAGNIT			NameAurMod
 
-#SOLVER
-gmres
+#LOSSCONEFACTORS
+0.207			ConeEfluxDifp
+0.100			ConeNfluxDifp
+0.600 			ConeEfluxDife
+0.110 			ConeNfluxDife
+1.000 			ConeEfluxMono
+0.741 			ConeNfluxMono
+2.247 			ConeEfluxBbnd
+0.494 			ConeNfluxBbnd
+
+SOLVER
+bicgstab
 
 #KRYLOV
 T UsePreconditioner
 T UseInitialGuess
 0.01 Tolerance
-1500 MaxIteration
+600 MaxIteration
 
 #BOUNDARY
 10.0			LatBoundary
@@ -334,7 +367,7 @@ F			DoFixPolarRegion
 6                       nPlotFiles
 3d MHD idl              StringPlot
 -1                      DnSavePlot
-900.			DtSavePlot
+6000.			DtSavePlot
 -1
 y=0 MHD idl             StringPlot
 -1                      DnSavePlot
@@ -359,23 +392,11 @@ z=0 RAY idl             StringPlot
 
 #BORIS
 T			UseBorisCorrection
-0.01			BorisClightFactor
-
-#REGION
-borisregion		NameRegion
-sphere tapered		StringShape
--4.0			xPosition
-0.0			yPosition
-0.0			zPosition
-14.0			Radius
-2.0			Taper
-
-#BORISREGION
-borisregion		NameBorisRegion
+0.02			BorisClightFactor
 
 #TIMESTEPPING
 1			nStage
-0.85			CflExpl
+0.60			CflExpl
 
 #END_COMP GM -----------------------------------------------------------------
 
@@ -384,8 +405,8 @@ borisregion		NameBorisRegion
 ! Number density fractions for H+ and O+. Has to add up to 1.0
 #COMPOSITION
 FIXED			NameCompModel
-0.8			FractionH
-0.2			FractionO
+0.9			FractionH
+0.1			FractionO
 1.0 			FractionE
 
 ! Decay for RCM particle densities
@@ -397,10 +418,13 @@ T 			UseDecay
 max                     TypeBoundary
 
 #SAVEPLOT
-1                        nFilesPlot
+2                        nFilesPlot
 2d min idl               StringPlot
 -1                      DnSavePlot
 60                      iDtSavePlot [sec]
+2d mc1 idl		StringPlot
+-1     			DnSavePlot
+60			iDtSavePlot [sec]
 
 #END_COMP IM -----------------------------------------------------------------
 
@@ -415,12 +439,12 @@ max idl			StringPlot
 #END_COMP IE -----------------------------------------------------------------
 
 #ENDTIME
-2010			iYear
-04			iMonth
-06			iDay
+2017			iYear
+09			iMonth
+09			iDay
 00			iHour
-34			iMinute
-30			iSecond
+35			iMinute
+40			iSecond
 0.0			FracSecond
 
 #END ############################################################
