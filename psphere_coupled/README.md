@@ -35,6 +35,11 @@ cd PS
 git clone  http://github.com/SWMFsoftware/DGCPM.git
 ```
 
+Copy the equation file into BATS-R-US and activate:
+```
+cp [path to repository]/swmf_runfiles/psphere_coupled/ModEquationMultiSwIono.f90 GM/BATSRUS/srcEquation/
+```
+
 Next, install and configure as normal.
 ```
 Config.pl -install=BATSRUS,Ridley_serial
