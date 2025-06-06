@@ -25,8 +25,19 @@ component and single fluid MHD. It was introduced in 2025 for follow-on
 analysis.
 
 ## SWMF Configuration:
+
+Check out and install DGCPM into the PS directory (the `-install` option of
+`Config.pl` does not recognize DGCPM so this step must be run manually).
+
+From within the SWMF source directory:
 ```
-Config.pl -install=BATSRUS,DGCPM,Ridley_serial
+cd PS
+git clone  http://github.com/SWMFsoftware/DGCPM.git
+```
+
+Next, install and configure as normal.
+```
+Config.pl -install=BATSRUS,Ridley_serial
 Config.pl -v=GM/BATSRUS,IE/Ridley_serial,PS/DGCPM
 Config.pl -o=GM:e=MultiSwIono
 make SWMF PIDL
