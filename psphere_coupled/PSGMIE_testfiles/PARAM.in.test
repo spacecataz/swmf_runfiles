@@ -1,0 +1,329 @@
+#COMPONENTMAP
+GM 0 -1 -1 -1		CompMap
+IE 0 1 1		CompMap
+PS 0 1 1 		CompMap
+
+#ECHO
+T
+
+#DESCRIPTION
+Ideal test run for southward IMF, 450km/s solar wind
+
+#TIMEACCURATE
+T			DoTimeAccurate
+
+#STARTTIME
+2000		year
+01		    month
+01		    day
+00		    hour
+00		    minute
+00		    second
+0.0 		FracSecond
+
+#IDEALAXES
+
+#COMPONENT
+PS			NameComp
+T			UseComp
+
+#COUPLE2
+GM			NameComp1
+IE			NameComp2
+-1                      DnCouple
+5.0                     DtCouple
+
+#COUPLE1
+PS			NameComp1
+GM			NameComp2
+-1			DnCouple
+5.0			DtCouple
+
+#COUPLE1
+IE			NameComp1
+PS			NameComp2
+-1                      DnCouple
+5.0                    	DtCouple
+
+#BEGIN_COMP GM ---------------------------------------------------------------
+
+#GRIDBLOCKALL
+700			MaxBlock
+
+#GRID
+1			nRootBlock1
+1			nRootBlock2
+1			nRootBlock3
+-224.			xMin
+  32.			xMax
+-128.			yMin
+ 128.			yMax
+-128.			zMin
+ 128.			zMax
+
+#GRIDBLOCKALL
+700			MaxBlock
+
+#GRIDRESOLUTION
+2.0			Resolution
+initial			StringShape
+
+!refine inside 1.5*rcurrents, rcurrents = 3.5
+#GRIDRESOLUTION
+1/8			Resolution
+sphere0			StringShape
+ 5.25			Radius
+
+!refine inner magnetosphere
+#GRIDRESOLUTION
+1.0			Resolution
+sphere0			StringShape
+17.5			Radius
+
+!refine the magnetotail
+#GRIDRESOLUTION
+4.0			Resolution
+box			StringShape
+-224.0			xMinBox
+ -64.0			yMinBox
+ -64.0			zMinBox
+  32.0			xMaxBox
+  64.0			yMaxBox
+  64.0			zMaxBox
+
+#GRIDRESOLUTION
+2.0			Resolution
+box			StringShape
+ -96.0			xMinBox
+ -32.0			yMinBox
+ -32.0			zMinBox
+  32.0			xMaxBox
+  32.0			yMaxBox
+  32.0			zMaxBox
+
+#GRIDRESOLUTION
+1.0			Resolution
+box			StringShape
+ -48.0			xMinBox
+ -16.0			yMinBox
+ -16.0			zMinBox
+  32.0			xMaxBox
+  16.0			yMaxBox
+  16.0			zMaxBox
+
+#GRIDRESOLUTION
+1/2			Resolution
+box			StringShape
+ -32.0			xMinBox
+  -8.0			yMinBox
+  -8.0			zMinBox
+  32.0			xMaxBox
+   8.0			yMaxBox
+   8.0			zMaxBox
+
+#GRIDRESOLUTION
+1/4			Resolution
+box			StringShape
+ -32.0			xMinBox
+  -8.0			yMinBox
+  -4.0			zMinBox
+   8.0			xMaxBox
+   8.0			yMaxBox
+   4.0			zMaxBox
+
+
+!!! OLD GRID COMMANDS
+GRID
+1			nRootBlock_D(x_)
+1			nRootBlock_D(y_)
+1			nRootBlock_D(z_)
+-96.			x1
+ 32.			x2
+-64.			y1
+ 64.			y2
+-64.			z1
+ 64.			z2
+
+! Maximum resolution initially
+GRIDRESOLUTION
+2.0			Resolution
+initial			NameArea
+
+! Minimum resolution in the computational domain
+GRIDRESOLUTION
+8.0			Resolution
+all			NameArea
+
+GRIDRESOLUTION
+1/4			    Resolution
+sphere0			StringShape
+6   			Radius
+
+!refine inner magnetosphere
+GRIDRESOLUTION
+1.0			Resolution
+sphere0			StringShape
+17.5			Radius
+
+!refine the magnetotail
+GRIDRESOLUTION
+4.0			Resolution
+box			StringShape
+-96.0			xMinBox
+ -32.0			yMinBox
+ -32.0			zMinBox
+  32.0			xMaxBox
+  32.0			yMaxBox
+  32.0			zMaxBox
+
+!!!!! END GRID COMMANDS
+
+
+#NONCONSERVATIVE
+T                       UseNonConservative
+
+#CONSERVATIVECRITERIA
+1			    nConservCrit
+parabola		TypeConservCrit_I
+ 5.0			xParabolaConserv
+15.0			yParabolaConserv
+
+#TVDRESCHANGE
+T
+
+#TIMESTEPPING
+1			    nStage
+0.60			CflExlp
+
+#OUTERBOUNDARY
+outflow			TypeBC_I(east_)
+vary			TypeBC_I(west_)
+float			TypeBC_I(south_)
+float			TypeBC_I(north_)
+float			TypeBC_I(bot_)
+float			TypeBC_I(top_)
+
+#INNERBOUNDARY
+polarwind
+
+#SCHEME
+1			    nOrder
+Rusanov			TypeFlux
+
+Standard MF setup.
+#MULTIION
+0.001                   LowDensityRatio
+1e-10                   LowPressureRatio
+F                       DoRestrictMultiIon
+
+Fast, phsyics-based cutoff u_counter
+#COLLISION
+-1.0                    CollisionCoefDim
+6.0e2                   TauCutOffDim [s]
+-1                      uCutOffDim [km/s] read if TauCutOffDim positive
+4                       nPowerCutOff read if TauCutOffDim positive
+
+#PLASMA
+1.0             FluidMass [amu]
+1.0             IonCharge [e]
+1.0             FluidMass [amu]
+1.0             IonCharge [e]
+0.2             ElectronTemperatureRatio
+
+#BODY
+T                       body1
+2.5                     Rbody
+3.0                     Rcurrents
+28.00                   Magneto_rho_dim (/ccm) density for fixed BC for rho_BLK
+25000.0                 Magneto_T_dim (K) temperature for fixed BC for P_BLK
+10.0                    Magneto_rho_dim (/ccm) density for fixed BC for rho_BLK
+25000.0                 Magneto_T_dim (K) temperature for fixed BC for P_BLK
+
+#POLARBOUNDARY
+28.0            PolarNDim [amu/cc] for fluid 1
+25000.0         PolarTDim [K]      for fluid 1
+0.0             PolarUDim [km/s]   for fluid 1
+0.01            PolarNDim [amu/cc] for fluid 2
+25000.0         PolarTDim [K]      for fluid 2
+0.0             PolarUDim [km/s]   for fluid 2
+15.            PolarLatitude [deg]
+
+#SAVEPLOT
+2			nPlotFile
+y=0 MHD idl		StringPlot
+-1			DnSavePlot
+30.			DtSavePlot
+-1.			DxSavePlot
+z=0 MHD idl		StringPlot
+-1			DnSavePlot
+30.			DtSavePlot
+-1.			DxSavePlot
+
+#SOLARWINDFILE
+T                       UseSolarWindFile
+imf_test.dat            NameSolarWindFile
+
+SOLARWIND
+5.0                     SwNDim  [n/cc]
+100000.0                SwTDim  [K]
+-400.0                  SwUxDim [km/s]
+0.0                     SwUyDim [km/s]
+0.0                     SwUzDim [km/s]
+0.0                     SwBxDim [nT]
+0.0                     SwByDim [nT]
+-10.0                   SwBzDim [nT]
+
+#PSCOUPLING
+20.0			TauCouplePs
+T			DoCouplePsPressure
+T			DoCouplePsDensity
+.1			DensityCoupleFloor
+
+#END_COMP GM -----------------------------------------------------------------
+
+#BEGIN_COMP IE ---------------------------------------------------------------
+
+
+
+#END_COMP IE -----------------------------------------------------------------
+
+#BEGIN_COMP PS ---------------------------------------------------------------
+
+#FILLING
+3.0			            EmptyPeriodClosed
+1.0     		        EmptyPeriodOpen
+1.5     		        FillDays
+2.0E12  		        FluxMax
+
+#TIMING
+5.0                     DtStep
+345600.0                MAX
+
+#OUTPUT
+F                       WriteStatic
+T                       WriteDynamic
+5.0                     OutputInterval
+SHORT                   OutputType
+DIPOLE                  MagneticType
+
+#MLTSLICE
+4			            nMltSlice
+5.0     		        DtMltSlice
+
+#LOG
+T                       WriteLogFile
+
+#GMCOUPLING
+2			            iGmFluidCouple
+1.0			            TempPlasma (eV)
+
+#END_COMP PS   ---------------------------------------------------------------
+
+#ENDTIME
+2000                    iYear
+01                      iMonth
+01                      iDay
+00                      iHour
+05                      iMinute
+00                      iSecond
+0.0                     FracSecond
