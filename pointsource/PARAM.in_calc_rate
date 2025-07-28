@@ -1,0 +1,145 @@
+Name Root Last Stride nThread
+#COMPONENTMAP		For nightly test
+GM  0 -1 -1 -1		CompMap 0:nProc-1 multithreaded
+IE -2 -1  1  		CompMap last 2 PE-s
+IM -2 -2  1		CompMap nProc-2 PE
+
+#DESCRIPTION
+Do a trivial box simulation to calculate the source rate.
+
+#TIMEACCURATE
+T			    IsTimeAccurate
+
+#STARTTIME
+2014			iYear
+04			iMonth
+10			iDay
+00			iHour
+00			iMinute
+00			iSecond
+0.0			FracSecond
+
+#COMPONENT
+IM			NameComp
+F			  UseComp
+
+#COMPONENT
+IE			NameComp
+F			  UseComp
+
+#PLANET
+NONE
+
+#BEGIN_COMP GM ---------------------------------------------------------------
+
+#GRIDBLOCKALL
+5000			MaxBlock
+
+#GRID
+1			nRootBlock1
+1			nRootBlock2
+1			nRootBlock3
+-8.			xMin
+ 8.			xMax
+-8.			yMin
+ 8.			yMax
+-8.			zMin
+ 8.			zMax
+
+! Maximum resolution initially
+#GRIDRESOLUTION
+0.5			    Resolution
+initial			StringShape
+
+! Minimum resolution in the computational domain
+#GRIDRESOLUTION
+0.5			Resolution
+all			StringShape
+
+#BODY
+F 			UseBody
+
+#OUTERBOUNDARY
+outflow			TypeBc1
+vary			  TypeBc2
+float			  TypeBc3
+float			  TypeBc4
+float			  TypeBc5
+float			  TypeBc6
+
+#SOLARWIND
+0.5          SwNDim [n/cc]
+100000.0      SwTDim [K]
+0.0           SwUxDim [km/s]
+0.0           SwUyDim [km/s]
+0.0           SwUzDim [km/s]
+0.0           SwBxDim [nT]
+0.0           SwByDim [nT]
+2.0           SwBzDim [nT]
+
+#DOAMR
+F			    DoAmr
+
+#SCHEME
+2			nOrder
+Sokolov			TypeFlux
+mc3			TypeLimiter
+1.2			LimiterBeta
+
+#TIMESTEPPING
+2			  nStage
+0.6			CflExpl
+
+#SAVEPLOT
+3                       nPlotFile
+y=0 MHD idl             StringPlot
+-1                      DnSavePlot
+5                       DtSavePlot
+-1.0                    DxSavePlot
+z=0 MHD idl             StringPlot
+-1                      DnSavePlot
+5                       DtSavePlot
+-1.0                    DxSavePlot
+3d MHD idl              StringPlot
+-1                      DnSavePlot
+5.                      DtSavePlot
+-1                      DxSavePlot
+
+#USERSWITCH
++Sexpl      StringSwitch
+
++Simpl   		StringSwitch
+
+#USERINPUTBEGIN -----------------------------------
+
+#POINTSPREAD
+0.25
+
+#POINTMASSSOURCE
+T         UsePointSource
+7776.0    RateRotate [deg/day]
+2         nPointSource
+1000.0     SourceAmplitude
+4.0       xPosition
+0.0       yPosition
+0.0       zPosition
+1000.0     SourceAmplitude
+-4.0       xPosition
+0.0       yPosition
+0.0       zPosition
+
+#USERINPUTEND -------------------------------------
+
+
+#END_COMP GM -----------------------------------------------------------------
+
+#ENDTIME
+2014			iYear
+04			iMonth
+10			iDay
+00			iHour
+10			iMinute
+00			iSecond
+0.0			FracSecond
+
+#END ############################################################
