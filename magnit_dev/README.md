@@ -1,7 +1,8 @@
 The two PARAMs in this file should work for electron pressure MAGNIT runs.
 
-"init_MAGNIT_SWPC" uses the default configuration of resolutions, while "init_MAGNIT_storm" pushes the inner boundary to 1.5 Re.
-As a result, the former runs at around 3x real time on 500 CPUs, while the latter runs at around 1.5x real time, as other corrections have to be made to prevent crashes near the inner boundary.
+This folder has been updated to just contain the current verified standard configuration run with an inner boundary of 2.0.
+This is the PARAM.in.init_MAGNIT_Pe file. In addition, the provided IMF file is set up to work well with MAGNIT Pe.
+It contains propagated data from ACE for the Galaxy event, along with combined electron temperature information from WIND.
 
 To change your SWMF configuration to the configuration MAGNIT has been tested with, there are two options:
 - "make test_swpc_pe" will automatically change all parts of the configuration to be correct.
