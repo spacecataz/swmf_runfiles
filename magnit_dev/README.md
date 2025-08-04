@@ -14,3 +14,19 @@ Config.pl -o=IE:g=181,361
 ```
 
 If you have any questions/trouble, feel free to reach out to me at arigott@umich.edu
+
+## Notes on PARAM.in
+Outside of basic changes to output types/frequencies, the following changes
+have been made compared to the defacto standard SWPC PARAM input file:
+
+- Operational options are deactivated (e.g., `#CHECKTIMESTEP`, `#REFRESHSOLARWINDFILE`, etc.)
+- All RB-related commands are removed.
+- No `#STRICT`.
+- The MHD inner boundary has been reduced to 2.0 RE; $R_{currents}$ to 2.5. The 1/8 $R_E$ grid resolution region extends to 2.0 $R_E$.
+- The MHD IB density is increased to 40 $AMU/cm^3$.
+- `#CPCPBOUNDARY` has been removed.
+- Ridley_serial is configured to use MAGNIT, including changes to solver parameters.
+- RCM is configured to use a 90/10 H+/O+ ratio, max outer boundary location, and updated precipitation loss values.
+
+
+
