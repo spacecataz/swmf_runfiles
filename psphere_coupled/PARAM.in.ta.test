@@ -1,6 +1,11 @@
 #ECHO
 T
 
+#COMPONENTMAP                   For 128+ cores like production run
+IE      0       1       1
+GM      6       -1      -1      -1
+IM      2       5       1
+
 #INCLUDE
 RESTART.in
 
@@ -56,13 +61,14 @@ F			DoCoupleOnTime
 
 #BEGIN_COMP GM ---------------------------------------------------------------
 
+INCLUDE
+RESTART_n005001/GM/restart.H
+
+
+INCLUDE
+RESTART_t0007.5000h/GM/restart.H
+
 #INCLUDE
-RESTART_n005000/GM/restart.H
-
-INCLUDE
-RESTART_t0009.0000h/GM/restart.H
-
-INCLUDE
 GM/restartIN/restart.H
 
 
@@ -306,6 +312,10 @@ POLARBOUNDARY
 0.0             PolarUDim [km/s]   for fluid 2
 15.             PolarLatitude [deg]
 
+#GEOMAGINDICES
+180		nSizeKpWindow [min]
+60.0		DtOutput
+
 #INCLUDE
 ./sat.include
 
@@ -320,9 +330,9 @@ imf_mf_bzturn_by_test.dat       UpstreamFileName
 #BEGIN_COMP IM ---------------------------------------------------------------
 
 INCLUDE
-RESTART_t0009.0000h/IM/restart.H
+RESTART_t0013.3333h/IM/restart.H
 
-INCLUDE
+#INCLUDE
 IM/restartIN/restart.H
 
 #COREPLASMASPHERE
@@ -343,6 +353,17 @@ T 			UseDecay
 #STRONGDIFFUSION
 F       UseStrongDiff
 
+#DIAGONALIZEDDIFFUSION
+T	UseDiagDiffusion
+
+#WAVES
+T			UseWaveDiffusion
+T			UseHiss
+T			UseChorus
+D_hiss_UCLA.dat		HissWavesD
+D_LBchorus_merge3.dat	CorusWavesD
+T			UseKpIndex
+
 #BMODEL
 MHD     NameModel
 
@@ -362,7 +383,7 @@ T			DoWritePrerunField
 T			DoWritePrerunField
 
 #SAVEPLOT
-1			nCIMIFileType
+4			nCIMIFileType
 2d both			StringPlot
 10.
 fls all			StringPlot
@@ -389,7 +410,7 @@ F			      DoSaveSeparateFiles
 INCLUDE
 RESTART_t0006.0000h/IE/restart.H
 
-#INCLUDE
+INCLUDE
 IE/restartIN/restart.H
 
 
@@ -426,13 +447,12 @@ T
 
 #END_COMP IE -----------------------------------------------------------------
 
-
 STOP
 -1
-60.0
+27000                1 hour
 
 #STOP
 -1
-39600.00
+57600               16 hours
 
 #END
