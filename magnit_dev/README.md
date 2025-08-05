@@ -15,7 +15,12 @@ Config.pl -o=IE:g=181,361
 
 If you have any questions/trouble, feel free to reach out to me at arigott@umich.edu
 
-## Notes on PARAM.in
+## Available PARAMs
+The following PARAMs simulate the April 2010 "Galaxy 15" super substorm event:
+- `PARAM.in.init_MAGNIT_pe` uses MAGNIT with electron pressure.
+- `PARAM.in.init_RLM` uses the Ridley Legacy conductance model.
+
+## Notes on PARAM.in Development
 Outside of basic changes to output types/frequencies, the following changes
 have been made compared to the defacto standard SWPC PARAM input file:
 
