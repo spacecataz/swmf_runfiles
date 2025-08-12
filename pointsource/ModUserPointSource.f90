@@ -34,7 +34,7 @@ module ModUser
   type(TimeType) :: TimePointStart, TimePointStop, TimePointNow
 
   ! DTW Variable defs
-  logical, save :: UsePointSource
+  logical, save :: UsePointSource=.false., DoDayOnly=.false.
   integer, save :: nPointSource = 0  ! Number of point sources.
   ! Location and amplitude of sources:
   real, allocatable, save :: Amplitude_I(:), XyzSource_DI(:,:)
@@ -141,9 +141,13 @@ contains
                ! Convert to SI Units: amu/cm3/s -> kg/m3/s
               Amplitude_I(i) = cProtonMass * 1.0E6 * Amplitude_I(i)
           end do
-         case("#POINTSPREAD")
+       case("#POINTSPREAD")
             call read_var('radSpread', rspread)
             write(*,'(a, f8.3)') "POINTSOURCE: Using an rspread of ", rspread
+       case("#POINTDAYSIDE")
+            call read_var('DoDayOnly', DoDayOnly)
+            write(*,'(a, L)') "POINTSOURCE: Is DaysideOnly active? ", &
+               DoDayOnly
        case('#USERINPUTEND')
           EXIT
        case default
@@ -290,6 +294,9 @@ contains
          angleNow = AngleInit_I(iPoint) + tSimulation * raterot
          XyzSource_DI(1, iPoint) = RadPoint_I(iPoint) * cos(angleNow)
          XyzSource_DI(2, iPoint) = RadPoint_I(iPoint) * sin(angleNow)
+
+         ! Check position for DoDaySide limits:
+         if ((XyzSource_DI(1, iPoint) <= 0) .and. DoDayOnly) continue
 
          ! Calculate source:
          do k=1,nK; do j=1,nJ; do i=1,nI
