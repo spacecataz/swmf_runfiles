@@ -57,6 +57,8 @@ The first fluid a combined solar/polar ion outflow fluid representing
 a "typical" MHD simulation.  The second fluid is for recirculating
 plasmasphere material.
 
+
+#MSTEM-QUDA doesn't exist anymore. Not sure if there is a way to get this particualar setup of the code anymore aside from passing around the copy on TACC
 ## Install Legacy Configuration
 After Noverber 8, 2021 updates were made to the SWMF which made it neccesary to use a legacy version to continue devleoping the GM-IM coupling.
 The following repositories must be cloned explicitly
@@ -76,8 +78,10 @@ a refrenece to CON_stop_simple must be removed from the preable of BATSRUS/srcBA
 two calls to CON_stop_simple must be edited to refer to CON_stop instead.
 
 ## SWMF Configuration:
+# SWMFsoftware
+If installing legacy version replace CIMI with CIMI2
 ```
-Config.pl -install=BATSRUS,CIMI2,Ridley_serial
+Config.pl -install=BATSRUS,CIMI,Ridley_serial
 Config.pl -v=GM/BATSRUS,IE/Ridley_serial,IM/CIMI
 cp [Path to this repository]/swmf_runfiles/psphere_coupled/ModEquationRecircPe.f90 [Path to SWMF install directory]/GM/BATSRUS/srcEquation/
 Config.pl -o=GM:e=RecircPe,IM:EarthReHpsH,GridExpanded
