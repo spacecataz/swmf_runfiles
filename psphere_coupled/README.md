@@ -91,7 +91,7 @@ make SWMF PIDL
 ```
 make clean
 ./Config.pl -uninstall
-./Config.pl -install
+./Config.pl -install=BATSRUS,CIMI,Ridley_serial
 ./Config.pl -v=GM/BATSRUS,IE/Ridley_serial,IM/CIMI
 ./Config.pl -o=GM:e=RecircPe,IM:EarthReHpsH,GridExpanded
 make SWMF PIDL
