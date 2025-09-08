@@ -7,6 +7,9 @@ IM -2 -2  1		CompMap nProc-2 PE
 #DESCRIPTION
 Test the point source user module.
 
+#TEST
+user_calc_sources_expl user_read_inputs
+
 #TIMEACCURATE
 F			IsTimeAccurate
 
@@ -182,7 +185,7 @@ Use defaults.
 #END_COMP IE -----------------------------------------------------------------
 
 #STOP
-200			MaxIter
+200			MaxIter  -- should be 200
 -1.			TimeMax
 
 #RUN ##########################################################################
@@ -205,7 +208,7 @@ mc3			TypeLimiter
 #END_COMP GM -----------------------------------------------------------------
 
 #STOP
-500		  MaxIter
+500		  MaxIter -- should be 500
 -1.			TimeMax
 
 #RUN ##########################################################################
@@ -315,6 +318,24 @@ T         UsePointSource
 6.0       xPosition
 0.0       yPosition
 0.0       zPosition
+
+#POINTSTART
+2014                    year
+04                      month
+10                      day
+00                      hour
+00                      minute
+30                      second
+0.0                     FracSecond
+
+#POINTSTOP
+2014                    year
+04                      month
+10                      day
+00                      hour
+01                      minute
+15                      second
+0.0                     FracSecond
 
 #USERINPUTEND -------------------------------------
 
