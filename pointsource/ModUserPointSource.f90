@@ -21,6 +21,7 @@ module ModUser
   use ModTimeConvert,  ONLY: TimeType, time_int_to_real, time_real_to_int
   use ModNumConst,     ONLY: cPi, cDegToRad
   use ModConst,        ONLY: cProtonMass
+  use ModUtilities,    ONLY: CON_set_do_test
 
   include 'user_module.h' ! list of public methods
 
@@ -34,7 +35,9 @@ module ModUser
   type(TimeType) :: TimePointStart, TimePointStop, TimePointNow
 
   ! DTW Variable defs
-  logical, save :: UsePointSource=.false., DoDayOnly=.false.
+  logical, save :: UsePointSource=.false., DoDayOnly=.true.
+  logical, save :: UsePointStart=.false., UsePointStop=.false.
+
   integer, save :: nPointSource = 0  ! Number of point sources.
   ! Location and amplitude of sources:
   real, allocatable, save :: Amplitude_I(:), XyzSource_DI(:,:)
@@ -57,8 +60,8 @@ contains
     if(iProc==0)write(*,*) NameSub,' called with action ',NameAction
     select case(NameAction)
     case('initialize module')
-       TimePointStart % iYear = -1
-       TimePointStop % iYear  = -1
+       if (.not. UsePointStart) TimePointStart % iYear = -1
+       if (.not. UsePointStop) TimePointStop % iYear  = -1
     case('clean module')
        ! Do shit here.
     end select
@@ -74,10 +77,11 @@ contains
     real :: sourceAmplitude, FracSecond
     integer :: i
 
-    logical:: DoTest
+    logical:: DoTest, DoTestMe
     character(len=*), parameter:: NameSub = 'user_read_inputs'
     !--------------------------------------------------------------------------
     call test_start(NameSub, DoTest)
+    call CON_set_do_test(NameSub, DoTest, DoTestMe)
 
     do
        if(.not.read_line() ) EXIT
@@ -94,6 +98,8 @@ contains
          call read_var('FracSecond', FracSecond)
          TimePointStart % FracSecond = FracSecond
          call time_int_to_real(TimePointStart)
+         UsePointStart = .true.
+
        case("#POINTSTOP")
          call read_var('iYear',   TimePointStop % iYear)
          call read_var('iMonth',  TimePointStop % iMonth)
@@ -105,6 +111,8 @@ contains
          call read_var('FracSecond', FracSecond)
          TimePointStop % FracSecond = FracSecond
          call time_int_to_real(TimePointStop)
+         UsePointStop = .true.
+
        case("#POINTMASSSOURCE")
           call read_var('UsePointSource', UsePointSource)
           if(.not.UsePointSource)cycle
@@ -259,28 +267,33 @@ contains
 
      logical :: DoTestCell
 
-     logical:: DoTest
+     logical:: DoTest, DoTestMe
      character(len=*), parameter:: NameSub = 'user_calc_sources_expl'
      !--------------------------------------------------------------------------
      call test_start(NameSub, DoTest, iBlock)
+     call CON_set_do_test(NameSub, DoTest, DoTestMe)
 
      if(.not.UsePointSource)return
 
      ! Update simulation time:
      TimePointNow % Time = TimeStart % Time + tSimulation
      call time_real_to_int(TimePointNow)
-     if(DoTest) write(*,*) NameSub, 'Time Now = ', TimePointNow % string
 
      ! Check start/stop time. Return if outside applicable time.
      if(TimePointStart % iYear > 0) then
-      if(TimePointNow % Time < TimePointStart % Time) then
-         if(DoTest) write(*,*) NameSub, ' no source applied -- too early.'
+      if(DoTest) then
+         write(*,*) NameSub, ': Checking time at T = ', TimePointNow % string
+         write(*,*) 'T_now, T_start, T_end = ', TimePointNow % Time, &
+            TimePointStart % Time, TimePointStop % Time
+      end if
+      if((TimePointNow % Time) .lt. (TimePointStart % Time)) then
+         if(DoTest) write(*,*) NameSub, ': no source applied -- too early.'
          return
       end if
      end if
      if(TimePointStop % iYear > 0) then
       if(TimePointNow % Time > TimePointStop % Time)then
-         if(DoTest) write(*,*) NameSub, ' no source applied -- too late.'
+         if(DoTest) write(*,*) NameSub, ': no source applied -- too late.'
          return
       end if
      end if
@@ -289,6 +302,7 @@ contains
      SRho_C = 0.
      SP_C = 0.
 
+     if(DoTest) write(*,*) NameSub, ': Timecheck passed. Applying all sources.'
      do iPoint=1, nPointSource
          ! Update source location if rotation:
          angleNow = AngleInit_I(iPoint) + tSimulation * raterot
