@@ -313,11 +313,18 @@ borisregion		NameBorisRegion
 #POINTMASSSOURCE
 T         UsePointSource
 0.0       RateRotate
-1         nPointSource
+2         nPointSource
 100.0     SourceAmplitude
 6.0       xPosition
 0.0       yPosition
 0.0       zPosition
+100.0     SourceAmplitude
+-6.0       xPosition
+0.0       yPosition
+0.0       zPosition
+
+#POINTDAYSIDE
+T         DoDayOnly
 
 #POINTSTART
 2014                    year
