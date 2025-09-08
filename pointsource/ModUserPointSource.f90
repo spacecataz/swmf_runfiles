@@ -310,7 +310,7 @@ contains
          XyzSource_DI(2, iPoint) = RadPoint_I(iPoint) * sin(angleNow)
 
          ! Check position for DoDaySide limits:
-         if ((XyzSource_DI(1, iPoint) <= 0) .and. DoDayOnly) continue
+         if ((XyzSource_DI(1, iPoint) <= 0) .and. DoDayOnly) cycle
 
          ! Calculate source:
          do k=1,nK; do j=1,nJ; do i=1,nI
