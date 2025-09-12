@@ -64,7 +64,7 @@ box			StringShape
 -100.0			xMinBox
  -16.0			yMinBox
  -16.0			zMinBox
-  32.0			xMaxBox
+  22.0			xMaxBox
   16.0			yMaxBox
   16.0			zMaxBox
 
@@ -100,7 +100,7 @@ shell0			StringShape
 T           UseBody
 1.75			    rBody     (in planet radius)
 2.25			    rCurrents (in planet radius)
-100.0			  BodyNDim  (/cc)
+64.0			  BodyNDim  (/cc)
 25000.0			BodyTDim  (K)
 
 #OUTERBOUNDARY
@@ -117,7 +117,7 @@ ionosphere		TypeBcBody
 ! Set the inner boundary density as Rho0Cpcp + RhoPerCpcp*CPCP[keV]
 #CPCPBOUNDARY
 T         UseCpcpBc  (rest is read if true)
-100.0			Rho0Cpcp   [amu/cc]
+64.0			Rho0Cpcp   [amu/cc]
 0.22			RhoPerCpcp [amu/cc / keV]
 
 #SOLARWINDFILE
@@ -216,9 +216,6 @@ GEO                     TypeCoordMagGrid
 
 #BEGIN_COMP IE ---------------------------------------------------------------
 
-#AURORA
-T		    DoUseAurora
-CMEE		NameAurMod
 
 #SOLAREUV
 T		    DoUseSolarEuv
@@ -352,32 +349,43 @@ T			    UseBorisCorrection
 #POINTMASSSOURCE
 T         UsePointSource
 360       RateRotate [deg/day]
-4         nPointSource
-132.55    SourceAmplitude
+6         nPointSource
+200	  SourceAmplitude
 6.6       xPosition
 0.0       yPosition
 0.0       zPosition
-132.55    SourceAmplitude
+200.0	  SourceAmplitude
+3.300     xPosition
+5.716  	  yPosition
+0.0	  zPosition
+200.00    SourceAmplitude
+-3.300    xPosition
+5.716     yPosition
+0.0	  xPosition
+200.00    SourceAmplitude
 -6.6      xPosition
 0.0       yPosition
 0.0       zPosition
-132.55    SourceAmplitude
-0.0       xPosition
-6.6       yPosition
+200.00    SourceAmplitude
+-3.300    xPosition
+-5.716    yPosition
 0.0       zPosition
-132.55    SourceAmplitude
-0.0       xPosition
--6.6      yPosition
+200.00    SourceAmplitude
+3.300     xPosition
+-5.716    yPosition
 0.0       zPosition
 
+#POINTDAYSIDE
+T	  DoDayOnly
+
 #POINTSPREAD
-0.25      RadSpread [RE]
+0.5      RadSpread [RE]
 
 #POINTSTART
 2024                    year
 05                      month
 10                      day
-16                      hour
+14                      hour
 00                      minute
 00                      second
 0.0                     FracSecond
@@ -416,7 +424,7 @@ T 			UseDecay
 1			nPlotFile
 max idl			StringPlot
 -1			DnSavePlot
-20			DtSavePlot
+60			DtSavePlot
 
 #END_COMP IE -----------------------------------------------------------------
 
