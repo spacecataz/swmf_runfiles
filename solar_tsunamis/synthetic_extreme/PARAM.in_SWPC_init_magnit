@@ -240,8 +240,18 @@ T		    DoUseSolarEuv
 #MAGNITPRECIPSMOOTHING
 T         UsePrecipSmoothing
 gaus      KernelType
-5         KernelSize
-1.0       KernelSpread
+7         KernelSize
+2.0       KernelSpread
+
+#LOSSCONEFACTORS
+0.207 		ConeEfluxDifp
+0.100 		ConeNfluxDifp
+0.600 		ConeEfluxDife
+0.110 		ConeNfluxDife
+1.000 		ConeEfluxMono
+0.741 		ConeNfluxMono
+2.247 		ConeEfluxBbnd
+0.494 		ConeNfluxBbnd
 
 #SOLVER
 bicgstab
