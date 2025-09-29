@@ -1,0 +1,307 @@
+Name Root Last Stride nThread
+#COMPONENTMAP
+GM  0 -3 -1  -1		CompMap 0:nProc-3 multithreaded
+IE -2 -1  1  		CompMap last 2 PE-s
+IM -2 -2  1		CompMap nProc-2 PE
+
+#INCLUDE
+RESTART.in
+
+#DESCRIPTION
+A SWPC-like configuration for extreme simulations.		StringDescription
+
+#TIMEACCURATE
+T			IsTimeAccurate
+
+#IDEALAXES
+
+#PROGRESS
+100			DnProgressShort
+1000			DnProgressLong
+
+#SAVERESTART
+T			DoSaveRestart
+-1			DnSaveRestart
+60 min			DtSaveRestart
+
+! On Pleiades, switch on MAKEDIR and switch off RESTARTOUTDIR
+MAKEDIR
+F			DoMakeDir
+
+#RESTARTOUTDIR
+SWMF_RESTART.YYYYMMDD_HHMMSS		NameRestartOutDir
+
+#COUPLEORDER
+5			nCouple
+IE GM			NameSourceTarget
+IE IM			NameSourceTarget
+GM IE			NameSourceTarget
+GM IM			NameSourceTarget
+IM GM			NameSourceTarget
+
+#COUPLE2
+GM			NameComp1
+IE			NameComp2
+-1			DnCouple
+5.0			DtCouple
+
+#COUPLE2
+IM			NameComp1
+GM			NameComp2
+-1			DnCouple
+10.0			DtCouple
+
+#COUPLE1
+IE			NameSource
+IM			NameTarget
+-1			DnCouple
+10.0			DtCouple
+
+#COUPLETIME
+GM			NameComp
+F			DoCoupleOnTime
+
+#UPDATEB0
+0.5			DtUpdateB0
+
+#BEGIN_COMP GM ---------------------------------------------------------------
+
+#INCLUDE
+GM/restartIN/restart.H
+
+#OUTERBOUNDARY
+outflow			TypeBc1
+vary			TypeBc2
+float			TypeBc3
+float			TypeBc4
+float			TypeBc5
+float			TypeBc6
+
+#INNERBOUNDARY
+ionosphere		TypeBcBody
+
+! Set the inner boundary density as Rho0Cpcp + RhoPerCpcp*CPCP[keV]
+#CPCPBOUNDARY
+T               UseCpcpBc  (rest is read if true)
+100.0           Rho0Cpcp   [amu/cc]
+0.22            RhoPerCpcp [amu/cc / keV]
+
+#ELECTRONPRESSURERATIO
+1.624           ElectronTemperatureRatio
+1/20            InnerBcPeRatio
+
+#SOLARWINDFILE
+T			                UseSolarWindFile
+imf_G100_KatusMedian.dat	NameSolarWindFile
+
+#MAGNETOMETER
+magin_GEM.dat		NameMagInputFile
+single			    TypeFileOut
+-1			        DnOutput
+20  			    DtOutput
+
+#GEOMAGINDICES
+180			nSizeKpWindow [min]
+1 min			DtOutput      [sec]
+
+Low density output:
+MAGNETOMETERGRID
+1                       nMagGridFile
+global real4            StrGridFileOut_I
+SMG			                TypeCoordGrid_I
+72			                nGridLon_I
+35			                nGridLat_I
+0.			                GridLonMin_I
+360.		                GridLonMax_I
+-85.		                GridLatMin_I
+85.			                GridLatMax_I
+-1			                DnSaveMagGrid_I
+20			                DtSaveMagGrid_I
+
+Solar Tsunamis grid output:
+MAGNETOMETERGRID
+1                       nMagGridFile
+global real8            TypeFileMagGrid
+GEO                     TypeCoordMagGrid
+1440                    nLonMagGrid
+713                     nLatMagGrid
+0.                      LonMinMagGrid
+360.                    LonMaxMagGrid
+-89.                    LatMinMagGrid
+89.                     LatMaxMagGrid
+-1                      DnSaveMagGrid
+10.0                    DtSaveMagGrid
+
+Solar Tsunamis low output
+#MAGNETOMETERGRID
+1			nMagGridFile
+global real8            TypeFileMagGrid
+GEO                     TypeCoordMagGrid
+360                     nLonMagGrid
+179                     nLatMagGrid
+0.                      LonMinMagGrid
+360.                    LonMaxMagGrid
+-89.                    LatMinMagGrid
+89.                     LatMaxMagGrid
+-1                      DnSaveMagGrid
+10.0                    DtSaveMagGrid
+
+#CONSERVATIVECRITERIA
+1			nConservCrit
+parabola		TypeConservCrit
+ 5.0			xParabolaConserv
+15.0			yParabolaConserv
+
+#IMCOUPLING
+20.0			TauCoupleIm
+T			DoImSatTrace
+T			DoCoupleImPressure
+T			DoCoupleImDensity
+0.01			DensityCoupleFloor
+F			DoFixPolarRegion
+
+! Pressures below pMinDim are replaced with pMinDim.
+#MINIMUMPRESSURE
+1e-5			pMinDim [nPa]
+1e-5			PeMinDim[nPa]
+
+#SAVELOGNAME
+F			UseLogNameStep
+T			UseLogNameDateTime
+
+#SAVEPLOTNAME
+F			UsePlotNameStep
+F			UsePlotNameTime
+T			UsePlotNameDateTime
+
+#PLOTFILENAME
+date			NameMaxTimeUnit
+
+#SAVELOGFILE
+T			DoSaveLogfile
+VAR step date		StringLog
+-1			DnSaveLogfile
+5.0			DtSaveLogfile
+dt rho mx my mz p bx by bz pmin pmax dst_sm cpcpn		NameLogVars
+3.0			StringLogRadii
+
+#SAVEPLOT
+2			    nPlotFile
+y=0 MHD idl		StringPlot
+-1			    DnSavePlot
+20			    DtSavePlot
+-1.0			DxSavePlot
+z=0 MHD idl		StringPlot
+-1			    DnSavePlot
+20			    DtSavePlot
+-1.0			DxSavePlot
+
+#SCHEME
+2			nOrder
+Sokolov		TypeFlux
+mc3			TypeLimiter
+1.2			LimiterBeta
+
+#BORIS
+T			    UseBorisCorrection
+0.01			BorisClightFactor
+
+#TIMESTEPPING
+1			    nStage
+0.85			CflExpl
+
+#TRACEIE
+T               DoRayTraceIE
+
+#END_COMP GM -----------------------------------------------------------------
+
+#BEGIN_COMP IM ---------------------------------------------------------------
+
+#RESTART
+T			DoRestart
+
+! Number density fractions for H+ and O+. Has to add up to 1.0
+#COMPOSITION
+FIXED			NameCompModel
+0.8			FractionH
+0.2			FractionO
+
+! Decay for RCM particle densities
+#DECAY
+T 			UseDecay
+10 hour			DecayTimescale
+
+#OUTERBOUNDARY
+max                     TypeBoundary
+
+#SAVEPLOT
+1                        nFilesPlot
+2d min idl               StringPlot
+-1                      DnSavePlot
+60                      iDtSavePlot [sec]
+
+#END_COMP IM -----------------------------------------------------------------
+
+#BEGIN_COMP IE ---------------------------------------------------------------
+
+#RESTART
+T                       DoRestart
+
+#AURORA
+T		      DoUseAurora
+MAGNIT		NameAurMod
+
+#BACKGROUNDCOND
+0.25			StarLightPedCond
+0.25			PolarCapPedCond
+
+#SOLAREUV
+T		    DoUseSolarEuv
+255.0		F10.7
+
+#MAGNITPRECIPSMOOTHING
+T         UsePrecipSmoothing
+gaus      KernelType
+7         KernelSize
+2.0       KernelSpread
+
+#LOSSCONEFACTORS
+0.207 		ConeEfluxDifp
+0.100 		ConeNfluxDifp
+0.600 		ConeEfluxDife
+0.110 		ConeNfluxDife
+1.000 		ConeEfluxMono
+0.741 		ConeNfluxMono
+2.247 		ConeEfluxBbnd
+0.494 		ConeNfluxBbnd
+
+#SOLVER
+bicgstab
+
+#KRYLOV
+T UsePreconditioner
+T UseInitialGuess
+0.01 Tolerance
+1500 MaxIteration
+
+#BOUNDARY
+10.0			LatBoundary
+
+#SAVEPLOT
+1			      nPlotFile
+max idl			StringPlot
+-1			    DnSavePlot
+20			    DtSavePlot
+
+#END_COMP IE -----------------------------------------------------------------
+
+#ENDTIME
+2000		iYear
+01			iMonth
+02			iDay
+12			iHour
+02			iMinute
+00			iSecond
+0.0			FracSecond
+
+#END ############################################################
