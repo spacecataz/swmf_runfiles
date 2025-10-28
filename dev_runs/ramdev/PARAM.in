@@ -5,6 +5,9 @@ Installation and configuration:
 >>> ./Config.pl -v=IM/RAM_SCB,GM/BATSRUS,IE/Ridley_serial
 >>> make
 
+You may need this, too on some linux systems:
+>>> ./Config.pl -o=IM:ncdf=/usr/
+
 #COMPONENTMAP           Map for local testing.
 GM  0 -1 -1 -1          CompMap 0:nProc-1 multithreaded
 IE -2 -1  1             CompMap last 2 PE-s
@@ -198,19 +201,19 @@ dt rho mx my mz p bx by bz pmin pmax dst_sm dstflx		NameLogVars
 0.0			                SwUzDim [km/s]
 0.0			                SwBxDim [nT]
 0.0			                SwByDim [nT]
--1.0			              SwBzDim [nT]
+-10.0			              SwBzDim [nT]
 
 #SAVEPLOT
 4			                  nPlotFile
-idl x=0 FUL			        StringPlot
+idl x=0 MHD			        StringPlot
 -1			                DnSavePlot
 5.			                DtSavePlot
 -1.0			              DxSavePlot
-idl y=0 FUL			        StringPlot
+idl y=0 MHD			        StringPlot
 -1			                DnSavePlot
 5.0			                DtSavePlot
 -1.0		                DxSavePlot
-idl z=0 FUL			        StringPlot
+idl z=0 MHD			        StringPlot
 -1			                DnSavePlot
 5.0			                DtSavePlot
 -1.0		                DxSavePlot
@@ -245,7 +248,7 @@ DIPL 			              NameBoundMag
 MAXW			              NameDistribution
 
 #EFIELD
-VOLS			              NameEfield
+SWMF			              NameEfield
 F			                  UseEfInd
 
 #OMNIFILE
