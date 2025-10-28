@@ -17,7 +17,9 @@ IM -2 -2  1             CompMap nProc-2 PE
 T
 
 #TEST
-IM_put_from_gm_line couple_gm_im IM_get_for_GM			StringTest
+couple_gm_im IM_get_for_gm			StringTest
+
+IM_put_from_gm_line
 
 #TIMEACCURATE
 T         DoTimeAccurate
@@ -248,7 +250,7 @@ DIPL 			              NameBoundMag
 MAXW			              NameDistribution
 
 #EFIELD
-SWMF			              NameEfield
+IESC			              NameEfield
 F			                  UseEfInd
 
 #OMNIFILE
