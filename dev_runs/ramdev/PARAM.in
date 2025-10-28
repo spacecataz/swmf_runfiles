@@ -1,0 +1,261 @@
+This PARAM.in is for use within the SWMF to test RAM-SCB & SWMF coupling.
+
+Installation and configuration:
+>>> ./Config.pl -install= -compiler=gfortran
+>>> ./Config.pl -v=IM/RAM_SCB,GM/BATSRUS,IE/Ridley_serial
+>>> make
+
+#COMPONENTMAP           Map for local testing.
+GM  0 -1 -1 -1          CompMap 0:nProc-1 multithreaded
+IE -2 -1  1             CompMap last 2 PE-s
+IM -2 -2  1             CompMap nProc-2 PE
+
+#ECHO
+T
+
+#TEST
+IM_put_from_gm_line couple_gm_im IM_get_for_GM			StringTest
+
+#TIMEACCURATE
+T         DoTimeAccurate
+
+#PROGRESS
+1			    DnShowProgressShort
+100			  DnShowProgressLong
+
+#DESCRIPTION
+Test for GM-IE-IM/RAM_SCB
+
+#PLANET
+EARTH			NamePlanet
+
+#SAVERESTART
+F			    DoSaveRestart
+
+#STARTTIME
+2013		  iYear
+03			  iMonth
+17			  iDay
+00			  iHour
+0			    iMinute
+0			    iSecond
+0.0			  FracSecond
+
+#COUPLE2
+GM			  NameComp1
+IE			  NameComp2
+-1			  DnCouple
+5.0			  DtCouple
+
+#COUPLE1
+IE			  NameComp1
+IM			  NameComp2
+-1			  DnCouple
+5.0			  DtCouple
+
+#COUPLE2
+GM			  NameComp1
+IM			  NameComp2
+-1        DnCouple
+5.0       DtCouple
+
+#COUPLETIME
+GM			  NameComp
+F			    DoCoupleOnTime
+
+#COUPLETIME
+IM			  NameComp
+F			    DoCoupleOnTime
+
+#BEGIN_COMP GM ----------------------------------------
+
+#GRIDBLOCKALL
+5000			MaxBlock
+
+#GRID
+1			    nRootBlockX
+1			    nRootBlockY
+1			    nRootBlockZ
+-32.0			xMin
+ 32.0			xMax
+-32.0			yMin
+ 32.0			yMax
+-32.0			zMin
+ 32.0			zMax
+
+!refine inside 1.5*rcurrents, rcurrents = 3.5
+#GRIDRESOLUTION
+1/8                     Resolution
+sphere0                 NameArea
+ 5.25                   rSphere
+
+!refine inner magnetosphere
+#GRIDRESOLUTION
+1.0                     Resolution
+sphere0                 NameArea
+17.5                    rSphere
+
+!refine the magnetotail
+#GRIDRESOLUTION
+4.0                     Resolution
+box                     NameArea
+-224.0                  xMinBox
+ -64.0                  yMinBox
+ -64.0                  zMinBox
+  32.0                  xMaxBox
+  64.0                  yMaxBox
+  64.0                  zMaxBox
+
+#GRIDRESOLUTION
+2.0                     Resolution
+box                     NameArea
+ -96.0                  xMinBox
+ -32.0                  yMinBox
+ -32.0                  zMinBox
+  32.0                  xMaxBox
+  32.0                  yMaxBox
+  32.0                  zMaxBox
+
+#GRIDRESOLUTION
+1.0                     Resolution
+box                     NameArea
+ -48.0                  xMinBox
+ -16.0                  yMinBox
+ -16.0                  zMinBox
+  32.0                  xMaxBox
+  16.0                  yMaxBox
+  16.0                  zMaxBox
+
+#GRIDRESOLUTION
+1/2                     Resolution
+box                     NameArea
+ -32.0                  xMinBox
+  -8.0                  yMinBox
+  -8.0                  zMinBox
+  32.0                  xMaxBox
+   8.0                  yMaxBox
+   8.0                  zMaxBox
+
+#GRIDRESOLUTION
+1/4                     Resolution
+box                     NameArea
+ -32.0                  xMinBox
+  -8.0                  yMinBox
+  -4.0                  zMinBox
+   8.0                  xMaxBox
+   8.0                  yMaxBox
+   4.0                  zMaxBox
+
+#GRIDRESOLUTION
+0.5			                Resolution
+initial			            StringArea
+
+#TIMESTEPPING
+1			                  nStage
+0.80			              CflExlp
+
+#SCHEME
+1			                  nOrder
+Rusanov			            TypeFlux
+
+#CONSERVATIVECRITERIA
+1			                  nConservCrit
+parabola	              TypeConservCrit
+ 5.0			              xParabolaConserv
+15.0			              yParabolaConserv
+
+#BODY
+T			                  UseBody
+2.5			                rBody     (in planet radius)
+3.0			                rCurrents (in planet radius)
+28.0			              BodyNDim  (/cc)
+25000.0			            BodyTDim  (K)
+
+#OUTERBOUNDARY
+outflow			            TypeBc1
+vary			              TypeBc2
+float			              TypeBc3
+float			              TypeBc4
+float			              TypeBc5
+float			              TypeBc6
+
+#INNERBOUNDARY
+ionosphere		          TypeBcBody
+
+#SAVELOGFILE
+T			                  DoSaveLogfile
+VAR step date		        StringLog
+-1			                DnSaveLogfile
+5.0			                DtSaveLogfile
+dt rho mx my mz p bx by bz pmin pmax dst_sm dstflx		NameLogVars
+3.0			                StringLogRadii
+
+#SOLARWIND
+5.0			                SwNDim  [n/cc]
+100000.0		            SwTDim  [K]
+-400.0			            SwUxDim [km/s]
+0.0			                SwUyDim [km/s]
+0.0			                SwUzDim [km/s]
+0.0			                SwBxDim [nT]
+0.0			                SwByDim [nT]
+-1.0			              SwBzDim [nT]
+
+#SAVEPLOT
+4			                  nPlotFile
+idl x=0 FUL			        StringPlot
+-1			                DnSavePlot
+5.			                DtSavePlot
+-1.0			              DxSavePlot
+idl y=0 FUL			        StringPlot
+-1			                DnSavePlot
+5.0			                DtSavePlot
+-1.0		                DxSavePlot
+idl z=0 FUL			        StringPlot
+-1			                DnSavePlot
+5.0			                DtSavePlot
+-1.0		                DxSavePlot
+idl eqr MHD			        StringPlot
+-1			                DnSavePlot
+5.0			                DtSavePlot
+20.0		                nRadius
+24.0		                nLon
+1.75		                RadiusMin
+6.5			                RadiusMax
+
+#END_COMP GM   ----------------------------------------
+
+#BEGIN_COMP IE ----------------------------------------
+
+#SAVEPLOT
+1			                  nPlotFile
+min idl			            StringPlot
+-1			                DnSavePlot
+10.0			              DtSavePlot
+
+#END_COMP IE   ----------------------------------------
+
+#BEGIN_COMP IM ----------------------------------------
+
+#VARIABLEDT
+T			                  DoVarDt
+
+#OUTERBOUNDARY
+SWMF			              NameBoundPlasma
+DIPL 			              NameBoundMag
+MAXW			              NameDistribution
+
+#EFIELD
+VOLS			              NameEfield
+F			                  UseEfInd
+
+#OMNIFILE
+omni.txt		            NameOmniFile
+
+#INDICES_FILE
+RamIndices.txt		      NameIndicesFile
+
+#END_COMP IM   ----------------------------------------
+
+#STOP
+-1			                MaxIter
+3600.0			              TimeMax
