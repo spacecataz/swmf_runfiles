@@ -17,7 +17,7 @@ IM -2 -2  1             CompMap nProc-2 PE
 T
 
 #TEST
-couple_gm_im IM_get_for_gm			StringTest
+couple_gm_im IM_get_for_gm GM_put_from_im			StringTest
 
 IM_put_from_gm_line
 
@@ -226,6 +226,14 @@ idl eqr MHD			        StringPlot
 24.0		                nLon
 1.75		                RadiusMin
 6.5			                RadiusMax
+
+#IMCOUPLING
+5.0                     TauCoupleIm
+F                       DoImSatTrace
+T                       DoCoupleImPressure
+T                       DoCoupleImDensity
+0.01                    DensityCoupleFloor
+F                       DoFixPolarRegion
 
 #END_COMP GM   ----------------------------------------
 
