@@ -33,6 +33,11 @@ The `imf*.dat` naming convention is,
 ...where `eventdate` should be `YYYYMMDD` and `source` should be omni, wind,
 ace, or dscovr.
 
+PARAM files include are named `PARAM.in_<RUN>_<STAGE>`
+
+- RUN: Components included (e.g., GMIMIE or GMIMIEUA)
+- STAGE: `init` (start from steady state up to event time) vs. `restart` (continue up to event time) vs. `event`(restart at event time with high cadence output).
+
 ## Events
 
 For each event, there are 3 start times:
@@ -41,6 +46,9 @@ realistic solution.
 - **SWMF Start**: At least 8 hours before the PMAF event.
 - **Event Start**: The time the PMAF begins
 The simulation is run for **2 hours** from the event start.
+
+PARAM files are set up for the Dec. 18th event by default.
+Change the start time and IMF file to customize for other events.
 
 #### Dec. 18th, 2017
 
