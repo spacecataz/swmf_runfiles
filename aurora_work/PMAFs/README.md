@@ -66,5 +66,12 @@ be found in the following publication:
 
 
 #### Jan. 3rd, 2020
+
+| GITM Start Time  | SWMF Start Time  | Event Start Time |
+|------------------|------------------|------------------|
+| 2020-01-02 00:30 | 2020-01-03 00:30 | 2020-01-03 08:30 |
+
+**Recommended Input: WIND** ACE data has no density information.
+
 This event occurs during especially strong IMF B$_Y$ and creates a poleward
 "flow" of aurora that is unique compared to typical PMAFs.
