@@ -1,0 +1,78 @@
+#SATELLITE
+19			nSatellite
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+orbits_jan2020/cluster1.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+orbits_jan2020/cluster2.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+orbits_jan2020/cluster3.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+orbits_jan2020/cluster4.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+orbits_jan2020/goes13.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+orbits_jan2020/goes14.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+orbits_jan2020/goes15.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+orbits_jan2020/goes16.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+orbits_jan2020/goes17.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+orbits_jan2020/geotail.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+orbits_jan2020/themisa.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+orbits_jan2020/themisb.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+orbits_jan2020/themisc.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+orbits_jan2020/themisd.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+orbits_jan2020/themise.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+orbits_jan2020/mms1.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+orbits_jan2020/mms2.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+orbits_jan2020/mms3.sat
+MHD RAY date time	StringSatellite
+-1			DnOutput
+15.0			DtOutput
+mms4.sat
