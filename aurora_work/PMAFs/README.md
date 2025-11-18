@@ -38,7 +38,7 @@ PARAM files include are named `PARAM.in_<RUN>_<STAGE>`
 - RUN: Components included (e.g., GMIMIE or GMIMIEUA)
 - STAGE: `init` (start from steady state up to event time) vs. `restart` (continue up to event time) vs. `event`(restart at event time with high cadence output).
 
-## Events
+## PMAF Events
 
 For each event, there are 3 start times:
 - **GITM Start**: 24 hours of time to wind up GITM to a
@@ -49,6 +49,8 @@ The simulation is run for **2 hours** from the event start.
 
 PARAM files are set up for the Dec. 18th event by default.
 Change the start time and IMF file to customize for other events.
+If spacecraft orbit files are available, add the contents of the `sats.include`
+file to the PARAM input.
 
 #### Dec. 18th, 2017
 
