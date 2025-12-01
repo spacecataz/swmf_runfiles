@@ -16,6 +16,27 @@ settings (with higher resolution IE at 181 lats, 361 lons)
 ./Config.pl -o=IE:g=181,361
 ```
 
+Installing GITM stand-alone:
+```
+git clone git@github.com:GITMCode/GITM.git
+./Config.pl -install -earth -compiler=[compliler name here]
+```
+
+Installing SWMF with GITM:
+```
+# From the SWMF install directory, bring in GITM.
+cd UA/
+git clone git@github.com:GITMCode/GITM.git
+cd GITM
+git switch SWMF
+cd ../..
+
+# Configure and install the SWMF with GITM:
+./Config.pl -install= -compiler=[compiler name here]
+./Config.pl -v=GM/BATSRUS,IE/Ridley_serial,IM/RCM2,UA/GITM
+./Config.pl -o=IE:g=181,361
+```
+
 
 ## Input Files & Events
 
@@ -77,3 +98,24 @@ be found in the following publication:
 
 This event occurs during especially strong IMF B$_Y$ and creates a poleward
 "flow" of aurora that is unique compared to typical PMAFs.
+
+## GITM Info
+Most of the tips & instructions are in the UAM file. There's a python command you can use to download the input IMF & AE data. This file will use FTA & weimer for aurora & potentials.
+
+things you'll need to change:
+- start/end dates, duh
+- resolution, unless debugging
+- outputs?
+- input files: IMF (mhd_indices), sme (sme_indices)
+- Fism year. File should be included in run/ already
+
+Some links:
+- more grid discussion: https://gitm.readthedocs.io/en/stable/common_inputs/#setting-the-grid
+- outputs: https://gitm.readthedocs.io/en/stable/outputs/
+    - the postprocess discussion is too new. On the swmf branch there is no post_process.py. Either get it (& pGITM.py) or just call ./pGITM over & over again
+
+
+Install instructions should be the same for swmf & main branch, except for specifying compiler when you ./Config.pl
+> use compiler=gfortran10 for versions 10+
+> compiler=gfortran for less than 9
+> compiler=intel or compiler=ifortmpif90 for intel. Depends on the machine
