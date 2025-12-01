@@ -1,0 +1,143 @@
+
+#DEBUG
+0           debug level (0 = no info, 10 = max info)
+0           cpu to watch
+60.0        dt between normal code output to stdout
+F           usebarriers - forces the code to stop and wait more often
+
+--------------------------------------------------------------------------
+Gitm can stop and start again:
+  - Writes files to UA/restartOUT
+  - Reads files from UA/restartIN
+  - Can mv out and link to that directory
+
+#RESTART
+F         Restart Code
+
+--------------------------------------------------------------------------
+start and end times:
+  - don't change start time on restart (code will set correct time!)
+
+#TIMESTART
+2020        year
+01          month
+02          day
+00          hour
+30          minute
+00          second
+
+#TIMEEND
+2020        year
+01          month
+03          day
+00          hour
+30          minute
+00          second
+
+--------------------------------------------------------------------------
+Set blocks in lon and lat.
+  - total cells in a direction = nBlocks (set here) x nCells (set in ModSize)
+  - res = (max - min) / num cells
+  - nCPUs = nBlocksLon x nBlocksLat (both set here)
+
+some examples (everything is lon x lat):
+4x1    deg = 200 procs. set these to 10,20 blocks
+5x1.25 deg = 128 procs. Set these to (8,16) blocks. This works well on 128 core nodes
+-> anything above ~6x2 is "good enough"
+-> we usually put 10,20 here for 4x1, fits on pleiades ivy nodes nicely
+-> I've started using newer machines w/ 128-core processors...
+--> for that, either do 5x1.25, or change src/ModSize.f90 to 9x5 and use 10x36 here, 360 procs
+    	(3 nodes x 120 cores)
+-> we rarely change src/ModSize since 9x9 is nice for dividing the grid
+
+#GRID
+2           number of blocks in longitude
+2           number of blocks in latitude
+-90.0       minimum latitude to model
+90.0        maximum latitude to model
+0.0         longitude start to model (set to 0.0 for whole Earth)
+0.0         longitude end to model (set to 0.0 for whole Earth)
+
+--------------------------------------------------------------------------
+Output file stuff
+
+#SAVEPLOTS
+3600.0    dt for writing restart files
+2         how many output files do you want
+3DALL     First output style
+60.0      dt for output (1 every 5 min)
+2DANC     etc...
+60.0
+
+
+------------ Drivers ------------
+
+Can download inputs to (gitm) IE from OMNIWeb using:
+srcPython/omni_download_write_swmf.py 20021221 20021222 -swmf -ae
+
+
+New auroral model from Wu and Ridley, which is driven by AU/AL/AE
+#FTAMODEL
+T           Use FTA model of the aurora
+
+
+#SME_INDICES
+ae_20200102.txt             SME Filename
+none                        onset time delay file
+T                           convert SME to Hemispheric Power
+
+
+This is the most common thing - specify an IMF file:
+#MHD_INDICES
+imf_wind_20200103.dat
+
+^^ this will use weimer by default
+
+
+#EUV_DATA
+T           Use FISM solar flux data
+UA/DataIn/FISM/fismflux_daily_2020.dat		# Just change year here
+
+^^ don't forget to change the year!
+
+---------------------------------------------------
+
+Below here you shouldn't need to change anything
+
+
+---------------------------------------------------
+
+Low-latitude dynamo. Uses IE potential as boundary, then smooths a bit:
+#DYNAMO
+T           UseDynamo
+45.0        DynamoHighLatBoundary
+500         nItersMax
+1.0         MaxResidual
+F           IncludeCowling
+40.0        LongitudinalAveraging
+F           UseNewTrace
+
+
+If this is before 2023-ish, f107 should work fine.
+If after, may need to update the file.
+
+#NGDC_INDICES
+UA/DataIn/f107.txt
+
+#APEX
+T
+
+-----------------------------------------------------------------
+- this makes initial cond's better:
+
+#MSISOBC
+T           Shift the [O] density at the lower boundary by 6 months
+0.0         change the obateness of the Earth by this percent (0 = none)
+
+--------------------------------------------------------------------------
+use "new" solver, for sure.
+
+#AUSMSOLVER
+T           Use AUSM+-up Solvers
+
+#END
