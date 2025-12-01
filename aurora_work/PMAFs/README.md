@@ -20,6 +20,7 @@ Installing GITM stand-alone:
 ```
 git clone git@github.com:GITMCode/GITM.git
 ./Config.pl -install -earth -compiler=[compliler name here]
+make
 ```
 
 Installing SWMF with GITM:
