@@ -254,7 +254,7 @@ T			                  DoVarDt
 
 #OUTERBOUNDARY
 SWMF			              NameBoundPlasma
-DIPL 			              NameBoundMag
+SWMF 			              NameBoundMag
 MAXW			              NameDistribution
 
 #EFIELD
