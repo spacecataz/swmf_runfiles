@@ -3,6 +3,9 @@
 '''
 Convert a heliospheric virtual satellite to a magnetospheric solar wind
 and IMF input file.
+
+This script assumes the units and configuration as provided by Dr. Manchester,
+Dec., 2025.
 '''
 
 from spacepy.pybats import ImfInput
