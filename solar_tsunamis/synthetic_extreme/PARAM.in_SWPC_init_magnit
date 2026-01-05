@@ -123,11 +123,14 @@ T         UseCpcpBc  (rest is read if true)
 0.22			RhoPerCpcp [amu/cc / keV]
 
 #ELECTRONPRESSURERATIO
-1.624			ElectronTemperatureRatio
-1/20		        InnerBcPeRatio
+1.6             ElectronTemperatureRatio
+1/7.8           InnerBcPeRatio
+
+#SHOCKHEATING
+0.25
 
 #SOLARWINDFILE
-T			UseSolarWindFile
+T                             UseSolarWindFile
 imf_G100_KatusMedian.dat			NameSolarWindFile
 
 #SCHEME
@@ -242,6 +245,13 @@ T         UsePrecipSmoothing
 gaus      KernelType
 7         KernelSize
 2.0       KernelSpread
+
+#MAGNITPRECIP
+T                       DoUseDiffI
+T                       DoUseDiffE
+T                       DoUseMono
+T                       DoUseBbnd
+kaep                    ECondRel
 
 #LOSSCONEFACTORS
 0.207 		ConeEfluxDifp
@@ -383,18 +393,24 @@ T			    UseBorisCorrection
 0.01			BorisClightFactor
 
 #TIMESTEPPING
-1			nStage
-0.85			CflExpl
+1         nStage
+0.65			CflExpl
 
 #END_COMP GM -----------------------------------------------------------------
 
 #BEGIN_COMP IM ---------------------------------------------------------------
 
+#PRECIPITATION
+0.10
+0
+0
+
 ! Number density fractions for H+ and O+. Has to add up to 1.0
 #COMPOSITION
-FIXED			NameCompModel
-0.8			FractionH
-0.2			FractionO
+FIXED     NameCompModel
+0.8       FractionH
+0.2       FractionO
+1.0       FractionE
 
 ! Decay for RCM particle densities
 #DECAY
