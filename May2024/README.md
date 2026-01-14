@@ -1,3 +1,23 @@
+PARAMs:
+
+There are PARAM files for three configurations in this directory.
+
+`PARAM.in_init_rlm_medres` is for a run with the standard SWPC v2
+configuration (run `make test_swpc` to configure the SWMF).
+
+`PARAM.in_init_rlm_1.75_medres` is for a run with mostly standard
+SWPC v2 configuration (again, `make test_swpc`), but with the inner
+MHD boundary lowered from the standard 2.5 RE to 1.75 RE. Because
+of the lowered inner boundary, `Rho0Cpcp` has also been increased
+to 50.
+
+`PARAM.in_init_rlm_ua_medres` is for a run with the standard SWPC v2
+configuration, but with the addition of GITM two-way coupled. Be
+sure to run (note that this might change since the GITM coupling is
+being actively worked on)
+`./Config.pl -install=BATSRUS,RCM2,Ridley_serial,GITM -compiler=[YOUR CHOICE]
+./Config.pl -v=GM/BATSRUS,IE/Ridley_serial,IM/RCM2,UA/GITM`
+
 Solar wind propagation:
 
 Wind H0 level MFI and H1 level SWE data were downloaded from CDAWeb.
