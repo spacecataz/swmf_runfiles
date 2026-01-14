@@ -15,8 +15,10 @@ to 50.
 configuration, but with the addition of GITM two-way coupled. Be
 sure to run (note that this might change since the GITM coupling is
 being actively worked on)
-`./Config.pl -install=BATSRUS,RCM2,Ridley_serial,GITM -compiler=[YOUR CHOICE]
-./Config.pl -v=GM/BATSRUS,IE/Ridley_serial,IM/RCM2,UA/GITM`
+```
+./Config.pl -install=BATSRUS,RCM2,Ridley_serial,GITM -compiler=[YOUR CHOICE]
+./Config.pl -v=GM/BATSRUS,IE/Ridley_serial,IM/RCM2,UA/GITM
+```
 
 Solar wind propagation:
 
