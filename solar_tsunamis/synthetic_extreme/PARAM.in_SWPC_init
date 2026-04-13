@@ -227,7 +227,16 @@ T		    DoUseSolarEuv
 255.0		F10.7
 
 #BOUNDARY
-10.0			LatBoundary
+10.0    LatBoundary
+
+#SOLVER
+gmres
+
+#KRYLOV
+T
+T
+0.0001
+400
 
 #END_COMP IE -----------------------------------------------------------------
 
