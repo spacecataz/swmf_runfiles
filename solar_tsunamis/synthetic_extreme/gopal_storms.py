@@ -74,7 +74,7 @@ def plot_gopal_distros():
     a1.set_ylabel('Occurrence ($\#/year$)')
 
     ymin, ymax = a1.get_ylim()
-    #a1.vlines(vmax_mean, ymin, ymax, line)
+    # a1.vlines(vmax_mean, ymin, ymax, line)
 
     a2.loglog(e, weibull(e, a=e_a, eta=e_eta, gamma=e_gam))
     a2.set_xlabel('Energy ($erg$)')
@@ -152,8 +152,8 @@ def analyze_katusdens(category='SH'):
     max_n = dens.max(axis=0)
     max_v = vels.max(axis=0)
 
-    avg_n = dens.mean(axis=0)
-    avg_v = vels.mean(axis=0)
+    # avg_n = dens.mean(axis=0)
+    # avg_v = vels.mean(axis=0)
 
     loc_big = max_v > 750.
 
@@ -346,7 +346,8 @@ def illustrate_scaling():
     scale['v'] = scale['ux']
 
     # Plot scaling:
-    fig2, axes = plt.subplots(4, 1, figsize=fig1.get_size_inches(), sharex=True)
+    fig2, axes = plt.subplots(4, 1, sharex=True,
+                              figsize=fig1.get_size_inches())
     for i, ax in enumerate(axes):
         if i == 0:
             ax.plot(imf['time'], scale['bx'], lw=2, label='IMF B$_X$')
