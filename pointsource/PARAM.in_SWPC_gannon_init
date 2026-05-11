@@ -376,7 +376,7 @@ T         UsePointSource
 0.0       zPosition
 
 #POINTDAYSIDE
-T	  DoDayOnly
+F     	  DoDayOnly
 
 #POINTSPREAD
 0.5      RadSpread [RE]

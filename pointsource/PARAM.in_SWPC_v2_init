@@ -337,24 +337,54 @@ borisregion		NameBorisRegion
 #USERINPUTBEGIN -----------------------------------
 
 #POINTMASSSOURCE
-T         UsePointSource
-4         nPointSource
-100.0     SourceAmplitude
-6.6       xPosition
-0.0       yPosition
-0.0       zPosition
-100.0     SourceAmplitude
--6.6      xPosition
-0.0       yPosition
-0.0       zPosition
-100.0     SourceAmplitude
-0.0       xPosition
-6.6       yPosition
-0.0       zPosition
-100.0     SourceAmplitude
-0.0       xPosition
--6.6      yPosition
-0.0       zPosition
+T             UsePointSource
+360           RateRotate [deg/day]
+6             nPointSource
+200	          SourceAmplitude
+6.6           xPosition
+0.0           yPosition
+0.0           zPosition
+200.0	        SourceAmplitude
+3.300         xPosition
+5.716  	      yPosition
+0.0	          zPosition
+200.00        SourceAmplitude
+-3.300        xPosition
+5.716         yPosition
+0.0	          xPosition
+200.00        SourceAmplitude
+-6.6          xPosition
+0.0           yPosition
+0.0           zPosition
+200.00        SourceAmplitude
+-3.300        xPosition
+-5.716        yPosition
+0.0           zPosition
+200.00        SourceAmplitude
+3.300         xPosition
+-5.716        yPosition
+0.0           zPosition
+
+#POINTDAYSIDE
+F     	      DoDayOnly
+
+#POINTSTART
+2000                    year
+01                      month
+01                      day
+01                      hour
+00                      minute
+00                      second
+0.0                     FracSecond
+
+#POINTSTOP
+2000                    year
+01                      month
+01                      day
+16                      hour
+00                      minute
+00                      second
+0.0                     FracSecond
 
 #USERINPUTEND -------------------------------------
 
