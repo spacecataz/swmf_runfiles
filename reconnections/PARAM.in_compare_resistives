@@ -9,6 +9,8 @@ A simple, no-IM config for investigating dayside reconnection        StringDescr
 #TIMEACCURATE
 F                 IsTimeAccurate
 
+#IDEALAXES
+
 #STARTTIME
 2000            iYear
 01              iMonth
@@ -174,12 +176,6 @@ T                       DoAmr
 100                     DnAmr
 -1.0                    DtAmr
 T                       IsStrictAmr
-
-#MAGNETOMETER
-magin_GEM.dat           NameMagInputFile
-single                  TypeFileOut
--1                      DnOutput
-20                      DtOutput
 
 #GEOMAGINDICES
 180                     nSizeKpWindow [min]
