@@ -314,7 +314,7 @@ sphere0 tapered		StringShape
 RESISTIVITY
 T                   UseResistivity
 constant            TypeResistivity
-1.0E+9              Eta0Si [m2/s] (read except for Spitzer resistivity)
+6.0E+10             Eta0Si [m2/s] (read except for Spitzer resistivity)
 
 --- or ---
 
