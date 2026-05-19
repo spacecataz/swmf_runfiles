@@ -333,24 +333,24 @@ RESISTIVEREGION
 
 
 --------------Hall Begin---------------
-#HALLRESISTIVITY
+HALLRESISTIVITY
 T                   UseHallResist
 16.0                HallFactorMax
 1.0                 HallCmaxFactor  1.0 !!!
 
-#HALLREGION
+HALLREGION
 +box1 -sphere1      StringHallRegion
 
-#SEMIIMPLICIT
+SEMIIMPLICIT
 T                   UseSemiImplicit
 resistivity         TypeSemiImplicit
 
-#SEMIKRYLOV
+SEMIKRYLOV
 GMRES               TypeKrylov  (GMRES, BICGSTAB, CG)
 0.001               ErrorMaxKrylov
 100                 MaxMatvecKrylov
 
-#SEMIPRECONDITIONER
+SEMIPRECONDITIONER
 T                   DoPrecond (rest of parameters are read if true)
 MBILU               TypePrecond (MBILU, BILU, DILU, GS, BLOCKJACOBI, JACOBI, HYPRE)
 0.5                 PrecondParam (0 to 1, read for MBILU preconditioner only)
