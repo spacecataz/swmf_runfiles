@@ -362,24 +362,19 @@ MBILU               TypePrecond (MBILU, BILU, DILU, GS, BLOCKJACOBI, JACOBI, HYP
 1e-5                    pMinDim [nPa]
 
 #SAVEPLOT
-4                       nPlotFile
+3                       nPlotFile
 y=0 MHD idl             StringPlot
 -1                      DnSavePlot
-5 min                   DtSavePlot
+1 min                   DtSavePlot
 -1.0                    DxSavePlot
 z=0 MHD idl             StringPlot
 -1                      DnSavePlot
-5 min                   DtSavePlot
+1 min                   DtSavePlot
 -1.0                    DxSavePlot
 3d MHD idl              StringPlot
 -1                      DnSavePlot
 900.                    DtSavePlot
 -1                      DxSavePlot
-lcb nul tec             StringPlot  !last closed field line plots
--1                      DnSavePlot  !Tecplot (ONLY!)
-5 min                   DtSavePlot
-5.                      Radius
-36                      nLon
 
 #BORIS
 T                       UseBorisCorrection
