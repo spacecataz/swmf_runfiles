@@ -195,7 +195,7 @@ GEO                     TypeCoordGrid
 1 min                   DtSaveMagGrid
 
 #SUPERMAGINDICES
-T            DoWriteSupermagIndices
+T                       DoWriteSupermagIndices
 
 #END_COMP GM -----------------------------------------------------------------
 
@@ -206,16 +206,15 @@ T            DoWriteSupermagIndices
 0.25        PolarCapPedCond
 
 #SOLAREUV
-T           DoUseSolarEUV
-100         F10.7
+F           DoUseSolarEUV
 
 #AURORA
 F           DoUseAurora
 RLM5        NameAurMod
 
 #UNIFORMCONDUCTANCE
-10          SigmaPedConst
-10          SigmaHalConst
+15          SigmaPedConst
+15          SigmaHalConst
 
 #BOUNDARY
 10.0		LatBoundary
@@ -291,13 +290,25 @@ F                   DoCoupleOnTime
 
 #BEGIN_COMP GM ---------------------------------------------------------------
 
+Define regions to apply resistivity.
 #REGION
-box1                NameRegion
+day                 NameRegion
 box tapered         StringShape
 5.0                 xMinBox
 -30                 yMinBox
 -20	                zMinBox
 15.0                xMaxBox
+20	                yMaxBox
+20	                zMaxBox
+1                   Taper
+
+#REGION
+night                NameRegion
+box tapered         StringShape
+-25.0                 xMinBox
+-20                 yMinBox
+-20	                zMinBox
+-5.0                xMaxBox
 20	                yMaxBox
 20	                zMaxBox
 1                   Taper
@@ -311,7 +322,7 @@ sphere0 tapered		StringShape
 
 -----------Resistivity Begin------------
 
-RESISTIVITY
+#RESISTIVITY
 T                   UseResistivity
 constant            TypeResistivity
 6.0E+10             Eta0Si [m2/s] (read except for Spitzer resistivity)
@@ -326,8 +337,9 @@ anomalous           TypeResistivity
 2.0E+10             EtaMaxAnomSi [m2/s] (read for anomalous resistivity only)
 1.0E-9              jCritAnomSi [A/m2] (read for anomalous resistivity only)
 
-RESISTIVEREGION
-+box1 -sphere1      StringResistRegion
+Always include nightside resistivity!
+#RESISTIVEREGION
++night -sphere1      StringResistRegion
 
 -----------Resistivity End-----------
 
@@ -411,8 +423,8 @@ aur idl             StringPlot
 #ENDTIME
 2000                iYear
 01                  iMonth
-02                  iDay
-00                  iHour
+01                  iDay
+18                  iHour
 00                  iMinute
 00                  iSecond
 0.0                 FracSecond
