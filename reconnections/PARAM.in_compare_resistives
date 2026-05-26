@@ -2,6 +2,7 @@ Name Root Last Stride nThread
 #COMPONENTMAP        For production run
 GM  0 -3 -1  -1      CompMap 0:nProc-3 multithreaded
 IE -2 -1  1          CompMap last 2 PE-s
+IM -1 -1  1          Turn off if not compiled w/ IM
 
 #DESCRIPTION
 A simple, no-IM config for investigating dayside reconnection        StringDescription
@@ -10,6 +11,11 @@ A simple, no-IM config for investigating dayside reconnection        StringDescr
 F                 IsTimeAccurate
 
 #IDEALAXES
+
+Deactivate if not compiled w/ IM
+#COMPONENT
+IM                      NameComp
+F                       UseComp
 
 #STARTTIME
 2000            iYear
@@ -294,7 +300,7 @@ Define regions to apply resistivity.
 #REGION
 day                 NameRegion
 box tapered         StringShape
-5.0                 xMinBox
+-5.0                 xMinBox
 -30                 yMinBox
 -20	                zMinBox
 15.0                xMaxBox
