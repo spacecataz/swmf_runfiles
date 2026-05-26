@@ -305,11 +305,11 @@ box tapered         StringShape
 #REGION
 night                NameRegion
 box tapered         StringShape
--25.0                 xMinBox
--20                 yMinBox
+-50.0               xMinBox
+-25                 yMinBox
 -20	                zMinBox
 -5.0                xMaxBox
-20	                yMaxBox
+25	                yMaxBox
 20	                zMaxBox
 1                   Taper
 
