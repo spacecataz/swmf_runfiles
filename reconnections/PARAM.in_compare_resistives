@@ -420,7 +420,7 @@ borisregion             NameBorisRegion
 
 #SAVEPLOT
 1                   nPlotFile
-aur idl             StringPlot
+max idl             StringPlot
 -1                  DnSavePlot
 1 min               DtSavePlot
 
