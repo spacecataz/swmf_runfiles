@@ -1,4 +1,4 @@
-These files are inculded as they are needed to run the legacy configuration of the SWMF in which We are devloping the CIMI runs.
+These files are inculded as they are needed to run a two-way coupled BATS-CIMI plasmasphere.
 
 GM/BATSRUS/src/
 GM/BATSRUS/srcEquation/

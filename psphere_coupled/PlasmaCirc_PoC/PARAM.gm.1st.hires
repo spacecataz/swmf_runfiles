@@ -9,6 +9,9 @@
 -128.			z1
  128.			z2
 
+#GRIDBLOCKALL
+50000
+
 ! Maximum resolution initially
 #GRIDRESOLUTION
 1.0			Resolution
@@ -18,6 +21,7 @@ initial			NameArea
 #GRIDRESOLUTION
 8.0			Resolution
 all			NameArea
+
 
 ! Far tail for wind satellite and inflow
 #GRIDRESOLUTION
@@ -110,9 +114,15 @@ Rusanov			TypeFlux
 #SAVEPLOTSAMR
 F			DoSavePlotsAmr to save plots before each AMR
 
-#AMR
-100			DnRefine
-F			DoAutomaticRefinement 
+#AMRLEVELS
+0         MinBlockLevel
+1         MaxBlockLevel
+
+#DOAMR
+T
+100			DnAmr
+-1.0     DtAmr
+F			    IsStrictAmr
 
 Standard MF setup.
 #MULTIION 
@@ -142,12 +152,3 @@ T                       body1
 25000.0                 Magneto_T_dim (K) temperature for fixed BC for P_BLK
 500.0                   Magneto_rho_dim (/ccm) density for fixed BC for rho_BLK
 25000.0                 Magneto_T_dim (K) temperature for fixed BC for P_BLK
-
-#POLARBOUNDARY
-28.0            PolarNDim [amu/cc] for fluid 1
-25000.0         PolarTDim [K]      for fluid 1
-0.0             PolarUDim [km/s]   for fluid 1
-0.001            PolarNDim [amu/cc] for fluid 2
-25000.0         PolarTDim [K]      for fluid 2
-0.0             PolarUDim [km/s]   for fluid 2
-15.            PolarLatitude [deg]
