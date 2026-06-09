@@ -297,6 +297,73 @@ def summarize_extremes():
           f"|{.9*v1000:^13.1f}|{b1000:^13.3f}|{n1000:^13.3f}|")
 
 
+def illustrate_scaling_small():
+    '''
+    Create a single plot to illustrate how IMF is scaled.
+    '''
+
+    import sys
+    import os
+
+    from spacepy.plot import style, applySmartTimeTicks
+    from spacepy.pybats import ImfInput
+    style()
+
+    sys.path.append('../../SEA_drivers')
+    from process_drivers import scale_imf, smooth_imf
+
+    plotvars = ['bz', 'v', 'n']
+    ylims = [[-120, 35], [0, 2500], [0, 32]]
+    colors = ['C2', 'C3', 'C4']
+    labels = ['IMF B$_Z$ ($nT$)',
+              r'V$_{SW}$ ($km/s$)', r'$\rho$ ($cm^{-3}$)']
+    rise, fall = 15, 720
+
+    if not os.path.exists('./imf_SH_median_smoothed.dat'):
+        # Open base data, apply some smoothing:
+        vsmooth = ['n', 't', 'ux', 'bx', 'by', 'bz']
+        path = '../../SEA_drivers/sea_fullmin2023/'
+        imf_medi = smooth_imf(path + '/imf_SH_median.dat', vsmooth, window=15)
+
+        imf_medi.attrs['file'] = './imf_SH_median_smoothed.dat'
+        imf_medi.write()
+
+    # Open original dataset:
+    imf_medi = ImfInput('./imf_SH_median_smoothed.dat')
+
+    # Set key dates for amplification
+    start = dt.datetime(2000, 1, 1, 8, 15, 0)
+    stop = dt.datetime(2000, 1, 1, 21, 0, 0)
+    tlim = [dt.datetime(2000, 1, 1, 0, 0, 0),
+            dt.datetime(2000, 1, 2, 12, 0, 0)]
+
+    # T&L 2014 scaling factors:
+    factors = {'ux': 4.05, 'uy': 4.05, 'uz': 4.05, 'n': 1.5,
+               'bx': 7.381, 'by': 7.381, 'bz': 7.381, 't': 4}
+
+    # Perform scaling:
+    imf, scale = scale_imf(imf_medi, start, stop, rise, fall, amp=factors)
+    scale['v'] = scale['ux']
+
+    # Plot it!
+    fig = imf_medi.quicklook(plotvars=plotvars, title='')
+    for v, ax, ylim in zip(plotvars, fig.axes, ylims):
+        c = ax.lines[-1].get_color()
+        ax.plot(imf['time'], imf[v], ls=(0, (1, 1)), c=c, lw=2.)
+        ax.set_ylim(ylim)
+
+    fig.axes[0].set_title('Example Extreme Scaling', loc='left')
+    print(fig.axes[0].lines)
+    fig.legend(fig.axes[0].lines, ['Original', 'Scaled'],
+               loc='upper right', ncol=2)
+    applySmartTimeTicks(ax, tlim, dolabel=True)
+    fig.set_size_inches([8.05, 4.81])
+    fig.subplots_adjust(left=.12, bottom=.118, right=.945, top=.927,
+                        wspace=.279, hspace=0.05)
+    fig.savefig('scaling_illustrated_small.png')
+    fig.savefig('scaling_illustrated_small.pdf')
+
+
 def illustrate_scaling():
     '''
     Create a set of plots that illustrate how IMF is scaled.
