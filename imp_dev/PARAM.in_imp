@@ -4,6 +4,11 @@ GM  0   -27 -1 -1		CompMap runs on all PE-s
 IM -26 -3  1		CompMap runs on up to 24 PE-s
 IE -2 -1  1		CompMap runs on last 2 PEs
 
+COMPONENTMAP            For few cores like nightly test
+GM  2   -25 -1 -1               CompMap runs on all PE-s
+IM -24 -1  1            CompMap runs on up to 24 PE-s
+IE 0 1  1             CompMap runs on last 2 PEs
+
 Name Root Last Stride nThread
 COMPONENTMAP		For 128+ cores like production run
 GM  0 -26 -1 -1		CompMap runs on 0 to nProc-26 PE-s
@@ -12,18 +17,18 @@ IE  -1 -1  1		CompMap runs on the last PE
 UA  0  400 1 
 
 #DESCRIPTION
-New Test file with GITM coupling
+IMP with CIMI electron decay implemented
 
 #TIMEACCURATE
 F			IsTimeAccurate
 
 #STARTTIME
-2010			iYear
-04			iMonth
-04			iDay
-01			iHour
+2015			iYear
+03			iMonth
+17			iDay
+00			iHour
 00			iMinute
-00			iSecond
+0			iSecond
 0.0			FracSecond
 
 ! Allow empty processor for IM
@@ -39,9 +44,6 @@ GM			NameComp1
 IE			NameComp2
 10			DnCouple
 -1.0			DtCouple
-
-TEST
-UA_get_info_for_ie UA_put_from_ie
 
 #BEGIN_COMP GM ---------------------------------------------------------------
 
@@ -104,14 +106,14 @@ box			StringShape
 #GRIDRESOLUTION
 1/8			Resolution
 shell0			StringShape
-2.5			RadiusInner
+1.75			RadiusInner
 3.5			Radius
 
 #BODY
 T			UseBody
-2.5			rBody     (in planet radius)
-3.0			rCurrents (in planet radius)
-28.0			BodyNDim  (/cc)
+1.75			rBody     (in planet radius)
+2.25			rCurrents (in planet radius)
+80.0			BodyNDim  (/cc)
 25000.0			BodyTDim  (K)
 
 #OUTERBOUNDARY
@@ -131,12 +133,12 @@ T
 ! Set the inner boundary density as Rho0Cpcp + RhoPerCpcp*CPCP[keV]
 #CPCPBOUNDARY
 T			UseCpcpBc  (rest is read if true)
-28.0			Rho0Cpcp   [amu/cc]
-0.1			RhoPerCpcp [amu/cc / keV]
+80.0			Rho0Cpcp   [amu/cc]
+0.3			RhoPerCpcp [amu/cc / keV]
 
 #SOLARWINDFILE
 T			UseSolarWindFile
-IMF.dat			NameSolarWindFile
+IMF.dat		NameSolarWindFile
 
 #REFRESHSOLARWINDFILE
 T			DoReadAgain
@@ -193,8 +195,8 @@ T			IsStrictAmr
 INCLUDE
 SATELLITES.in
 
-MAGNETOMETER
-magin_GEM.dat		NameMagInputFile
+#MAGNETOMETER
+mags.dat		NameMagInputFile
 single			TypeFileOut
 -1			DnOutput
 1 min			DtOutput
@@ -207,7 +209,7 @@ single			TypeFileOut
 1			nMagGridFile
 global ascii		StrGridFileOut
 GEO			TypeCoordGrid
-90			nGridLon
+89			nGridLon
 161			nGridLat
 0.			GridLonMin
 360.			GridLonMax
@@ -219,7 +221,10 @@ GEO			TypeCoordGrid
 #SUPERMAGINDICES
 T
 
-#TRACEIE
+TRACEIE
+T
+
+#IEPRECIP
 T
 
 #END_COMP GM -----------------------------------------------------------------
@@ -233,16 +238,23 @@ MAGNIT
 #LOSSCONEFACTORS
 0.050 ConeEfluxDifp
 0.100 ConeNfluxDifp
-0.600 ConeEfluxDife
-0.110 ConeNfluxDife
+0.200 ConeEfluxDife
+0.0025 ConeNfluxDife
 1.000 ConeEfluxMono
 0.741 ConeNfluxMono
 2.247 ConeEfluxBbnd
 0.494 ConeNfluxBbnd
 
+#PRECIPRATIOLIMIT
+100000
+
 #BACKGROUNDCOND
 1	StarlightPedCond
 1	PolarCapPedCond
+
+#ROBINSONLIMIT
+60.0 eCondLimit (keV)
+1.0 eLimitScale (keV)
 
 #END_COMP IE -----------------------------------------------------------------
 
@@ -283,7 +295,7 @@ T			IsTimeAccurate
 1000			DnProgressLong
 
 #SAVERESTART
-T			DoSaveRestart
+F			DoSaveRestart
 -1			DnSaveRestart
 120 min			DtSaveRestart
 
@@ -376,22 +388,22 @@ End of setting 2
 #MINIMUMPRESSURE
 1e-5			pMinDim [nPa]
 
-#SAVEPLOT
+SAVEPLOT
 2			nPlotFile
 y=0 FUL idl		StringPlot
 -1			DnSavePlot
-2 min			DtSavePlot
+1 min			DtSavePlot
 -1.0			DxSavePlot
 z=0 FUL idl		StringPlot
 -1			DnSavePlot
-2 min			DtSavePlot
+1 min			DtSavePlot
 -1.0			DxSavePlot
  
 #BORIS
 T			UseBorisCorrection
 0.01			BorisClightFactor
 
-#REGION
+REGION
 borisregion		NameRegion
 sphere tapered		StringShape
 -4.0			xPosition
@@ -405,7 +417,13 @@ borisregion		NameBorisRegion
 
 #TIMESTEPPING
 1			nStage
-0.85			CflExpl
+0.8			CflExpl
+
+#TRACEIE
+F
+
+#IEPRECIP
+T
 
 #END_COMP GM -----------------------------------------------------------------
 
@@ -423,9 +441,22 @@ F               IsDataInitial
 2
 2d both
 60.
-preci all
-60
+preci e		StringPlot
+60.		DtOutput
+T		DoSaveSeparateFiles
+
+#DECAY
 T
+10 hours
+ 
+SETENERGYGRID
+15 neng
+T		UseLogEGrid
+0.10		MinIonEnergy (in keV)
+40.0		MaxIonEnergy (in keV)
+
+#ELECTRONGRIDRATIO
+1
 
 #WAVES
 T                       UseWaveDiffusion
@@ -433,7 +464,7 @@ T                       UseHiss
 T                       UseChorus
 D_hiss_UCLA.dat         HissWavesD
 D_LBchorus_merge3.dat   ChorusWavesD
-T                       UseKpIndex
+F                       UseKpIndex
 
 #DIAGONALIZEDDIFFUSION
 F
@@ -441,15 +472,15 @@ F
 #TYPEBOUNDARY
 ellipse          TypeBoundary
 
-#FLC
+FLC
 T
 
 #TIMESIMULATION
 0.0             Time
 
 #IMTIMESTEP
-1.0              IMDeltaT [s]
-1.0              IMDeltaTMax [s]
+2.5              IMDeltaT [s]
+2.5              IMDeltaTMax [s]
 
 #END_COMP IM -----------------------------------------------------------------
 
@@ -472,6 +503,10 @@ max idl			StringPlot
 -1			DnSavePlot
 1 min			DtSavePlot
 
+POLARCAPSMOOTHING
+T
+5.0
+
 #END_COMP IE -----------------------------------------------------------------
 
 
@@ -480,12 +515,12 @@ STOP
 86400.0			TimeMax
 
 #ENDTIME
-2010                    iYear
-04                      iMonth
-06                      iDay
-00                      iHour
-00                      iMinute
-00                      iSecond
+2015			iYear
+03			iMonth
+20			iDay
+00			iHour
+00			iMinute
+00			iSecond
 0.0                     FracSecond
 
 
