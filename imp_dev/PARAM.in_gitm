@@ -139,6 +139,9 @@ T			UseCpcpBc  (rest is read if true)
 80.0			Rho0Cpcp   [amu/cc]
 0.3			RhoPerCpcp [amu/cc / keV]
 
+#ANISOPRESSUREIM
+T			DoAnisoPressureIMCoupling
+
 #SOLARWINDFILE
 T			UseSolarWindFile
 IMF.dat			NameSolarWindFile
