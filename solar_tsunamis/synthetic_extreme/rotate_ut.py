@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 
 '''
-Given an input IMF file and number of hours, "rotate" the event and
-associated start/end times to create a UT offset.
+Given an input IMF file and number of hours, time shift the event and
+associated start/end times to create a new UT for the storm onset.
+
+The epoch of interest is the storm start time, not the start of the file.
+The file is shifted so that
 
 If the `--season` argument is used, the start time can be drastically shifted
 to capture different seasons (reference: northern hemisphere). Possible
@@ -10,7 +13,7 @@ values shown below:
 
 Value    | Start Date
 ---------|---------------------------
-winter   | 2000/01/01 (default value)
+winter   | 2000/12/21 (default value)
 equinox  | 2000/03/20
 summer   | 2000/06/21
 
@@ -32,12 +35,19 @@ style()
 parser = ArgumentParser(description=__doc__,
                         formatter_class=RawDescriptionHelpFormatter)
 parser.add_argument("hours", type=int, help="Number of hours to rotate.")
+parser.add_argument("-onset", "--onset", type=float, default=8.33,
+                    help='Set the hours-from-file-start of the storm onset.')
+parser.add_argument("-p", "-precond", type=float, default=4.0,
+                    help="Set the preconditioning time (simulation start to " +
+                    "storm onset) in hours.")
 parser.add_argument("file", type=str,
                     help='The SWMF solar wind input file to rotate in time.')
 parser.add_argument('--season', '-s', type=str, default='winter',
                     help='Set northern hemisphere season.')
 parser.add_argument("-v", "--viz", action='store_true', default=False,
                     help="Visualize propagation using matplotlib.")
+parser.add_argument("-p", "--param", type=str, default=None,
+                    help="Name of PARAM input file to update with UT shift.")
 args = parser.parse_args()
 
 # Quick check:
@@ -47,16 +57,16 @@ print(f"Shifting season to {args.season}")
 # Get offset:
 t_shift = dt.timedelta(hours=args.hours)
 
-# Get start time based on season:
-starts = {'summer': dt.datetime(2000, 6, 21, 4, 0, 0),
-          'winter': dt.datetime(2000, 1, 1, 4, 0, 0),
-          'equinox': dt.datetime(2000, 3, 20, 4, 0, 0)}
+# Get DEFAULT STORM ONSETT TIMES based on season:
+starts = {'summer': dt.datetime(2000, 6, 21, 0, 0, 0),
+          'winter': dt.datetime(2000, 1, 1, 0, 0, 0),
+          'equinox': dt.datetime(2000, 3, 20, 0, 0, 0)}
 
 # Check season:
 if args.season not in list(starts.keys()):
     raise ValueError('Invalid season.')
 
-# Set updated start and end time:
+# Set updated start and end time for the simulation:
 t_start = starts[args.season] + t_shift
 t_end = starts[args.season] + dt.timedelta(hours=32) + t_shift
 
