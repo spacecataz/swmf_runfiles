@@ -45,7 +45,7 @@ def test_robinson():
     avee = np.logspace(-1, 2, 50, dtype=float)
     sigmap, sigmah = robinson(eflux, avee)
 
-    fig1, (ax1, ax2) = plt.subplots(1, 2, figsize=(6, 8))
+    fig1, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 6))
 
     ax1.loglog(avee, sigmap)
     ax2.loglog(avee, sigmah / sigmap)
