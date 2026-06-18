@@ -82,7 +82,7 @@ timedelta = file_onset - target_onset
 t_shifted = imf['time'] - timedelta  # FINAL TIMESHIFTED TIMESERIES.
 
 # Set file name:
-new_name = imf.attrs['file'][:-4] + f'_{args.season}.dat_{args.hours:02d}UT'
+new_name = imf.attrs['file'][:-4] + f'_{args.season}_{args.hours:02d}UT.dat'
 
 time_commands = []
 for t, cmd in zip((param_start, param_end), ('#STARTTIME', '#ENDTIME')):
