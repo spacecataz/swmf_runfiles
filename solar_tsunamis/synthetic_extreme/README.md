@@ -107,6 +107,26 @@ PARAM setups are listed below with the following common settings:
 |imf_scaled_rfr_model_slow.dat | Random-forest extreme event using TS-Katus Bz, Vx and a slow ramp-up |
 |imf_scaled_rfr_model.dat | Random-forest extreme event using TS-Katus Bz, Vx as inputs |
 
+## Changing Season, UT of Storm Onset
+
+By default, the storm begins at 8UT on January 1st, 2000. This was selected
+completely arbitrarily.
+
+The script `shift_ut.py` can shift the storm onset time to explore how season
+and UT of onset affect geoeffectiveness. An example:
+
+```
+shift_ut.py 6 imf_G1000_KatusMedian.dat --season winter -p PARAM.in_SWPC_init
+```
+
+This would set the storm onset for the 1-in-1000 year Gopalswamy storm to
+6UT at the Northern Hemisphere winter solstice (December 20th).
+The shifted data would be saved as `imf_G1000_KatusMedian_winter_06UT.dat`.
+The change in simulation start time (4 hours preceding the storm onset)
+and simulation end time (36 hours after simulation start) as well as the name
+of the IMF input file would all be updated in `PARAM.in_SWPC_init`.
+The updated PARAM would be named, `PARAM.in_SWPC_init_shifted`.
+
 ## PARAM Changelog
 
 - May 2025: Hires added with additional IE settings to promote stable inner boundary response

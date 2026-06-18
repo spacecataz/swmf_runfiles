@@ -5,7 +5,17 @@ Given an input IMF file and number of hours, time shift the event and
 associated start/end times to create a new UT for the storm onset.
 
 The epoch of interest is the storm start time, not the start of the file.
-The file is shifted so that
+The file is shifted so that the storm onset occurs at the set hour/season
+specified by the user. Note that the time between the start of the input
+IMF file and the storm onset is assumed to be 8.3 hours, but can be changed
+via optional argument.
+
+The start and end times of the simulation are printed to screen and, if
+an input PARAM shared, the PARAM updated to match these updated times.
+Times are set with a given amount of preconditioning time (time before the
+storm onset, defaulting to 4 hours).
+
+If #IDEALAXES is found in the PARAM file, it is removed.
 
 If the `--season` argument is used, the start time can be drastically shifted
 to capture different seasons (reference: northern hemisphere). Possible
@@ -107,6 +117,11 @@ if args.param:
     # Get old param:
     with open(args.param, 'r') as f:
         lines = f.readlines()
+
+    # Remove IDEALAXES:
+    if '#IDEALAXES\n' in lines:
+        print('Removing IDEALAXES from PARAM...')
+        lines.remove('#IDEALAXES\n')
 
     # Replace IMF input line:
     lines[lines.index('#SOLARWINDFILE\n') + 2] = f"{new_name}\n"
