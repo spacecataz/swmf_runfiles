@@ -35,11 +35,13 @@ style()
 parser = ArgumentParser(description=__doc__,
                         formatter_class=RawDescriptionHelpFormatter)
 parser.add_argument("hours", type=int, help="Number of hours to rotate.")
-parser.add_argument("-onset", "--onset", type=float, default=8.33,
+parser.add_argument("-onset", "--onset", type=float, default=8.30,
                     help='Set the hours-from-file-start of the storm onset.')
-parser.add_argument("-p", "-precond", type=float, default=4.0,
+parser.add_argument("-tp", "--precond", type=float, default=4.0,
                     help="Set the preconditioning time (simulation start to " +
                     "storm onset) in hours.")
+parser.add_argument("-d", "--duration", type=int, default=32,
+                    help='Set the simulation duration in hours.')
 parser.add_argument("file", type=str,
                     help='The SWMF solar wind input file to rotate in time.')
 parser.add_argument('--season', '-s', type=str, default='winter',
@@ -54,33 +56,37 @@ args = parser.parse_args()
 print(f"Rotating start time by {args.hours} hours.")
 print(f"Shifting season to {args.season}")
 
-# Get offset:
-t_shift = dt.timedelta(hours=args.hours)
-
-# Get DEFAULT STORM ONSETT TIMES based on season:
+# Get DEFAULT STORM ONSET TIMES based on season:
 starts = {'summer': dt.datetime(2000, 6, 21, 0, 0, 0),
-          'winter': dt.datetime(2000, 1, 1, 0, 0, 0),
+          'winter': dt.datetime(2000, 12, 21, 0, 0, 0),
           'equinox': dt.datetime(2000, 3, 20, 0, 0, 0)}
+
+# Get the desired UT for storm onset:
+target_onset = starts[args.season] + dt.timedelta(hours=args.hours)
 
 # Check season:
 if args.season not in list(starts.keys()):
     raise ValueError('Invalid season.')
 
-# Set updated start and end time for the simulation:
-t_start = starts[args.season] + t_shift
-t_end = starts[args.season] + dt.timedelta(hours=32) + t_shift
+# Set updated start and end time for the simulation.
+# These values are for the params.
+param_start = target_onset - dt.timedelta(hours=args.precond)
+param_end = param_start + dt.timedelta(hours=args.duration)
 
 # Open IMF file:
 imf = ImfInput(args.file)
 
-# Shift time, print updated args to screen.
-timedelta = imf['time'] - imf['time'][0]
-t_season = t_start + timedelta
-t_new = t_start + timedelta + t_shift
+# Obtain the shift between the desired onset and the onset of the file.
+file_onset = imf['time'][0] + dt.timedelta(hours=args.onset)
+timedelta = file_onset - target_onset
+t_shifted = imf['time'] - timedelta  # FINAL TIMESHIFTED TIMESERIES.
 
-for t, cmd in zip((t_start, t_end), ('#STARTTIME', '#ENDTIME')):
-    print(f'''
-{cmd}
+# Set file name:
+new_name = imf.attrs['file'][:-4] + f'_{args.season}.dat_{args.hours:02d}UT'
+
+time_commands = []
+for t, cmd in zip((param_start, param_end), ('#STARTTIME', '#ENDTIME')):
+    time_commands.append(f'''{cmd}
 {t.year:04d}                      iYear
 {t.month:02d}                        iMonth
 {t.day:02d}                        iDay
@@ -90,21 +96,48 @@ for t, cmd in zip((t_start, t_end), ('#STARTTIME', '#ENDTIME')):
 0.0                       FracSecond
 ''')
 
+# Print info to screen:
+print('NEW TIME COMMANDS:')
+for cmd in time_commands:
+    print(cmd)
+print(f'New file name:\n{new_name}')
+
+# Alter PARAM:
+if args.param:
+    # Get old param:
+    with open(args.param, 'r') as f:
+        lines = f.readlines()
+
+    # Replace IMF input line:
+    lines[lines.index('#SOLARWINDFILE\n') + 2] = f"{new_name}\n"
+
+    # Replace Start and End times:
+    istart, iend = lines.index('#STARTTIME\n'), lines.index('#ENDTIME\n')
+    lines[istart] = time_commands[0]
+    lines[iend] = time_commands[1]
+
+    # Remove old time command pieces:
+    for i in range(7):
+        lines.pop(iend + 1)
+    for i in range(7):
+        lines.pop(istart + 1)
+
+    # Write to new param file:
+    outparam = args.param + "_shifted"
+    with open(outparam, 'w') as out:
+        for l in lines:
+            out.write(l)
+
 # If vizualizing, viz!
 if args.viz:
-    plotvars = ['by', 'bz', 'n', 'v']
-    imf['time'] = t_season
-    fig = imf.quicklook()
-    for v, ax in zip(plotvars, fig.axes):
-        col = ax.lines[0].get_color()
-        ax.plot(t_new, imf[v], '--', c=col)
+    fig1 = imf.quicklook(title="Original Data")
+    imf['time'] = t_shifted
+    fig2 = imf.quicklook(title=f"New Storm Onset: {target_onset}")
     if not plt.isinteractive():
         plt.show()
 
 # Write out to file.
-imf.attrs['file'] = imf.attrs['file'][:-4] + \
-    f'_shift{args.hours:02d}_{args.season}.dat'
-imf['time'] = t_new
+imf.attrs['file'] = new_name
+imf['time'] = t_shifted
 imf.write()
 
-print(f'New file name:\n{imf.attrs["file"]}')
