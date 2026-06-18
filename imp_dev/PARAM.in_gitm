@@ -48,9 +48,6 @@ IE			NameComp2
 10			DnCouple
 -1.0			DtCouple
 
-TEST
-UA_get_info_for_ie UA_put_from_ie
-
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #GRIDBLOCKALL
@@ -496,6 +493,10 @@ F		DoCoupleUaCurrent
 pre idl			StringPlot
 -1			DnSavePlot
 1 min			DtSavePlot
+
+#IM
+north                   TypeImCouple
+0.0                     FractionImJr
 
 #END_COMP IE -----------------------------------------------------------------
 

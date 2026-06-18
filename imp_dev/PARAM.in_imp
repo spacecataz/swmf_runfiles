@@ -490,22 +490,11 @@ T
 T
 IMP
 
-MAGNITPRECIP
-T
-T
-T
-T
-kaep
-
 #SAVEPLOT
 1			nPlotFile
 max idl			StringPlot
 -1			DnSavePlot
 1 min			DtSavePlot
-
-POLARCAPSMOOTHING
-T
-5.0
 
 #END_COMP IE -----------------------------------------------------------------
 
