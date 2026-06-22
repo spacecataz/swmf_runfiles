@@ -122,6 +122,13 @@ T         UseCpcpBc  (rest is read if true)
 100.0			Rho0Cpcp   [amu/cc]
 0.22			RhoPerCpcp [amu/cc / keV]
 
+#ELECTRONPRESSURERATIO
+1.6             ElectronTemperatureRatio
+1/7.8           InnerBcPeRatio
+
+#SHOCKHEATING
+0.25
+
 #SOLARWINDFILE
 T                             UseSolarWindFile
 imf_G100_KatusMedian.dat			NameSolarWindFile
@@ -246,6 +253,16 @@ T                       DoUseMono
 T                       DoUseBbnd
 kaep                    ECondRel
 
+#LOSSCONEFACTORS
+0.207 		ConeEfluxDifp
+0.100 		ConeNfluxDifp
+0.600 		ConeEfluxDife
+0.110 		ConeNfluxDife
+1.000 		ConeEfluxMono
+0.741 		ConeNfluxMono
+2.247 		ConeEfluxBbnd
+0.494 		ConeNfluxBbnd
+
 #SOLVER
 gmres
 
@@ -348,16 +365,17 @@ F			DoCoupleOnTime
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #IMCOUPLING
-20.0      TauCoupleIm
-T         DoImSatTrace
-T         DoCoupleImPressure
-T         DoCoupleImDensity
-0.01      DensityCoupleFloor
-F         DoFixPolarRegion
+20.0			TauCoupleIm
+T			DoImSatTrace
+T			DoCoupleImPressure
+T			DoCoupleImDensity
+0.01			DensityCoupleFloor
+F			DoFixPolarRegion
 
 ! Pressures below pMinDim are replaced with pMinDim.
 #MINIMUMPRESSURE
 1e-5			pMinDim [nPa]
+1e-5			PeMinDim[nPa]
 
 #SAVEPLOT
 2			        nPlotFile
@@ -381,11 +399,18 @@ T			    UseBorisCorrection
 #END_COMP GM -----------------------------------------------------------------
 
 #BEGIN_COMP IM ---------------------------------------------------------------
+
+#PRECIPITATION
+0.10
+0
+0
+
 ! Number density fractions for H+ and O+. Has to add up to 1.0
 #COMPOSITION
 FIXED     NameCompModel
 0.8       FractionH
 0.2       FractionO
+1.0       FractionE
 
 ! Decay for RCM particle densities
 #DECAY
@@ -394,6 +419,12 @@ T 			UseDecay
 
 #OUTERBOUNDARY
 max                     TypeBoundary
+
+#SAVEPLOT
+1                        nFilesPlot
+2d min idl               StringPlot
+-1                      DnSavePlot
+60                      iDtSavePlot [sec]
 
 #END_COMP IM -----------------------------------------------------------------
 
