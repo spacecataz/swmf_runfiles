@@ -24,3 +24,5 @@ RIM/Ridley_serial via:
 |PARAM.in_testing      | Very simple, single-node testing at very low resolution. |
 |PARAM.in_SWPC_init    | SWPCv2-like configuration for med. res science runs.     |
 |PARAM.in_SWPC_restart | ...and the restart file for restarting.                  |
+|PARAM.in_SWPC_init_RCM | SWPCv2, but with RCM for comparison's sake. |
+
