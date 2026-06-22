@@ -67,7 +67,7 @@ git clone git@github.com:SWMFsoftware/SWMF.git
 ./Config.pl -o=IE:g=181,361
 ```
 
-Note an extra step required if using MAGNIT with electron pressure MHD:
+Note an extra step required if using MAGNIT-Pe with electron pressure MHD:
 
 ```
 ./Config.pl -o=GM:e=MhdPe
@@ -95,7 +95,8 @@ PARAM setups are listed below with the following common settings:
 |init/restart | File is either an initialization or restart |
 |SWPC          | SWPCv2-like configuration |
 |hires         | CUSIA-like ~11M cell, 1/16 RE MHD grid |
-|magnit        | SWPCv2-like configuration with electron pressure and MAGNIT |
+|magnitpe      | SWPCv2-like configuration with electron pressure and MAGNIT |
+|magnit        | SWPCv2-like configuration with MAGNIT |
 
 | IMF File | Description |
 |--------------|-------------|
