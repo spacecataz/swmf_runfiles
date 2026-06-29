@@ -61,16 +61,32 @@ F			DoCoupleOnTime
 
 #BEGIN_COMP GM ---------------------------------------------------------------
 
-INCLUDE
-RESTART_n005001/GM/restart.H
-
-
-INCLUDE
-RESTART_t0007.5000h/GM/restart.H
-
 #INCLUDE
 GM/restartIN/restart.H
 
+#MAGNETOSPHERE
+T                       body1
+2.5                     Rbody
+3.0                     Rcurrents
+28.0                    Magneto_rho_dim (/ccm) density for fixed BC for rho_BLK
+25000.0                 Magneto_T_dim (K) temperature for fixed BC for P_BLK
+0.01                   Magneto_rho_dim (/ccm) density for fixed BC for rho_BLK
+25000.0                 Magneto_T_dim (K) temperature for fixed BC for P_BLK
+
+#NONCONSERVATIVE
+T                       UseNonConservative
+
+#CONSERVATIVECRITERIA
+1			      nConservCrit
+parabola		TypeConservCrit_I
+5.0			  xParabolaConserv
+15.0			  yParabolaConserv
+
+ #RESOLUTIONCHANGE
+ F          UseAccurateResChange
+ T          UseTvdResChange
+ 1.0       BetaLimiterResChange
+ 2          nFaceLimiterResChange
 
 #MULTIION
 .001                   LowDensityRatio
@@ -91,15 +107,6 @@ T                       DoRestrictMultiIon
 5.0e2			TauCutOffDim [s]
 30.0			uCutOffDim [km/s] read if TauCutOffDim positive
 2			    nPowerCutOff read if TauCutOffDim positive
-
-#NONCONSERVATIVE
-T                       UseNonConservative
-
-#CONSERVATIVECRITERIA
-1			      nConservCrit
-parabola		TypeConservCrit_I
-5.0			  xParabolaConserv
-15.0			  yParabolaConserv
 
 ! Setting 1
 #IMCOUPLING
@@ -126,7 +133,7 @@ dt rho mx my mz p bx by bz pmin pmax dst cpcpn
 3.0 3.5 5.0		  StringRFlux
 
 #SAVEPLOT
-13               nPlotFiles
+4               nPlotFiles
 idl z=0 VAR     StringPlot
 -1              DnSavePlot
 60.             DtSavePlot
@@ -330,9 +337,6 @@ imf_mf_bzturn_by_test.dat       UpstreamFileName
 #BEGIN_COMP IM ---------------------------------------------------------------
 
 INCLUDE
-RESTART_t0013.3333h/IM/restart.H
-
-#INCLUDE
 IM/restartIN/restart.H
 
 #COREPLASMASPHERE
@@ -406,9 +410,6 @@ F			      DoSaveSeparateFiles
 #END_COMP IM -----------------------------------------------------------------
 
 #BEGIN_COMP IE ---------------------------------------------------------------
-
-INCLUDE
-RESTART_t0006.0000h/IE/restart.H
 
 INCLUDE
 IE/restartIN/restart.H

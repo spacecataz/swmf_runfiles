@@ -76,6 +76,15 @@ box			NameArea
  24.0			yMaxBox
  24.0			zMaxBox
 
+#MAGNETOSPHERE
+T                       body1
+2.5                     Rbody
+3.0                     Rcurrents
+28.00                   Magneto_rho_dim (/ccm) density for fixed BC for rho_BLK
+25000.0                 Magneto_T_dim (K) temperature for fixed BC for P_BLK
+500.0                   Magneto_rho_dim (/ccm) density for fixed BC for rho_BLK
+25000.0                 Magneto_T_dim (K) temperature for fixed BC for P_BLK
+
 #NONCONSERVATIVE
 T                       UseNonConservative
 
@@ -85,11 +94,19 @@ parabola		TypeConservCrit_I
  5.0			xParabolaConserv
 15.0			yParabolaConserv
 
-#TVDRESCHANGE
-T
+#RESOLUTIONCHANGE
+ F          UseAccurateResChange
+ T          UseTvdResChange
+ 1.0       BetaLimiterResChange
+ 2          nFaceLimiterResChange
+
+#SCHEME
+2   nOrder
+Rusanov     TypeFlux
+1.2         LimiterBeta
 
 #TIMESTEPPING
-1			nStage
+2			nStage
 0.80			CflExlp
 
 #OUTERBOUNDARY
@@ -134,14 +151,6 @@ Fast, phsyics-based cutoff u_counter
 1.0             IonCharge [e]
 0.2             ElectronTemperatureRatio
 
-#MAGNETOSPHERE
-T                       body1
-2.5                     Rbody
-3.0                     Rcurrents
-28.00                   Magneto_rho_dim (/ccm) density for fixed BC for rho_BLK
-25000.0                 Magneto_T_dim (K) temperature for fixed BC for P_BLK
-500.0                   Magneto_rho_dim (/ccm) density for fixed BC for rho_BLK
-25000.0                 Magneto_T_dim (K) temperature for fixed BC for P_BLK
 
 #POLARBOUNDARY
 28.0            PolarNDim [amu/cc] for fluid 1

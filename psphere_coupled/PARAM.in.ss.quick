@@ -42,16 +42,15 @@ T
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-50000
+5000
 
 #INCLUDE
-PARAM.gm.1st.swpcv2
+PARAM.gm.1st.testres_hi
 
-#UPSTREAM_INPUT_FILE
+#SOLARWINDFILE
 T                       UseUpstreamInputFile
 imf_mf_bzturn_by_test.dat       UpstreamFileName
-0.0                     Satellite_Y_Pos
-0.0                     Satellite_Z_Pos
+
 
 #END_COMP GM -----------------------------------------------------------------
 
