@@ -1,0 +1,163 @@
+#GRID
+1			nRootBlock_D(x_)
+1			nRootBlock_D(y_)
+1			nRootBlock_D(z_)
+-224.			x1
+ 32.			x2
+-128.			y1
+ 128.			y2
+-128.			z1
+ 128.			z2
+
+! Maximum resolution initially
+#GRIDRESOLUTION
+1.0			Resolution
+initial			NameArea
+
+! Minimum resolution in the computational domain
+#GRIDRESOLUTION
+8.0			Resolution
+all					NameArea
+
+! Far tail for wind satellite and inflow
+#GRIDRESOLUTION
+1.0			Resolution
+box			NameArea
+ -64.0			xMinBox
+ -16.0			yMinBox
+ -16.0			zMinBox
+  32.0			xMaxBox
+  16.0			yMaxBox
+  16.0		 	xMaxBox
+
+! Super high at inner boundary
+! to capture outflow patterns.
+#GRIDRESOLUTION
+1/16
+box
+-4.0                   xMinBox
+-4.0                   yMinBox
+-4.0                   zMinBox
+ 4.0                   xMaxBox
+ 4.0                   yMaxBox
+ 4.0                   zMaxBox
+
+! Strong resolution just outside
+! super-hi for clean outflow.
+#GRIDRESOLUTION
+1/8
+box
+-20.0                   xMinBox
+-16.0                   yMinBox
+-16.0                   zMinBox
+ 12.0                   xMaxBox
+ 16.0                   yMaxBox
+ 16.0                   zMaxBox
+
+! Good res throughout lobes.
+#GRIDRESOLUTION
+1/4
+box
+-36.0                   xMinBox
+-20.0                   yMinBox
+-20.0                   zMinBox
+ 20.0                   xMaxBox
+ 20.0                   yMaxBox
+ 20.0                   zMaxBox
+
+! 1/2 RE buffer around inner mag.
+#GRIDRESOLUTION
+1/2			Resolution
+box			NameArea
+-40.0			xMinBox
+-32.0			yMinBox
+-32.0			zMinBox
+ 32.0			xMaxBox
+ 32.0			yMaxBox
+ 32.0			zMaxBox
+
+#NONCONSERVATIVE
+T                       UseNonConservative
+
+#CONSERVATIVECRITERIA
+1			nConservCrit
+parabola		TypeConservCrit_I
+5.0			xParabolaConserv
+15.0			yParabolaConserv
+
+#TVDRESCHANGE
+T
+
+#TIMESTEPPING
+1			nStage
+0.80			CflExlp
+
+#OUTERBOUNDARY
+outflow			TypeBC_I(east_)
+vary			TypeBC_I(west_)
+float			TypeBC_I(south_)
+float			TypeBC_I(north_)
+float			TypeBC_I(bot_)
+float			TypeBC_I(top_)
+
+#INNERBOUNDARY
+ionosphere
+
+POLARBOUNDARY
+28.0            PolarNDim [amu/cc] for fluid 2
+25000.0         PolarTDim [K]      for fluid 2
+0.0             PolarUDim [km/s]   for fluid 2
+0.01            PolarNDim [amu/cc] for fluid 1
+25000.0         PolarTDim [K]      for fluid 1
+0.0             PolarUDim [km/s]   for fluid 1
+15.            PolarLatitude [deg]
+
+#SCHEME
+1			nOrder
+Rusanov			TypeFlux
+
+#SAVEPLOTSAMR
+F			DoSavePlotsAmr to save plots before each AMR
+
+#PLOTFILENAME
+date			TimeUnitMax
+
+#DOAMR
+T      DoAmr (The rest is read only if true)
+100    DnAMR
+-1     DtAmr
+F      IsStrictAmr
+
+#GEOMAGINDICES
+180			nSizeKpWindow [min]
+60.0			DtOutput      [sec]
+
+Standard MF setup.
+#MULTIION
+.001                    LowDensityRatio
+1e-10                   LowPressureRatio
+T                       DoRestrictMultiIon
+3.0                     MachNumberMultiIon (read if DoRestrictMultiIon)
+30.0                    ParabolaWidthMultiIon (read if DoRestrictMultiIon)
+
+#PLASMA
+1.0                     MassFluid HpPs
+1.0                     MassFluid Hp
+1.0                     AverageIonCharge HpPs
+1.0                     AverageIonCharge Hp
+0.2                     ElectronTemperatureRatio
+
+#COLLISION
+-1.			CollisionCoefDim
+6.0e2			TauCutOffDim [s]
+-1			uCutOffDim [km/s] read if TauCutOffDim positive
+4			    nPowerCutOff read if TauCutOffDim positive
+
+#MAGNETOSPHERE
+T                       body1
+2.5                     Rbody
+3.0                     Rcurrents
+28.0                    Magneto_rho_dim (/ccm) density for fixed BC for rho_BLK
+25000.0                 Magneto_T_dim (K) temperature for fixed BC for P_BLK
+0.01                   Magneto_rho_dim (/ccm) density for fixed BC for rho_BLK
+25000.0                 Magneto_T_dim (K) temperature for fixed BC for P_BLK
