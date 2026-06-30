@@ -176,6 +176,7 @@ single			TypeFileOut
 #SUPERMAGINDICES
 T                       DoWriteSupermagIndices
 
+SELECT ONE MAG GRID OUTPUT SPECIFICATION
 Solar Tsunamis DENSE grid output:
 MAGNETOMETERGRID
 1                       nMagGridFile
