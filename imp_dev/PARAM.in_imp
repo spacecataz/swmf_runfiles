@@ -4,10 +4,10 @@ GM  0   -27 -1 -1		CompMap runs on all PE-s
 IM -26 -3  1		CompMap runs on up to 24 PE-s
 IE -2 -1  1		CompMap runs on last 2 PEs
 
-COMPONENTMAP            For few cores like nightly test
-GM  2   -25 -1 -1               CompMap runs on all PE-s
-IM -24 -1  1            CompMap runs on up to 24 PE-s
-IE 0 1  1             CompMap runs on last 2 PEs
+COMPONENTMAP
+GM  90  -3 -1 -1               CompMap runs on all PE-s
+IM 0 89  1            CompMap runs on up to 24 PE-s
+IE -2 -1  1             CompMap runs on last 2 PEs
 
 Name Root Last Stride nThread
 COMPONENTMAP		For 128+ cores like production run
@@ -17,7 +17,7 @@ IE  -1 -1  1		CompMap runs on the last PE
 UA  0  400 1 
 
 #DESCRIPTION
-IMP with CIMI electron decay implemented
+September 2017 event with CIMI/IMP
 
 #TIMEACCURATE
 F			IsTimeAccurate
@@ -25,8 +25,8 @@ F			IsTimeAccurate
 #STARTTIME
 2015			iYear
 03			iMonth
-17			iDay
-00			iHour
+16			iDay
+02			iHour
 00			iMinute
 0			iSecond
 0.0			FracSecond
@@ -221,11 +221,12 @@ GEO			TypeCoordGrid
 #SUPERMAGINDICES
 T
 
-TRACEIE
+#TRACEIE
 T
 
 #IEPRECIP
 T
+F
 
 #END_COMP GM -----------------------------------------------------------------
 
@@ -245,16 +246,9 @@ MAGNIT
 2.247 ConeEfluxBbnd
 0.494 ConeNfluxBbnd
 
-#PRECIPRATIOLIMIT
-100000
-
 #BACKGROUNDCOND
 1	StarlightPedCond
 1	PolarCapPedCond
-
-#ROBINSONLIMIT
-60.0 eCondLimit (keV)
-1.0 eLimitScale (keV)
 
 #END_COMP IE -----------------------------------------------------------------
 
@@ -388,7 +382,7 @@ End of setting 2
 #MINIMUMPRESSURE
 1e-5			pMinDim [nPa]
 
-SAVEPLOT
+#SAVEPLOT
 2			nPlotFile
 y=0 FUL idl		StringPlot
 -1			DnSavePlot
@@ -419,12 +413,6 @@ borisregion		NameBorisRegion
 1			nStage
 0.8			CflExpl
 
-#TRACEIE
-F
-
-#IEPRECIP
-T
-
 #END_COMP GM -----------------------------------------------------------------
 
 #BEGIN_COMP IM ---------------------------------------------------------------
@@ -437,23 +425,14 @@ F               IsEmptyInitial
 T               IsGmInitial
 F               IsDataInitial
 
-#SAVEPLOT
-2
+SAVEPLOT
+1
 2d both
 60.
-preci e		StringPlot
-60.		DtOutput
-T		DoSaveSeparateFiles
 
 #DECAY
 T
 10 hours
- 
-SETENERGYGRID
-15 neng
-T		UseLogEGrid
-0.10		MinIonEnergy (in keV)
-40.0		MaxIonEnergy (in keV)
 
 #ELECTRONGRIDRATIO
 1
@@ -495,6 +474,10 @@ IMP
 max idl			StringPlot
 -1			DnSavePlot
 1 min			DtSavePlot
+
+#IM
+north                   TypeImCouple
+0.0                     FractionImJr
 
 #END_COMP IE -----------------------------------------------------------------
 
