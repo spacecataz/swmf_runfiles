@@ -45,6 +45,8 @@ style()
 parser = ArgumentParser(description=__doc__,
                         formatter_class=RawDescriptionHelpFormatter)
 parser.add_argument("hours", type=int, help="Number of hours to rotate.")
+parser.add_argument("file", type=str,
+                    help='The SWMF solar wind input file to rotate in time.')
 parser.add_argument("-onset", "--onset", type=float, default=8.30,
                     help='Set the hours-from-file-start of the storm onset.')
 parser.add_argument("-tp", "--precond", type=float, default=4.0,
@@ -52,14 +54,14 @@ parser.add_argument("-tp", "--precond", type=float, default=4.0,
                     "storm onset) in hours.")
 parser.add_argument("-d", "--duration", type=int, default=32,
                     help='Set the simulation duration in hours.')
-parser.add_argument("file", type=str,
-                    help='The SWMF solar wind input file to rotate in time.')
-parser.add_argument('--season', '-s', type=str, default='winter',
+parser.add_argument('-s', '--season', type=str, default='winter',
                     help='Set northern hemisphere season.')
 parser.add_argument("-v", "--viz", action='store_true', default=False,
                     help="Visualize propagation using matplotlib.")
 parser.add_argument("-p", "--param", type=str, default=None,
                     help="Name of PARAM input file to update with UT shift.")
+parser.add_argument("-i", "--ideal", action='store_true', default=False,
+                    help="Maintain #IDEALAXES if in original PARAM.in file.")
 args = parser.parse_args()
 
 # Quick check:
@@ -120,8 +122,11 @@ if args.param:
 
     # Remove IDEALAXES:
     if '#IDEALAXES\n' in lines:
-        print('Removing IDEALAXES from PARAM...')
-        lines.remove('#IDEALAXES\n')
+        if args.ideal:
+            print('#IDEALAXES will be retained for this run.')
+        else:
+            print('Removing IDEALAXES from PARAM...')
+            lines.remove('#IDEALAXES\n')
 
     # Replace IMF input line:
     lines[lines.index('#SOLARWINDFILE\n') + 2] = f"{new_name}\n"
