@@ -172,10 +172,6 @@ single			TypeFileOut
 180			nSizeKpWindow [min]
 1 min			DtOutput      [sec]
 
-! Make sure one mag grid is activated !
-#SUPERMAGINDICES
-T                       DoWriteSupermagIndices
-
 SELECT ONE MAG GRID OUTPUT SPECIFICATION
 Solar Tsunamis DENSE grid output:
 MAGNETOMETERGRID
@@ -218,6 +214,10 @@ SMG                     TypeCoordMagGrid
 89.                     LatMaxMagGrid
 -1                      DnSaveMagGrid
 10.0                    DtSaveMagGrid
+
+! Make sure one mag grid is activated !
+#SUPERMAGINDICES
+T                       DoWriteSupermagIndices
 
 #TRACEIE
 T			DoRayTraceIE
