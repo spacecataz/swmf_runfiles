@@ -67,8 +67,11 @@ parabola		TypeConservCrit_I
 5.0			xParabolaConserv
 15.0			yParabolaConserv
 
-#TVDRESCHANGE
-T
+ #RESOLUTIONCHANGE
+ F          UseAccurateResChange
+ T          UseTvdResChange
+ 1.0       BetaLimiterResChange
+ 2          nFaceLimiterResChange
 
 #TIMESTEPPING
 1			nStage
@@ -84,15 +87,6 @@ float			TypeBC_I(top_)
 
 #INNERBOUNDARY
 ionosphere
-
-POLARBOUNDARY
-28.0            PolarNDim [amu/cc] for fluid 2
-25000.0         PolarTDim [K]      for fluid 2
-0.0             PolarUDim [km/s]   for fluid 2
-0.0001            PolarNDim [amu/cc] for fluid 1
-25000.0         PolarTDim [K]      for fluid 1
-0.0             PolarUDim [km/s]   for fluid 1
-15.            PolarLatitude [deg]
 
 #SCHEME
 1			nOrder
@@ -143,3 +137,8 @@ T                       body1
 25000.0                 Magneto_T_dim (K) temperature for fixed BC for P_BLK
 0.01                   Magneto_rho_dim (/ccm) density for fixed BC for rho_BLK
 25000.0                 Magneto_T_dim (K) temperature for fixed BC for P_BLK
+
+#MINIMUMPRESSURE
+1e-5			HppMinDim [nPa]
+1e-5			HpPspMinDim   [nPa]
+.002			PeMinDim

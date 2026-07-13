@@ -76,6 +76,15 @@ box			NameArea
  32.0			yMaxBox
  32.0			zMaxBox
 
+#MAGNETOSPHERE
+T                       body1
+2.5                     Rbody
+3.0                     Rcurrents
+28.0                    Magneto_rho_dim (/ccm) density for fixed BC for rho_BLK
+25000.0                 Magneto_T_dim (K) temperature for fixed BC for P_BLK
+0.01                   Magneto_rho_dim (/ccm) density for fixed BC for rho_BLK
+25000.0                 Magneto_T_dim (K) temperature for fixed BC for P_BLK
+
 #NONCONSERVATIVE
 T                       UseNonConservative
 
@@ -85,8 +94,17 @@ parabola		TypeConservCrit_I
 5.0			xParabolaConserv
 15.0			yParabolaConserv
 
-#TVDRESCHANGE
-T
+ #RESOLUTIONCHANGE
+ F          UseAccurateResChange
+ T          UseTvdResChange
+ 1.0       BetaLimiterResChange
+ 2          nFaceLimiterResChange
+
+#SCHEME
+2   nOrder
+Rusanov     TypeFlux
+mc3	    TypeLimiter
+1.2         LimiterBeta
 
 #TIMESTEPPING
 1			nStage
@@ -103,30 +121,17 @@ float			TypeBC_I(top_)
 #INNERBOUNDARY
 ionosphere
 
-POLARBOUNDARY
-28.0            PolarNDim [amu/cc] for fluid 2
-25000.0         PolarTDim [K]      for fluid 2
-0.0             PolarUDim [km/s]   for fluid 2
-0.01            PolarNDim [amu/cc] for fluid 1
-25000.0         PolarTDim [K]      for fluid 1
-0.0             PolarUDim [km/s]   for fluid 1
-15.            PolarLatitude [deg]
-
-#SCHEME
-1			nOrder
-Rusanov			TypeFlux
-
 #SAVEPLOTSAMR
 F			DoSavePlotsAmr to save plots before each AMR
-
-#PLOTFILENAME
-date			TimeUnitMax
 
 #DOAMR
 T      DoAmr (The rest is read only if true)
 100    DnAMR
 -1     DtAmr
 F      IsStrictAmr
+
+#PLOTFILENAME
+date			TimeUnitMax
 
 #GEOMAGINDICES
 180			nSizeKpWindow [min]
@@ -153,11 +158,7 @@ T                       DoRestrictMultiIon
 -1			uCutOffDim [km/s] read if TauCutOffDim positive
 4			    nPowerCutOff read if TauCutOffDim positive
 
-#MAGNETOSPHERE
-T                       body1
-2.5                     Rbody
-3.0                     Rcurrents
-28.0                    Magneto_rho_dim (/ccm) density for fixed BC for rho_BLK
-25000.0                 Magneto_T_dim (K) temperature for fixed BC for P_BLK
-0.01                   Magneto_rho_dim (/ccm) density for fixed BC for rho_BLK
-25000.0                 Magneto_T_dim (K) temperature for fixed BC for P_BLK
+#MINIMUMPRESSURE
+1e-5			HppMinDim [nPa]
+1e-5			HpPspMinDim   [nPa]
+.002			PeMinDim

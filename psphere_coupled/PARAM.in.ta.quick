@@ -1,6 +1,11 @@
 #ECHO
 T
 
+#COMPONENTMAP                   For 128+ cores like production run
+IE      0       1       1
+GM      6       -1      -1      -1
+IM      2       5       1
+
 #INCLUDE
 RESTART.in
 
@@ -13,7 +18,7 @@ T			DoTimeAccurate
 #SAVERESTART
 T                       DoSaveRestart
 -1                      DnSaveRestart
-300.0                  DtSaveRestart
+600.0                  DtSaveRestart
 
 #CHECKTIMESTEP
 F                        DoCheckTimeStep
@@ -57,11 +62,31 @@ F			DoCoupleOnTime
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #INCLUDE
-RESTART_n005000/GM/restart.H
+GM/restartIN/restart.H
 
-INCLUDE
-RESTART_t0001.1667h/GM/restart.H
+#MAGNETOSPHERE
+T                       body1
+2.5                     Rbody
+3.0                     Rcurrents
+28.0                    Magneto_rho_dim (/ccm) density for fixed BC for rho_BLK
+25000.0                 Magneto_T_dim (K) temperature for fixed BC for P_BLK
+0.01                   Magneto_rho_dim (/ccm) density for fixed BC for rho_BLK
+25000.0                 Magneto_T_dim (K) temperature for fixed BC for P_BLK
 
+#NONCONSERVATIVE
+T                       UseNonConservative
+
+#CONSERVATIVECRITERIA
+1			      nConservCrit
+parabola		TypeConservCrit_I
+5.0			  xParabolaConserv
+15.0			  yParabolaConserv
+
+ #RESOLUTIONCHANGE
+ F          UseAccurateResChange
+ T          UseTvdResChange
+ 1.0       BetaLimiterResChange
+ 2          nFaceLimiterResChange
 
 #MULTIION
 .001                   LowDensityRatio
@@ -83,22 +108,13 @@ T                       DoRestrictMultiIon
 30.0			uCutOffDim [km/s] read if TauCutOffDim positive
 2			    nPowerCutOff read if TauCutOffDim positive
 
-#NONCONSERVATIVE
-T                       UseNonConservative
-
-#CONSERVATIVECRITERIA
-1			      nConservCrit
-parabola		TypeConservCrit_I
-5.0			  xParabolaConserv
-15.0			  yParabolaConserv
-
 ! Setting 1
 #IMCOUPLING
 20.0			TauCoupleIm
 F			    DoImSatTrace
 T			    DoCoupleImPressure
 T			    DoCoupleImDensity
-0.0001		DensityCoupleFloor
+0.001		DensityCoupleFloor
 F			    DoFixPolarRegion
 ! end of setting 1
 
@@ -116,42 +132,29 @@ VAR step date		StringLogfile
 dt rho mx my mz p bx by bz pmin pmax dst cpcpn
 3.0 3.5 5.0		  StringRFlux
 
-SAVEPLOT
-1               nPlotFiles
+#SAVEPLOT
+13            nPlotFiles
 idl z=0 MHD     StringPlot
 -1              DnSavePlot
 10.             DtSavePlot
 -1              DxSavePlot
-
-#SAVEPLOT
-2               nPlotFiles
-idl z=0 VAR     StringPlot
+idl y=0 MHD     StringPlot
 -1              DnSavePlot
 10.             DtSavePlot
 -1              DxSavePlot
-bx by bz pe hprho hpux hpuy hpuz hpp pshprho pshpux pshpuy pshpuz pshpp jx jy jz
-g rbody
-idl y=0 VAR     StringPlot
--1              DnSavePlot
-10.             DtSavePlot
--1              DxSavePlot
-bx by bz pe hprho hpux hpuy hpuz hpp pshprho pshpux pshpuy pshpuz pshpp jx jy jz
-g rbody
 y=0 ray idl             StringPlot
 -1                      DnSavePlot
-60.                     DtSavePlot
+10.                     DtSavePlot
 -1.0                    DxSavePlot
 z=0 ray idl             StringPlot
--1                      DnSavePlot
-60.                     DtSavePlot
+-1                     DnSavePlot
+10.                     DtSavePlot
 -1.0                    DxSavePlot
-idl 3d VAR
+idl 3d MHD
 -1
 300.
 -1
-bx by bz pe hprho hpux hpuy hpuz hpp pshprho pshpux pshpuy pshpuz pshpp jx jy jz
-g rbody
-shl VAR idl		StringPlot
+shl MHD idl		StringPlot
 -1			DnSavePlot
 60.			DtSavePlot
 SMG			TypeCoordPlot
@@ -163,9 +166,7 @@ SMG			TypeCoordPlot
 -90. 			LatMin
 90. 			LatMax
 2.                 	dLat ! only read if LatMin /= LatMax
-bx by bz pe hprho hpux hpuy hpuz hpp pshprho pshpux pshpuy pshpuz pshpp jx jy jz
-g rbody
-shl VAR idl             StringPlot
+shl MHD idl             StringPlot
 -1                      DnSavePlot
 60.                    DtSavePlot
 SMG                     TypeCoordPlot
@@ -177,9 +178,7 @@ SMG                     TypeCoordPlot
 -90.                    LatMin
 90.                     LatMax
 2.                      dLat ! only read if LatMin /= LatMax
-bx by bz pe hprho hpux hpuy hpuz hpp pshprho pshpux pshpuy pshpuz pshpp jx jy jz
-g rbody
-shl VAR idl             StringPlot
+shl MHD idl             StringPlot
 -1                      DnSavePlot
 60.                    DtSavePlot
 SMG                     TypeCoordPlot
@@ -191,9 +190,7 @@ SMG                     TypeCoordPlot
 -90.                    LatMin
 90.                     LatMax
 2.                      dLat ! only read if LatMin /= LatMax
-bx by bz pe hprho hpux hpuy hpuz hpp pshprho pshpux pshpuy pshpuz pshpp jx jy jz
-g rbody
-shl VAR idl             StringPlot
+shl MHD idl             StringPlot
 -1                      DnSavePlot
 60.                    DtSavePlot
 SMG                     TypeCoordPlot
@@ -205,9 +202,7 @@ SMG                     TypeCoordPlot
 -90.                    LatMin
 90.                     LatMax
 2.                      dLat ! only read if LatMin /= LatMax
-bx by bz pe hprho hpux hpuy hpuz hpp pshprho pshpux pshpuy pshpuz pshpp jx jy jz
-g rbody
-shl VAR idl
+shl MHD idl
 -1
 60.
 SMG
@@ -219,9 +214,7 @@ SMG
 -90.
 90.
 2.
-bx by bz pe hprho hpux hpuy hpuz hpp pshprho pshpux pshpuy pshpuz pshpp jx jy jz
-g rbody
-shl VAR idl
+shl MHD idl
 -1
 60.
 SMG
@@ -233,9 +226,7 @@ SMG
 -90.
 90.
 2.
-bx by bz pe hprho hpux hpuy hpuz hpp pshprho pshpux pshpuy pshpuz pshpp jx jy jz
-g rbody
-shl VAR idl
+shl MHD idl
 -1
 60.
 SMG
@@ -247,9 +238,7 @@ SMG
 -90.
 90.
 2.
-bx by bz pe hprho hpux hpuy hpuz hpp pshprho pshpux pshpuy pshpuz pshpp jx jy jz
-g rbody
-shl VAR idl
+shl MHD idl
 -1
 60.
 SMG
@@ -261,8 +250,6 @@ SMG
 -90.
 90.
 2.
-bx by bz pe hprho hpux hpuy hpuz hpp pshprho pshpux pshpuy pshpuz pshpp jx jy jz
-g rbody
 
 #SCHEME
 2			nORDER
@@ -299,18 +286,13 @@ float			TypeBC_I(bot_)
 float			TypeBC_I(top_)
 
 #INNERBOUNDARY
-polarwind
+ionosphere
 
-POLARBOUNDARY
-28.0            PolarNDim [amu/cc] for fluid 1
-25000.0         PolarTDim [K]      for fluid 1
-0.0             PolarUDim [km/s]   for fluid 1
-0.1             PolarNDim [amu/cc] for fluid 2
-25000.0         PolarTDim [K]      for fluid 2
-0.0             PolarUDim [km/s]   for fluid 2
-15.             PolarLatitude [deg]
+#GEOMAGINDICES
+180		nSizeKpWindow [min]
+60.0		DtOutput
 
-INCLUDE
+#INCLUDE
 ./sat.include
 
 #UPSTREAM_INPUT_FILE
@@ -324,14 +306,11 @@ imf_mf_bzturn_by_test.dat       UpstreamFileName
 #BEGIN_COMP IM ---------------------------------------------------------------
 
 INCLUDE
-RESTART_t0004.0000h/IM/restart.H
-
-INCLUDE
-RESTART_t0001.1667h/IM/restart.H
+IM/restartIN/restart.H
 
 #COREPLASMASPHERE
 T   UseCorePlasmaSphereModel
-.0001  MinPlasDensity
+.001  MinPlasDensity
 
 #INITIALF2
 F       IsEmptyInitial
@@ -346,6 +325,17 @@ T 			UseDecay
 !Decay for RCM particle densitys
 #STRONGDIFFUSION
 F       UseStrongDiff
+
+#DIAGONALIZEDDIFFUSION
+T	UseDiagDiffusion
+
+#WAVES
+T			UseWaveDiffusion
+T			UseHiss
+T			UseChorus
+D_hiss_UCLA.dat		HissWavesD
+D_LBchorus_merge3.dat	CorusWavesD
+T			UseKpIndex
 
 #BMODEL
 MHD     NameModel
@@ -366,7 +356,7 @@ T			DoWritePrerunField
 T			DoWritePrerunField
 
 #SAVEPLOT
-1			nCIMIFileType
+4			nCIMIFileType
 2d both			StringPlot
 10.
 fls all			StringPlot
@@ -391,10 +381,7 @@ F			      DoSaveSeparateFiles
 #BEGIN_COMP IE ---------------------------------------------------------------
 
 INCLUDE
-RESTART_n005000/IE/restart.H
-
-INCLUDE
-RESTART_t0001.1667h/IE/restart.H
+IE/restartIN/restart.H
 
 
 #IONOSPHERE
@@ -432,6 +419,6 @@ T
 
 #STOP
 -1
-60.
+60
 
 #END

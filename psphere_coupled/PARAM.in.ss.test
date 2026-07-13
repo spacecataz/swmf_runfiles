@@ -6,8 +6,8 @@ Ideal run for southward IMF, 450km/s solar wind
 
 #COMPONENTMAP			For 128+ cores like production run
 IE	0	1	1
-GM	6	-1	-1	-1	             
-IM	2	5	1
+GM	1	-1	-1	-1	             
+IM	-1	-1	-1
 
 #TIMEACCURATE
 F			DoTimeAccurate
