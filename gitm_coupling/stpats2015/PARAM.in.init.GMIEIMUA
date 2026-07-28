@@ -431,10 +431,10 @@ swmf                        PotentialModel
 10.0                        how often to update aurora and euv
 
 #AURORATYPES
-T         UseDiffuseAurora (logical)
-F         UseMonoAurora (logical)
-F         UseWaveAurora (logical)
-F         UseIonAurora (logical)
+T                           UseDiffuseAurora (logical)
+F                           UseMonoAurora (logical)
+F                           UseWaveAurora (logical)
+F                           UseIonAurora (logical)
 
 #MSIS21
 T
@@ -443,13 +443,13 @@ T
 F                           Use apex magnetic coordinate system
 
 #DYNAMO
-T               UseDynamo
-88.0                    DynamoHighLatBoundary
-500                             nItersMax
-1.0                                     MaxResidual
-F                                               IncludeCowling
-40.0                                                    LongitudinalAveraging
-F               UseNewTrace
+T                           UseDynamo
+88.0                        DynamoHighLatBoundary
+500                         nItersMax
+1.0                         MaxResidual
+F                           IncludeCowling
+40.0                        LongitudinalAveraging
+F                           UseNewTrace
 T
 
 #NGDC_INDICES
