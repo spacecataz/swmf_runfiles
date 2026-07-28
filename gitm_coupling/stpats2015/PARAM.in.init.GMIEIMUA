@@ -259,8 +259,8 @@ mc3                         TypeLimiter
 T                           DoTimeAccurate
 
 #PROGRESS
-1                           DnProgressShort
-100                         DnProgressLong
+100                         DnProgressShort
+1000                        DnProgressLong
 
 #SAVERESTART
 T                           DoSaveRestart
@@ -406,6 +406,7 @@ F                           DoRestart
 T
 
 #LOGFILE
+10.0                        DtWriteLog
 
 #OUTPUTBACKEND
 mpiio                       legacy (default) / mpiio / netcdf
@@ -424,8 +425,16 @@ single                      none (default) / daily / single (only used when back
 900.0
 
 #ELECTRODYNAMICS
+swmf                        AuroralModel
 10.0                        how often to update potential
+swmf                        PotentialModel
 10.0                        how often to update aurora and euv
+
+#AURORATYPES
+T         UseDiffuseAurora (logical)
+F         UseMonoAurora (logical)
+F         UseWaveAurora (logical)
+F         UseIonAurora (logical)
 
 #MSIS21
 T
@@ -433,12 +442,22 @@ T
 #APEX
 F                           Use apex magnetic coordinate system
 
+#DYNAMO
+T               UseDynamo
+88.0                    DynamoHighLatBoundary
+500                             nItersMax
+1.0                                     MaxResidual
+F                                               IncludeCowling
+40.0                                                    LongitudinalAveraging
+F               UseNewTrace
+T
+
 #NGDC_INDICES
 UA/DataIn/f107.txt          File is auto-parsed.
 
 #EUV_DATA
 T                                                                                  Use FISM solar flux data
-UA/DataIn/FISM/fismflux_daily_2013.dat      Filename. Change the year!
+UA/DataIn/FISM/fismflux_daily_2015.dat      Filename. Change the year!
 
 #END_COMP UA -----------------------------------------------------------------
 
