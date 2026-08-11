@@ -1,8 +1,9 @@
 #ECHO
 T                           DoEcho
 
+Don't overlap gm/ua!
 #COMPONENTMAP               For 400+ cores like production run
-GM  0 -3 -1  -1             GM runs on 0:nProc-3 multithreaded
+GM  0 -400 -1  -1           GM runs on 0:nProc-400 multithreaded
 IE -2 -1  1                 IE runs on last 2 PE-s
 IM -2 -2  1                 IM runs on nProc-2 PE
 UA -400 -1 1                UA requires 400 processors.
@@ -393,9 +394,9 @@ T                           UseDecay
 #RESTART
 F                           DoRestart
 
-! Yields 1deg by 2deg. Each block has 9 cells by default; this is 180x180 cells.
+! Yields 1deg by 4deg. Each block has 9 cells by default; this is 180x90 cells.
 #GRID
-20                          lons
+10                          lons
 20                          lats
 -90.0                       minimum latitude to model
 90.0                        maximum latitude to model

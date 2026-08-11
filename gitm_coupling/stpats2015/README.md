@@ -3,6 +3,13 @@
 This set of runfiles is to simulate the St. Pats day storm with and
 without GITM.
 
+For GITM, consider decreasing these numbers to get better electrodynamics
+resolution (esp. the longitude!):
+
+```
+  real :: MagLatRes = 0.5
+  real :: MagLonRes = 4.0
+```
 
 ## IMF Input
 
