@@ -321,7 +321,7 @@ box tapered         StringShape
 
 #REGION
 sphere1             NameRegion
-sphere0 tapered		StringShape
+sphere0 tapered     StringShape
 3                   Radius
 0.5                 Taper
 
