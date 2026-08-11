@@ -96,11 +96,11 @@ box
 #GRIDRESOLUTION
 1/16
 box
- -4.0                   xMinBox
--16.0                   yMinBox
+ -16.0                   xMinBox
+-24.0                   yMinBox
  -8.0                   zMinBox
  12.0                   xMaxBox
- 16.0                   yMaxBox
+ 24.0                   yMaxBox
   8.0                   zMaxBox
 
 ! Good res throughout lobes.
