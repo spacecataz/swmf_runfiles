@@ -400,12 +400,11 @@ T                       UseBorisCorrection
 
 #REGION
 borisregion             NameRegion
-sphere tapered          StringShape
--4.0                    xPosition
+sphere                  StringShape
+0.0                     xPosition
 0.0                     yPosition
 0.0                     zPosition
-14.0                    Radius
-2.0                     Taper
+5.0                     Radius
 
 #BORISREGION
 borisregion             NameBorisRegion
