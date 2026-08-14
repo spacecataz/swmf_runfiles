@@ -1,12 +1,12 @@
 #ECHO
 T                           DoEcho
 
-Don't overlap gm/ua!
-#COMPONENTMAP               For 400+ cores like production run
-GM  0 -400 -1  -1           GM runs on 0:nProc-400 multithreaded
+Don't overlap GM/UA; UA requires 200 cores.
+#COMPONENTMAP               For >200 cores production run
+GM  0 -199 1  -1            GM runs on 0:nProc-400 multithreaded
 IE -2 -1  1                 IE runs on last 2 PE-s
 IM -2 -2  1                 IM runs on nProc-2 PE
-UA -400 -1 1                UA requires 400 processors.
+UA -200 -1 1                UA requires 400 processors.
 
 #DESCRIPTION
 St. Patrick's Day Storm event WITH GITM coupling.
@@ -395,9 +395,10 @@ T                           UseDecay
 F                           DoRestart
 
 ! Yields 1deg by 4deg. Each block has 9 cells by default; this is 180x90 cells.
+! Requires 10x20=200 cpus (1 block per cpu)
 #GRID
-10                          lons
-20                          lats
+10                          nBlock Longitudes
+20                          nBlock Latitudes
 -90.0                       minimum latitude to model
 90.0                        maximum latitude to model
 0.0                         longitude to model (ignored in everything but 1D)
