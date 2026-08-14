@@ -280,16 +280,16 @@ T                           UseComp
 #STRICT
 T                           UseStrict
 
-! Allow GM/IM and IE run in parallel. LAYOUT.in has to be properly set!
+! Gather IE operations to prevent multiple calls.
 #COUPLEORDER
 7                           nCouple
+GM IE                       NameSourceTarget
+UA IE                       NameSourceTarget
 IE GM                       NameSourceTarget
 IE IM                       NameSourceTarget
-GM IE                       NameSourceTarget
+IE UA                       NameSourceTarget
 GM IM                       NameSourceTarget
 IM GM                       NameSourceTarget
-IE UA                       NameSourceTarget
-UA IE                       NameSourceTarget
 
 #COUPLE2
 GM                          NameComp1
@@ -313,7 +313,7 @@ IM                          NameComp2
 IE                          NameComp1
 UA                          NameComp2
 -1                          DnCouple
-10.0                        DtCouple
+5.0                         DtCouple
 
 #COUPLETIME
 GM                          NameComp
@@ -450,8 +450,7 @@ T                           UseDynamo
 1.0                         MaxResidual
 F                           IncludeCowling
 40.0                        LongitudinalAveraging
-F                           UseNewTrace
-T
+F                           SimplyAddPotentials
 
 #NGDC_INDICES
 UA/DataIn/f107.txt          File is auto-parsed.
