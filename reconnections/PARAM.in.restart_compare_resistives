@@ -1,0 +1,284 @@
+Name Root Last Stride nThread
+#COMPONENTMAP        For production run
+GM  0 -3 -1  -1      CompMap 0:nProc-3 multithreaded
+IE -2 -1  1          CompMap last 2 PE-s
+IM -1 -1  1          Turn off if not compiled w/ IM
+
+#INCLUDE
+RESTART.in
+
+#DESCRIPTION
+Restart file for investigating dayside reconnection        StringDescription
+
+#TIMEACCURATE
+T                 IsTimeAccurate
+
+#IDEALAXES
+
+#PROGRESS
+100                 DnProgressShort
+1000                DnProgressLong
+
+#SAVERESTART
+T                   DoSaveRestart
+-1                  DnSaveRestart
+15 min              DtSaveRestart
+
+! On Pleiades, switch on MAKEDIR and switch off RESTARTOUTDIR
+MAKEDIR
+F                   DoMakeDir
+
+#RESTARTOUTDIR
+SWMF_RESTART.YYYYMMDD_HHMMSS        NameRestartOutDir
+
+! Allow GM/IM and IE run in parallel. #COMPONENTMAP has to be properly set!
+#COUPLEORDER
+2                   nCouple
+IE GM               NameSourceTarget
+GM IE               NameSourceTarget
+
+#COUPLE2
+GM                  NameComp1
+IE                  NameComp2
+-1                  DnCouple
+5.0                 DtCouple
+
+#COUPLETIME
+GM                  NameComp
+F                   DoCoupleOnTime
+
+#UPDATEB0
+0.5                 DtUpdateB0
+
+#BEGIN_COMP GM ---------------------------------------------------------------
+
+#INCLUDE
+GM/restartIN/restart.H
+
+#GRIDBLOCKALL
+500000              MaxBlock
+
+#OUTERBOUNDARY
+outflow                 TypeBc1
+vary                    TypeBc2
+float                   TypeBc3
+float                   TypeBc4
+float                   TypeBc5
+float                   TypeBc6
+
+#INNERBOUNDARY
+ionosphere              TypeBcBody
+
+#SOLARWINDFILE
+T                       UseSolarWindFile
+imf_ideal.dat           NameSolarWindFile
+
+#SAVELOGNAME
+F                       UseLogNameStep
+T                       UseLogNameDateTime
+
+#SAVEPLOTNAME
+F                       UsePlotNameStep
+F                       UsePlotNameTime
+T                       UsePlotNameDateTime
+
+#PLOTFILENAME
+date                    NameMaxTimeUnit
+
+#SAVELOGFILE
+T                       DoSaveLogfile
+VAR step date           StringLog
+-1                      DnSaveLogfile
+5.0                     DtSaveLogfile
+dt rho mx my mz p bx by bz pmin pmax dst_sm dstflx        NameLogVars
+3.0                     StringLogRadii
+
+#SAVEPLOT
+3                       nPlotFile
+y=0 MHD idl             StringPlot
+-1                      DnSavePlot
+1 min                   DtSavePlot
+-1.0                    DxSavePlot
+z=0 MHD idl             StringPlot
+-1                      DnSavePlot
+1 min                   DtSavePlot
+-1.0                    DxSavePlot
+3d MHD idl              StringPlot
+-1                      DnSavePlot
+900.                    DtSavePlot
+-1                      DxSavePlot
+
+#GEOMAGINDICES
+180                     nSizeKpWindow [min]
+1 min                   DtOutput
+
+#MAGNETOMETERGRID
+1                       nMagGridFile
+global real4            StrGridFileOut
+GEO                     TypeCoordGrid
+360                     nGridLon
+171                     nGridLat
+0.                      GridLonMin
+360.                    GridLonMax
+-85.                    GridLatMin
+85.                     GridLatMax
+-1                      DnSaveMagGrid
+1 min                   DtSaveMagGrid
+
+#SUPERMAGINDICES
+T                       DoWriteSupermagIndices
+
+#CONSERVATIVECRITERIA
+1                       nConservCrit
+parabola                TypeConservCrit
+ 5.0                    xParabolaConserv
+15.0                    yParabolaConserv
+
+Define regions to apply resistivity.
+#REGION
+day                 NameRegion
+box tapered         StringShape
+-5.0                 xMinBox
+-30                 yMinBox
+-20	                zMinBox
+15.0                xMaxBox
+20	                yMaxBox
+20	                zMaxBox
+1                   Taper
+
+#REGION
+night                NameRegion
+box tapered         StringShape
+-50.0               xMinBox
+-25                 yMinBox
+-20	                zMinBox
+-5.0                xMaxBox
+25	                yMaxBox
+20	                zMaxBox
+1                   Taper
+
+#REGION
+sphere1             NameRegion
+sphere0 tapered     StringShape
+3                   Radius
+0.5                 Taper
+
+
+-----------Resistivity Begin------------
+
+#RESISTIVITY
+T                   UseResistivity
+constant            TypeResistivity
+6.0E+10             Eta0Si [m2/s] (read except for Spitzer resistivity)
+
+--- or ---
+
+RESISTIVITY
+T                   UseResistivity
+anomalous           TypeResistivity
+1.0E+9              Eta0Si [m2/s] (read except for Spitzer resistivity)
+2.0E+9              Eta0AnomSi [m2/s] (read for anomalous resistivity only)
+2.0E+10             EtaMaxAnomSi [m2/s] (read for anomalous resistivity only)
+1.0E-9              jCritAnomSi [A/m2] (read for anomalous resistivity only)
+
+Always include nightside resistivity!
+#RESISTIVEREGION
++night -sphere1      StringResistRegion
+
+-----------Resistivity End-----------
+
+--------------Hall Begin---------------
+HALLRESISTIVITY
+T                   UseHallResist
+16.0                HallFactorMax
+1.0                 HallCmaxFactor  1.0 !!!
+
+HALLREGION
++box1 -sphere1      StringHallRegion
+
+SEMIIMPLICIT
+T                   UseSemiImplicit
+resistivity         TypeSemiImplicit
+
+SEMIKRYLOV
+GMRES               TypeKrylov  (GMRES, BICGSTAB, CG)
+0.001               ErrorMaxKrylov
+100                 MaxMatvecKrylov
+
+SEMIPRECONDITIONER
+T                   DoPrecond (rest of parameters are read if true)
+MBILU               TypePrecond (MBILU, BILU, DILU, GS, BLOCKJACOBI, JACOBI, HYPRE)
+0.5                 PrecondParam (0 to 1, read for MBILU preconditioner only)
+
+--------------Hall end---------------
+
+! Pressures below pMinDim are replaced with pMinDim.
+#MINIMUMPRESSURE
+1e-5                    pMinDim [nPa]
+
+#BORIS
+T                       UseBorisCorrection
+0.02                    BorisClightFactor
+
+#REGION
+borisregion             NameRegion
+sphere                  StringShape
+0.0                     xPosition
+0.0                     yPosition
+0.0                     zPosition
+5.0                     Radius
+
+#BORISREGION
+borisregion             NameBorisRegion
+
+#SCHEME
+2                   nOrder
+Sokolov             TypeFlux
+mc3                 TypeLimiter
+1.2                 LimiterBeta
+
+#TIMESTEPPING
+1                       nStage
+0.85                    CflExpl
+
+#END_COMP GM -----------------------------------------------------------------
+
+#BEGIN_COMP IE ---------------------------------------------------------------
+
+#BACKGROUNDCONDUCTANCE
+1.00        StarLightPedCond
+0.25        PolarCapPedCond
+
+#SOLAREUV
+F           DoUseSolarEUV
+
+#AURORA
+F           DoUseAurora
+RLM5        NameAurMod
+
+#UNIFORMCONDUCTANCE
+15          SigmaPedConst
+15          SigmaHalConst
+
+#BOUNDARY
+10.0		LatBoundary
+
+#SAVEPLOT
+1                   nPlotFile
+max idl             StringPlot
+-1                  DnSavePlot
+1 min               DtSavePlot
+
+#END_COMP IE -----------------------------------------------------------------
+
+#ENDTIME
+2000                iYear
+01                  iMonth
+01                  iDay
+18                  iHour
+00                  iMinute
+00                  iSecond
+0.0                 FracSecond
+
+#END ############################################################
+
