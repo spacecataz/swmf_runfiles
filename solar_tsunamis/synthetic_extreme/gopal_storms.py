@@ -67,7 +67,7 @@ def plot_gopal_distros():
     v = np.arange(100, 4700+dv, dv)
     e = 10**np.arange(27.5, 34, .01)
 
-    fig, (a1, a2) = plt.subplots(1, 2)
+    fig, (a1, a2) = plt.subplots(1, 2, figsize=(9, 4.5))
 
     a1.loglog(v, weibull(v))
     a1.set_xlabel('Velocity ($km/s$)')
@@ -79,6 +79,8 @@ def plot_gopal_distros():
     a2.loglog(e, weibull(e, a=e_a, eta=e_eta, gamma=e_gam))
     a2.set_xlabel('Energy ($erg$)')
     a2.set_ylabel('Occurrence ($\#/year$)')
+
+    # Add Katus points
 
     fig.tight_layout()
 
@@ -364,7 +366,7 @@ def illustrate_scaling_small():
     fig.savefig('scaling_illustrated_small.pdf')
 
 
-def illustrate_scaling():
+def illustrate_scaling(suffix='png'):
     '''
     Create a set of plots that illustrate how IMF is scaled.
     '''
@@ -398,7 +400,7 @@ def illustrate_scaling():
 
     fig1 = imf_medi.quicklook(title='SEA Medians', plotvars=plotvars)
     fig1.tight_layout()
-    fig1.savefig('scaledemo_SEA_medians.png')
+    fig1.savefig(f'scaledemo_SEA_medians.{suffix}')
 
     # Set key dates for amplification
     start = dt.datetime(2000, 1, 1, 8, 15, 0)
@@ -429,8 +431,8 @@ def illustrate_scaling():
     axes[0].set_title('Dynamic Scaling')
 
     fig2.tight_layout()
-    fig2.savefig('scaledemo_scale_curves.png')
+    fig2.savefig(f'scaledemo_scale_curves.{suffix}')
 
     fig3 = imf.quicklook(title='Scaled SEA Medians', plotvars=plotvars)
     fig3.tight_layout()
-    fig3.savefig('scaledemo_final_result.png')
+    fig3.savefig(f'scaledemo_final_result.{suffix}')
