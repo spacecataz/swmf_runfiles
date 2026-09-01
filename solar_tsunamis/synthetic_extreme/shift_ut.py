@@ -15,7 +15,10 @@ an input PARAM shared, the PARAM updated to match these updated times.
 Times are set with a given amount of preconditioning time (time before the
 storm onset, defaulting to 4 hours).
 
-If #IDEALAXES is found in the PARAM file, it is removed.
+The script assumes that an "ideal" simulation is no longer desired (i.e.,
+dipole tilt should be activated, etc.). If #IDEALAXES is found in the PARAM
+file, it is removed. #MAGNETOMETERGRID selection is switched from SMG to GEO
+coordinates. This behavior can be overridden with the `--ideal` option.
 
 If the `--season` argument is used, the start time can be drastically shifted
 to capture different seasons (reference: northern hemisphere). Possible
@@ -28,7 +31,7 @@ equinox  | 2000/03/20
 summer   | 2000/06/21
 
 Example: Use a 3 hour offset using northern hemisphere summer:
->>> rotate_ut.py 3 imf_input_files/imf_G1000_KatusMedian.dat --season summer
+>>> shift_ut.py 3 imf_input_files/imf_G1000_KatusMedian.dat --season summer
 
 '''
 
@@ -127,6 +130,13 @@ if args.param:
         else:
             print('Removing IDEALAXES from PARAM...')
             lines.remove('#IDEALAXES\n')
+
+    if not args.ideal:
+        print('Activating GEOGRAPHIC coordinates for magnetometer grids...')
+        ind_geo = lines.index('Solar Tsunamis low output: GEOGRAPHIC\n') + 1
+        ind_smg = lines.index('Solar Tsunamis low output: SMG\n') + 1
+        lines[ind_geo] = '#MAGNETOMETERGRID\n'  # turning ON!
+        lines[ind_smg] = 'MAGNETOMETERGRID\n'   # turning OFF!
 
     # Replace IMF input line:
     lines[lines.index('#SOLARWINDFILE\n') + 2] = f"{new_name}\n"
