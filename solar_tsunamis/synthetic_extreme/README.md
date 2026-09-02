@@ -128,6 +128,33 @@ and simulation end time (36 hours after simulation start) as well as the name
 of the IMF input file would all be updated in `PARAM.in_SWPC_init`.
 The updated PARAM would be named, `PARAM.in_SWPC_init_shifted`.
 
+## Example: Running a Basic Extreme for Summer & 06UT Onset
+
+Let's walk through an example of setting up and running a 1-in-1000 year
+extreme arriving under northern hemisphere summer conditions at 06UT.
+
+Configure and install the SWMF as above. Create a run directory. Copy the
+following files into the rundir:
+
+- `PARAM.in_SWPC_init`
+- `imf_input_files/imf_G1000_KatusMedian.dat`
+- `magin_GEM.dat`
+- `shift_ut.py`
+- `job.athfe` (if needed.)
+
+Run the `shift_ut.py` script to configure the run:
+`shift_ut.py 6 imf_G1000_KatusMedian.dat --season summer -p PARAM.in_SWPC_init`
+This will create a new PARAM and IMF input file.
+
+Submit the job using the included `job.athfe` script (or use your own).
+
+Once the run finishes, the following post-processing steps are recommended:
+
+- Use `PostProc.pl` and use the following naming convention: `synext_<storm strength>_<season>_ut<hour>`. For the example above, the output file should be named `synext_g1000_summer_06UT`.
+- g-zip the `IE/*.idl` files (using either `PostProc.pl -g` or `pigz`)
+- Concatenate the MHD output files from `*.out` to `*.outs` files (the `concat_outs.py` script is recommended.)
+
+
 ## PARAM Changelog
 
 - May 2025: Hires added with additional IE settings to promote stable inner boundary response
