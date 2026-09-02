@@ -1,0 +1,41 @@
+#!/bin/csh
+#PBS -S /bin/csh
+#PBS -N extr1
+
+# To run on the 256-core Turin nodes
+#PBS -l select=2:ncpus=256:mpiprocs=256:model=tur_ath
+#PBS -q long
+
+#PBS -l walltime=72:00:00
+#PBS -j oe
+#PBS -m be
+
+# Specify group (account charged) if necessary
+#PBS -W group_list=s3007
+
+# show hostname (should start with x10)
+hostname
+
+# Load programming environment
+module purge
+module load PrgEnv-intel cray-pals idl
+module list
+
+# To reduce MPI startup time
+setenv FI_PROVIDER cxi
+
+# cd into the run directory
+cd $PBS_O_WORKDIR
+
+# run SWMF (the number of processors has to be set here!)
+# the date/time stamp for runlog is only necessary for automated resubmission
+rm -f PARAM.in log.`date +%y%m%d`
+ln -s PARAM.in_SWPC_init_shifted PARAM.in
+mpiexec -n 512 --ppn 256 ./SWMF.exe > runlog_`date +%y%m%d%H%M`
+
+# Postproc if the job finished successfully
+if(! -f SWMF.SUCCESS) exit
+echo "POSTPROCESSING!" >> runlog_`date +%y%m%d%H%M`
+PostProc.pl -g -n=32
+
+exit
