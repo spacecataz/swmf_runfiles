@@ -35,7 +35,7 @@ mpiexec -n 512 --ppn 256 ./SWMF.exe > runlog_`date +%y%m%d%H%M`
 
 # Postproc if the job finished successfully
 if(! -f SWMF.SUCCESS) exit
-echo "POSTPROCESSING!" >> runlog_`date +%y%m%d%H%M`
+echo "POSTPROCESSING!" >> postlog_`date +%y%m%d%H%M`
 PostProc.pl -g -n=32
 
 exit
