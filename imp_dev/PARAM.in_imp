@@ -226,7 +226,7 @@ T
 
 #IEPRECIP
 T
-F
+T
 
 #END_COMP GM -----------------------------------------------------------------
 
@@ -433,6 +433,9 @@ SAVEPLOT
 #DECAY
 T
 10 hours
+
+#ELECTRONDECAY
+T
 
 #ELECTRONGRIDRATIO
 1
