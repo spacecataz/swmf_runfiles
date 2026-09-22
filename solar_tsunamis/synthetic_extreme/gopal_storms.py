@@ -21,8 +21,8 @@ nmax_mean, nmax_medi = 22.05, 20.24
 bmax_mean, bmax_medi = 15.701152823917102, 15.028552824540359
 
 # Gopalswamy estimates for energy/velocity for 1/100 and 1/1000 year storm:
-e100, e1000 = 4.4E33, 9.8E33
-v100, v1000 = 3800, 4670
+e30, e100, e300, e1000 = 2.75E33, 4.4E33, 6.5E33, 9.8E33
+v30, v100, v300, v1000 = 3387, 3800, 4181, 4670
 
 
 def v_to_b(v):
@@ -203,20 +203,29 @@ def scale_dens(v_in, n_in, volrat=1, debug=False):
               'events/year and energy is {ener:.2E} ergs')
 
     # Get scaling factor:
+    gamma30 = e30/ener / volrat
     gamma100 = e100/ener / volrat
+    gamma300 = e300/ener / volrat
     gamma1k = e1000/ener / volrat
+
     if debug:
-        print(f'Energy scaling factors:\n\tgamma100 = {gamma100}' +
+        print(f'Energy scaling factors:\n\tgamma30 = {gamma30}' +
+              f'\n\t gamma100 = {gamma100}' +
+              f'\n\t gamma300 = {gamma300}' +
               f'\n\t gamma1000 = {gamma1k}')
         print('Velocity ratio factors (v_in/v_ext)**2:')
+        print(f'\t1/30:  {(v_in/v30)**2}')
         print(f'\t1/100:  {(v_in/v100)**2}')
+        print(f'\t1/300:  {(v_in/v300)**2}')
         print(f'\t1/1000: {(v_in/v1000)**2}')
 
     # Scale it up:
+    n30 = n_in * gamma30 * (v_in/v30)**2
     n100 = n_in * gamma100 * (v_in/v100)**2
+    n300 = n_in * gamma300 * (v_in/v300)**2
     n1000 = n_in * gamma1k * (v_in/v1000)**2
 
-    return n100, n1000
+    return n30, n100, n300, n1000
 
 
 def verify_gopal():
@@ -279,8 +288,10 @@ def summarize_extremes():
     '''
 
     # Get values:
-    b100, b1000 = v_to_b(v100), v_to_b(v1000)
-    n100, n1000 = scale_dens(vmax_mean, nmax_mean, volrat=50)
+    b30, b100 = v_to_b(v30), v_to_b(v100)
+    b300, b1000 = v_to_b(v300), v_to_b(v1000)
+
+    n30, n100, n300, n1000 = scale_dens(vmax_mean, nmax_mean, volrat=50)
 
     # Print to screen.
     print('ASSUMPTIONS: ')
@@ -291,9 +302,15 @@ def summarize_extremes():
           f'|{"Dens ($ccm$)":^13s}|')
     print(f'|{13*"-"}|{13*"-"}|{13*"-"}|{13*"-"}|{13*"-"}|{13*"-"}|{13*"-"}|')
 
+    # 1/30 year storm using Katus medians:
+    print(f"|{'1/30':^13s}|{'Weibull':^13s}|{v30:^13.1f}|{e30:^13.3E}" +
+          f"|{.9*v30:^13.1f}|{b30:^13.3f}|{n30:^13.3f}|")
     # 1/100 year storm using Katus medians:
     print(f"|{'1/100':^13s}|{'Weibull':^13s}|{v100:^13.1f}|{e100:^13.3E}" +
           f"|{.9*v100:^13.1f}|{b100:^13.3f}|{n100:^13.3f}|")
+    # 1/300 year storm using Katus medians:
+    print(f"|{'1/300':^13s}|{'Weibull':^13s}|{v300:^13.1f}|{e300:^13.3E}" +
+          f"|{.9*v300:^13.1f}|{b300:^13.3f}|{n300:^13.3f}|")
     # 1/1000 year storm using Katus medians:
     print(f"|{'1/1000':^13s}|{'Weibull':^13s}|{v1000:^13.1f}|{e1000:^13.3E}" +
           f"|{.9*v1000:^13.1f}|{b1000:^13.3f}|{n1000:^13.3f}|")

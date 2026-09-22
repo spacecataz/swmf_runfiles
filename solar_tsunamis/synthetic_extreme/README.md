@@ -6,12 +6,6 @@ This directory contains run files for synthetic extreme event studies.
 All machine-learning-based extreme specifications start by training on the
 Katus et al. event list using CMEs with Sheaths.
 
-### Random Forest Specifications
-A random-forest based specification was created, first by Rashmi Siddalingappa
-and then by Qusai Al-Shidi (both of WVU). The former was not able to create
-a reasonable time series, but amplitudes were used to scale the SEA time series
-(see below). The latter produced a time series useable here.
-
 ## Description of Extreme Scalings
 Heuristically-scaled extremes begin with the Katus et al. SEA data (either
 means or medians) which are then scaled up to amplitudes to match extreme
@@ -21,7 +15,23 @@ Ramp up time is 15 minutes; ramp down is 12 hours.
 Previously, a multi-hour ramp up was used. It produces a poor sudden impulse
 and was discarded.
 
-### ML-Scaled
+Two scripts included here produce the scalings and apply them to the SEA
+means:
+
+`gopal_storms.py` contains tools to extract scalings from the Gopalswamy, 2018
+study. The first step is obtaining a velocity using `inv_weib([occurrence])`
+(e.g., for a 1/300 year storm, `v300 = inv_weib(1/300.)`). Follow this
+process for the total CME energy, but using the correct distribution
+coefficients: `e30 = inv_weib(1/30, a=e_a, gamma=e_gam, eta=e_eta)`.
+Then, follow the example set in `summarize_extremes` to obtain the rest of
+the values.
+
+`gen_SEA_extremes.py` will create the input files as specified.
+
+These files require the `process_drivers` package found inside this repository
+under the `SEA_drivers` folder.
+
+### ML-Scaled/Randomm Forest Specification
 A random-forest based specification was created, first by Rashmi Siddalingappa
 and then by Qusai Al-Shidi (both of WVU). The former was not able to create
 a reasonable time series, so the amplitudes were used as an alternative to
