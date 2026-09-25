@@ -129,8 +129,8 @@ T                     UseCpcpBc  (rest is read if true)
 0.22                  RhoPerCpcp [amu/cc / keV]
 
 #SOLARWINDFILE
-T                     UseSolarWindFile
-imf_G100_KatusMedian.dat            NameSolarWindFile
+T                           UseSolarWindFile
+imf_extreme_southBz.dat     NameSolarWindFile
 
 #SCHEME
 1                     nOrder
