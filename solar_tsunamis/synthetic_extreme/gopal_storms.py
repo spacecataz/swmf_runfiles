@@ -3,11 +3,17 @@
 Create estimates for Gopalswamy storms
 '''
 
+import sys
+import os
 import datetime as dt
 
 import numpy as np
 from scipy.io import loadmat
 import matplotlib.pyplot as plt
+
+from spacepy.plot import style, applySmartTimeTicks
+from spacepy.plot.utils import apply_subplot_letters
+from spacepy.pybats import ImfInput
 
 plt.style.use('fivethirtyeight')
 
@@ -266,8 +272,10 @@ def gen_gopal_scalings(volrat=50):
     Using the assumptions in `summarize_extremes`,
     '''
     # Get values:
-    b100, b1000 = v_to_b(v100), v_to_b(v1000)
-    n100, n1000 = scale_dens(vmax_mean, nmax_mean, volrat=50)
+    b30, b100 = v_to_b(v30), v_to_b(v100)
+    b300, b1000 = v_to_b(v300), v_to_b(v1000)
+
+    n30, n100, n300, n1000 = scale_dens(vmax_mean, nmax_mean, volrat=50)
 
     # Print'em out:
     print('1/100 scalings for MEAN:')
@@ -321,11 +329,6 @@ def illustrate_scaling_small():
     Create a single plot to illustrate how IMF is scaled.
     '''
 
-    import sys
-    import os
-
-    from spacepy.plot import style, applySmartTimeTicks
-    from spacepy.pybats import ImfInput
     style()
 
     sys.path.append('../../SEA_drivers')
@@ -333,9 +336,10 @@ def illustrate_scaling_small():
 
     plotvars = ['bz', 'v', 'n']
     ylims = [[-120, 35], [0, 2500], [0, 32]]
-    colors = ['C2', 'C3', 'C4']
+    colors = ['C0', 'C1', 'C2']
     labels = ['IMF B$_Z$ ($nT$)',
               r'V$_{SW}$ ($km/s$)', r'$\rho$ ($cm^{-3}$)']
+    lab_nou = ['IMF B$_Z$\nScale', 'V$_{{SW}}$\nScale', '$\\rho$\nScale']
     rise, fall = 15, 720
 
     if not os.path.exists('./imf_SH_median_smoothed.dat'):
@@ -363,24 +367,40 @@ def illustrate_scaling_small():
     # Perform scaling:
     imf, scale = scale_imf(imf_medi, start, stop, rise, fall, amp=factors)
     scale['v'] = scale['ux']
+    imf['hours'] = [(t-imf['time'][0]).total_seconds()/3600
+                    for t in imf['time']]
 
     # Plot it!
-    fig = imf_medi.quicklook(plotvars=plotvars, title='')
-    for v, ax, ylim in zip(plotvars, fig.axes, ylims):
-        c = ax.lines[-1].get_color()
-        ax.plot(imf['time'], imf[v], ls=(0, (1, 1)), c=c, lw=2.)
-        ax.set_ylim(ylim)
+    # Create and configure axes object:
+    fig, axes = plt.subplots(3, 2, figsize=[12.5, 4.8], sharex=True)
+    fig.subplots_adjust(left=.074, bottom=.107, right=.988, top=.927,
+                        wspace=.193, hspace=0.05)
+    axleft, axright = axes[:, 0], axes[:, 1]
 
-    fig.axes[0].set_title('Example Extreme Scaling', loc='left')
+    # Show the scaling factors
+    for v, ax, c, lab in zip(plotvars, axleft, colors, lab_nou):
+        ax.plot(imf['hours'], scale[v],  c=c, lw=2.)
+        ax.set_ylabel(lab, color=c)
+
+    # Show the example scalings
+    for v, ax, c, ylim, lab in zip(plotvars, axright, colors, ylims, labels):
+        ax.plot(imf['hours'], imf_medi[v],  c=c, lw=2.)
+        ax.plot(imf['hours'], imf[v], ls=(0, (1, 1)), c=c, lw=2.)
+        ax.set_ylim(ylim)
+        ax.set_ylabel(lab, color=c)
+    axleft[-1].set_xlabel('Hours')
+    axright[-1].set_xlabel('Hours')
+    axright[-1].set_xlim([0, 75])
+
+    axleft[0].set_title('Example Scaling Factors', loc='left')
+    axright[0].set_title('Example Results', loc='left')
     print(fig.axes[0].lines)
-    fig.legend(fig.axes[0].lines, ['Original', 'Scaled'],
+    fig.legend(axright[0].lines, ['Original', 'Scaled'],
                loc='upper right', ncol=2)
-    applySmartTimeTicks(ax, tlim, dolabel=True)
-    fig.set_size_inches([8.05, 4.81])
-    fig.subplots_adjust(left=.12, bottom=.118, right=.945, top=.927,
-                        wspace=.279, hspace=0.05)
+    # applySmartTimeTicks(ax, tlim, dolabel=True)
     fig.savefig('scaling_illustrated_small.png')
     fig.savefig('scaling_illustrated_small.pdf')
+    apply_subplot_letters([axleft, axright], size=16, order='C')
 
 
 def illustrate_scaling(suffix='png'):
