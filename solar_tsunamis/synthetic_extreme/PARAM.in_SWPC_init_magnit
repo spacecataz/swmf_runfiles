@@ -227,41 +227,41 @@ T                     DoRayTraceIE
 #BEGIN_COMP IE ---------------------------------------------------------------
 
 #AURORA
-T                     DoUseAurora
-MAGNIT                NameAurMod
+T                       DoUseAurora
+MAGNIT                  NameAurMod
 
 #BACKGROUNDCOND
-0.25                  StarLightPedCond
-0.25                  PolarCapPedCond
+0.25                    StarLightPedCond
+0.25                    PolarCapPedCond
 
 #SOLAREUV
-T                     DoUseSolarEuv
-255.0                 F10.7
+T                       DoUseSolarEuv
+255.0                   F10.7
 
 #MAGNITPRECIPSMOOTHING
-T                     UsePrecipSmoothing
-gaus                  KernelType
-7                     KernelSize
-2.0                   KernelSpread
+T                       UsePrecipSmoothing
+gaus                    KernelType
+7                       KernelSize
+2.0                     KernelSpread
 
 #MAGNITPRECIP
-T                     DoUseDiffI
-T                     DoUseDiffE
-T                     DoUseMono
-T                     DoUseBbnd
-kaep                  ECondRel
+T                       DoUseDiffI
+T                       DoUseDiffE
+T                       DoUseMono
+T                       DoUseBbnd
+kaep                    ECondRel
 
 #SOLVER
-gmres                 NameSolver
+gmres                   NameSolver
 
 #KRYLOV
-T                     UsePreconditioner
-T                     UseInitialGuess
-0.0001                Tolerance
-400                   MaxIteration
+T                       UsePreconditioner
+T                       UseInitialGuess
+0.0001                  Tolerance
+400                     MaxIteration
 
 #BOUNDARY
-10.0                  LatBoundary
+10.0                    LatBoundary
 
 #END_COMP IE -----------------------------------------------------------------
 
