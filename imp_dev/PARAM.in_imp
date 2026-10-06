@@ -236,16 +236,6 @@ T
 T
 MAGNIT
 
-#LOSSCONEFACTORS
-0.050 ConeEfluxDifp
-0.100 ConeNfluxDifp
-0.200 ConeEfluxDife
-0.0025 ConeNfluxDife
-1.000 ConeEfluxMono
-0.741 ConeNfluxMono
-2.247 ConeEfluxBbnd
-0.494 ConeNfluxBbnd
-
 #BACKGROUNDCOND
 1	StarlightPedCond
 1	PolarCapPedCond
@@ -397,7 +387,7 @@ z=0 FUL idl		StringPlot
 T			UseBorisCorrection
 0.01			BorisClightFactor
 
-REGION
+#REGION
 borisregion		NameRegion
 sphere tapered		StringShape
 -4.0			xPosition
@@ -406,7 +396,7 @@ sphere tapered		StringShape
 14.0			Radius
 2.0			Taper
 
-BORISREGION
+#BORISREGION
 borisregion		NameBorisRegion
 
 #TIMESTEPPING
