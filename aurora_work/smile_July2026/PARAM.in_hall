@@ -18,13 +18,13 @@ New Test file with GITM coupling
 F			IsTimeAccurate
 
 #STARTTIME
-2010			iYear
-04			iMonth
-05			iDay
-01			iHour
-00			iMinute
-00			iSecond
-0.0			FracSecond
+2026   iYear
+07   iMonth
+23   iDay
+00   iHour
+00   iMinute
+00   iSecond
+0.0   FracSecond
 
 ! Allow empty processor for IM
 #STRICT
@@ -630,9 +630,9 @@ STOP
 86400.0			TimeMax
 
 #ENDTIME
-2010                    iYear
-04                      iMonth
-06                      iDay
+2026                    iYear
+07                      iMonth
+25                      iDay
 00                      iHour
 00                      iMinute
 00                      iSecond
