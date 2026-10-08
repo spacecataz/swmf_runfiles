@@ -9,7 +9,7 @@ COMPONENTMAP		For 128+ cores like production run
 GM  0 -26 -1 -1		CompMap runs on 0 to nProc-26 PE-s
 IM -25 -2  1		CompMap runs on nProc-25 to nProc-2
 IE  -1 -1  1		CompMap runs on the last PE
-UA  0  400 1 
+UA  0  400 1
 
 #DESCRIPTION
 New Test file with GITM coupling
@@ -103,7 +103,7 @@ box                 StringShape
  6.0              xMaxBox
  6.0              yMaxBox
  6.0              zMaxBox
-  
+
 ! Strong resolution just outside
 ! super-hi for clean outflow.
 GRIDRESOLUTION
@@ -125,7 +125,7 @@ box
   8.0
  14.0
  14.0
- 
+
 ! Good res throughout lobes.
 #GRIDRESOLUTION
 1/4
@@ -147,7 +147,7 @@ box			NameArea
  24.0			xMaxBox
  24.0			yMaxBox
  24.0			zMaxBox
- 
+
 #BODY
 T			UseBody
 2.0			rBody     (in planet radius)
@@ -231,8 +231,8 @@ T			DoAmr
 T			IsStrictAmr
 
 ! Satellite trajectories
-INCLUDE
-SATELLITES.in
+#INCLUDE
+virtsats/sats.include
 
 #MAGNETOMETER
 mags.dat		NameMagInputFile
@@ -545,7 +545,7 @@ MBILU             TypePrecond (MBILU, BILU, DILU, GS, BLOCKJACOBI, JACOBI, HYPRE
 F               IsEmptyInitial
 T               IsGmInitial
 F               IsDataInitial
- 
+
 SETENERGYGRID
 15			neng
 T			UseLogEGrid
