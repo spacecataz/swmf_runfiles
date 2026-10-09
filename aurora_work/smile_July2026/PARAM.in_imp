@@ -232,7 +232,7 @@ T			IsStrictAmr
 
 ! Satellite trajectories
 #INCLUDE
-virtsats/sats.include
+virt_sats/sats.include
 
 #MAGNETOMETER
 mags.dat		NameMagInputFile
