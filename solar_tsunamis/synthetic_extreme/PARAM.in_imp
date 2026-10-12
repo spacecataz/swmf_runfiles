@@ -254,16 +254,6 @@ gaus                    KernelType
 7                       KernelSize
 2.0                     KernelSpread
 
-#LOSSCONEFACTORS
-0.050                   ConeEfluxDifp
-0.100                   ConeNfluxDifp
-0.200                   ConeEfluxDife
-0.0025                  ConeNfluxDife
-1.000                   ConeEfluxMono
-0.741                   ConeNfluxMono
-2.247                   ConeEfluxBbnd
-0.494                   ConeNfluxBbnd
-
 #SOLVER
 gmres                   NameSolver
 
