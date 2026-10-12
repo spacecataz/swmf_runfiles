@@ -107,6 +107,7 @@ PARAM setups are listed below with the following common settings:
 |hires         | CUSIA-like ~11M cell, 1/16 RE MHD grid |
 |magnitpe      | SWPCv2-like configuration with electron pressure and MAGNIT |
 |magnit        | SWPCv2-like configuration with MAGNIT |
+|imp           | SWPC+CIMI-IMP for physics-based aurora. |
 
 | IMF File | Description |
 |--------------|-------------|
@@ -169,3 +170,4 @@ Once the run finishes, the following post-processing steps are recommended:
 
 - May 2025: Hires added with additional IE settings to promote stable inner boundary response
 - May 2025: Added first attempt at working MAGNIT params.
+- Oct. 2026: CIMI-IMP added with some noted changes: Switched IE back to default solver (from GMRES) and removed KRYLOV as it now reflects defaults.

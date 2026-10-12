@@ -254,15 +254,6 @@ gaus                    KernelType
 7                       KernelSize
 2.0                     KernelSpread
 
-#SOLVER
-gmres                   NameSolver
-
-#KRYLOV
-T                       UsePreconditioner
-T                       UseInitialGuess
-0.0001                  Tolerance
-400                     MaxIteration
-
 #END_COMP IE -----------------------------------------------------------------
 
 #STOP
@@ -441,8 +432,8 @@ F
 #TYPEBOUNDARY
 ellipse                 TypeBoundary
 
-FLC
-T
+#STRICTDRIFT
+T                       DoStrictDrift
 
 #TIMESIMULATION
 0.0                     Time
