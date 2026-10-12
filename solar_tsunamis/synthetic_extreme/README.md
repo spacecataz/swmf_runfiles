@@ -67,6 +67,9 @@ The values are summarized below:
 
 ## Model Setup & Code Configuration
 
+**NOTE: If space limited on HPC machines, use the `--depth 1 ` option to
+reduce how much history Git clones to your local machine.**
+
 For default (SWPC configuration-like) setups, simply follow:
 
 ```
@@ -81,6 +84,18 @@ Note an extra step required if using MAGNIT-Pe with electron pressure MHD:
 
 ```
 ./Config.pl -o=GM:e=MhdPe
+```
+
+If using CIMI and IMP, use these steps to pull and configure:
+
+```
+git clone git@github.com:SWMFsoftware/SWMF.git
+
+./Config.pl -install=BATSRUS,CIMI,Ridley_serial -compiler=[YOUR CHOICE]
+./Config.pl -v=GM/BATSRUS,IE/Ridley_serial,IM/CIMI
+./Config.pl -o=GM:e=MhdAnisoP
+./Config.pl -o=IM:gridexpanded,earthho
+./Config.pl -o=IE:g=181,361
 ```
 
 Then, the usual:
