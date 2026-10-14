@@ -34,6 +34,9 @@ IE                      NameComp2
 #CHECKTIMESTEP
 F                       DoCheckTimeStep (rest is read if true)
 
+#STRICT
+F
+
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #GRIDBLOCKALL
@@ -347,6 +350,9 @@ F                       DoCoupleOnTime
 #UPDATEB0
 0.5                     DtUpdateB0
 
+#STRICT
+T
+
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #IMCOUPLING
@@ -389,7 +395,7 @@ borisregion             NameBorisRegion
 
 #TIMESTEPPING
 1                       nStage
-0.65                    CflExpl
+0.5                     CflExpl
 
 #END_COMP GM -----------------------------------------------------------------
 
