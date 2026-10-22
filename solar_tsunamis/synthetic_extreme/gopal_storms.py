@@ -398,9 +398,9 @@ def illustrate_scaling_small():
     fig.legend(axright[0].lines, ['Original', 'Scaled'],
                loc='upper right', ncol=2)
     # applySmartTimeTicks(ax, tlim, dolabel=True)
+    apply_subplot_letters([axleft, axright], size=16, order='C')
     fig.savefig('scaling_illustrated_small.png')
     fig.savefig('scaling_illustrated_small.pdf')
-    apply_subplot_letters([axleft, axright], size=16, order='C')
 
 
 def illustrate_scaling(suffix='png'):
