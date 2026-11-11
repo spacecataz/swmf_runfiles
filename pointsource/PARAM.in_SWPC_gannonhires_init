@@ -1,0 +1,457 @@
+Name Root Last Stride nThread
+#COMPONENTMAP
+GM  0 -3 -1  -1		CompMap 0:nProc-3 multithreaded
+IE -2 -1  1  		CompMap last 2 PE-s
+IM -2 -2  1		CompMap nProc-2 PE
+
+#DESCRIPTION
+A SWPC-like configuration for extreme simulations.
+
+#TIMEACCURATE
+F			IsTimeAccurate
+
+#STARTTIME
+2024                    year
+05                      month
+10                      day
+11                      hour
+00                      minute
+00                      second
+0.0                     FracSecond
+
+#COMPONENT
+IM			NameComp
+F			UseComp
+
+#COUPLE2
+GM			NameComp1
+IE			NameComp2
+10			DnCouple
+-1.0			DtCouple
+
+#CHECKTIMESTEP
+F			DoCheckTimeStep (rest is read if true)
+
+#BEGIN_COMP GM ---------------------------------------------------------------
+
+#GRIDBLOCKALL
+25000
+
+#GRID
+1                       nRootBlock_D(x_)
+1                       nRootBlock_D(y_)
+1                       nRootBlock_D(z_)
+-224.                   xMin
+ 32.                    xMax
+-128.                   yMin
+ 128.                   yMax
+-128.                   zMin
+ 128.                   zMax
+
+! Maximum resolution initially
+#GRIDRESOLUTION
+1.0                     Resolution
+initial                 NameArea
+
+! Minimum resolution in the computational domain
+#GRIDRESOLUTION
+8.0                     Resolution
+all                     NameArea
+
+#GRIDRESOLUTION
+1.0                     Resolution
+box                     NameArea
+-100.0                  xMinBox
+ -16.0                  yMinBox
+ -16.0                  zMinBox
+  32.0                  xMaxBox
+  16.0                  yMaxBox
+  16.0                  zMaxBox
+
+! Super high at inner boundary
+! to capture outflow patterns.
+#GRIDRESOLUTION
+1/16                    Resolution
+box                     NameArea
+-4.0                   	xMinBox
+-4.0                   	yMinBox
+-4.0                   	zMinBox
+ 4.0                    xMaxBox
+ 4.0                   	yMaxBox
+ 4.0                   	zMaxBox
+
+! Strong resolution just outside 1/16th.
+#GRIDRESOLUTION
+1/8                     Resolution
+box                     NameArea
+-10.0                   xMinBox
+-10.0                   yMinBox
+-10.0                   zMinBox
+ 10.0                   xMaxBox
+ 10.0                   yMaxBox
+ 10.0                   zMaxBox
+
+! Good res throughout lobes.
+#GRIDRESOLUTION
+1/4                     Resolution
+box                     NameArea
+-24.0                   xMinBox
+-20.0                   yMinBox
+-20.0                   zMinBox
+ 20.0                   xMaxBox
+ 20.0                   yMaxBox
+ 20.0                   zMaxBox
+
+! 1/2 RE buffer around inner mag.
+#GRIDRESOLUTION
+1/2                     Resolution
+box                     NameArea
+-36.0                   xMinBox
+-24.0                   yMinBox
+-24.0                   zMinBox
+ 24.0                   xMaxBox
+ 24.0                   yMaxBox
+ 24.0                   zMaxBox
+
+#BODY
+T           UseBody
+1.75			    rBody     (in planet radius)
+2.25			    rCurrents (in planet radius)
+64.0			  BodyNDim  (/cc)
+25000.0			BodyTDim  (K)
+
+#OUTERBOUNDARY
+outflow			TypeBc1
+vary			TypeBc2
+float			TypeBc3
+float			TypeBc4
+float			TypeBc5
+float			TypeBc6
+
+#INNERBOUNDARY
+ionosphere		TypeBcBody
+
+! Set the inner boundary density as Rho0Cpcp + RhoPerCpcp*CPCP[keV]
+#CPCPBOUNDARY
+T         UseCpcpBc  (rest is read if true)
+64.0			Rho0Cpcp   [amu/cc]
+0.22			RhoPerCpcp [amu/cc / keV]
+
+#SOLARWINDFILE
+T			                        UseSolarWindFile
+IMF_wind_propagated.dat 			NameSolarWindFile
+
+#SCHEME
+1           nOrder
+Sokolov			TypeFlux
+
+#CONSERVATIVECRITERIA
+1			nConservCrit
+parabola		TypeConservCrit
+ 5.0			xParabolaConserv
+15.0			yParabolaConserv
+
+#SAVELOGNAME
+F			UseLogNameStep
+T			UseLogNameDateTime
+
+#SAVEPLOTNAME
+F			UsePlotNameStep
+F			UsePlotNameTime
+T			UsePlotNameDateTime
+
+#PLOTFILENAME
+date			NameMaxTimeUnit
+
+#SAVELOGFILE
+T			          DoSaveLogfile
+VAR step date		StringLog
+-1			        DnSaveLogfile
+5.0			        DtSaveLogfile
+dt rho mx my mz p bx by bz pmin pmax dst_sm cpcpn		NameLogVars
+3.0			        StringLogRadii
+
+#DOAMR
+T			DoAmr
+100			DnAmr
+-1.0			DtAmr
+T			IsStrictAmr
+
+#MAGNETOMETER
+magin_GEM.dat		NameMagInputFile
+single		      TypeFileOut
+-1			        DnOutput
+20			        DtOutput
+
+#GEOMAGINDICES
+180			  nSizeKpWindow [min]
+1 min			DtOutput      [sec]
+
+Low density output:
+#MAGNETOMETERGRID
+1                       nMagGridFile
+global real4            StrGridFileOut_I
+SMG			                TypeCoordGrid_I
+72			                nGridLon_I
+35			                nGridLat_I
+0.			                GridLonMin_I
+360.		                GridLonMax_I
+-85.		                GridLatMin_I
+85.			                GridLatMax_I
+-1			                DnSaveMagGrid_I
+20			                DtSaveMagGrid_I
+
+Solar Tsunamis grid output:
+MAGNETOMETERGRID
+1                       nMagGridFile
+global real8            TypeFileMagGrid
+GEO                     TypeCoordMagGrid
+1440                    nLonMagGrid
+713                     nLatMagGrid
+0.                      LonMinMagGrid
+360.                    LonMaxMagGrid
+-89.                    LatMinMagGrid
+89.                     LatMaxMagGrid
+-1                      DnSaveMagGrid
+10.0                    DtSaveMagGrid
+
+Solar Tsunamis low output
+MAGNETOMETERGRID
+1			nMagGridFile
+global real8            TypeFileMagGrid
+GEO                     TypeCoordMagGrid
+360                     nLonMagGrid
+179                     nLatMagGrid
+0.                      LonMinMagGrid
+360.                    LonMaxMagGrid
+-89.                    LatMinMagGrid
+89.                     LatMaxMagGrid
+-1                      DnSaveMagGrid
+10.0                    DtSaveMagGrid
+
+#END_COMP GM -----------------------------------------------------------------
+
+#BEGIN_COMP IE ---------------------------------------------------------------
+
+
+#SOLAREUV
+T		    DoUseSolarEuv
+-1		F10.7
+
+#BOUNDARY
+10.0			LatBoundary
+
+#END_COMP IE -----------------------------------------------------------------
+
+#STOP
+2500			MaxIter
+-1.			  TimeMax
+
+#RUN ##########################################################################
+
+#BEGIN_COMP GM ---------------------------------------------------------------
+
+#DOAMR
+F			DoAmr
+
+#SCHEME
+2			nOrder
+Sokolov			TypeFlux
+mc3			TypeLimiter
+1.2			LimiterBeta
+
+#TIMESTEPPING
+2			nStage
+0.6			CflExpl
+
+#END_COMP GM -----------------------------------------------------------------
+
+#STOP
+5000			MaxIter
+-1.			TimeMax
+
+#RUN ##########################################################################
+
+#TIMEACCURATE
+T			IsTimeAccurate
+
+#PROGRESS
+100			DnProgressShort
+1000			DnProgressLong
+
+#SAVERESTART
+T			DoSaveRestart
+-1			DnSaveRestart
+60 min			DtSaveRestart
+
+#RESTARTOUTDIR
+SWMF_RESTART.YYYYMMDD_HHMMSS		NameRestartOutDir
+
+#COMPONENT
+IM			NameComp
+T			UseComp
+
+! Allow GM/IM and IE run in parallel. #COMPONENTMAP has to be properly set!
+#COUPLEORDER
+5			    nCouple
+IE GM			NameSourceTarget
+IE IM			NameSourceTarget
+GM IE			NameSourceTarget
+GM IM			NameSourceTarget
+IM GM			NameSourceTarget
+
+#COUPLE2
+GM			NameComp1
+IE			NameComp2
+-1			DnCouple
+5.0			DtCouple
+
+#COUPLE2
+IM			NameComp1
+GM			NameComp2
+-1			DnCouple
+5.0			DtCouple
+
+#COUPLE1
+IE			NameSource
+IM			NameTarget
+-1			DnCouple
+5.0			DtCouple
+
+#COUPLETIME
+GM			NameComp
+F			DoCoupleOnTime
+
+#UPDATEB0
+0.5			DtUpdateB0
+
+#BEGIN_COMP GM ---------------------------------------------------------------
+
+#IMCOUPLING
+20.0			TauCoupleIm
+T			    DoImSatTrace
+T			    DoCoupleImPressure
+T			    DoCoupleImDensity
+0.01			DensityCoupleFloor
+F			    DoFixPolarRegion
+
+! Pressures below pMinDim are replaced with pMinDim.
+#MINIMUMPRESSURE
+1e-5			pMinDim [nPa]
+
+#SAVEPLOT
+2			        nPlotFile
+y=0 MHD idl		StringPlot
+-1			      DnSavePlot
+20			      DtSavePlot
+-1.0			    DxSavePlot
+z=0 MHD idl		StringPlot
+-1			      DnSavePlot
+20			      DtSavePlot
+-1.0			    DxSavePlot
+
+#BORIS
+T			    UseBorisCorrection
+0.01			BorisClightFactor
+
+#TIMESTEPPING
+1			    nStage
+0.85			CflExpl
+
+#USERSWITCH
++Sexpl		      StringSwitch
+
+#USERINPUTBEGIN -----------------------------------
+
+#POINTMASSSOURCE
+T         UsePointSource
+360       RateRotate [deg/day]
+6         nPointSource
+200	  SourceAmplitude
+6.6       xPosition
+0.0       yPosition
+0.0       zPosition
+200.0	  SourceAmplitude
+3.300     xPosition
+5.716  	  yPosition
+0.0	  zPosition
+200.00    SourceAmplitude
+-3.300    xPosition
+5.716     yPosition
+0.0	  xPosition
+200.00    SourceAmplitude
+-6.6      xPosition
+0.0       yPosition
+0.0       zPosition
+200.00    SourceAmplitude
+-3.300    xPosition
+-5.716    yPosition
+0.0       zPosition
+200.00    SourceAmplitude
+3.300     xPosition
+-5.716    yPosition
+0.0       zPosition
+
+#POINTDAYSIDE
+F     	  DoDayOnly
+
+#POINTSPREAD
+0.5      RadSpread [RE]
+
+#POINTSTART
+2024                    year
+05                      month
+10                      day
+14                      hour
+00                      minute
+00                      second
+0.0                     FracSecond
+
+#POINTSTOP
+2024                    year
+05                      month
+11                      day
+04                      hour
+00                      minute
+00                      second
+0.0                     FracSecond
+
+#USERINPUTEND -------------------------------------
+
+#END_COMP GM -----------------------------------------------------------------
+
+#BEGIN_COMP IM ---------------------------------------------------------------
+
+! Number density fractions for H+ and O+. Has to add up to 1.0
+#COMPOSITION
+FIXED			NameCompModel
+0.8			FractionH
+0.2			FractionO
+
+! Decay for RCM particle densities
+#DECAY
+T 			UseDecay
+10 hour			DecayTimescale
+
+#END_COMP IM -----------------------------------------------------------------
+
+#BEGIN_COMP IE ---------------------------------------------------------------
+
+#SAVEPLOT
+1			nPlotFile
+max idl			StringPlot
+-1			DnSavePlot
+60			DtSavePlot
+
+#END_COMP IE -----------------------------------------------------------------
+
+#ENDTIME
+2024                    year
+05                      month
+12                      day
+12                      hour
+00                      minute
+00                      second
+0.0                     FracSecond
+
+#END ############################################################
