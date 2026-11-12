@@ -4,18 +4,68 @@ These runs are for exploring coupling between the plasmasphere physics
 module (currently occupied by DGCPM) with the GM module (multifluid
 BATS-R-US.)
 
-## PLASCIRC_POC
+There are several equation files that make these studies possible:
+
+| Equation File | Description |
+|---------------|-------------|
+| ModEquationMultiIonPs.f90 | Updated 2026 file for PS to GM density coupling. |
+| ModEquationMultiIonPs.f90 | Legacy equation file for simple studies. |
+| ModEquationRecircPe.f90   | Multi-PS fluids for coupling w/ CIMI; defunct. |
+
+## SWMF Configuration for PS->GM Coupling
+
+Use `git` to clone the SWMF as normal, **however, DGCPM must be cloned out as a separate step:**
+
+```
+# From the SWMF install directory:
+cd PS/
+git clone  git@github.com:SWMFsoftware/DGCPM.git
+```
+
+Copy the equation file into BATS-R-US and activate it.
+```
+cp [path to this repository folder]/ModEquationMultiIonPs.f90 [BATS-R-US dir]/srcEquation/
+```
+
+Install the SWMF as follows (note the higher resolution in IE):
+
+```
+./Config.pl -install=BATSRUS,Ridley_serial -compiler=gfortran
+./Config.pl -v=GM/BATSRUS,IE/Ridley_serial,PS/DGCPM
+./Config.pl -o=GM:e=MultiIonPs
+./Config.pl -o=IE:g=181,361
+
+make SWMF pIDL
+```
+Note that if you change the equation module after selecting it via `Config.pl`,
+you will need to repeat the `./Config.pl -o=GM:e=MultiIonPs` step to replace
+the module.
+
+To test the PS->GM coupling, do the following from the SWMF install directory:
+
+```
+make rundir
+cd run
+ln -s [repository dir]/psphere_coupled/PSGMIE_testfiles/PARAM.in.test PARAM.in
+cp [repository dir]/psphere_coupled/PSGMIE_testfiles/imf_test.dat .
+```
+
+# LEGACY DESCRIPTIONS
+The descriptions below are for "legacy" simulations that aren't likely
+to work smoothly in the SWMF at this stage.
+
+### PLASCIRC_POC
 This is the proof-of-concept run to test if we can create psuedo-plumes
 in multifluid BATS.  It uses #MAGNETOSPHERE and #POLARBOUNDARY to restrict
 IB densities about the equator.  This grows into a plasmasphere that forms
 a plume under southward IMF conditions.
 
-## PSGMIE_SIMPLE1WAY
+### PSGMIE_SIMPLE1WAY
 This run is nearly the same as the PlasCirc_PoC runs in entryMF, but
 GM is only single fluid and the IE potential is used to drive DGCPM.
 Don't forget your test satellites!
 
-## PSGMIE_POC
+### PSGMIE_POC
 This is the proof-of-concept simulation for PS->GM coupling.  It is the same
 as PlasCirc_PoC except that PS is turned on and is coupling into one of
 the GM fluids.
