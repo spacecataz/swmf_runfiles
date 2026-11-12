@@ -308,6 +308,21 @@ box tapered         StringShape
 20	                zMaxBox
 1                   Taper
 
+Example of a weighted region to set resistivity
+of a region differently than another. Use +dayscale
+on resistivity region.
+#REGION
+dayscale            NameRegion
+box tapered weight  StringShape
+-5.0                xMinBox
+-30                 yMinBox
+-20	                zMinBox
+15.0                xMaxBox
+20	                yMaxBox
+20	                zMaxBox
+1                   Taper
+2                   Weight
+
 #REGION
 night                NameRegion
 box tapered         StringShape
