@@ -35,7 +35,7 @@ IE              NameComp2
 #BEGIN_COMP GM ---------------------------------------------------------------
 
 #GRIDBLOCKALL
-100000              MaxBlock
+225000              MaxBlock
 
 #GRID
 1                   nRootBlock1
@@ -322,8 +322,8 @@ box tapered         StringShape
 #REGION
 sphere1             NameRegion
 sphere0 tapered     StringShape
-3                   Radius
-0.5                 Taper
+4                   Radius
+2                   Taper
 
 
 -----------Resistivity Begin------------
@@ -400,11 +400,12 @@ T                       UseBorisCorrection
 
 #REGION
 borisregion             NameRegion
-sphere                  StringShape
+sphere tapered          StringShape
 0.0                     xPosition
 0.0                     yPosition
 0.0                     zPosition
-5.0                     Radius
+4.0                     Radius
+2.0                     Taper
 
 #BORISREGION
 borisregion             NameBorisRegion
