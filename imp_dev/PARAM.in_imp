@@ -378,11 +378,13 @@ y=0 FUL idl		StringPlot
 -1			DnSavePlot
 1 min			DtSavePlot
 -1.0			DxSavePlot
-z=0 FUL idl		StringPlot
+z=0 VAR idl		StringPlot
 -1			DnSavePlot
 1 min			DtSavePlot
 -1.0			DxSavePlot
- 
+{MHD} b1x b1y b1z lon1 lat1 lon2 lat2 status
+{default} c
+
 #BORIS
 T			UseBorisCorrection
 0.01			BorisClightFactor
@@ -415,10 +417,13 @@ F               IsEmptyInitial
 T               IsGmInitial
 F               IsDataInitial
 
-SAVEPLOT
-1
-2d both
+#SAVEPLOT
+2
+2d eq
 60.
+preci e
+60.
+F
 
 #DECAY
 T
@@ -438,13 +443,20 @@ D_hiss_UCLA.dat         HissWavesD
 D_LBchorus_merge3.dat   ChorusWavesD
 F                       UseKpIndex
 
-#DIAGONALIZEDDIFFUSION
-F
+DIAGONALIZEDDIFFUSION
+T
+
+#PLASMAPAUSE
+relative
+
+#LIMITER
+T
+1.2
 
 #TYPEBOUNDARY
 ellipse          TypeBoundary
 
-FLC
+#FLC
 T
 
 #TIMESIMULATION
