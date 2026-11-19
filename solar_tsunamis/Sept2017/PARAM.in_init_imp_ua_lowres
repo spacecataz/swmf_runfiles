@@ -9,12 +9,12 @@ GM  90  -3 -1 -1               CompMap runs on all PE-s
 IM 0 89  1            CompMap runs on up to 24 PE-s
 IE -2 -1  1             CompMap runs on last 2 PEs
 
-#Name Root Last Stride nThread
-COMPONENTMAP		For 128+ cores like production run
+Name Root Last Stride nThread
+#COMPONENTMAP		For 128+ cores like production run
 GM  0 -26 -1 -1		CompMap runs on 0 to nProc-26 PE-s
 IM -25 -2  1		CompMap runs on nProc-25 to nProc-2
 IE  -1 -1  1		CompMap runs on the last PE
-UA  0  400 1 
+UA  0  199 1 
 
 #DESCRIPTION
 September 2017 event with CIMI/IMP and GITM
@@ -209,7 +209,21 @@ single			TypeFileOut
 180			nSizeKpWindow [min]
 1 min			DtOutput      [sec]
 
+Solar Tsunamis low output: GEOGRAPHIC
 #MAGNETOMETERGRID
+1                       nMagGridFile
+global real8            TypeFileMagGrid
+GEO                     TypeCoordMagGrid
+360                     nLonMagGrid
+179                     nLatMagGrid
+0.                      LonMinMagGrid
+360.                    LonMaxMagGrid
+-89.                    LatMinMagGrid
+89.                     LatMaxMagGrid
+-1                      DnSaveMagGrid
+10.0                    DtSaveMagGrid
+
+MAGNETOMETERGRID
 1			nMagGridFile
 global ascii		StrGridFileOut
 GEO			TypeCoordGrid
@@ -316,14 +330,15 @@ T			UseStrict
 ! Allow GM/IM and IE run in parallel. #COMPONENTMAP has to be properly set!
 ! Gather IE operations to prevent multiple calls.
 #COUPLEORDER
-7                       nCouple
-GM IE                   NameSourceTarget
-UA IE                   NameSourceTarget
-IE GM                   NameSourceTarget
-IE IM                   NameSourceTarget
-IE UA                   NameSourceTarget
-GM IM                   NameSourceTarget
-IM GM                   NameSourceTarget
+8                       nCouple
+IE GM			NameSourceTarget
+IE IM			NameSourceTarget
+IE UA			NameSourceTarget
+GM IE			NameSourceTarget
+GM IM			NameSourceTarget
+IM GM			NameSourceTarget
+IM IE			NameSourceTarget
+UA IE			NameSourceTarget
 
 #COUPLE2
 GM			NameComp1
@@ -353,6 +368,10 @@ UA                      NameComp2
 #COUPLETIME
 GM			NameComp
 F			DoCoupleOnTime
+
+#COUPLETIME
+UA			NameComp
+T			DoCoupleOnTime
 
 #BEGIN_COMP GM ---------------------------------------------------------------
 
@@ -460,6 +479,9 @@ F
 #TYPEBOUNDARY
 ellipse          TypeBoundary
 
+#PLASMAPAUSE
+relative
+
 FLC
 T
 
@@ -550,6 +572,10 @@ UA/DataIn/FISM/fismflux_daily_2017.dat      Filename. Change the year!
 #AURORA
 T
 IMP
+
+#UA
+T
+F
 
 #SAVEPLOT
 1			nPlotFile
