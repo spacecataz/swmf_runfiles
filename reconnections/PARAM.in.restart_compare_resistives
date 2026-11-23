@@ -209,7 +209,7 @@ T                   UseHallResist
 1.0                 HallCmaxFactor  1.0 !!!
 
 HALLREGION
-+box1 -sphere1      StringHallRegion
++day -sphere1      StringHallRegion
 
 SEMIIMPLICIT
 T                   UseSemiImplicit
